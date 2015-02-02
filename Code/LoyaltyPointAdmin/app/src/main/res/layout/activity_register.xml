@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".RegisterActivity"
+    android:id="@+id/rootLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnLayout"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Cancel"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Register"
+            android:background="@color/Green"
+            android:textColor="@color/White"/>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
+        android:layout_above="@id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_register_info_marginLeft"
+            android:layout_marginBottom="@dimen/activity_register_marginBottom"
+            android:layout_centerInParent="true"
+            android:hint="confirm password"
+            android:textStyle="italic"
+            android:singleLine="true"
+            android:password="true" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_above="@id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_register_info_marginLeft"
+            android:layout_marginBottom="@dimen/activity_register_marginBottom"
+            android:layout_centerInParent="true"
+            android:hint="password"
+            android:textStyle="italic"
+            android:singleLine="true"
+            android:password="true" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_above="@id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_register_info_marginLeft"
+            android:layout_marginBottom="@dimen/activity_register_marginBottom"
+            android:layout_centerInParent="true"
+            android:hint="user name"
+            android:textStyle="italic"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/fullname"
+            android:layout_below="@id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_register_info_marginLeft"
+            android:layout_marginBottom="@dimen/activity_register_marginBottom"
+            android:layout_centerInParent="true"
+            android:hint="full name"
+            android:textStyle="italic"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_below="@id/fullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_register_info_marginLeft"
+            android:layout_marginBottom="@dimen/activity_register_marginBottom"
+            android:layout_centerInParent="true"
+            android:hint="phone number"
+            android:textStyle="italic"
+            android:singleLine="true"
+            android:phoneNumber="true" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
