@@ -1,18 +1,15 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.User;
+import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 
 public class RegisterActivity extends ActionBarActivity {
@@ -65,6 +62,7 @@ public class RegisterActivity extends ActionBarActivity {
 
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để đăng kí tài khoản
+                boolean temp = UserModel.addUser(new User(username,password,fullname,phone,"","",""));
             }
         });
 

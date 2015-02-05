@@ -8,6 +8,19 @@ public class User {
     String password;
     String fullname;
     String phone;
+    String email;
+    String address;
+    String avatar;
+
+    public User(String username, String password, String fullname, String phone, String email, String address, String avatar){
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.avatar = avatar;
+    }
 
     public String getUsername() {
         return username;
@@ -39,5 +52,29 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getAvatar(){
+        return avatar;
+    }
+
+    public void setAvatar(String avatar){
+        this.avatar = avatar;
     }
 }
