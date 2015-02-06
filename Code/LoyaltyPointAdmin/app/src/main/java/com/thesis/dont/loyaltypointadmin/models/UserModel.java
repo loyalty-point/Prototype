@@ -37,6 +37,8 @@ public class UserModel {
         System.loadLibrary("services");
     }
     public static native String getAddUser();
+    public static native String getCheckUser();
+    public static native String getSelectUser();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
