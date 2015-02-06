@@ -48,14 +48,14 @@ public class UserModel {
 
                 nameValuePairs = new ArrayList<NameValuePair>(1);
 
-                nameValuePairs.add(new BasicNameValuePair("query", json));
+                nameValuePairs.add(new BasicNameValuePair("user", json));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    response = httpclient.execute(httppost);
-                    if( response.getEntity() != null ) {
-                        response.getEntity().consumeContent();
-                    }
+//                    response = httpclient.execute(httppost);
+//                    if( response.getEntity() != null ) {
+//                        response.getEntity().consumeContent();
+//                    }
 
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
