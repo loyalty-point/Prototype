@@ -29,28 +29,16 @@ public class UserModel {
     static HttpClient httpclient;
     static List<NameValuePair> nameValuePairs;
 
-    public OnRegisterResult getOnRegisterResult() {
-        return mOnRegisterResult;
-    }
+    static OnRegisterResult mOnRegisterResult;
+    static OnLoginResult mOnLoginResult;
 
-    public void setOnRegisterResult(OnRegisterResult mOnRegisterResult) {
-        this.mOnRegisterResult = mOnRegisterResult;
-    }
-
-    OnRegisterResult mOnRegisterResult;
-
-    interface OnRegisterResult {
-        public void onSuccess();
-
-        public void onError();
-    }
 
     static {
         System.loadLibrary("services");
     }
     public static native String getAddUser();
 
-    public static boolean addUser(User user) {
+    public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
         Thread t = new Thread() {
             @Override
@@ -73,20 +61,58 @@ public class UserModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     if(response.equals("true"))
-                        return true;
-                    return false;
+                        mOnRegisterResult.onSuccess();
+                    else
+                        mOnRegisterResult.onError(null);
                 } catch (UnsupportedEncodingException e) {
+                    mOnRegisterResult.onError(e);
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
+                    mOnRegisterResult.onError(e);
                     e.printStackTrace();
                 } catch (IOException e) {
+                    mOnRegisterResult.onError(e);
                     e.printStackTrace();
                 }
             }
         };
         t.start();
+    }
 
-        return true;
+    public static void login(String username, String hassPass) {
+
+    }
+
+
+    public interface OnRegisterResult {
+        public void onSuccess();
+
+        public void onError(Exception e);
+    }
+
+    public interface OnLoginResult {
+        public void onSuccess();
+
+        public void onError(Exception e);
+    }
+
+
+    // GETTERS / SETTES
+    public static OnLoginResult getOnLoginResult() {
+        return mOnLoginResult;
+    }
+
+    public static void setOnLoginResult(OnLoginResult mOnLoginResult) {
+        UserModel.mOnLoginResult = mOnLoginResult;
+    }
+
+
+    public static OnRegisterResult getOnRegisterResult() {
+        return mOnRegisterResult;
+    }
+
+    public static void setOnRegisterResult(OnRegisterResult onRegisterResult) {
+        mOnRegisterResult = onRegisterResult;
     }
 
 }

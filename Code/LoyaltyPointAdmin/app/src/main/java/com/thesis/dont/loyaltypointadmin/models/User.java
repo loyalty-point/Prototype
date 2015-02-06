@@ -11,8 +11,9 @@ public class User {
     String email;
     String address;
     String avatar;
+    String token;
 
-    public User(String username, String password, String fullname, String phone, String email, String address, String avatar){
+    public User(String username, String password, String fullname, String phone, String email, String address, String avatar, String token){
         this.username = username;
         this.password = password;
         this.fullname = fullname;
@@ -20,6 +21,7 @@ public class User {
         this.email = email;
         this.address = address;
         this.avatar = avatar;
+        this.token = token;
     }
 
     public String getUsername() {
@@ -76,5 +78,13 @@ public class User {
 
     public void setAvatar(String avatar){
         this.avatar = avatar;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

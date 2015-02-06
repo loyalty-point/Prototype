@@ -65,24 +65,36 @@ public class RegisterActivity extends ActionBarActivity {
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để đăng kí tài khoản
                 String hashPass = Helper.hashPassphrase(password, username);
-                Log.e("register", hashPass);
-                User user = new User(username, hashPass, fullname, phone, "", "", "");
-                UserModel userModel = new UserModel();
-                userModel.setOnRegisterResult(new UserModel.OnRegisterResult() {
+                User user = new User(username, hashPass, fullname, phone, null, null, null, null);
+                UserModel.setOnRegisterResult(new UserModel.OnRegisterResult() {
                     @Override
                     public void onSuccess() {
                         // Đăng kí thành công
+
                         Intent i = new Intent(RegisterActivity.this, ShopsListActivity.class);
                         startActivity(i);
                     }
 
                     @Override
-                    public void onError() {
-                        // Đăng kí không thành công (trùng tài khoản)
-                        Toast.makeText(RegisterActivity.this, "user name existed", Toast.LENGTH_LONG).show();
+                    public void onError(Exception e) {
+                        final Exception exception = e;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Đăng kí không thành công
+                                if(exception == null) {
+                                    // trùng tài khoản
+                                    Toast.makeText(RegisterActivity.this, "user name existed", Toast.LENGTH_LONG).show();
+                                }else {
+                                    // lỗi linh tinh
+                                    Toast.makeText(RegisterActivity.this, "register unsuccessfully", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
                     }
                 });
-                userModel.addUser(user);
+                UserModel.addUser(user);
             }
         });
 

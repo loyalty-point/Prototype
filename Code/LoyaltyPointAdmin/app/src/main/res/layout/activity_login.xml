@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/activity_register_marginLeft">
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="user name"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:hint="password"
+            android:password="true"/>
+
+        <CheckBox
+            android:id="@+id/rememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Remember Me"/>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rememberMe"
+            android:text="Login"/>
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Forgot your password?"/>
+
+        <ImageButton
+            android:id="@+id/googleLogin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/forgotPassword"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/google_plus_icon"/>
+
+        <ImageButton
+            android:id="@+id/facebookLogin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/forgotPassword"
+            android:layout_toLeftOf="@id/googleLogin"
+            android:layout_alignTop="@id/googleLogin"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/facebook_icon"/>
+
+        <TextView
+            android:id="@+id/otherLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/facebookLogin"
+            android:layout_alignBottom="@id/facebookLogin"
+            android:layout_marginRight="5dp"
+            android:text="Or login with:"/>
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/facebookLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Create a new account"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

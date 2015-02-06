@@ -13,15 +13,20 @@
             android:name=".controllers.RegisterActivity"
             android:label="@string/app_name"
             android:theme="@style/NoActionBar" >
+        </activity>
+        <activity
+            android:name=".controllers.ShopsListActivity"
+            android:label="@string/title_activity_shops_list" >
+        </activity>
+        <activity
+            android:name=".controllers.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".controllers.ShopsListActivity"
-            android:label="@string/title_activity_shops_list" >
         </activity>
     </application>
 
