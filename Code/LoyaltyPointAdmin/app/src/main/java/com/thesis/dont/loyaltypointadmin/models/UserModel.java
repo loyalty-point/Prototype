@@ -29,6 +29,22 @@ public class UserModel {
     static HttpClient httpclient;
     static List<NameValuePair> nameValuePairs;
 
+    public OnRegisterResult getOnRegisterResult() {
+        return mOnRegisterResult;
+    }
+
+    public void setOnRegisterResult(OnRegisterResult mOnRegisterResult) {
+        this.mOnRegisterResult = mOnRegisterResult;
+    }
+
+    OnRegisterResult mOnRegisterResult;
+
+    interface OnRegisterResult {
+        public void onSuccess();
+
+        public void onError();
+    }
+
     static {
         System.loadLibrary("services");
     }

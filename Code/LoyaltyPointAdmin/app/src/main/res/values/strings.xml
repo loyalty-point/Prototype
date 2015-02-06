@@ -4,5 +4,6 @@
     <string name="app_name">Loyalty Point Admin</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_shops_list">ShopsListActivity</string>
 
 </resources>

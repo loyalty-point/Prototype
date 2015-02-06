@@ -1,7 +1,9 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,7 +64,25 @@ public class RegisterActivity extends ActionBarActivity {
 
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để đăng kí tài khoản
-                boolean temp = UserModel.addUser(new User(username,password,fullname,phone,"","",""));
+                String hashPass = Helper.hashPassphrase(password, username);
+                Log.e("register", hashPass);
+                User user = new User(username, hashPass, fullname, phone, "", "", "");
+                UserModel userModel = new UserModel();
+                userModel.setOnRegisterResult(new UserModel.OnRegisterResult() {
+                    @Override
+                    public void onSuccess() {
+                        // Đăng kí thành công
+                        Intent i = new Intent(RegisterActivity.this, ShopsListActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onError() {
+                        // Đăng kí không thành công (trùng tài khoản)
+                        Toast.makeText(RegisterActivity.this, "user name existed", Toast.LENGTH_LONG).show();
+                    }
+                });
+                userModel.addUser(user);
             }
         });
 
