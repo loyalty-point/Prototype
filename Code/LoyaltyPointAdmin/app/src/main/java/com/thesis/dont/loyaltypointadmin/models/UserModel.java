@@ -115,4 +115,46 @@ public class UserModel {
         mOnRegisterResult = onRegisterResult;
     }
 
+    public static void checkUser(String username, String hashpass) {
+        final String fUserName = username;
+        final String fHashpass = hashpass;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCheckUser();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("username", fUserName));
+                nameValuePairs.add(new BasicNameValuePair("hashpass", fHashpass));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    if(response.equals("true"))
+                        mOnRegisterResult.onSuccess();
+                    else
+                        mOnRegisterResult.onError(null);
+                } catch (UnsupportedEncodingException e) {
+                    mOnRegisterResult.onError(e);
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnRegisterResult.onError(e);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnRegisterResult.onError(e);
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 }
