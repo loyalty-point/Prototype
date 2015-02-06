@@ -22,6 +22,13 @@ $query = "insert into admin_users values ('"
 							.$user->avatar."')"; //$_POST['query'];
 
 $query_search = $query;
-$query_exec = mysql_query($query_search) or die(mysql_error());
+
+$query_exec = mysql_query($query_search);
+
+if($query_exec)
+	echo 'true';
+else 
+	echo 'false';
+
 mysql_close($localhost);
 ?>

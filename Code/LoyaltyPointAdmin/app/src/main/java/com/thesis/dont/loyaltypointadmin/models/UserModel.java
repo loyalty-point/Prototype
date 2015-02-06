@@ -68,16 +68,13 @@ public class UserModel {
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//                    response = httpclient.execute(httppost);
-//                    if( response.getEntity() != null ) {
-//                        response.getEntity().consumeContent();
-//                    }
-
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    Log.e("json", response);
+                    if(response.equals("true"))
+                        return true;
+                    return false;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
