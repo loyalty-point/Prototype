@@ -5,7 +5,8 @@ $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
 
-$query = $_POST['query'];
+$username = $_POST['username'];
+$hashpass = $_POST['hasspass'];
 
 $query = str_replace("\'","'",$query);
 $query_search = $query;
