@@ -8,7 +8,7 @@ or
 trigger_error(mysql_error(),E_USER_ERROR);
 
 $post = $_POST['user'];
-$user = json_decode($post);
+$user = json_decode($post); //chuyển từ string sang json.
 
 mysql_select_db($database_localhost, $localhost);
 
@@ -19,16 +19,17 @@ $query = "insert into admin_users values ('"
 							.$user->email."','"
 							.$user->fullname."','"
 							.$user->address."','"
-							.$user->avatar."')"; //$_POST['query'];
+							.$user->avatar."','"
+							.$user->token."')";  //insert vào database
 
 $query_search = $query;
 
 $query_exec = mysql_query($query_search);
 
 if($query_exec)
-	echo 'true';
+	echo 'true'; //insert thành công.
 else 
-	echo 'false';
+	echo 'false'; //insert không thành công vì đã có username
 
 mysql_close($localhost);
 ?>
