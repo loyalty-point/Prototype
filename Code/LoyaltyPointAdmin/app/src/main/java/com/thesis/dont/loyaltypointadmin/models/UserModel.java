@@ -81,42 +81,6 @@ public class UserModel {
         t.start();
     }
 
-    public static void login(String username, String hassPass) {
-
-    }
-
-
-    public interface OnRegisterResult {
-        public void onSuccess();
-
-        public void onError(Exception e);
-    }
-
-    public interface OnLoginResult {
-        public void onSuccess();
-
-        public void onError(Exception e);
-    }
-
-
-    // GETTERS / SETTES
-    public static OnLoginResult getOnLoginResult() {
-        return mOnLoginResult;
-    }
-
-    public static void setOnLoginResult(OnLoginResult mOnLoginResult) {
-        UserModel.mOnLoginResult = mOnLoginResult;
-    }
-
-
-    public static OnRegisterResult getOnRegisterResult() {
-        return mOnRegisterResult;
-    }
-
-    public static void setOnRegisterResult(OnRegisterResult onRegisterResult) {
-        mOnRegisterResult = onRegisterResult;
-    }
-
     public static void checkUser(String username, String hashpass) {
         final String fUserName = username;
         final String fHashpass = hashpass;
@@ -141,22 +105,65 @@ public class UserModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("true"))
-                        mOnRegisterResult.onSuccess();
+                    LoginResult result = (LoginResult) Helper.jsonToObject(response, LoginResult.class);
+                    if(result.error.equals(""))
+                        mOnLoginResult.onSuccess(result.token);
                     else
-                        mOnRegisterResult.onError(null);
+                        mOnLoginResult.onError(result.error);
+
                 } catch (UnsupportedEncodingException e) {
-                    mOnRegisterResult.onError(e);
+                    mOnLoginResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnRegisterResult.onError(e);
+                    mOnLoginResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnRegisterResult.onError(e);
+                    mOnLoginResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
         };
         t.start();
+    }
+
+    public class LoginResult {
+        String error;
+        String token;
+    }
+
+    public static void login(String username, String hassPass) {
+
+    }
+
+
+    public interface OnRegisterResult {
+        public void onSuccess();
+
+        public void onError(Exception e);
+    }
+
+    public interface OnLoginResult {
+        public void onSuccess(String token);
+
+        public void onError(String error);
+    }
+
+
+    // GETTERS / SETTES
+    public static OnLoginResult getOnLoginResult() {
+        return mOnLoginResult;
+    }
+
+    public static void setOnLoginResult(OnLoginResult mOnLoginResult) {
+        UserModel.mOnLoginResult = mOnLoginResult;
+    }
+
+
+    public static OnRegisterResult getOnRegisterResult() {
+        return mOnRegisterResult;
+    }
+
+    public static void setOnRegisterResult(OnRegisterResult onRegisterResult) {
+        mOnRegisterResult = onRegisterResult;
     }
 }
