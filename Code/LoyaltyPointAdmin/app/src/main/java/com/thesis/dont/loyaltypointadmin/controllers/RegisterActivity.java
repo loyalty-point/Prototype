@@ -39,7 +39,7 @@ public class RegisterActivity extends ActionBarActivity {
                 String phone = mPhone.getText().toString();
 
                 // Kiểm tra khác null
-                if(checkNotNull(username, password, confirmPassword, fullname, phone)) {
+                if(Helper.checkNotNull(username, password, confirmPassword, fullname, phone)) {
                     Toast.makeText(RegisterActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -51,13 +51,13 @@ public class RegisterActivity extends ActionBarActivity {
                 }
 
                 // Kiểm tra username hợp lệ
-                if(checkUserName(username)) {
+                if(Helper.checkUserName(username)) {
                     Toast.makeText(RegisterActivity.this, "user name is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Kiểm tra password hợp lệ
-                if(checkPassword(password)) {
+                if(Helper.checkPassword(password)) {
                     Toast.makeText(RegisterActivity.this, "password is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -105,37 +105,5 @@ public class RegisterActivity extends ActionBarActivity {
                 RegisterActivity.this.finish();
             }
         });
-    }
-
-    private boolean checkPassword(String password) {
-        // check size (trên 6 kí tự, dưới 20 kí tự)
-        if(password.length() < 6 || password.length() > 20)
-            return true;
-
-        return false;
-    }
-
-    private boolean checkUserName(String username) {
-        // check size (trên 6 kí tự, dưới 20 kí tự)
-        if(username.length() < 6 || username.length() > 20)
-            return true;
-
-        // check kí tự đặc biệt (username chỉ chứa kí tự và số)
-        for(int i=0; i<username.length(); i++) {
-            char c = username.charAt(i);
-            if(c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z')
-                return true;
-        }
-
-        return false;
-    }
-
-    private boolean checkNotNull(String username, String password, String confirmPassword, String fullname, String phone) {
-        if(username.equals("") || password.equals("") || confirmPassword.equals("") ||
-                fullname.equals("") || phone.equals("")) {
-            return true;
-        }
-
-        return false;
     }
 }

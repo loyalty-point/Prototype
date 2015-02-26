@@ -1,18 +1,82 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 public class LoginActivity extends ActionBarActivity {
+
+    EditText mUsername, mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mUsername = (EditText) findViewById(R.id.username);
+        mPassword = (EditText) findViewById(R.id.password);
+        Button loginBtn = (Button) findViewById(R.id.login);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = mUsername.getText().toString();
+                String password = mPassword.getText().toString();
+
+                // Kiểm tra khác null
+                if(Helper.checkNotNull(username, password)) {
+                    Toast.makeText(LoginActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Kiểm tra username hợp lệ
+                if(Helper.checkUserName(username)) {
+                    Toast.makeText(LoginActivity.this, "user name is not valid", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Kiểm tra password hợp lệ
+                if(Helper.checkPassword(password)) {
+                    Toast.makeText(LoginActivity.this, "password is not valid", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
+                // Gọi api để đăng nhập tài khoản
+                String hashPass = Helper.hashPassphrase(password, username);
+                UserModel.setOnLoginResult(new UserModel.OnLoginResult() {
+                    @Override
+                    public void onSuccess(String token) {
+                        // Đăng nhập thành công
+                        Log.e("login successfully", token);
+                        Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        final String fError = error;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, fError, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+                UserModel.checkUser(username, hashPass);
+            }
+        });
     }
 
 
