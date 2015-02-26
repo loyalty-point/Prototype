@@ -81,11 +81,6 @@ public class UserModel {
         t.start();
     }
 
-    public static void login(String username, String hassPass) {
-
-    }
-
-
     public interface OnRegisterResult {
         public void onSuccess();
 
@@ -140,7 +135,7 @@ public class UserModel {
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
-                    response = httpclient.execute(httppost, responseHandler);
+                    response = httpclient.execute(httppost, responseHandler); //trả về kiểu {"error":"","token":""}
                     if(response.equals("true"))
                         mOnRegisterResult.onSuccess();
                     else

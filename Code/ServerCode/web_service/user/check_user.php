@@ -15,12 +15,12 @@ $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 $rows = mysqli_num_rows($query_exec);
 
 if($rows == 0) { //Sai tài khoản
-    echo '{"error":"1","token":""}';
+    echo '{"error":"Username is not exist","token":""}';
 }
 else {
     while($row = mysqli_fetch_array($query_exec)){
     	if($hashpass != $row['password']){  //Sai password
-    		echo '{"error":"2","token":""}';
+    		echo '{"error":"Wrong password or username","token":""}';
     	} else{ //Đúng password và sinh token (md5 của username nối vối md5 của thời gian hệ thống)
     		$time = date("F j, Y, g:i a");
     		$token = md5($username).md5($time);
