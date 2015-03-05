@@ -7,7 +7,6 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 
 $shop = $_POST['shop_id'];
 $token = $_POST['token'];
-$shop = json_decode($shop); //chuyển từ string sang json.
 
 /* check token and return username */
 $query = "select username from admin_users where token='".$token."'";
