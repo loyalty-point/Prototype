@@ -5,7 +5,6 @@ $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
 
-$shop = $_POST['shop_id'];
 $token = $_POST['token'];
 
 /* check token and return username */
@@ -22,38 +21,31 @@ if($username == ""){
 /**/
 
 /* check exist shop id in "admin_shop" table*/
-$query = "select * from admin_shop where admin_username='".$username."' and shop_id='".$shop."'";
+$query = "select * from admin_shop where admin_username='".$username."'";
 
 $query_exec = mysqli_query($localhost, $query);
-$row = mysqli_fetch_array($query_exec);
-$username = $row['admin_username'];
-$shop_id = $row['shop_id'];
-
-if($shop_id == ""){
-	echo "not your shop";
-	die();
-}
-/**/
-
-$query_search = "select * from shop where id='".$shop_id."'";
-
-$query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
-
 $rows = mysqli_num_rows($query_exec);
 
-if($rows == 0) {//Shop không có
-    echo "";
+if($rows == 0) {//have no shop in database
+    echo "you have no shop";
 }
 else  {
     while($row = mysqli_fetch_array($query_exec)){
-        echo '{"id":"'.$row['id'].
-        	'","name":"'.$row['name'].
-        	'","address":"'.$row['address'].
-        	'","phone_number":"'.$row['phone_number'].
-        	'","category":"'.$row['category'].
-        	'","exchange_ratio":"'.$row['exchange_ratio'].
-        	'","image":"'.$row['image'].'"}';
+        $query_search = "select * from shop where id='".$row['shop_id']."'";
+
+        $query_exec1 = mysqli_query($localhost,$query_search) or die(mysql_error());
+
+        while($row1 = mysqli_fetch_array($query_exec1)){
+            echo '{"id":"'.$row1['id'].
+                '","name":"'.$row1['name'].
+                '","address":"'.$row1['address'].
+                '","phone_number":"'.$row1['phone_number'].
+                '","category":"'.$row1['category'].
+                '","exchange_ratio":"'.$row1['exchange_ratio'].
+                '","image":"'.$row1['image'].'"}';
+        }
     }
 }
+
 mysqli_close($localhost);
 ?>
