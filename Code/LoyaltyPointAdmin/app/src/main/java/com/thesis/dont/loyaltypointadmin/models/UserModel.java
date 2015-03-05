@@ -131,11 +131,6 @@ public class UserModel {
         String token;
     }
 
-    public static void login(String username, String hassPass) {
-
-    }
-
-
     public interface OnRegisterResult {
         public void onSuccess();
 
