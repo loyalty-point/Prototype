@@ -35,7 +35,7 @@ public class LoginActivity extends ActionBarActivity {
 
                 // Kiểm tra khác null
                 if(Helper.checkNotNull(username, password)) {
-                    Toast.makeText(LoginActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "please fill all the fields", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -75,6 +75,15 @@ public class LoginActivity extends ActionBarActivity {
                     }
                 });
                 UserModel.checkUser(username, hashPass);
+            }
+        });
+
+        Button registerBtn = (Button) findViewById(R.id.register);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
             }
         });
     }

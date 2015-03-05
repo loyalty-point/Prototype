@@ -74,7 +74,8 @@
             android:layout_centerInParent="true"
             android:hint="user name"
             android:textStyle="italic"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:focusable="true"/>
 
         <EditText
             android:id="@+id/fullname"
