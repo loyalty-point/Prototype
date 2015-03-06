@@ -10,6 +10,10 @@ $token = $_POST['token'];
 $shop = json_decode($shop); //chuyển từ string sang json.
 
 /* check token and return username */
+if(strlen($token)!=64){
+	echo "token not found";
+	die();
+}
 $query = "select username from admin_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost, $query);
@@ -21,9 +25,9 @@ if($username == ""){
 	die();
 }
 /**/
-
+$id = uniqid();
 $query = "insert into shop values ('"
-							.$shop->id."','"
+							.$id."','"
 							.$shop->name."','"
 							.$shop->address."','"
 							.$shop->phone_number."','"
@@ -36,7 +40,7 @@ $query_exec = mysqli_query($localhost, $query);
 if($query_exec){
 	$query = "insert into admin_shop values ('"
 								.$username."','"
-								.$shop->id."')";  //insert vào database
+								.$id."')";  //insert vào database
 	$query_exec = mysqli_query($localhost, $query);
 	if($query_exec)
 		echo 'true';
