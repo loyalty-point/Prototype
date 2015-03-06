@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@drawable/selector_navigation_drawer">
+    android:layout_height="48dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -20,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
         android:text="no text"
-        android:textColor="#fff"
+        android:textColor="#9e9e9e"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:paddingRight="40dp"/>
