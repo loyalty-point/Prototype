@@ -10,6 +10,10 @@ $token = $_POST['token'];
 $shop = json_decode($shop); //chuyển từ string sang json.
 
 /* check token and return username */
+if(strlen($token)!=64){
+	echo "token not found";
+	die();
+}
 $query = "select username from admin_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost, $query);
