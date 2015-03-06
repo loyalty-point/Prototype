@@ -9,15 +9,16 @@ public class Shop {
     String address;
     String phone_number;
     String category;
-    int exchange_ratio;
+    String image;
+    float exchange_ratio;
 
-    public Shop(String id, String name, String address, String phone_number, String category, int exchange_ratio){
-        this.id = id;
+    public Shop(String name, String address, String phone_number, String category, float exchange_ratio, String image){
         this.name = name;
         this.address = address;
         this.phone_number = phone_number;
         this.category = category;
         this.exchange_ratio = exchange_ratio;
+        this.image = image;
     }
 
     public String getImage() {
@@ -68,13 +69,11 @@ public class Shop {
         this.category = category;
     }
 
-    public int getExchange_ratio() {
+    public float getExchange_ratio() {
         return exchange_ratio;
     }
 
-    public void setExchange_ratio(int exchange_ratio) {
+    public void setExchange_ratio(float exchange_ratio) {
         this.exchange_ratio = exchange_ratio;
     }
-
-    String image;
 }

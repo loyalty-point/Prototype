@@ -60,6 +60,7 @@ public class LoginActivity extends ActionBarActivity {
                         // Đăng nhập thành công
                         Log.e("login successfully", token);
                         Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+                        i.putExtra("TOKEN", token);
                         startActivity(i);
                     }
 

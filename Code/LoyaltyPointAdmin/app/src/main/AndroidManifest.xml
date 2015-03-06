@@ -28,6 +28,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".controllers.CreateShopActivity"
+            android:label="@string/title_activity_create_shop"
+            android:theme="@style/NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

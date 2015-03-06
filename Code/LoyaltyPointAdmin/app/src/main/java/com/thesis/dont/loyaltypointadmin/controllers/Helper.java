@@ -75,6 +75,15 @@ public class Helper {
         return false;
     }
 
+    public static boolean checkNotNull(String shopname, String phone, String exchangeRatio, String address) {
+        if(shopname.equals("") || phone.equals("") || exchangeRatio.equals("") ||
+                address.equals("")) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static boolean checkNotNull(String username, String password) {
         if(username.equals("") || password.equals("")) {
             return true;
