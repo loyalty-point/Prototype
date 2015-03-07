@@ -7,6 +7,11 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 
 $token = $_POST['token'];
 
+if(strlen($token)!=64){
+    echo "token not found";
+    die();
+}
+
 /* check token and return username */
 $query = "select username from admin_users where token='".$token."'";
 
@@ -27,7 +32,7 @@ $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
 if($rows == 0) {//have no shop in database
-    echo "you have no shop";
+    echo "";
 }
 else  {
     while($row = mysqli_fetch_array($query_exec)){
@@ -42,7 +47,7 @@ else  {
                 '","phone_number":"'.$row1['phone_number'].
                 '","category":"'.$row1['category'].
                 '","exchange_ratio":"'.$row1['exchange_ratio'].
-                '","image":"'.$row1['image'].'"}';
+                '","image":"'.$row1['image'].'"}&';
         }
     }
 }
