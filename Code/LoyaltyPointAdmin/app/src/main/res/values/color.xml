@@ -140,4 +140,23 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+    <color name="MaterialRed">#f44336</color>
+    <color name="MaterialPink">#e91e63</color>
+    <color name="MaterialPurple">#9c27b0</color>
+    <color name="MaterialDeepPurple">#673ab7</color>
+    <color name="MaterialIndigo">#3f51b5</color>
+    <color name="MaterialBlue">#2196f3</color>
+    <color name="MaterialLightBlue">#03a9f4</color>
+    <color name="MaterialCyan">#00bcd4</color>
+    <color name="MaterialTeal">#009688</color>
+    <color name="MaterialGreen">#4caf50</color>
+    <color name="MaterialLightGreen">#8bc34a</color>
+    <color name="MaterialLime">#cddc39</color>
+    <color name="MaterialYellow">#ffeb3b</color>
+    <color name="MaterialAmber">#ffc107</color>
+    <color name="MaterialOrange">#ff9800</color>
+    <color name="MaterialDeepOrange">#ff5722</color>
+    <color name="MaterialBrown">#795548</color>
+    <color name="MaterialGrey">#9e9e9e</color>
+    <color name="MaterialBlueGrey">#607d8b</color>
 </resources>

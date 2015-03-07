@@ -37,5 +37,8 @@
     <string name="username"><i>username</i></string>
     <string name="password"><i>password</i></string>
     <string name="forgotPassword"><i><u>Forgot your password?</u></i></string>
+    <string name="confirmpassword"><i>confirm password</i></string>
+    <string name="fullname"><i>fullname</i></string>
+    <string name="phonenumber"><i>phone number</i></string>
 
 </resources>
