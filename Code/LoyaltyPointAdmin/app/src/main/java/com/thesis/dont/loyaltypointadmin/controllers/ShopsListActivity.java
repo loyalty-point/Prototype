@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +21,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidviewhover.BlurLayout;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
+import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.views.CircleButton;
 import com.thesis.dont.loyaltypointadmin.views.ShopCard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShopsListActivity extends BaseActivity {
 
@@ -35,7 +39,7 @@ public class ShopsListActivity extends BaseActivity {
     public ShopsListActivity CustomListView = null;
     public ArrayList<ShopCard> CustomListViewValuesArr = new ArrayList<ShopCard>();
 
-    String token;
+    String token = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,20 +84,27 @@ public class ShopsListActivity extends BaseActivity {
 
     public void setListData()
     {
+        ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
+            @Override
+            public void onSuccess(String data) {
+                String[]datas = data.split("&");
+                ArrayList<Shop> shop_list = new ArrayList<Shop>();
+                ShopCard shop_card = new ShopCard();
+                for(int i=0 ;i<datas.length; i++){
+                    shop_list.add((Shop)Helper.jsonToObject(datas[i], Shop.class));
+                    shop_card.setShopname(shop_list.get(i).getName());
+                    shop_card.setImg(shop_list.get(i).getImage());
+                    shop_card.setAddress(shop_list.get(i).getAddress());
+                    CustomListViewValuesArr.add(shop_card);
+                }
+            }
 
-        for (int i = 0; i < 11; i++) {
-
-            final ShopCard sched = new ShopCard();
-
-            /******* Firstly take data in model object ******/
-            sched.setShopname("Company "+i);
-            sched.setImg("image"+i);
-            sched.setAddress("http:\\www."+i+".com");
-
-            /******** Take Model Object in ArrayList **********/
-            CustomListViewValuesArr.add(sched);
-        }
-
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+        });
+        ShopModel.getListShop("94472030f34f2432fe34b0c322126828fc3cde5a630816bef70392664b6a6372");
     }
 
 

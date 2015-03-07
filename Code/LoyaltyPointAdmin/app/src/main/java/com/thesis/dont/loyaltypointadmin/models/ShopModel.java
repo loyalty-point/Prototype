@@ -28,11 +28,13 @@ public class ShopModel {
     static List<NameValuePair> nameValuePairs;
 
     static OnCreateShopResult mOnCreateShopResult;
+    static OnSelectListShopResult mOnSelectListShopResult;
 
     static {
         System.loadLibrary("services");
     }
     public static native String getCreateShop();
+    public static native String getGetListShop();
 
     public static void createShop(Shop shop, String token){
         final String token_string = token;
@@ -77,6 +79,47 @@ public class ShopModel {
         t.start();
     }
 
+    public static void getListShop(String token){
+        final String token_string = token;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListShop();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token_string));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    if(response.equals("wrong token"))
+                        mOnSelectListShopResult.onError("wrong token");
+                    else
+                        mOnSelectListShopResult.onSuccess(response.toString());
+                } catch (UnsupportedEncodingException e) {
+                    mOnSelectListShopResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnSelectListShopResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnSelectListShopResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnCreateShopResult{
         public void onSuccess();
         public void onError(String error);
@@ -85,5 +128,15 @@ public class ShopModel {
     public static OnCreateShopResult getOnCreateShopResult() { return mOnCreateShopResult; }
     public static void setOnCreateShopResult(OnCreateShopResult mOnCreateShopResult){
         ShopModel.mOnCreateShopResult = mOnCreateShopResult;
+    }
+
+    public interface OnSelectListShopResult{
+        public void onSuccess(String data);
+        public void onError(String error);
+    }
+
+    public static OnSelectListShopResult getOnSelectListShopResult() {return mOnSelectListShopResult;}
+    public static void setOnSelectListShopResult(OnSelectListShopResult mOnSelectListShopResult){
+        ShopModel.mOnSelectListShopResult = mOnSelectListShopResult;
     }
 }
