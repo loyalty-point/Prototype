@@ -1,4 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,36 +14,87 @@
         android:layout_centerVertical="true"
         android:padding="@dimen/activity_register_marginLeft">
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
+        <!--<ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="user name"/>
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/usernameIcon"
+            android:textStyle="italic"
+            android:layout_toRightOf="@id/usernameIcon"/>-->
 
-        <EditText
-            android:id="@+id/password"
+        <ImageView
+            android:id="@+id/usernameIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_user"
+            android:layout_alignBottom="@+id/usernameFloat"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/usernameFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:hint="password"
-            android:password="true"/>
+            android:layout_toRightOf="@id/usernameIcon"
+            float:fletPadding="10dp">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/username"
+                android:textStyle="italic"/>
+            />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <ImageView
+            android:id="@+id/passwordIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_password"
+            android:layout_alignBottom="@+id/passwordFloat"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/passwordFloat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/passwordIcon"
+            android:layout_below="@id/usernameFloat"
+            float:fletPadding="10dp">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/passwordIcon"
+                android:password="true"
+                android:hint="@string/password"
+                android:textStyle="italic"/>
+            />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <CheckBox
             android:id="@+id/rememberMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/password"
+            android:layout_below="@id/passwordFloat"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Remember Me"/>
 
-        <Button
+        <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rememberMe"
+            android:background="#1E88E5"
+            materialdesign:rippleSpeed="70"
             android:text="Login"/>
+
 
         <TextView
             android:id="@+id/forgotPassword"
@@ -50,7 +103,7 @@
             android:layout_below="@id/login"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:text="Forgot your password?"/>
+            android:text="@string/forgotPassword"/>
 
         <ImageButton
             android:id="@+id/googleLogin"
@@ -78,16 +131,19 @@
             android:layout_toLeftOf="@id/facebookLogin"
             android:layout_alignBottom="@id/facebookLogin"
             android:layout_marginRight="5dp"
+            android:textStyle="bold"
             android:text="Or login with:"/>
 
-        <Button
+        <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/facebookLogin"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="Create a new account"/>
+            android:background="#4CAF50"
+            materialdesign:rippleSpeed="70"
+            android:text="Register"/>
 
     </RelativeLayout>
 

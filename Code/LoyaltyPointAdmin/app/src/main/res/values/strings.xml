@@ -34,5 +34,8 @@
     </array>
 
     <string name="title_activity_create_shop">CreateShopActivity</string>
+    <string name="username"><i>username</i></string>
+    <string name="password"><i>password</i></string>
+    <string name="forgotPassword"><i><u>Forgot your password?</u></i></string>
 
 </resources>

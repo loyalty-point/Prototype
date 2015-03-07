@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
@@ -25,7 +26,7 @@ public class LoginActivity extends ActionBarActivity {
 
         mUsername = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
-        Button loginBtn = (Button) findViewById(R.id.login);
+        ButtonRectangle loginBtn = (ButtonRectangle) findViewById(R.id.login);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +80,7 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        Button registerBtn = (Button) findViewById(R.id.register);
+        ButtonRectangle registerBtn = (ButtonRectangle) findViewById(R.id.register);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
