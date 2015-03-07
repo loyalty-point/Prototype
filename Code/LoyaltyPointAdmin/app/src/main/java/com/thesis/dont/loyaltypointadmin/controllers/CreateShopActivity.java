@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.User;
@@ -41,17 +42,17 @@ public class CreateShopActivity extends ActionBarActivity {
 
     Bitmap shopLogo = null;
 
-    String token;
+    //String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_shop);
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             token = extras.getString("TOKEN");
-        }
+        }*/
 
         mCategory = (Spinner) findViewById(R.id.shopcategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -147,7 +148,7 @@ public class CreateShopActivity extends ActionBarActivity {
                         });
                     }
                 });
-                ShopModel.createShop(shop, token);
+                ShopModel.createShop(shop, Global.userToken);
             }
         });
 

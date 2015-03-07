@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_user"
             android:layout_alignBottom="@+id/usernameFloat"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -54,6 +55,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_password"
             android:layout_alignBottom="@+id/passwordFloat"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -91,9 +93,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rememberMe"
-            android:background="#1E88E5"
+            android:background="@color/MaterialBlue"
             materialdesign:rippleSpeed="70"
-            android:text="Login"/>
+            android:text="LOGIN"/>
 
 
         <TextView
@@ -141,9 +143,9 @@
             android:layout_below="@id/facebookLogin"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:background="#4CAF50"
+            android:background="@color/MaterialGreen"
             materialdesign:rippleSpeed="70"
-            android:text="Register"/>
+            android:text="REGISTER"/>
 
     </RelativeLayout>
 

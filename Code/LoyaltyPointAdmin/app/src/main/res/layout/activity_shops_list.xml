@@ -34,8 +34,8 @@
 
             <com.gc.materialdesign.views.ButtonFloat
                 android:id="@+id/createShopBtn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 materialdesign:iconDrawable="@drawable/ic_action_new"
                 app:cb_color="#99CC00"
                 materialdesign:animate="false"

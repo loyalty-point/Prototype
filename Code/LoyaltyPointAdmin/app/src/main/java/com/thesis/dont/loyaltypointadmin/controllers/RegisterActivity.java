@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.User;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
@@ -28,7 +29,7 @@ public class RegisterActivity extends ActionBarActivity {
         mFullname = (EditText) findViewById(R.id.fullname);
         mPhone = (EditText) findViewById(R.id.phone);
 
-        Button registerBtn = (Button) findViewById(R.id.registerBtn);
+        ButtonRectangle registerBtn = (ButtonRectangle) findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +99,7 @@ public class RegisterActivity extends ActionBarActivity {
             }
         });
 
-        Button cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

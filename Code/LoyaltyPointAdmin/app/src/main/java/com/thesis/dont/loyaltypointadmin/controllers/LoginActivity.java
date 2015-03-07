@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 public class LoginActivity extends ActionBarActivity {
@@ -59,9 +60,9 @@ public class LoginActivity extends ActionBarActivity {
                     @Override
                     public void onSuccess(String token) {
                         // Đăng nhập thành công
-                        Log.e("login successfully", token);
+                        Global.userToken = token;
                         Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
-                        i.putExtra("TOKEN", token);
+                        /*i.putExtra("TOKEN", token);*/
                         startActivity(i);
                     }
 

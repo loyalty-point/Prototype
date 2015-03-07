@@ -18,17 +18,17 @@ public class ShopsListActivity extends BaseActivity {
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
 
-    String token;
+    //String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shops_list);
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             token = extras.getString("TOKEN");
-        }
+        }*/
 
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load titles from strings.xml
 
@@ -42,7 +42,7 @@ public class ShopsListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ShopsListActivity.this, CreateShopActivity.class);
-                i.putExtra("TOKEN", token);
+                /*i.putExtra("TOKEN", token);*/
                 startActivity(i);
             }
         });
