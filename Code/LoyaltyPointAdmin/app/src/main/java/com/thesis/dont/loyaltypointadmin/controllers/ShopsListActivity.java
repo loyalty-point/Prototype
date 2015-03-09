@@ -89,15 +89,17 @@ public class ShopsListActivity extends BaseActivity {
             @Override
             public void onSuccess(String data) {
                 String[]datas = data.split("&");
-                ArrayList<Shop> shop_list = new ArrayList<Shop>();
-                ShopCard shop_card = new ShopCard();
+                Shop shop = null;
+                ShopCard shop_card = null;
                 for(int i=0 ;i<datas.length; i++){
-                    shop_list.add((Shop)Helper.jsonToObject(datas[i], Shop.class));
-                    shop_card.setShopname(shop_list.get(i).getName());
-                    shop_card.setImg(shop_list.get(i).getImage());
-                    shop_card.setAddress(shop_list.get(i).getAddress());
+                    shop = (Shop)Helper.jsonToObject(datas[i], Shop.class);
+                    shop_card = new ShopCard();
+                    shop_card.setShopname(shop.getName());
+                    shop_card.setImg(shop.getImage());
+                    shop_card.setAddress(shop.getAddress());
                     CustomListViewValuesArr.add(shop_card);
                 }
+
             }
 
             @Override
@@ -105,7 +107,7 @@ public class ShopsListActivity extends BaseActivity {
                 Log.e("error", error);
             }
         });
-        ShopModel.getListShop("94472030f34f2432fe34b0c322126828fc3cde5a630816bef70392664b6a6372");
+        ShopModel.getListShop(token);
     }
 
 
