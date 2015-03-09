@@ -100,7 +100,6 @@ public class ShopsListActivity extends BaseActivity {
                     shop_card.setAddress(shop.getAddress());
                     CustomListViewValuesArr.add(shop_card);
                 }
-
             }
 
             @Override
