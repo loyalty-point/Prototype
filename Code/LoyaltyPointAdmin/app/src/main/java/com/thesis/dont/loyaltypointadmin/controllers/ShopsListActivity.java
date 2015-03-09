@@ -21,6 +21,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidviewhover.BlurLayout;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.views.CircleButton;
@@ -107,7 +108,7 @@ public class ShopsListActivity extends BaseActivity {
                 Log.e("error", error);
             }
         });
-        ShopModel.getListShop(token);
+        ShopModel.getListShop(Global.userToken);
     }
 
 
