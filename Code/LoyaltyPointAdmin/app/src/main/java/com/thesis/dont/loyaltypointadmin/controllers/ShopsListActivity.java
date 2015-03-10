@@ -1,45 +1,35 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidviewhover.BlurLayout;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.thesis.dont.loyaltypointadmin.views.CircleButton;
-import com.thesis.dont.loyaltypointadmin.views.ShopCard;
+import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
+import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShopsListActivity extends BaseActivity {
 
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
 
-  
-    ListView list;
+
+    ActionSlideExpandableListView list;
     CustomShopListAdapter adapter;
     public ShopsListActivity CustomListView = null;
-    public ArrayList<ShopCard> CustomListViewValuesArr = new ArrayList<ShopCard>();
+    public ArrayList<Shop> CustomListViewValuesArr = new ArrayList<Shop>();
 
 
 
@@ -48,11 +38,6 @@ public class ShopsListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_shops_list);
-
-        /*Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            token = extras.getString("TOKEN");
-        }*/
 
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load titles from strings.xml
 
@@ -66,7 +51,6 @@ public class ShopsListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ShopsListActivity.this, CreateShopActivity.class);
-                /*i.putExtra("TOKEN", token);*/
                 startActivity(i);
             }
         });
@@ -76,12 +60,6 @@ public class ShopsListActivity extends BaseActivity {
         /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
         setListData();
 
-        Resources res =getResources();
-        list= (ListView)findViewById(R.id.shop_list);  // List defined in XML ( See Below )
-
-        /**************** Create Custom Adapter *********/
-        adapter=new CustomShopListAdapter( CustomListView, CustomListViewValuesArr,res );
-        list.setAdapter(adapter);
     }
 
     public void setListData()
@@ -91,15 +69,63 @@ public class ShopsListActivity extends BaseActivity {
             public void onSuccess(String data) {
                 String[]datas = data.split("&");
                 Shop shop = null;
-                ShopCard shop_card = null;
                 for(int i=0 ;i<datas.length; i++){
                     shop = (Shop)Helper.jsonToObject(datas[i], Shop.class);
-                    shop_card = new ShopCard();
-                    shop_card.setShopname(shop.getName());
-                    shop_card.setImg(shop.getImage());
-                    shop_card.setAddress(shop.getAddress());
-                    CustomListViewValuesArr.add(shop_card);
+                    CustomListViewValuesArr.add(shop);
                 }
+                Resources res =getResources();
+                list= (ActionSlideExpandableListView)findViewById(R.id.shop_list);  // List defined in XML ( See Below )
+
+                /**************** Create Custom Adapter *********/
+
+                adapter=new CustomShopListAdapter( CustomListView, CustomListViewValuesArr,res );
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.setAdapter(new SlideExpandableListAdapter(
+                                adapter,
+                                R.id.expandable_toggle_button,
+                                R.id.expandable
+                        ));
+
+                        list.setItemActionListener(new ActionSlideExpandableListView.OnActionClickListener() {
+
+                            @Override
+                            public void onClick(View listView, View buttonview, int position) {
+
+                                /**
+                                 * Normally you would put a switch
+                                 * statement here, and depending on
+                                 * view.getId() you would perform a
+                                 * different action.
+                                 */
+                                String actionName = "";
+                                if(buttonview.getId()==R.id.details_button) {
+                                    Intent i = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
+                                    i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
+                                    startActivity(i);
+                                } else {
+                                    actionName = "edit button";
+                                }
+                                /**
+                                 * For testing sake we just show a toast
+                                 */
+                                Toast.makeText(
+                                        ShopsListActivity.this,
+                                        "Clicked Action: "+actionName+" in list item "+position,
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+
+                            // note that we also add 1 or more ids to the setItemActionListener
+                            // this is needed in order for the listview to discover the buttons
+                        }, R.id.details_button, R.id.edit_button);
+
+                    }
+                });
+
             }
 
             @Override
@@ -110,17 +136,16 @@ public class ShopsListActivity extends BaseActivity {
         ShopModel.getListShop(Global.userToken);
     }
 
-
     /*****************  This function used by adapter ****************/
-    public void onItemClick(int mPosition)
-    {
-        ShopCard tempValues = (ShopCard) CustomListViewValuesArr.get(mPosition);
-
-
-        // SHOW ALERT
-
-        Toast.makeText(CustomListView,
-                "" + tempValues.getShopname() + "Image:"+tempValues.getImg()+"Url:"+tempValues.getAddress(),Toast.LENGTH_LONG).show();
-    }
+//    public void onItemClick(int mPosition)
+//    {
+//        ShopCard tempValues = (ShopCard) CustomListViewValuesArr.get(mPosition);
+//
+//
+//        // SHOW ALERT
+//
+//        Toast.makeText(CustomListView,
+//                "" + tempValues.getShopname() + "Image:"+tempValues.getImg()+"Url:"+tempValues.getAddress(),Toast.LENGTH_LONG).show();
+//    }
 
 }

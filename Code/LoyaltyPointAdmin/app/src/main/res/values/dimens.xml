@@ -14,4 +14,7 @@
     <dimen name="activity_register_info_marginRight">48dp</dimen>
     <dimen name="activity_register_info_marginTop">48dp</dimen>
     <dimen name="activity_register_info_marginBottom">48dp</dimen>
+
+    <!-- The recommended margin for the top, left, and right edges of a card. -->
+    <dimen name="glass_card_margin">40px</dimen>
 </resources>
