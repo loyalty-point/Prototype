@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
@@ -56,9 +55,7 @@ public class ShopsListActivity extends BaseActivity {
         });
 
         CustomListView = this;
-
-        /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
-        setListData();
+        setListData(); //set data to list
 
     }
 
@@ -67,11 +64,11 @@ public class ShopsListActivity extends BaseActivity {
         ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
             @Override
             public void onSuccess(String data) {
-                String[]datas = data.split("&");
+                String[]datas = data.split("&"); //slit data to json struture
                 Shop shop = null;
                 for(int i=0 ;i<datas.length; i++){
                     shop = (Shop)Helper.jsonToObject(datas[i], Shop.class);
-                    CustomListViewValuesArr.add(shop);
+                    CustomListViewValuesArr.add(shop); //add shop object to array
                 }
                 Resources res =getResources();
                 list= (ActionSlideExpandableListView)findViewById(R.id.shop_list);  // List defined in XML ( See Below )
@@ -84,7 +81,7 @@ public class ShopsListActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        list.setAdapter(new SlideExpandableListAdapter(
+                        list.setAdapter(new SlideExpandableListAdapter( //set adapter to list. it'will show to interface
                                 adapter,
                                 R.id.expandable_toggle_button,
                                 R.id.expandable
@@ -93,14 +90,8 @@ public class ShopsListActivity extends BaseActivity {
                         list.setItemActionListener(new ActionSlideExpandableListView.OnActionClickListener() {
 
                             @Override
-                            public void onClick(View listView, View buttonview, int position) {
+                            public void onClick(View listView, View buttonview, int position) { //implement some operation when click the button of the card.
 
-                                /**
-                                 * Normally you would put a switch
-                                 * statement here, and depending on
-                                 * view.getId() you would perform a
-                                 * different action.
-                                 */
                                 String actionName = "";
                                 if(buttonview.getId()==R.id.details_button) {
                                     Intent i = new Intent(ShopsListActivity.this, ShopDetailActivity.class);

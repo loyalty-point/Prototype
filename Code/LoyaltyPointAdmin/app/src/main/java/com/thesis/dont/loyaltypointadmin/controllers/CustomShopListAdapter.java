@@ -46,9 +46,7 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
 
     }
 
-    /**
-     * ***** What is the size of Passed Arraylist Size ***********
-     */
+    //Get array size
     public int getCount() {
 
         if (data.size() <= 0)
@@ -64,9 +62,7 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
         return position;
     }
 
-    /**
-     * ****** Create a holder Class to contain inflated xml file elements ********
-     */
+    //view holder contain data of shop card
     public static class ViewHolder {
 
         public TextView text;
@@ -76,25 +72,16 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
 
     }
 
-    /**
-     * *** Depends upon data size called for each row , Create each ListView row ****
-     */
+    //Show view of shop card
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View vi = convertView;
         ViewHolder holder;
 
         if (convertView == null) {
-
-            /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
             vi = inflater.inflate(R.layout.shops_list, null);
-
-            /****** View Holder Object to contain tabitem.xml file elements ******/
-
             holder = new ViewHolder();
             holder.text = (TextView) vi.findViewById(R.id.text);
-
-            /************  Set holder with LayoutInflater ************/
             vi.setTag(holder);
         } else
             holder = (ViewHolder) vi.getTag();
@@ -102,18 +89,11 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
         if (data.size() <= 0) {
             holder.text.setText("No Data");
 
-        } else {
-            /***** Get each Model object from Arraylist ********/
+        } else { //have data, so set data to view
             tempValues = null;
             tempValues = (Shop) data.get(position);
-
-            /************  Set Model values in Holder elements ***********/
-
             holder.text.setText(tempValues.getName());
-
-            /******** Set Item Click Listner for LayoutInflater for each row *******/
-
-            vi.setOnClickListener(new OnItemClickListener(position));
+//            vi.setOnClickListener(new OnItemClickListener(position));
         }
         return vi;
     }
@@ -122,26 +102,26 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
     public void onClick(View v) {
         Log.v("CustomAdapter", "=====Row button clicked=====");
     }
-
-    /**
-     * ****** Called when Item click in ListView ***********
-     */
-    private class OnItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        OnItemClickListener(int position) {
-            mPosition = position;
-        }
-
-        @Override
-        public void onClick(View arg0) {
-
-
-            ShopsListActivity sct = (ShopsListActivity) activity;
-
-            /****  Call  onItemClick Method inside CustomListViewAndroidExample Class ( See Below )****/
-
-//            sct.onItemClick(mPosition);
-        }
-    }
+//
+//    /**
+//     * ****** Called when Item click in ListView ***********
+//     */
+//    private class OnItemClickListener implements View.OnClickListener {
+//        private int mPosition;
+//
+//        OnItemClickListener(int position) {
+//            mPosition = position;
+//        }
+//
+//        @Override
+//        public void onClick(View arg0) {
+//
+//
+//            ShopsListActivity sct = (ShopsListActivity) activity;
+//
+//            /****  Call  onItemClick Method inside CustomListViewAndroidExample Class ( See Below )****/
+//
+////            sct.onItemClick(mPosition);
+//        }
+//    }
 }

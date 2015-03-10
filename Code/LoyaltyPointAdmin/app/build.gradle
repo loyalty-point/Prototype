@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.thesis.dont.loyaltypointadmin"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 21
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
