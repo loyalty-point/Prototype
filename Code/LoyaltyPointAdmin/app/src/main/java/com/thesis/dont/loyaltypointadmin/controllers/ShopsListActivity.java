@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +31,7 @@ import com.thesis.dont.loyaltypointadmin.views.ShopCard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopsListActivity extends BaseActivity {
+public class ShopsListActivity extends BaseNavigationActivity {
 
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
@@ -41,47 +42,45 @@ public class ShopsListActivity extends BaseActivity {
     public ShopsListActivity CustomListView = null;
     public ArrayList<ShopCard> CustomListViewValuesArr = new ArrayList<ShopCard>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_shops_list);
+        //setContentView(R.layout.activity_shops_list);
 
         /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             token = extras.getString("TOKEN");
         }*/
 
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load titles from strings.xml
+        /*navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items); // load titles from strings.xml
 
         navMenuIcons = getResources()
                 .obtainTypedArray(R.array.nav_drawer_icons);//load icons from strings.xml
 
-        set(navMenuTitles, navMenuIcons);
+        set(navMenuTitles, navMenuIcons);*/
 
-        ButtonFloat createShopBtn = (ButtonFloat) findViewById(R.id.createShopBtn);
+        /*ButtonFloat createShopBtn = (ButtonFloat) findViewById(R.id.createShopBtn);
         createShopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ShopsListActivity.this, CreateShopActivity.class);
-                /*i.putExtra("TOKEN", token);*/
+                *//*i.putExtra("TOKEN", token);*//*
                 startActivity(i);
             }
         });
 
         CustomListView = this;
 
-        /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
+        *//******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********//*
         setListData();
 
         Resources res =getResources();
         list= (ListView)findViewById(R.id.shop_list);  // List defined in XML ( See Below )
 
-        /**************** Create Custom Adapter *********/
+        *//**************** Create Custom Adapter *********//*
         adapter=new CustomShopListAdapter( CustomListView, CustomListViewValuesArr,res );
-        list.setAdapter(adapter);
+        list.setAdapter(adapter);*/
     }
 
     public void setListData()

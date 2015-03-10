@@ -16,7 +16,8 @@
         </activity>
         <activity
             android:name=".controllers.ShopsListActivity"
-            android:label="@string/title_activity_shops_list" >
+            android:theme="@style/NoActionBarWithNavDrawer"
+            android:label="@string/title_activity_shops_list">
         </activity>
         <activity
             android:name=".controllers.LoginActivity"
@@ -32,6 +33,14 @@
             android:name=".controllers.CreateShopActivity"
             android:label="@string/title_activity_create_shop"
             android:theme="@style/NoActionBar" >
+        </activity>
+        <activity
+            android:name=".controllers.BaseNavigationActivity"
+            android:theme="@style/MyNavigationDrawerTheme">
+        </activity>
+        <activity
+            android:name=".controllers.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 
