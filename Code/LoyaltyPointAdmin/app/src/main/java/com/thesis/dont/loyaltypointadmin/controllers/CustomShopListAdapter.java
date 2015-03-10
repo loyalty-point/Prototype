@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.views.ShopCard;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
     private ArrayList data;
     private static LayoutInflater inflater = null;
     public Resources res;
-    ShopCard tempValues = null;
+    Shop tempValues = null;
     int i = 0;
 
     /**
@@ -93,8 +93,6 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
 
             holder = new ViewHolder();
             holder.text = (TextView) vi.findViewById(R.id.text);
-//            holder.text1 = (TextView) vi.findViewById(R.id.text1);
-//            holder.image = (TextView) vi.findViewById(R.id.image);
 
             /************  Set holder with LayoutInflater ************/
             vi.setTag(holder);
@@ -107,17 +105,11 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
         } else {
             /***** Get each Model object from Arraylist ********/
             tempValues = null;
-            tempValues = (ShopCard) data.get(position);
+            tempValues = (Shop) data.get(position);
 
             /************  Set Model values in Holder elements ***********/
 
-            holder.text.setText(tempValues.getShopname());
-//            holder.text1.setText(tempValues.getAddress());
-//            holder.image.setText(tempValues.getImg());
-//            holder.image.setImageResource(
-//                    res.getIdentifier(
-//                            "com.androidexample.customlistview:drawable/"+tempValues.getImg()
-//                            ,null,null));
+            holder.text.setText(tempValues.getName());
 
             /******** Set Item Click Listner for LayoutInflater for each row *******/
 
@@ -149,7 +141,7 @@ public class CustomShopListAdapter extends BaseAdapter implements View.OnClickLi
 
             /****  Call  onItemClick Method inside CustomListViewAndroidExample Class ( See Below )****/
 
-            sct.onItemClick(mPosition);
+//            sct.onItemClick(mPosition);
         }
     }
 }
