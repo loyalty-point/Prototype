@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
@@ -69,15 +70,15 @@ public class CreateShopActivity extends ActionBarActivity {
         mAddress = (EditText) findViewById(R.id.shopAddress);
         mAgreeTerm = (CheckBox) findViewById(R.id.agreeTerm);
 
-        final Button createShopBtn = (Button) findViewById(R.id.createBtn);
-        Button cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.createBtn);
+        ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
 
         if(mAgreeTerm.isChecked()) {
             createShopBtn.setEnabled(true);
-            createShopBtn.setBackgroundColor(getResources().getColor(R.color.Green));
+            createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialGreen));
         }else {
             createShopBtn.setEnabled(false);
-            createShopBtn.setBackgroundColor(getResources().getColor(R.color.LightGrey));
+            createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialDisable));
         }
         mAgreeTerm.setOnClickListener(new View.OnClickListener() {
             @Override
