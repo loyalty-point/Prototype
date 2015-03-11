@@ -3,4 +3,10 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopDetailActivity" />
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopDetailActivity">
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+</android.support.v4.view.ViewPager>

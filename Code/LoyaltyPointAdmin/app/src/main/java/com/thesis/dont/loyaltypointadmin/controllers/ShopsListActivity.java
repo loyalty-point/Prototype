@@ -57,13 +57,7 @@ public class ShopsListActivity extends BaseNavigationActivity {
         });
 
         CustomListView = this;
-<<<<<<< HEAD
         setListData(); //set data to list
-=======
-
-        *//******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********//*
-        setListData();
->>>>>>> 2a6427fa3673b25f0cb22770c2a97ef18dc4e0d6
 
         Resources res =getResources();
         list= (ListView)findViewById(R.id.shop_list);  // List defined in XML ( See Below )
