@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/usernameIcon"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/username"
@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:hint="@string/username"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
             />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/passwordIcon"
             android:layout_below="@id/usernameFloat"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/password"
@@ -77,7 +78,8 @@
                 android:password="true"
                 android:singleLine="true"
                 android:hint="@string/password"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
             />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -89,7 +91,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Remember Me"/>
+            android:text="Remember Me"
+            android:textSize="@dimen/font_size"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/login"
@@ -98,7 +101,8 @@
             android:layout_below="@id/rememberMe"
             android:background="@color/MaterialBlue"
             materialdesign:rippleSpeed="70"
-            android:text="LOGIN"/>
+            android:text="LOGIN"
+            android:textSize="@dimen/font_size"/>
 
 
         <TextView
@@ -108,7 +112,8 @@
             android:layout_below="@id/login"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:text="@string/forgotPassword"/>
+            android:text="@string/forgotPassword"
+            android:textSize="@dimen/font_size"/>
 
         <ImageButton
             android:id="@+id/googleLogin"
@@ -117,7 +122,8 @@
             android:layout_below="@id/forgotPassword"
             android:layout_alignParentRight="true"
             android:layout_marginTop="30dp"
-            android:background="@drawable/google_plus_icon"/>
+            android:background="@drawable/google_plus_icon"
+            />
 
         <ImageButton
             android:id="@+id/facebookLogin"
@@ -137,7 +143,8 @@
             android:layout_alignBottom="@id/facebookLogin"
             android:layout_marginRight="5dp"
             android:textStyle="bold"
-            android:text="Or login with:"/>
+            android:text="Or login with:"
+            android:textSize="@dimen/font_size"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/register"
@@ -148,7 +155,8 @@
             android:layout_marginTop="30dp"
             android:background="@color/MaterialGreen"
             materialdesign:rippleSpeed="70"
-            android:text="REGISTER"/>
+            android:text="REGISTER"
+            android:textSize="@dimen/font_size" />
 
     </RelativeLayout>
 

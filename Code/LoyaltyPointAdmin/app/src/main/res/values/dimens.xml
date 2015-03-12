@@ -1,20 +1,28 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">@dimen/_10sdp</dimen>
+    <dimen name="activity_vertical_margin">@dimen/_10sdp</dimen>
 
+    <dimen name="activity_flet_padding">@dimen/_3sdp</dimen>
 
     <!--Register Activity-->
-    <dimen name="activity_register_marginLeft">16dp</dimen>
-    <dimen name="activity_register_marginRight">16dp</dimen>
-    <dimen name="activity_register_marginTop">16dp</dimen>
-    <dimen name="activity_register_marginBottom">16dp</dimen>
+    <dimen name="activity_register_marginLeft">@dimen/_10sdp</dimen>
+    <dimen name="activity_register_marginRight">@dimen/_10sdp</dimen>
+    <dimen name="activity_register_marginTop">@dimen/_10sdp</dimen>
+    <dimen name="activity_register_marginBottom">@dimen/_10sdp</dimen>
 
-    <dimen name="activity_register_info_marginLeft">48dp</dimen>
-    <dimen name="activity_register_info_marginRight">48dp</dimen>
-    <dimen name="activity_register_info_marginTop">48dp</dimen>
-    <dimen name="activity_register_info_marginBottom">48dp</dimen>
+    <dimen name="activity_register_info_marginLeft">@dimen/_48sdp</dimen>
+    <dimen name="activity_register_info_marginRight">@dimen/_48sdp</dimen>
+    <dimen name="activity_register_info_marginTop">@dimen/_48sdp</dimen>
+    <dimen name="activity_register_info_marginBottom">@dimen/_48sdp</dimen>
+
+    <!--Create Shop-->
+    <dimen name="activity_createshop_marginLeft">@dimen/_10sdp</dimen>
+    <dimen name="activity_createshop_marginRight">@dimen/_10sdp</dimen>
+    <dimen name="activity_createshop_marginTop">@dimen/_10sdp</dimen>
+    <dimen name="activity_createshop_marginBottom">@dimen/_10sdp</dimen>
 
     <!-- The recommended margin for the top, left, and right edges of a card. -->
     <dimen name="glass_card_margin">40px</dimen>
+    <dimen name="font_size">@dimen/_9sdp</dimen>
 </resources>

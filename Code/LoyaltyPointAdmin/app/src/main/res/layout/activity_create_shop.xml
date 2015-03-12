@@ -3,7 +3,6 @@
     xmlns:float="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/MaterialBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -22,11 +21,12 @@
             android:id="@+id/cancelBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="@dimen/_20sdp"
             android:layout_weight="0.5"
             android:background="@color/MaterialGrey"
             android:text="Cancel"
-            materialdesign:rippleSpeed="70" />
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
 
 
         <com.gc.materialdesign.views.ButtonRectangle
@@ -36,7 +36,8 @@
             android:layout_weight="0.5"
             android:background="@color/MaterialGreen"
             android:text="Create"
-            materialdesign:rippleSpeed="70" />
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
 
     </LinearLayout>
 
@@ -51,7 +52,8 @@
             android:id="@+id/shopLogo"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
-            android:background="@color/LightGrey" />
+            android:background="@color/LightGrey"
+            android:layout_marginBottom="@dimen/activity_createshop_marginBottom"/>
 
         <ImageView
             android:id="@+id/shopnameIcon"
@@ -69,7 +71,7 @@
             android:layout_alignTop="@id/shopLogo"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/shopnameIcon"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/shopname"
@@ -78,7 +80,8 @@
                 android:focusable="true"
                 android:hint="shop name"
                 android:singleLine="true"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <ImageView
@@ -96,9 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/shopnameFloat"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="5px"
             android:layout_toRightOf="@id/phoneIcon"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding"
+            android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
                 android:id="@+id/phone"
@@ -107,7 +110,8 @@
                 android:hint="phone number"
                 android:phoneNumber="true"
                 android:singleLine="true"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <TextView
@@ -116,10 +120,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/shopLogo"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/activity_createshop_marginTop"
             android:text="Category"
             android:textAlignment="center"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size" />
 
         <Spinner
             android:id="@+id/shopcategory"
@@ -145,17 +150,18 @@
             android:layout_below="@id/shopcategory"
             android:layout_toRightOf="@id/exchangeIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding"
+            android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
                 android:id="@+id/exchangeRatio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:hint="exchange ratio"
                 android:phoneNumber="true"
                 android:singleLine="true"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <ImageView
@@ -172,7 +178,8 @@
             android:layout_below="@id/exchangeRatioFloat"
             android:layout_toRightOf="@id/addressIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            float:fletPadding="10dp">
+            float:fletPadding="@dimen/activity_flet_padding"
+            android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
                 android:id="@+id/shopAddress"
@@ -181,7 +188,8 @@
                 android:focusable="true"
                 android:hint="shop address"
                 android:singleLine="true"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <CheckBox
@@ -190,9 +198,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/shopAddressFloat"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="I agree to the term of use" />
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="I agree to the term of use"
+            android:textSize="@dimen/font_size"/>
 
 
     </RelativeLayout>
