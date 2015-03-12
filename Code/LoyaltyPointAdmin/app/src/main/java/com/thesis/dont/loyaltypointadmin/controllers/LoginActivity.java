@@ -62,7 +62,7 @@ public class LoginActivity extends ActionBarActivity {
                         // Đăng nhập thành công
                         Global.userToken = token;
                         //Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
-                        Intent i = new Intent(LoginActivity.this, BaseNavigationActivity.class);
+                        Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
                         startActivity(i);
                     }
 

@@ -1,6 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,9 +24,16 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        allowArrowAnimation();
+
         MaterialAccount account = new MaterialAccount(this.getResources(),"Nguyễn Tấn Đô","nguyentando106@gmail.com", R.drawable.user_avatar, R.color.MaterialGreen);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.user_cover);
+        //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.color.MaterialBlueGrey);
+        int color[] = {R.color.MaterialDeepOrange};
+        Bitmap bm = Bitmap.createBitmap(color, 1, 1, Bitmap.Config.ARGB_8888);
+        //bm.eraseColor(R.color.MaterialDeepOrange);
         account.setBackground(bm);
+
+        //account.setBackground(R.color.MaterialBlueGrey);
         this.addAccount(account);
 
         // add section to the top list
@@ -52,7 +61,8 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addAccountSection(sectionAccount1);
         addAccountSection(sectionAccount2);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.getCustomView();
+        getToolbar().setTitleTextColor(getResources().getColor(R.color.TextIcons));
+        getToolbar().setNavigationIcon(R.drawable.navigation_icon);
+        //getToolbar().navigation
     }
 }
