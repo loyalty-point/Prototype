@@ -49,8 +49,8 @@
 
         <ImageView
             android:id="@+id/shopLogo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
             android:background="@color/LightGrey" />
 
         <ImageView
