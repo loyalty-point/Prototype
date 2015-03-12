@@ -172,4 +172,28 @@
     <color name="MaterialBlueGrey700">#455A64</color>
     <color name="MaterialBlueGrey800">#37474F</color>
     <color name="MaterialBlueGrey900">#263238</color>
+
+    <color name="MaterialPurple50">#F3E5F5</color>
+    <color name="MaterialPurple100">#E1BEE7</color>
+    <color name="MaterialPurple200">#CE93D8</color>
+    <color name="MaterialPurple300">#BA68C8</color>
+    <color name="MaterialPurple400">#AB47BC</color>
+    <color name="MaterialPurple500">#9C27B0</color>
+    <color name="MaterialPurple600">#8E24AA</color>
+    <color name="MaterialPurple700">#7B1FA2</color>
+    <color name="MaterialPurple800">#6A1B9A</color>
+    <color name="MaterialPurple900">#4A148C</color>
+
+    <!--<color name="PrimaryColor">#ff5f7c8a</color>-->
+    <color name="PrimaryColor">#ff54709b</color>
+    <!--<color name="DarkPrimaryColor">#ff445963</color>-->
+    <color name="DarkPrimaryColor">#ff465d82</color>
+    <!--<color name="LightPrimaryColor">#ffced7db</color>-->
+    <color name="LightPrimaryColor">#ffbdbadd</color>
+    <color name="TextIcons">#fffefefe</color>
+    <color name="AccentColor">#ff4bae4f</color>
+    <color name="PrimaryText">#ff202020</color>
+    <color name="SecondaryText">#ff717171</color>
+    <color name="DividerColor">#ffb5b5b5</color>
+    <color name="Background">#ffeeeeee</color>
 </resources>
