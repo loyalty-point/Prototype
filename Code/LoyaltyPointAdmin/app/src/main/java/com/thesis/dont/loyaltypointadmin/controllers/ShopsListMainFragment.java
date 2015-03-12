@@ -40,8 +40,6 @@ public class ShopsListMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.shops_list_main_fragment, container, false);
 
-
-
         return view;
     }
 
@@ -117,14 +115,6 @@ public class ShopsListMainFragment extends Fragment {
                                 } else {
                                     actionName = "edit button";
                                 }
-                                /**
-                                 * For testing sake we just show a toast
-                                 */
-                                Toast.makeText(
-                                        getActivity(),
-                                        "Clicked Action: " + actionName + " in list item " + position,
-                                        Toast.LENGTH_SHORT
-                                ).show();
                             }
 
                             // note that we also add 1 or more ids to the setItemActionListener
@@ -141,6 +131,7 @@ public class ShopsListMainFragment extends Fragment {
                 Log.e("error", error);
             }
         });
-        ShopModel.getListShop(Global.userToken);
+//        ShopModel.getListShop(Global.userToken);
+        ShopModel.getListShop("4f9aab34a15368a50069cde837365ebc6e6ace46c169880a2ffad300d40e7edf");
     }
 }

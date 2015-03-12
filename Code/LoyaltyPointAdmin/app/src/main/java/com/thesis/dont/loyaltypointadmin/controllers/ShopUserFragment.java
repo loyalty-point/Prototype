@@ -23,7 +23,7 @@ public class ShopUserFragment extends Fragment {
 
     private int position;
 
-    public ShopUserFragment(int position){
+    public ShopUserFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);

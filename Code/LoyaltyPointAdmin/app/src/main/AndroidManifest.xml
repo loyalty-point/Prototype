@@ -18,19 +18,16 @@
             android:name=".controllers.ShopsListActivity"
             android:label="@string/title_activity_shops_list"
             android:theme="@style/NoActionBarWithNavDrawer" >
-
-        </activity>
-        <activity
-            android:name=".controllers.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/NoActionBar" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name=".controllers.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/NoActionBar" >
         </activity>
         <activity
             android:name=".controllers.CreateShopActivity"
@@ -39,11 +36,7 @@
         </activity>
         <activity
             android:name=".controllers.ShopDetailActivity"
-            android:label="@string/title_activity_detail_shop"
-            android:theme="@style/NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
+            android:label="@string/title_activity_detail_shop" >
         </activity>
         <activity
             android:name=".controllers.BaseNavigationActivity"
@@ -58,6 +51,8 @@
             android:label="@string/title_activity_edit_shop"
             android:theme="@style/NoActionBar" >
         </activity>
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

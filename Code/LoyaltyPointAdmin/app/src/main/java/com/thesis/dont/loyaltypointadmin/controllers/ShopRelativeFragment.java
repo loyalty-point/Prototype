@@ -23,7 +23,7 @@ public class ShopRelativeFragment extends Fragment {
 
     private int position;
 
-    public ShopRelativeFragment(int position){
+    public ShopRelativeFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);
@@ -47,7 +47,6 @@ public class ShopRelativeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shop_relative,container,false);
         ButterKnife.inject(this, rootView);
-
         ViewCompat.setElevation(rootView, 50);
         return rootView;
     }
