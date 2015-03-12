@@ -49,6 +49,7 @@ public class ShopsListMainFragment extends Fragment {
 
         Activity activity = getActivity();
         ButtonFloat createShopBtn = (ButtonFloat) activity.findViewById(R.id.createShopBtn);
+        createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createShopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

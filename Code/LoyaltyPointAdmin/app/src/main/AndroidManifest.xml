@@ -36,7 +36,13 @@
         </activity>
         <activity
             android:name=".controllers.ShopDetailActivity"
-            android:label="@string/title_activity_detail_shop" >
+            android:label="@string/title_activity_detail_shop"
+            android:parentActivityName=".controllers.ShopsListActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.ShopsListActivity" />
             
         </activity>
         <activity

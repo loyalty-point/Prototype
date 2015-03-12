@@ -1,8 +1,10 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -14,6 +16,9 @@ public class ShopDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_detail);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         String shopId = getIntent().getStringExtra("SHOP_ID");
         pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shopId));
@@ -29,6 +34,17 @@ public class ShopDetailActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         tabs.setViewPager(pager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -75,7 +75,7 @@ public class CreateShopActivity extends ActionBarActivity {
 
         if(mAgreeTerm.isChecked()) {
             createShopBtn.setEnabled(true);
-            createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialGreen));
+            createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         }else {
             createShopBtn.setEnabled(false);
             createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialDisable));

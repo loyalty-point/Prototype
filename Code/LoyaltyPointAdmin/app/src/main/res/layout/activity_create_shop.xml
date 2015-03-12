@@ -201,6 +201,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="I agree to the term of use"
+            android:checked="true"
             android:textSize="@dimen/font_size"/>
 
 

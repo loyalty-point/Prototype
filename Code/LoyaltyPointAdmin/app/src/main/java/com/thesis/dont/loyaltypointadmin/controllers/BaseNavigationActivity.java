@@ -37,7 +37,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         this.addAccount(account);
 
         // add section to the top list
-        MaterialSection sectionTop1 = newSection("Shops List", R.drawable.ic_user, new ShopsListMainFragment());
+        MaterialSection sectionTop1 = newSection("Shops List", R.drawable.ic_store, new ShopsListMainFragment());
         //sectionTop1.setNotifications(4);
 
         MaterialSection sectionTop2 = newSection("Section 2", R.drawable.ic_user, new Intent(this, RegisterActivity.class));
@@ -47,10 +47,10 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addSection(sectionTop2);
 
         // add section to the bottom list
-        MaterialSection sectionBottom1 = newSection("Settings", R.drawable.settings, new Intent(this, SettingsActivity.class));
-        MaterialSection sectionBottom2 = newSection("Help & Feedback", R.drawable.help_icon, new Intent(this, SettingsActivity.class));
-        MaterialSection sectionBottom3 = newSection("About", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
-        MaterialSection sectionBottom4 = newSection("Log Out", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom1 = newSection("Settings", R.drawable.ic_settings, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom2 = newSection("Help & Feedback", R.drawable.ic_help, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom3 = newSection("About", R.drawable.ic_about, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom4 = newSection("Log Out", R.drawable.ic_logout, new Intent(this, LoginActivity.class));
 
         addBottomSection(sectionBottom1);
         addBottomSection(sectionBottom2);
