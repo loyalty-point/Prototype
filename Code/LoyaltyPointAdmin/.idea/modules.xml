@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LoyaltyPointAdmin.iml" filepath="$PROJECT_DIR$/LoyaltyPointAdmin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdp/sdp.iml" filepath="$PROJECT_DIR$/sdp/sdp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdp-master/sdp-master.iml" filepath="$PROJECT_DIR$/sdp-master/sdp-master.iml" />
     </modules>
   </component>
 </project>
