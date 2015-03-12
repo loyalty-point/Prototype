@@ -191,6 +191,7 @@
     <!--<color name="LightPrimaryColor">#ffced7db</color>-->
     <color name="LightPrimaryColor">#ffbdbadd</color>
     <color name="TextIcons">#fffefefe</color>
+    <color name="TextIconsHide">#aafefefe</color>
     <color name="AccentColor">#ff4bae4f</color>
     <color name="PrimaryText">#ff202020</color>
     <color name="SecondaryText">#ff717171</color>

@@ -10,9 +10,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
     private final String[] TITLES = {"Shop Home", "Sales", "Awards", "Users", "Relatives"};
+    private String shopId = null;
 
-    public ShopDetailTabPagerAdapter(FragmentManager fm) {
+    public ShopDetailTabPagerAdapter(FragmentManager fm, String shopId) {
         super(fm);
+        this.shopId = shopId;
     }
 
     @Override
@@ -28,15 +30,15 @@ public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 //            return ShopDetailFragment.newInstance(position);
-        if(position == 0)
-            return new ShopDetailFragment(position);
-        else if(position == 1)
-            return new ShopSalesFragment(position);
-        else if(position == 2)
-            return new ShopAwardsFragment(position);
-        else if(position == 3)
-            return new ShopUserFragment(position);
+        if (position == 0)
+            return new ShopDetailFragment(position, shopId);
+        else if (position == 1)
+            return new ShopSalesFragment(position, shopId);
+        else if (position == 2)
+            return new ShopAwardsFragment(position, shopId);
+        else if (position == 3)
+            return new ShopUserFragment(position, shopId);
         else
-            return new ShopRelativeFragment(position);
+            return new ShopRelativeFragment(position, shopId);
     }
 }

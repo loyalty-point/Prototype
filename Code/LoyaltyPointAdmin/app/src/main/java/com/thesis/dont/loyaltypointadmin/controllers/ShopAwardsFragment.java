@@ -24,7 +24,7 @@ public class ShopAwardsFragment extends Fragment {
 
     private int position;
 
-    public ShopAwardsFragment(int position){
+    public ShopAwardsFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);
