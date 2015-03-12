@@ -47,13 +47,15 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addSection(sectionTop2);
 
         // add section to the bottom list
-        MaterialSection sectionBottom1 = newSection("Settings", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
-        MaterialSection sectionBottom2 = newSection("Help & Feedback", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom1 = newSection("Settings", R.drawable.settings, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom2 = newSection("Help & Feedback", R.drawable.help_icon, new Intent(this, SettingsActivity.class));
         MaterialSection sectionBottom3 = newSection("About", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
+        MaterialSection sectionBottom4 = newSection("Log Out", R.drawable.ic_user, new Intent(this, SettingsActivity.class));
 
         addBottomSection(sectionBottom1);
         addBottomSection(sectionBottom2);
         addBottomSection(sectionBottom3);
+        addBottomSection(sectionBottom4);
 
         // add section to the account list
         MaterialSection sectionAccount1 = newSection("Nguyễn Tấn Đô", R.drawable.ic_user, new Intent(this, ShopsListActivity.class));

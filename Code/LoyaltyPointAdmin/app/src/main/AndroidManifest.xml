@@ -41,8 +41,6 @@
             android:name=".controllers.ShopDetailActivity"
             android:label="@string/title_activity_detail_shop"
             android:theme="@style/NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
         </activity>
         <activity

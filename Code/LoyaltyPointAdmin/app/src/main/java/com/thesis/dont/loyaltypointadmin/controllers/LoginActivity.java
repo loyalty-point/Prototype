@@ -64,6 +64,7 @@ public class LoginActivity extends ActionBarActivity {
                         //Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
                         Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override
