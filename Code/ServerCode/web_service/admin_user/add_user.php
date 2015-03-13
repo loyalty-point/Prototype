@@ -1,4 +1,4 @@
-<?php
+  <?php
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
