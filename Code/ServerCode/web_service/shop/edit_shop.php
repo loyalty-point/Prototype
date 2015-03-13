@@ -4,7 +4,7 @@ $database_localhost ="loyaltypoint";
 $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $shop = $_POST['shop_id'];
 $token = $_POST['token'];
 
@@ -57,9 +57,7 @@ else  {
     		  . "', exchange_ratio = '" . $shop->exchange_ratio 
     		  . "', address = '" . $shop->address 
               . "' where id = '" . $shop_id . "'";  
-
-
-	mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+               
     $query_exec = mysqli_query($localhost, $query);
 
     if($query_exec)

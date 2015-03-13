@@ -4,7 +4,7 @@ $database_localhost ="loyaltypoint";
 $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $shop = $_POST['shop'];
 $token = $_POST['token'];
 $shop = json_decode($shop); //chuyển từ string sang json.
@@ -34,7 +34,7 @@ $query = "insert into shop values ('"
 							.$shop->category."','"
 							.$shop->exchange_ratio."','"
 							.$shop->image."')";  //insert vào database
-mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec){

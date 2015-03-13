@@ -4,6 +4,7 @@ $database_localhost ="loyaltypoint";
 $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 
 $token = $_POST['token'];
 
@@ -27,7 +28,7 @@ if($username == ""){
 
 /* check exist shop id in "admin_shop" table*/
 $query = "select * from admin_shop where admin_username='".$username."'";
-mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+
 $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
