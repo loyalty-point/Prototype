@@ -61,13 +61,6 @@ public class ShopsListMainFragment extends Fragment {
 
         CustomListView = (ShopsListActivity) getActivity();
         setListData(); //set data to list
-
-        Resources res =getResources();
-        list= (ActionSlideExpandableListView) getActivity().findViewById(R.id.shop_list);  // List defined in XML ( See Below )
-
-
-        adapter=new CustomShopListAdapter( CustomListView, CustomListViewValuesArr,res );
-        list.setAdapter(adapter);
     }
 
     @Override
@@ -108,13 +101,16 @@ public class ShopsListMainFragment extends Fragment {
                             @Override
                             public void onClick(View listView, View buttonview, int position) { //implement some operation when click the button of the card.
 
-                                String actionName = "";
                                 if (buttonview.getId() == R.id.details_button) {
+                                    // Details
                                     Intent i = new Intent(getActivity(), ShopDetailActivity.class);
                                     i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
                                     startActivity(i);
                                 } else {
-                                    actionName = "edit button";
+                                    // Edit
+                                    Intent i = new Intent(getActivity(), EditShopActivity.class);
+                                    i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
+                                    startActivity(i);
                                 }
                             }
 
@@ -132,7 +128,7 @@ public class ShopsListMainFragment extends Fragment {
                 Log.e("error", error);
             }
         });
-//        ShopModel.getListShop(Global.userToken);
-        ShopModel.getListShop("4f9aab34a15368a50069cde837365ebc6e6ace46c169880a2ffad300d40e7edf");
+        ShopModel.getListShop(Global.userToken);
+        //ShopModel.getListShop("4f9aab34a15368a50069cde837365ebc6e6ace46c169880a2ffad300d40e7edf");
     }
 }

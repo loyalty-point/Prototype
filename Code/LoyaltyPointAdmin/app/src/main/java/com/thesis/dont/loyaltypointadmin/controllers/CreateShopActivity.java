@@ -1,25 +1,19 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
@@ -27,11 +21,8 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.thesis.dont.loyaltypointadmin.models.User;
-import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class CreateShopActivity extends ActionBarActivity {
 
@@ -50,11 +41,6 @@ public class CreateShopActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_shop);
 
-        /*Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            token = extras.getString("TOKEN");
-        }*/
-
         mCategory = (Spinner) findViewById(R.id.shopcategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -70,7 +56,7 @@ public class CreateShopActivity extends ActionBarActivity {
         mAddress = (EditText) findViewById(R.id.shopAddress);
         mAgreeTerm = (CheckBox) findViewById(R.id.agreeTerm);
 
-        final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.createBtn);
+        final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
         ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
 
         if(mAgreeTerm.isChecked()) {

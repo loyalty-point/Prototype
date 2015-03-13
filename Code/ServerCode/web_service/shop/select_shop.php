@@ -41,7 +41,7 @@ $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 
 $rows = mysqli_num_rows($query_exec);
 
-if($rows == 0) {//Shop không có
+if($rows == 0) { //Shop không có
     echo "";
 }
 else  {
