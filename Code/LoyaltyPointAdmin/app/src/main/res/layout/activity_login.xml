@@ -45,6 +45,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="@integer/user_name_maxLength"
                 android:singleLine="true"
                 android:hint="@string/username"
                 android:textStyle="italic"
@@ -74,6 +75,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="@integer/password_maxLength"
                 android:layout_toRightOf="@id/passwordIcon"
                 android:password="true"
                 android:singleLine="true"
@@ -99,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rememberMe"
-            android:background="@color/MaterialBlue"
+            android:background="@color/DarkPrimaryColor"
             materialdesign:rippleSpeed="70"
             android:text="LOGIN"
             android:textSize="@dimen/font_size"/>
@@ -153,7 +155,7 @@
             android:layout_below="@id/facebookLogin"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:background="@color/MaterialGreen"
+            android:background="@color/AccentColor"
             materialdesign:rippleSpeed="70"
             android:text="REGISTER"
             android:textSize="@dimen/font_size" />

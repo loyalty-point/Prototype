@@ -115,13 +115,13 @@ public class ShopModel {
                     }
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnCreateShopResult.onError("UnsupportedEncodingException");
+                    mOnGetShopInfoResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnCreateShopResult.onError("ClientProtocolException");
+                    mOnGetShopInfoResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnCreateShopResult.onError("IOException");
+                    mOnGetShopInfoResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -129,20 +129,23 @@ public class ShopModel {
         t.start();
     }
 
-    public static void editShop(final String token, final String shopID){
+    public static void editShop(final String token, final String shopID, Shop shop){
+
+        final String json = Helper.objectToJson(shop);
 
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetShopInfo();
+                String link = getEditShopInfo();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(2);
+                nameValuePairs = new ArrayList<NameValuePair>(3);
 
+                nameValuePairs.add(new BasicNameValuePair("shop", json));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
@@ -152,21 +155,20 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
-                        mOnGetShopInfoResult.onError(response);
-                    else {
-                        Shop shop = (Shop) Helper.jsonToObject(response, Shop.class);
-                        mOnGetShopInfoResult.onSuccess(shop);
-                    }
+
+                    if(response.equals("true"))
+                        mOnEditShopInfoResult.onSuccess();
+                    else
+                        mOnEditShopInfoResult.onError(response);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnCreateShopResult.onError("UnsupportedEncodingException");
+                    mOnEditShopInfoResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnCreateShopResult.onError("ClientProtocolException");
+                    mOnEditShopInfoResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnCreateShopResult.onError("IOException");
+                    mOnEditShopInfoResult.onError("IOException");
                     e.printStackTrace();
                 }
             }

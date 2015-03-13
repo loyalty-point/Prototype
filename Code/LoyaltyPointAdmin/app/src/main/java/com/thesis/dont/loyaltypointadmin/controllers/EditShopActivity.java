@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +110,7 @@ public class EditShopActivity extends ActionBarActivity {
                 }
 
                 // Kiểm tra shopname hợp lệ
-                if(Helper.checkUserName(shopname)) {
+                if(Helper.checkShopName(shopname)) {
                     Toast.makeText(EditShopActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -117,12 +118,13 @@ public class EditShopActivity extends ActionBarActivity {
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để cập nhật thông tin shop
                 Shop shop = new Shop(shopname, address, phone, category, Float.valueOf(exchangeRatio), (shopLogo != null)?shopLogo.toString():null);
-                ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
+                ShopModel.setOnEditShopInfoResult(new ShopModel.OnEditShopInfoResult() {
                     @Override
                     public void onSuccess() {
-                        // Tạo shop thành công
+                        // Cập nhật shop thành công
                         Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override
@@ -131,13 +133,14 @@ public class EditShopActivity extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // Tạo shop không thành công
+                                // Cập nhật shop không thành công
                                 Toast.makeText(EditShopActivity.this, exception, Toast.LENGTH_LONG).show();
+                                Log.e("edit shop", exception);
                             }
                         });
                     }
                 });
-                ShopModel.createShop(shop, Global.userToken);
+                ShopModel.editShop(Global.userToken, shopID, shop);
             }
         });
 

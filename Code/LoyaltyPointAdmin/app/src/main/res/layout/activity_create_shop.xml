@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:background="@color/MaterialGreen"
+            android:background="@color/AccentColor"
             android:text="Create"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
@@ -77,6 +77,7 @@
                 android:id="@+id/shopname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="@integer/shop_name_maxLength"
                 android:focusable="true"
                 android:hint="shop name"
                 android:singleLine="true"
@@ -107,6 +108,7 @@
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="@integer/phone_maxLength"
                 android:hint="phone number"
                 android:phoneNumber="true"
                 android:singleLine="true"
@@ -157,6 +159,7 @@
                 android:id="@+id/exchangeRatio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="@integer/exchange_ratio_maxLength"
                 android:hint="exchange ratio"
                 android:phoneNumber="true"
                 android:singleLine="true"
@@ -188,6 +191,7 @@
                 android:focusable="true"
                 android:hint="shop address"
                 android:singleLine="true"
+                android:maxLength="@integer/shop_address_maxLength"
                 android:textStyle="italic"
                 android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>

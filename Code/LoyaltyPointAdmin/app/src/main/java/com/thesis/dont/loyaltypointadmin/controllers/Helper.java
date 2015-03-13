@@ -44,16 +44,16 @@ public class Helper {
     }
 
     public static boolean checkPassword(String password) {
-        // check size (trên 6 kí tự, dưới 20 kí tự)
-        if(password.length() < 6 || password.length() > 20)
+        // check size (trên 6 kí tự)
+        if(password.length() < 6)
             return true;
 
         return false;
     }
 
     public static boolean checkUserName(String username) {
-        // check size (trên 6 kí tự, dưới 20 kí tự)
-        if(username.length() < 6 || username.length() > 20)
+        // check size (trên 6 kí tự)
+        if(username.length() < 6)
             return true;
 
         // check kí tự đặc biệt (username chỉ chứa kí tự và số)
@@ -62,6 +62,14 @@ public class Helper {
             if(c < '0' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a') || c > 'z')
                 return true;
         }
+
+        return false;
+    }
+
+    public static boolean checkShopName(String shopname) {
+        // check size (trên 2 kí tự)
+        if(shopname.length() < 2)
+            return true;
 
         return false;
     }
