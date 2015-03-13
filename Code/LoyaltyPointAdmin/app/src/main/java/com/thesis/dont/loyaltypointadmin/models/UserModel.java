@@ -57,7 +57,7 @@ public class UserModel {
                 nameValuePairs.add(new BasicNameValuePair("user", json));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
@@ -100,7 +100,7 @@ public class UserModel {
                 nameValuePairs.add(new BasicNameValuePair("hashpass", fHashpass));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
@@ -152,7 +152,6 @@ public class UserModel {
     public static void setOnLoginResult(OnLoginResult mOnLoginResult) {
         UserModel.mOnLoginResult = mOnLoginResult;
     }
-
 
     public static OnRegisterResult getOnRegisterResult() {
         return mOnRegisterResult;

@@ -1,4 +1,13 @@
 <?php
+
+function fixBadUnicodeForJson($str) {
+    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2")).chr(hexdec("$3")).chr(hexdec("$4"))', $str);
+    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2")).chr(hexdec("$3"))', $str);
+    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2"))', $str);
+    $str = preg_replace("/\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1"))', $str);
+    return $str;
+}
+
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -47,8 +56,20 @@ if($rows == 0) { //Shop không có
 else  {
 	// Edit shop
     $shop = $_POST['shop'];
+
+    $isUTF8 = mb_check_encoding($shop, 'UTF-8');
+
+    if(!$isUTF8) {
+    	$shop = utf8_encode($shop);
+    }
+
+    $shop = utf8_decode($shop);
     
-    $shop = json_decode($shop); //chuyển từ string sang json.
+    /*echo($shop);
+    die();*/
+    
+    /*$shop = json_decode($shop); //chuyển từ string sang json.
+    echo $shop->name;*/
 
     $query = "update shop " 
     		  . "set name = '" . $shop->name 
@@ -58,8 +79,8 @@ else  {
     		  . "', address = '" . $shop->address 
               . "' where id = '" . $shop_id . "'";
 
-    // echo($shop->name);
-    // die();   
+    /*echo($shop->name);
+    die();  */ 
 
     // echo($query);
     // die();

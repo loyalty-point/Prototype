@@ -2,16 +2,20 @@ package com.thesis.dont.loyaltypointadmin.models;
 
 import com.thesis.dont.loyaltypointadmin.controllers.Helper;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -59,7 +63,7 @@ public class ShopModel {
                 nameValuePairs.add(new BasicNameValuePair("token", token_string));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
@@ -102,7 +106,7 @@ public class ShopModel {
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
@@ -150,8 +154,22 @@ public class ShopModel {
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+                        public String handleResponse(final HttpResponse response)
+                                throws HttpResponseException, IOException {
+                            StatusLine statusLine = response.getStatusLine();
+                            if (statusLine.getStatusCode() >= 300) {
+                                throw new HttpResponseException(statusLine.getStatusCode(),
+                                        statusLine.getReasonPhrase());
+                            }
+
+                            HttpEntity entity = response.getEntity();
+                            return entity == null ? null : EntityUtils.toString(entity, "UTF-8");
+                        }
+                    };
+
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
@@ -193,7 +211,7 @@ public class ShopModel {
                 nameValuePairs.add(new BasicNameValuePair("token", token_string));
 
                 try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String response = null;
 
