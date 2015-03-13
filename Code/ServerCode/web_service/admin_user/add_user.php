@@ -17,7 +17,7 @@ $query = "insert into admin_users values ('"
 							.$user->address."','"
 							.$user->avatar."','"
 							.$user->token."')";  //insert vào database
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec)

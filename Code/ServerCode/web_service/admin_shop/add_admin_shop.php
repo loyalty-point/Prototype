@@ -24,7 +24,7 @@ if($username == ""){
 $query = "insert into admin_shop values ('"
 							.$username."','"
 							.$shop_id."')";  //insert vào database
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec)

@@ -47,23 +47,19 @@ if($rows == 0) { //Shop không có
 else  {
 	// Edit shop
     $shop = $_POST['shop'];
-    
+
     $shop = json_decode($shop); //chuyển từ string sang json.
 
     $query = "update shop " 
-    		  . "set name = '" . $shop->name 
+    		  . "set name = '" . $shop->name
     		  . "', phone_number = '" . $shop->phone_number 
     		  . "', category = '" . $shop->category 
     		  . "', exchange_ratio = '" . $shop->exchange_ratio 
     		  . "', address = '" . $shop->address 
-              . "' where id = '" . $shop_id . "'";
+              . "' where id = '" . $shop_id . "'";  
 
-    // echo($shop->name);
-    // die();   
 
-    // echo($query);
-    // die();
-
+	mysqli_query($localhost,"SET NAMES 'UTF8'"); 
     $query_exec = mysqli_query($localhost, $query);
 
     if($query_exec)
