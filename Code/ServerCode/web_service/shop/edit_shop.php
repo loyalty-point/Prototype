@@ -1,19 +1,11 @@
 <?php
 
-function fixBadUnicodeForJson($str) {
-    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2")).chr(hexdec("$3")).chr(hexdec("$4"))', $str);
-    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2")).chr(hexdec("$3"))', $str);
-    $str = preg_replace("/\\\\u00([0-9a-f]{2})\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1")).chr(hexdec("$2"))', $str);
-    $str = preg_replace("/\\\\u00([0-9a-f]{2})/e", 'chr(hexdec("$1"))', $str);
-    return $str;
-}
-
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $shop = $_POST['shop_id'];
 $token = $_POST['token'];
 
@@ -57,8 +49,7 @@ else  {
 	// Edit shop
     $shop = $_POST['shop'];
 
-    /*echo($shop);
-    die();*/
+    
     
     $shop = json_decode($shop); //chuyển từ string sang json.
 
@@ -68,10 +59,9 @@ else  {
     		  . "', category = '" . $shop->category 
     		  . "', exchange_ratio = '" . $shop->exchange_ratio 
     		  . "', address = '" . $shop->address 
-              . "' where id = '" . $shop_id . "'";
-
-
-	mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+              
+	
+               
     $query_exec = mysqli_query($localhost, $query);
 
     if($query_exec)
