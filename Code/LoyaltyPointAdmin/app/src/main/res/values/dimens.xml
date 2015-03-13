@@ -2,6 +2,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">@dimen/_10sdp</dimen>
     <dimen name="activity_vertical_margin">@dimen/_10sdp</dimen>
+    <dimen name="activity_horizontal_margin_button">@dimen/_8sdp</dimen>
+    <dimen name="activity_vertical_margin_button">@dimen/_8sdp</dimen>
 
     <dimen name="activity_flet_padding">@dimen/_3sdp</dimen>
 

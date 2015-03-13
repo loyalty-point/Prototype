@@ -16,24 +16,14 @@ import butterknife.ButterKnife;
 public class ShopDetailFragment extends Fragment {
     private static final String ARG_POSITION = "position";
 
-//    @InjectView(R.id.textView)
-    TextView textView;
-
     private int position;
+
 
     public ShopDetailFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);
     }
-
-//    public static ShopDetailFragment newInstance(int position) {
-//        ShopDetailFragment f = new ShopDetailFragment();
-//        Bundle b = new Bundle();
-//        b.putInt(ARG_POSITION, position);
-//        f.setArguments(b);
-//        return f;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +35,6 @@ public class ShopDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shop_detail,container,false);
         ButterKnife.inject(this, rootView);
-
         ViewCompat.setElevation(rootView, 50);
         return rootView;
     }
@@ -53,8 +42,6 @@ public class ShopDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView = (TextView)getActivity().findViewById(R.id.textView);
-        textView.setText("CARD " + position);
 
     }
 }

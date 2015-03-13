@@ -1,12 +1,68 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopDetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:id="@+id/textView"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp">
 
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </fragment>
+
+        <ImageView
+            android:id="@+id/shopImg"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="#000" />
+
+        <TextView
+            android:id="@+id/shopName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/shopImg"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_toRightOf="@id/shopImg"
+            android:text="KFC Vinh Vien"
+            android:textColor="#000"
+            android:textSize="@dimen/font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shopName"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/shopImg"
+            android:text="*****"
+            android:textColor="#000"
+            android:textSize="@dimen/font_size" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/callButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_below="@id/rating"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_button"
+            android:layout_toRightOf="@id/shopImg"
+            android:background="@color/MaterialBlue"
+            android:text="CALL"
+            android:textSize="@dimen/font_size"
+            materialdesign:rippleSpeed="70" />
+
+    </RelativeLayout>
 </FrameLayout>
