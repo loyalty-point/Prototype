@@ -3,6 +3,14 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import com.google.gson.Gson;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
@@ -98,5 +106,21 @@ public class Helper {
         }
 
         return false;
+    }
+
+    public static ResponseHandler<String> getResponseHandler() {
+        return new ResponseHandler<String>() {
+            public String handleResponse(final HttpResponse response)
+                    throws HttpResponseException, IOException {
+                StatusLine statusLine = response.getStatusLine();
+                if (statusLine.getStatusCode() >= 300) {
+                    throw new HttpResponseException(statusLine.getStatusCode(),
+                            statusLine.getReasonPhrase());
+                }
+
+                HttpEntity entity = response.getEntity();
+                return entity == null ? null : EntityUtils.toString(entity, "UTF-8");
+            }
+        };
     }
 }

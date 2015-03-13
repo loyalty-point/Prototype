@@ -58,7 +58,8 @@ public class UserModel {
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
@@ -101,7 +102,8 @@ public class UserModel {
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler); //tr? v? ki?u {"error":"","token":""}

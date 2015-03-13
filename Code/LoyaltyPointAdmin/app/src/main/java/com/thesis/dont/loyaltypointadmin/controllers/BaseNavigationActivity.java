@@ -66,5 +66,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         getToolbar().setTitleTextColor(getResources().getColor(R.color.TextIcons));
         getToolbar().setNavigationIcon(R.drawable.navigation_icon);
         //getToolbar().navigation
+
+        disableLearningPattern();
     }
 }

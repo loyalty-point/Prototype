@@ -36,7 +36,7 @@ if($shop_id == ""){
 /**/
 
 $query_search = "select * from shop where id='".$shop_id."'";
-
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 
 $rows = mysqli_num_rows($query_exec);

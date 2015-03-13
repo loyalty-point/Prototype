@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -41,6 +42,8 @@ public class ShopDetailActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }

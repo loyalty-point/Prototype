@@ -60,8 +60,7 @@ else  {
     /*echo($shop);
     die();*/
     
-    /*$shop = json_decode($shop); //chuyển từ string sang json.
-    echo $shop->name;*/
+    $shop = json_decode($shop); //chuyển từ string sang json.
 
     $query = "update shop " 
     		  . "set name = '" . $shop->name
@@ -69,7 +68,7 @@ else  {
     		  . "', category = '" . $shop->category 
     		  . "', exchange_ratio = '" . $shop->exchange_ratio 
     		  . "', address = '" . $shop->address 
-              . "' where id = '" . $shop_id . "'";  
+              . "' where id = '" . $shop_id . "'";
 
 
 	mysqli_query($localhost,"SET NAMES 'UTF8'"); 
