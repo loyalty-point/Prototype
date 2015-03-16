@@ -86,6 +86,7 @@ public class EditShopActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
             }
@@ -123,6 +124,7 @@ public class EditShopActivity extends ActionBarActivity {
                     public void onSuccess() {
                         // Cập nhật shop thành công
                         Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                         finish();
                     }

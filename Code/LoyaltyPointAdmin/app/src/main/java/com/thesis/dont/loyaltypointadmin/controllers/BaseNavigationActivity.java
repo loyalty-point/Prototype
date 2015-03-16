@@ -3,11 +3,14 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
@@ -16,6 +19,7 @@ import com.thesis.dont.loyaltypointadmin.models.UserModel;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
 
 /**
  * Created by 11120_000 on 09/03/15.
@@ -50,7 +54,21 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         MaterialSection sectionBottom1 = newSection("Settings", R.drawable.ic_settings, new Intent(this, SettingsActivity.class));
         MaterialSection sectionBottom2 = newSection("Help & Feedback", R.drawable.ic_help, new Intent(this, SettingsActivity.class));
         MaterialSection sectionBottom3 = newSection("About", R.drawable.ic_about, new Intent(this, SettingsActivity.class));
-        MaterialSection sectionBottom4 = newSection("Log Out", R.drawable.ic_logout, new Intent(this, LoginActivity.class));
+        MaterialSection sectionBottom4 = newSection("Log Out", R.drawable.ic_logout, new MaterialSectionListener() {
+            @Override
+            public void onClick(MaterialSection materialSection) {
+                // Xóa token trong shared preferences
+                SharedPreferences preferences = getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(LoginActivity.TOKEN, "");
+
+                editor.commit();
+
+                Intent i = new Intent(materialSection.getView().getContext(), LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         addBottomSection(sectionBottom1);
         addBottomSection(sectionBottom2);

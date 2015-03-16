@@ -1,6 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,12 +21,28 @@ import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 public class LoginActivity extends ActionBarActivity {
 
+    public static final String LOGIN_STATE = "login_state";
+    public static final String TOKEN = "token";
+
     EditText mUsername, mPassword;
+    CheckBox mRememberMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences preference = (SharedPreferences) getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
+        Global.userToken = preference.getString(TOKEN, "");
+        if(!Global.userToken.equals("")) {
+            // Đã lưu trạng thái đăng nhập
+            Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+            startActivity(i);
+            finish();
+            return;
+        }
+
+        mRememberMe = (CheckBox) findViewById(R.id.rememberMe);
 
         mUsername = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
@@ -49,7 +68,7 @@ public class LoginActivity extends ActionBarActivity {
 
                 // Kiểm tra password hợp lệ
                 if(Helper.checkPassword(password)) {
-                    Toast.makeText(LoginActivity.this, "password is not valid", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "password must contain at least 6 characters", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -61,7 +80,16 @@ public class LoginActivity extends ActionBarActivity {
                     public void onSuccess(String token) {
                         // Đăng nhập thành công
                         Global.userToken = token;
-                        //Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+
+                        if(mRememberMe.isChecked()) {
+                            // Lưu token vào trong shared preferences
+                            SharedPreferences preferences = getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString(TOKEN, token);
+
+                            editor.commit();
+                        }
+
                         Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
                         startActivity(i);
                         finish();
@@ -88,6 +116,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }
