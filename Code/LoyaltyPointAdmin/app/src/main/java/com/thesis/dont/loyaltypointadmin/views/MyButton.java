@@ -5,4 +5,5 @@ package com.thesis.dont.loyaltypointadmin.views;
  */
 public class MyButton {
 	String text;
+	String testCommit;
 }
