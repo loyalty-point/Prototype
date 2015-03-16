@@ -1,4 +1,4 @@
-  <?php
+<?php
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -21,8 +21,8 @@ $query = "insert into admin_users values ('"
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec)
-	echo 'true'; //insert thành công.
-else 
+	echo 'true';
+else
 	echo 'false'; //insert không thành công vì đã có username
 
 mysqli_close($localhost);

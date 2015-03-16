@@ -1,7 +1,5 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
@@ -16,7 +14,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 import butterknife.ButterKnife;
 
 
-public class ShopSalesFragment extends Fragment {
+public class ShopEventsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
 
     //    @InjectView(R.id.textView)
@@ -24,7 +22,7 @@ public class ShopSalesFragment extends Fragment {
 
     private int position;
 
-    public ShopSalesFragment(int position, String shopId){
+    public ShopEventsFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);
@@ -46,7 +44,7 @@ public class ShopSalesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_sales,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_shop_events,container,false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
