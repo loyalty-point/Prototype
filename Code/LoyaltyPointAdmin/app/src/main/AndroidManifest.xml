@@ -35,13 +35,11 @@
             android:name=".controllers.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/NoActionBar" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".controllers.CreateShopActivity"
@@ -82,7 +80,10 @@
         <activity
             android:name=".controllers.CreateEventActivity"
             android:label="@string/title_activity_create_event" >
-
+        </activity>
+        <activity
+            android:name=".controllers.CreateAwardActivity"
+            android:label="@string/title_activity_create_award" >
         </activity>
     </application>
 

@@ -93,7 +93,7 @@ public class CreateShopActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
+                photoPickerIntent.setType("awardImage/*");
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
             }
         });
@@ -220,7 +220,7 @@ public class CreateShopActivity extends ActionBarActivity {
 
     private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
 
-        // Decode image size
+        // Decode awardImage size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o);

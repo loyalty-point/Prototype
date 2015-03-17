@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/awardImage"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:background="@drawable/ic_award"/>
+
+    <TextView
+        android:id="@+id/awardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/awardImage"/>
+
+    <TextView
+        android:id="@+id/awardPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/awardImage"
+        android:layout_below="@id/awardName"/>
+
+    <TextView
+        android:id="@+id/awardQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/awardImage"
+        android:layout_below="@id/awardPoint"/>
+
+</RelativeLayout>
