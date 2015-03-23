@@ -105,6 +105,7 @@ public class ShopsListMainFragment extends Fragment {
                                     // Details
                                     Intent i = new Intent(getActivity(), ShopDetailActivity.class);
                                     i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
+                                    i.putExtra(Global.SHOP_NAME, CustomListViewValuesArr.get(position).getName());
                                     startActivity(i);
                                 } else {
                                     // Edit

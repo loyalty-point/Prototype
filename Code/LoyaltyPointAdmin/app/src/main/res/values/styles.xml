@@ -35,6 +35,11 @@
         <item name="android:popupBackground">#DFFFFFFF</item>
     </style>
 
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/TextIcons</item>
+    </style>
+
     <style name="MyNavigationDrawerTheme" parent="MaterialNavigationDrawerTheme.Light">
         <item name="colorPrimary">@color/PrimaryColor</item>
         <item name="colorPrimaryDark">@color/DarkPrimaryColor</item>
@@ -42,7 +47,7 @@
         <item name="android:textColorPrimary">@color/PrimaryText</item>
         <item name="android:textColorSecondary">@color/SecondaryText</item>
         <item name="android:divider">@color/DividerColor</item>
-
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
 
         <!--<item name="android:titleTextStyle">@style/TitleStyle</item>-->

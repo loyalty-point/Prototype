@@ -55,5 +55,6 @@
     <string name="title_activity_edit_shop">EditShopActivity</string>
     <string name="title_activity_create_event">CreateEventActivity</string>
     <string name="title_activity_create_event1_fragment">CreateEvent1Fragment</string>
+    <string name="title_activity_create_award">CreateAwardActivity</string>
 
 </resources>

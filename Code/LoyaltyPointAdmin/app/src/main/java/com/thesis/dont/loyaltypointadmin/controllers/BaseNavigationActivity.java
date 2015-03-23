@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
@@ -35,7 +36,8 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         int color[] = {R.color.MaterialDeepOrange};
         Bitmap bm = Bitmap.createBitmap(color, 1, 1, Bitmap.Config.ARGB_8888);
         //bm.eraseColor(R.color.MaterialDeepOrange);
-        account.setBackground(bm);
+        //account.setBackground(bm);
+        account.setBackground(R.drawable.account_background);
 
         //account.setBackground(R.color.MaterialBlueGrey);
         this.addAccount(account);
@@ -81,8 +83,19 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addAccountSection(sectionAccount1);
         addAccountSection(sectionAccount2);
 
-        getToolbar().setTitleTextColor(getResources().getColor(R.color.TextIcons));
-        getToolbar().setNavigationIcon(R.drawable.navigation_icon);
+        /*getToolbar().setTitleTextColor(getResources().getColor(R.color.TextIcons));
+        getToolbar().setNavigationIcon(R.drawable.navigation_icon);*/
+        //getSupportActionBar().setIcon(R.drawable.navigation_icon);
+
+        android.support.v7.widget.Toolbar toolbar = getToolbar();
+        setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationIcon(R.drawable.navigation_icon);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.TextIcons));
+
+
         //getToolbar().navigation
 
         disableLearningPattern();

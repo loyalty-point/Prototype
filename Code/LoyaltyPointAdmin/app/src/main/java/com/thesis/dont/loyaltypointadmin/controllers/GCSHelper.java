@@ -30,7 +30,7 @@ public class GCSHelper {
                 GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                awardImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
                 GcsFilename file = new GcsFilename(bucketName, fileName);

@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,15 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Award;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -21,6 +28,9 @@ public class ShopAwardsFragment extends Fragment {
 
     //    @InjectView(R.id.textView)
     TextView textView;
+
+    ListView mListView;
+    AwardsListAdapter mAdapter;
 
     private int position;
 
@@ -55,8 +65,25 @@ public class ShopAwardsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView = (TextView)getActivity().findViewById(R.id.textView2);
-        textView.setText("CARD " + position);
+        /*textView = (TextView)getActivity().findViewById(R.id.textView2);
+        textView.setText("CARD " + position);*/
+
+        ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
+        createAwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CreateAwardActivity.class);
+                startActivity(i);
+            }
+        });
+
+        // Lấy danh sách awards của shop về
+        // Tạo và set adapter cho listview
+        List<Award> list = new ArrayList<Award>();
+        list.add(new Award("award 1", 100, 500, "http://award.image"));
+        mAdapter = new AwardsListAdapter(getActivity(), list);
+        mListView = (ListView) getActivity().findViewById(R.id.listAwards);
+        mListView.setAdapter(mAdapter);
     }
 
 }
