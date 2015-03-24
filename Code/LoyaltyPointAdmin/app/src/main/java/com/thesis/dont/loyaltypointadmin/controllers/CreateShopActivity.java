@@ -3,7 +3,6 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -24,7 +23,6 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class CreateShopActivity extends ActionBarActivity {
 
@@ -59,10 +57,10 @@ public class CreateShopActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         mCategory.setAdapter(adapter);
 
-        mShopName = (EditText) findViewById(R.id.shopname);
-        mPhone = (EditText) findViewById(R.id.phone);
-        mExchangeRatio = (EditText) findViewById(R.id.exchangeRatio);
-        mAddress = (EditText) findViewById(R.id.shopAddress);
+        mShopName = (EditText) findViewById(R.id.awardName);
+        mPhone = (EditText) findViewById(R.id.point);
+        mExchangeRatio = (EditText) findViewById(R.id.quantity);
+        mAddress = (EditText) findViewById(R.id.description);
         mAgreeTerm = (CheckBox) findViewById(R.id.agreeTerm);
 
         final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);

@@ -3,7 +3,6 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -49,7 +48,7 @@ public class EditShopActivity extends ActionBarActivity {
         setContentView(R.layout.activity_edit_shop);
 
         mPicasso = Picasso.with(this);
-        mPicasso.setIndicatorsEnabled(true);
+        /*mPicasso.setIndicatorsEnabled(true);*/
 
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Uploading shop logo");
@@ -68,10 +67,10 @@ public class EditShopActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         mCategory.setAdapter(mCategoryAdapter);
 
-        mShopName = (EditText) findViewById(R.id.shopname);
-        mPhone = (EditText) findViewById(R.id.phone);
-        mExchangeRatio = (EditText) findViewById(R.id.exchangeRatio);
-        mAddress = (EditText) findViewById(R.id.shopAddress);
+        mShopName = (EditText) findViewById(R.id.awardName);
+        mPhone = (EditText) findViewById(R.id.point);
+        mExchangeRatio = (EditText) findViewById(R.id.quantity);
+        mAddress = (EditText) findViewById(R.id.description);
         shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
 
         shopLogoImgView.setOnClickListener(new View.OnClickListener() {

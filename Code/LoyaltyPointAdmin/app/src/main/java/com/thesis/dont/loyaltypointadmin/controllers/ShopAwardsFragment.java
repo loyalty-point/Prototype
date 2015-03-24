@@ -69,6 +69,7 @@ public class ShopAwardsFragment extends Fragment {
         textView.setText("CARD " + position);*/
 
         ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
+        createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
