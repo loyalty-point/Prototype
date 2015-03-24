@@ -24,6 +24,7 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class CreateShopActivity extends ActionBarActivity {
 
@@ -93,7 +94,7 @@ public class CreateShopActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("awardImage/*");
+                photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
             }
         });
@@ -129,24 +130,26 @@ public class CreateShopActivity extends ActionBarActivity {
                 // Show progress dialog
                 mDialog.show();
 
-                GCSHelper.uploadImage("loyalty-point-photos", "test", shopLogo, new GCSHelper.OnUploadImageResult() {
+                // Create shop
+                Shop shop = new Shop(shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
+                ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
                     @Override
-                    public void onComplete(String url) {
+                    public void onSuccess(ShopModel.CreateShopResult result) {
+                        // Tạo shop thành công
 
-                        // dismiss Progress Dialog
-                        runOnUiThread(new Runnable() {
+                        // Upload ảnh của shop lên server
+                        GCSHelper.uploadImage(CreateShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
                             @Override
-                            public void run() {
-                                mDialog.dismiss();
-                            }
-                        });
+                            public void onComplete() {
 
-                        // Create shop
-                        Shop shop = new Shop(shopname, address, phone, category, Float.valueOf(exchangeRatio), url);
-                        ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
-                            @Override
-                            public void onSuccess() {
-                                // Tạo shop thành công
+                                // dismiss Progress Dialog
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mDialog.dismiss();
+                                    }
+                                });
+
                                 Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
@@ -154,31 +157,32 @@ public class CreateShopActivity extends ActionBarActivity {
                             }
 
                             @Override
-                            public void onError(String e) {
-                                final String exception = e;
+                            public void onError(final String error) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        // Tạo shop không thành công
-                                        Toast.makeText(CreateShopActivity.this, exception, Toast.LENGTH_LONG).show();
+                                        mDialog.dismiss();
+                                        Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
                         });
-                        ShopModel.createShop(shop, Global.userToken);
                     }
 
                     @Override
-                    public void onError(final String error) {
+                    public void onError(final String e) {
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                // Tạo shop không thành công
                                 mDialog.dismiss();
-                                Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
+                                Toast.makeText(CreateShopActivity.this, e, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 });
+                ShopModel.createShop(shop, Global.userToken);
             }
         });
 
@@ -201,51 +205,26 @@ public class CreateShopActivity extends ActionBarActivity {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
+
+                    // nén ảnh
                     try {
-                        shopLogo = decodeUri(selectedImage);
+                        shopLogo = Helper.decodeUri(this, selectedImage);
                         shopLogoImgView.setImageBitmap(shopLogo);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-                    /*InputStream imageStream = null;
+
+                    /*// không nén ảnh
+                    InputStream imageStream = null;
                     try {
                         imageStream = getContentResolver().openInputStream(selectedImage);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);*/
+                    shopLogo = BitmapFactory.decodeStream(imageStream);
+                    shopLogoImgView.setImageBitmap(shopLogo);*/
                 }
         }
-    }
-
-    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
-
-        // Decode awardImage size
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o);
-
-        // The new size we want to scale to
-        final int REQUIRED_SIZE = 140;
-
-        // Find the correct scale value. It should be the power of 2.
-        int width_tmp = o.outWidth, height_tmp = o.outHeight;
-        int scale = 1;
-        while (true) {
-            if (width_tmp / 2 < REQUIRED_SIZE
-                    || height_tmp / 2 < REQUIRED_SIZE) {
-                break;
-            }
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale *= 2;
-        }
-
-        // Decode with inSampleSize
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        return BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o2);
-
     }
 
     @Override
