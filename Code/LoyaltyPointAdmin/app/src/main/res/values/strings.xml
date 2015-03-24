@@ -24,6 +24,11 @@
         <item>Laptop</item>
     </string-array>
 
+    <string-array name="eventCategory">
+        <item>Type 1</item>
+        <item>Type 2</item>
+    </string-array>
+
     <array name="nav_drawer_icons">
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
@@ -49,6 +54,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_shop">EditShopActivity</string>
     <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="title_activity_create_event1_fragment">CreateEvent1Fragment</string>
     <string name="title_activity_create_award">CreateAwardActivity</string>
 
 </resources>
