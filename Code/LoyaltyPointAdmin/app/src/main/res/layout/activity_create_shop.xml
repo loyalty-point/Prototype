@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/exchange_ratio_maxLength"
                 android:hint="exchange ratio"
-                android:phoneNumber="true"
+                android:numeric="decimal"
                 android:singleLine="true"
                 android:textStyle="italic"
                 android:textSize="@dimen/font_size"/>

@@ -29,7 +29,7 @@
 
 
         <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/confirmBtn"
+            android:id="@+id/createEventBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -151,7 +151,7 @@
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
-                android:id="@+id/decription"
+                android:id="@+id/descriptionEdtText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -185,6 +185,7 @@
 
         <FrameLayout
             android:layout_below="@id/eventcategory"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
