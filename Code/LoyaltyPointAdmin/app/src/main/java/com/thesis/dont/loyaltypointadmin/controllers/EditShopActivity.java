@@ -1,7 +1,10 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,30 +13,48 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+
+import java.io.FileNotFoundException;
 
 public class EditShopActivity extends ActionBarActivity {
 
     String shopID;
 
     EditText mShopName, mPhone, mExchangeRatio, mAddress;
+    ImageView shopLogoImgView;
     Spinner mCategory;
+    ProgressDialog mDialog;
 
     ArrayAdapter<CharSequence> mCategoryAdapter;
 
     Bitmap shopLogo = null;
 
+    private static final int SELECT_PHOTO = 100;
+
+    static Picasso mPicasso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_shop);
+
+        mPicasso = Picasso.with(this);
+        mPicasso.setIndicatorsEnabled(true);
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Uploading shop logo");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
 
         Intent i = getIntent();
         shopID = i.getStringExtra("SHOP_ID");
@@ -51,6 +72,16 @@ public class EditShopActivity extends ActionBarActivity {
         mPhone = (EditText) findViewById(R.id.phone);
         mExchangeRatio = (EditText) findViewById(R.id.exchangeRatio);
         mAddress = (EditText) findViewById(R.id.shopAddress);
+        shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
+
+        shopLogoImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+            }
+        });
 
         // Load thông tin hiện tại của shop
         ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
@@ -64,6 +95,10 @@ public class EditShopActivity extends ActionBarActivity {
                         mCategory.setSelection(mCategoryAdapter.getPosition(shop.getCategory()));
                         mExchangeRatio.setText(String.valueOf(shop.getExchange_ratio()));
                         mAddress.setText(shop.getAddress());
+
+                        // Load ảnh
+                        //Picasso.with(EditShopActivity.this).cache.clear();
+                        mPicasso.load(shop.getImage()).into(shopLogoImgView);
                     }
                 });
             }
@@ -118,15 +153,49 @@ public class EditShopActivity extends ActionBarActivity {
 
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để cập nhật thông tin shop
-                Shop shop = new Shop(shopname, address, phone, category, Float.valueOf(exchangeRatio), (shopLogo != null)?shopLogo.toString():null);
+                // Show progress dialog
+                mDialog.show();
+
+                final Shop shop = new Shop(shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
                 ShopModel.setOnEditShopInfoResult(new ShopModel.OnEditShopInfoResult() {
                     @Override
-                    public void onSuccess() {
-                        // Cập nhật shop thành công
-                        Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                        finish();
+                    public void onSuccess(final ShopModel.EditShopResult result) {
+
+                        // edit shopLogo
+                        GCSHelper.editImage(EditShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnEditImageResult() {
+                            @Override
+                            public void onComplete() {
+
+                                // dismiss Progress Dialog
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mDialog.dismiss();
+                                    }
+                                });
+
+                                // clear cache on shopLogo
+                                String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
+                                mPicasso.invalidate(imageLink);
+
+                                // Cập nhật shop thành công
+                                Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(final String error) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mDialog.dismiss();
+                                        Toast.makeText(EditShopActivity.this, error, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
                     }
 
                     @Override
@@ -136,6 +205,7 @@ public class EditShopActivity extends ActionBarActivity {
                             @Override
                             public void run() {
                                 // Cập nhật shop không thành công
+                                mDialog.dismiss();
                                 Toast.makeText(EditShopActivity.this, exception, Toast.LENGTH_LONG).show();
                                 Log.e("edit shop", exception);
                             }
@@ -148,6 +218,35 @@ public class EditShopActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        //super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+
+                    // nén ảnh
+                    try {
+                        shopLogo = Helper.decodeUri(this, selectedImage);
+                        shopLogoImgView.setImageBitmap(shopLogo);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    /*// không nén ảnh
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    shopLogo = BitmapFactory.decodeStream(imageStream);
+                    shopLogoImgView.setImageBitmap(shopLogo);*/
+                }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

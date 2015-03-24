@@ -17,7 +17,7 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-	echo "wrong token";
+	echo '{"error":"wrong token", "shopID":"", "bucketName":"", "fileName":""}';
 	die();
 }
 /**/
@@ -31,7 +31,7 @@ $username = $row['admin_username'];
 $shop_id = $row['shop_id'];
 
 if($shop_id == ""){
-	echo "not your shop";
+	echo '{"error":"not your shop", "shopID":"", "bucketName":"", "fileName":""}';
 	die();
 }
 /**/
@@ -43,15 +43,18 @@ $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 $rows = mysqli_num_rows($query_exec);
 
 if($rows == 0) { //Shop không có
-    echo "shop does not exist";
+    echo '{"error":"shop does not exist", "shopID":"", "bucketName":"", "fileName":""}';
 }
 else  {
 	// Edit shop
     $shop = $_POST['shop'];
-
-    
     
     $shop = json_decode($shop); //chuyển từ string sang json.
+
+    $id = $shop_id;
+    $bucketName = "loyalty-point-photos";
+    $fileName = "shops/" . $id . "/shopLogo";
+    $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
 
     $query = "update shop " 
     		  . "set name = '" . $shop->name
@@ -59,15 +62,20 @@ else  {
     		  . "', category = '" . $shop->category 
     		  . "', exchange_ratio = '" . $shop->exchange_ratio 
     		  . "', address = '" . $shop->address 
+              . "', image = '" . $imageLink 
+              . "' where id = '" . $id . "'";
+
+              /*echo $query;
+              die();*/
               
 	
                
     $query_exec = mysqli_query($localhost, $query);
 
     if($query_exec)
-		echo 'true';
+		echo '{"error":"","shopID":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
 	else
-		echo 'false';
+		echo '{"error":"edit shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}';
 
 }
 mysqli_close($localhost);

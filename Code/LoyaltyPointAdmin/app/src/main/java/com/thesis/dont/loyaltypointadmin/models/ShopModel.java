@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import com.google.gson.Gson;
 import com.thesis.dont.loyaltypointadmin.controllers.Helper;
 
 import org.apache.http.HttpResponse;
@@ -64,10 +65,12 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("true"))
-                        mOnCreateShopResult.onSuccess();
+                    CreateShopResult result = (CreateShopResult) Helper.jsonToObject(response, CreateShopResult.class);
+                    if(result.error == "")
+                        mOnCreateShopResult.onSuccess(result);
                     else
-                        mOnCreateShopResult.onError(response);
+                        mOnCreateShopResult.onError(result.error);
+
                 } catch (UnsupportedEncodingException e) {
                     mOnCreateShopResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
@@ -81,6 +84,70 @@ public class ShopModel {
             }
         };
         t.start();
+    }
+
+    public static void editShop(final String token, final String shopID, Shop shop){
+
+        final String json = Helper.objectToJson(shop);
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getEditShopInfo();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shop", json));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    EditShopResult result = (EditShopResult) Helper.jsonToObject(response, EditShopResult.class);
+                    if(result.error == "")
+                        mOnEditShopInfoResult.onSuccess(result);
+                    else
+                        mOnEditShopInfoResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnEditShopInfoResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnEditShopInfoResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnEditShopInfoResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public class CreateShopResult {
+        public String error;
+        public String shopID;
+        public String bucketName;
+        public String fileName;
+    }
+
+    public class EditShopResult {
+        public String error;
+        public String shopID;
+        public String bucketName;
+        public String fileName;
     }
 
     public static void getShopInfo(final String token, final String shopID){
@@ -123,55 +190,6 @@ public class ShopModel {
                     e.printStackTrace();
                 } catch (IOException e) {
                     mOnGetShopInfoResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public static void editShop(final String token, final String shopID, Shop shop){
-
-        final String json = Helper.objectToJson(shop);
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getEditShopInfo();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(3);
-
-                nameValuePairs.add(new BasicNameValuePair("shop", json));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-
-                    if(response.equals("true"))
-                        mOnEditShopInfoResult.onSuccess();
-                    else
-                        mOnEditShopInfoResult.onError(response);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnEditShopInfoResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnEditShopInfoResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnEditShopInfoResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -224,7 +242,7 @@ public class ShopModel {
     }
 
     public interface OnCreateShopResult{
-        public void onSuccess();
+        public void onSuccess(CreateShopResult result);
         public void onError(String error);
     }
 
@@ -248,7 +266,7 @@ public class ShopModel {
     }
 
     public interface OnEditShopInfoResult {
-        public void onSuccess();
+        public void onSuccess(EditShopResult result);
         public void onError(String error);
     }
 
