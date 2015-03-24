@@ -85,7 +85,7 @@ public class ShopDetailFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                shopName.setText(error);
+//                shopName.setText(error);
             }
         });
         ShopModel.getShopInfo(Global.userToken, this.shopId);

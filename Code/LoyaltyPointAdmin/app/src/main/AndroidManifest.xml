@@ -87,10 +87,6 @@
             android:label="@string/title_activity_create_award"
             android:theme="@style/NoActionBar" >
         </activity>
-        <activity
-            android:name=".controllers.CreateEvent1Fragment"
-            android:label="@string/title_activity_create_event1_fragment" >
-        </activity>
     </application>
 
 </manifest>

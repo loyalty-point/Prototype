@@ -1,10 +1,32 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateEvent2Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="hello" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/ratioFloat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            float:fletPadding="@dimen/activity_flet_padding">
+
+            <EditText
+                android:id="@+id/ratioEdtText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:hint="ratio exchange"
+                android:numeric="decimal"
+                android:textSize="@dimen/font_size"
+                android:textStyle="italic" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </RelativeLayout>
 
 </FrameLayout>

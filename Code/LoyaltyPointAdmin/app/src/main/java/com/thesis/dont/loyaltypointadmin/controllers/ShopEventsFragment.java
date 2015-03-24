@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
 
 import butterknife.ButterKnife;
@@ -16,30 +18,26 @@ import butterknife.ButterKnife;
 
 public class ShopEventsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
+    private static final String ARG_SHOPID = "shop_id";
 
     //    @InjectView(R.id.textView)
-    TextView textView;
+    ButtonFloat createEventBtn;
 
     private int position;
+    private String shopId;
 
     public ShopEventsFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
+        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
-
-//    public static ShopDetailFragment newInstance(int position) {
-//        ShopDetailFragment f = new ShopDetailFragment();
-//        Bundle b = new Bundle();
-//        b.putInt(ARG_POSITION, position);
-//        f.setArguments(b);
-//        return f;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        shopId = getArguments().getString(ARG_SHOPID);
     }
 
     @Override
@@ -53,8 +51,16 @@ public class ShopEventsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView = (TextView)getActivity().findViewById(R.id.textView1);
-        textView.setText("CARD " + position);
+        createEventBtn = (ButtonFloat)getActivity().findViewById(R.id.createEventBtn);
+        createEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CreateEventActivity.class);
+                Bundle b = new Bundle();
+                i.putExtra(ARG_SHOPID, shopId);
+                startActivity(i);
+            }
+        });
     }
 
 }
