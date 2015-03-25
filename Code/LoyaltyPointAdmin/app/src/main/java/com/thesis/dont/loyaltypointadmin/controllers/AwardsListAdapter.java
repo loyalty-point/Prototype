@@ -9,9 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  */
 public class AwardsListAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
-    private List<Award> mAwards;
+    private List<Award> mAwards = new ArrayList<Award>();
 
     private Activity mParentActivity;
 
@@ -29,6 +31,10 @@ public class AwardsListAdapter extends BaseAdapter{
         mInflater = LayoutInflater.from(context);
         this.mAwards = mAwards;
         mParentActivity = (Activity) context;
+    }
+
+    public void setListAwards(ArrayList<Award> listAwards) {
+        mAwards = listAwards;
     }
 
     @Override
@@ -69,6 +75,7 @@ public class AwardsListAdapter extends BaseAdapter{
         }
 
         Award award = (Award) getItem(position);
+        Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
         holder.awardName.setText(award.getName());
         holder.awardPoint.setText("Point: " + String.valueOf(award.getPoint()));
         holder.awardQuantity.setText("Quantity: " + String.valueOf(award.getQuantity()));

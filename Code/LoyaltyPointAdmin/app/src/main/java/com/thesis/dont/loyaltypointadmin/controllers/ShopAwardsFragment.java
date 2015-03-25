@@ -1,8 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
@@ -10,15 +8,18 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
+import com.thesis.dont.loyaltypointadmin.models.AwardModel;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 public class ShopAwardsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     public static final String SHOP_ID = "shop_ID";
+    public static final String AWARD_OBJECT = "award_object";
 
     //    @InjectView(R.id.textView)
     TextView textView;
@@ -34,6 +36,8 @@ public class ShopAwardsFragment extends Fragment {
     AwardsListAdapter mAdapter;
 
     private int position;
+
+    String shopID;
 
     public ShopAwardsFragment(int position, String shopId){
         Bundle b = new Bundle();
@@ -64,29 +68,81 @@ public class ShopAwardsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        getListAwards();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        /*textView = (TextView)getActivity().findViewById(R.id.textView2);
-        textView.setText("CARD " + position);*/
 
+        shopID = ((ShopDetailActivity)getActivity()).shopID;
+
+        // set listener for createAward button
         ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
         createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateAwardActivity.class);
-                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).shopID);
+                i.putExtra(SHOP_ID, shopID);
                 startActivity(i);
             }
         });
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        List<Award> list = new ArrayList<Award>();
-        list.add(new Award("award 1", 100, 500, null, "http://award.image", null));
-        mAdapter = new AwardsListAdapter(getActivity(), list);
+
+        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>());
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
+
+        // set listener for Item Click
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // start EditAwardActivity
+                Award award = (Award) mAdapter.getItem(position);
+                Intent i = new Intent(getActivity(), EditAwardActivity.class);
+                //i.putExtra(SHOP_ID, shopID);
+                i.putExtra(AWARD_OBJECT, award);
+                startActivity(i);
+            }
+        });
+
+        // Load dữ liệu lên list
+        getListAwards();
+    }
+
+    public void getListAwards() {
+        AwardModel.getListAwards(Global.userToken, shopID, new AwardModel.OnGetListAwardsResult() {
+            @Override
+            public void onSuccess(ArrayList<Award> listAwards) {
+                // Get listAwards thành công
+                // Cập nhật dữ liệu lên mAdapter
+                mAdapter.setListAwards(listAwards);
+                ShopAwardsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Get listAwards không thành công
+                        Toast.makeText(ShopAwardsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
 
 }

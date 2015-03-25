@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
 import com.thesis.dont.loyaltypointadmin.models.AwardModel;
@@ -24,7 +25,7 @@ import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.io.FileNotFoundException;
 
-public class CreateAwardActivity extends ActionBarActivity {
+public class EditAwardActivity extends ActionBarActivity {
 
     ImageView awardLogoImgView;
     EditText mAwardName, mPoint, mQuantity, mDescription;
@@ -34,15 +35,21 @@ public class CreateAwardActivity extends ActionBarActivity {
 
     Bitmap awardLogo = null;
 
-    String shopID;
+    Award mOldAward;
+
+    static Picasso mPicasso;
+
+    boolean isChangeAwardImage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_award);
+        setContentView(R.layout.activity_edit_award);
+
+        mPicasso = Picasso.with(this);
 
         Intent i = getIntent();
-        shopID = i.getStringExtra(ShopAwardsFragment.SHOP_ID);
+        mOldAward = (Award) i.getParcelableExtra(ShopAwardsFragment.AWARD_OBJECT);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -67,9 +74,16 @@ public class CreateAwardActivity extends ActionBarActivity {
             }
         });
 
+        // load data lên UI components
+        mAwardName.setText(mOldAward.getName());
+        mPoint.setText(String.valueOf(mOldAward.getPoint()));
+        mQuantity.setText(String.valueOf(mOldAward.getQuantity()));
+        mDescription.setText(mOldAward.getDescription());
+        mPicasso.load(mOldAward.getImage()).placeholder(R.drawable.ic_award).into(awardLogoImgView);
+
         // set click listener for create button
-        ButtonRectangle createAwardBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
-        createAwardBtn.setOnClickListener(new View.OnClickListener() {
+        ButtonRectangle editAwardBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
+        editAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -80,33 +94,46 @@ public class CreateAwardActivity extends ActionBarActivity {
 
                 // Kiểm tra khác null
                 if(Helper.checkNotNull(awardName, point, quantity)) {
-                    Toast.makeText(CreateAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Kiểm tra award name hợp lệ
                 if(Helper.checkAwardName(awardName)) {
-                    Toast.makeText(CreateAwardActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditAwardActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
-                // Gọi api để tạo award
+                // Gọi api để edit award
 
                 // Show progress dialog
                 mDialog.show();
 
-                // Create award
-                Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, shopID);
-                AwardModel.createAward(Global.userToken, award, new AwardModel.OnCreateAwardResult() {
+                // Edit award
+                Award award = new Award(mOldAward.getID(), awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, mOldAward.getShopID());
+                AwardModel.editAward(Global.userToken, award, new AwardModel.OnEditAwardResult() {
                     @Override
-                    public void onSuccess(AwardModel.CreateAwardResult result) {
-                        // Tạo award thành công
+                    public void onSuccess(final AwardModel.EditAwardResult result) {
+                        // Sửa award thành công
+
+                        // Nếu người dùng không thay đổi ảnh thì không upload lên server
+                        if(!isChangeAwardImage) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDialog.dismiss();
+                                }
+                            });
+                            finish();
+                            return;
+                        }
 
                         // Upload ảnh của award lên server
-                        GCSHelper.uploadImage(CreateAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
+                        GCSHelper.uploadImage(EditAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
                             @Override
                             public void onComplete() {
+                                isChangeAwardImage = false;
 
                                 // dismiss Progress Dialog
                                 runOnUiThread(new Runnable() {
@@ -116,7 +143,11 @@ public class CreateAwardActivity extends ActionBarActivity {
                                     }
                                 });
 
-                                /*Intent i = new Intent(CreateAwardActivity.this, ShopDetailActivity.class);
+                                // clear cache on shopLogo
+                                String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
+                                mPicasso.invalidate(imageLink);
+
+                                /*Intent i = new Intent(EditAwardActivity.this, ShopDetailActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);*/
                                 finish();
@@ -124,11 +155,13 @@ public class CreateAwardActivity extends ActionBarActivity {
 
                             @Override
                             public void onError(final String error) {
+                                isChangeAwardImage = false;
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         mDialog.dismiss();
-                                        Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(EditAwardActivity.this, error, Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -140,9 +173,9 @@ public class CreateAwardActivity extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // Tạo award không thành công
+                                // sửa award không thành công
                                 mDialog.dismiss();
-                                Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
+                                Toast.makeText(EditAwardActivity.this, error, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -178,6 +211,7 @@ public class CreateAwardActivity extends ActionBarActivity {
                     try {
                         awardLogo = Helper.decodeUri(this, selectedImage);
                         awardLogoImgView.setImageBitmap(awardLogo);
+                        isChangeAwardImage = true;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

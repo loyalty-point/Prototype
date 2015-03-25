@@ -30,6 +30,8 @@ import java.util.ArrayList;
  */
 public class ShopsListMainFragment extends Fragment {
 
+    public static String SHOP_OBJECT = "shop_object";
+
     ActionSlideExpandableListView list;
     CustomShopListAdapter adapter;
     public ShopsListActivity CustomListView = null;
@@ -72,13 +74,10 @@ public class ShopsListMainFragment extends Fragment {
     {
         ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
             @Override
-            public void onSuccess(String data) {
-                String[] datas = data.split("&"); //slit data to json struture
-                Shop shop = null;
-                for (int i = 0; i < datas.length; i++) {
-                    shop = (Shop) Helper.jsonToObject(datas[i], Shop.class);
-                    CustomListViewValuesArr.add(shop); //add shop object to array
-                }
+            public void onSuccess(ArrayList<Shop> listShops) {
+
+                CustomListViewValuesArr = listShops;
+
                 Resources res = getResources();
                 list = (ActionSlideExpandableListView) getActivity().findViewById(R.id.shop_list);  // List defined in XML ( See Below )
 
@@ -110,7 +109,9 @@ public class ShopsListMainFragment extends Fragment {
                                 } else {
                                     // Edit
                                     Intent i = new Intent(getActivity(), EditShopActivity.class);
-                                    i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
+                                    Shop shop = CustomListViewValuesArr.get(position);
+                                    i.putExtra(SHOP_OBJECT, shop);
+                                    //i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
                                     startActivity(i);
                                 }
                             }
@@ -122,6 +123,7 @@ public class ShopsListMainFragment extends Fragment {
                     }
                 });
 
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -131,5 +133,12 @@ public class ShopsListMainFragment extends Fragment {
         });
         ShopModel.getListShop(Global.userToken);
         //ShopModel.getListShop("4f9aab34a15368a50069cde837365ebc6e6ace46c169880a2ffad300d40e7edf");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setListData();
     }
 }
