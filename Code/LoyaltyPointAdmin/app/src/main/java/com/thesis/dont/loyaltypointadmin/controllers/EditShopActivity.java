@@ -3,7 +3,6 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -62,6 +61,7 @@ public class EditShopActivity extends ActionBarActivity {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
+        
         // get references to layout components
         mCategory = (Spinner) findViewById(R.id.shopcategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -72,10 +72,11 @@ public class EditShopActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         mCategory.setAdapter(mCategoryAdapter);
 
-        mShopName = (EditText) findViewById(R.id.shopname);
-        mPhone = (EditText) findViewById(R.id.phone);
-        mExchangeRatio = (EditText) findViewById(R.id.exchangeRatio);
-        mAddress = (EditText) findViewById(R.id.shopAddress);
+        
+        mShopName = (EditText) findViewById(R.id.awardName);
+        mPhone = (EditText) findViewById(R.id.point);
+        mExchangeRatio = (EditText) findViewById(R.id.quantity);
+        mAddress = (EditText) findViewById(R.id.description);
         shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
 
         // set click listener for shopLogoImgView
@@ -89,6 +90,7 @@ public class EditShopActivity extends ActionBarActivity {
         });
 
         // Load thông tin hiện tại của shop
+        
         mShopName.setText(mOldShop.getName());
         mPhone.setText(mOldShop.getPhone_number());
         mExchangeRatio.setText(String.valueOf(mOldShop.getExchange_ratio()));
@@ -124,6 +126,7 @@ public class EditShopActivity extends ActionBarActivity {
                 });
             }
         });
+        
         ShopModel.getShopInfo(Global.userToken, shopID);*/
 
         // cancel Button
@@ -131,6 +134,7 @@ public class EditShopActivity extends ActionBarActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
                 /*Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);*/
@@ -167,6 +171,7 @@ public class EditShopActivity extends ActionBarActivity {
                 // Show progress dialog
                 mDialog.show();
 
+                
                 final Shop shop = new Shop(mOldShop.getId(), shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
                 ShopModel.setOnEditShopInfoResult(new ShopModel.OnEditShopInfoResult() {
                     @Override
@@ -185,6 +190,7 @@ public class EditShopActivity extends ActionBarActivity {
                         }
 
                         // edit shopLogo
+                        
                         GCSHelper.uploadImage(EditShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
                             @Override
                             public void onComplete() {
@@ -203,8 +209,10 @@ public class EditShopActivity extends ActionBarActivity {
                                 mPicasso.invalidate(imageLink);
 
                                 // Cập nhật shop thành công
+                                
                                 /*Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                
                                 startActivity(i);*/
                                 finish();
                             }
@@ -225,6 +233,7 @@ public class EditShopActivity extends ActionBarActivity {
                     }
 
                     @Override
+                    
                     public void onError(final String e) {
 
                         runOnUiThread(new Runnable() {
@@ -232,11 +241,13 @@ public class EditShopActivity extends ActionBarActivity {
                             public void run() {
                                 // Cập nhật shop không thành công
                                 mDialog.dismiss();
+                                
                                 Toast.makeText(EditShopActivity.this, e, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 });
+                
                 ShopModel.editShop(Global.userToken, mOldShop.getId(), shop);
             }
         });

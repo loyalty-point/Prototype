@@ -173,26 +173,26 @@
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <ImageView
-            android:id="@+id/phoneIcon"
+            android:id="@+id/pointIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_call"
-            android:layout_alignBottom="@+id/phoneFloat"
+            android:layout_alignBottom="@+id/pointFloat"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/phoneFloat"
+            android:id="@+id/pointFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             float:fletPadding="10dp"
             android:layout_below="@+id/fullnameFloat"
-            android:layout_toRightOf="@+id/phoneIcon"
-            android:layout_toEndOf="@+id/phoneIcon">
+            android:layout_toRightOf="@+id/pointIcon"
+            android:layout_toEndOf="@+id/pointIcon">
 
             <EditText
-                android:id="@+id/phone"
+                android:id="@+id/point"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/phone_maxLength"

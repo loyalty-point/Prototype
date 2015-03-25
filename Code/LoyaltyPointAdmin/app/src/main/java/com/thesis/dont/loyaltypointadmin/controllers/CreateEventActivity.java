@@ -131,8 +131,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CreateEventActivity.this, ShopDetailActivity.class);
-                startActivity(i);
+                finish();
             }
         });
         //Add fragment to fragment container when create activity
@@ -159,5 +158,11 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         fragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        finish();
     }
 }

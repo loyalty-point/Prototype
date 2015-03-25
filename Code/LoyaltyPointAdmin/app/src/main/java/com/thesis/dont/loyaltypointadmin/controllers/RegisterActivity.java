@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ public class RegisterActivity extends ActionBarActivity {
         mPassword = (EditText) findViewById(R.id.password);
         mConfirmPassword = (EditText) findViewById(R.id.confirmPassword);
         mFullname = (EditText) findViewById(R.id.fullname);
-        mPhone = (EditText) findViewById(R.id.phone);
+        mPhone = (EditText) findViewById(R.id.point);
 
         ButtonRectangle registerBtn = (ButtonRectangle) findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {

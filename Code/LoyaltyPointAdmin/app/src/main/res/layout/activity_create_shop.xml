@@ -56,25 +56,25 @@
             android:layout_marginBottom="@dimen/activity_createshop_marginBottom"/>
 
         <ImageView
-            android:id="@+id/shopnameIcon"
+            android:id="@+id/awardNameIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shop_name_icon"
-            android:layout_alignBottom="@+id/shopnameFloat"
+            android:layout_alignBottom="@+id/awardNameFloat"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/shopLogo" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/shopnameFloat"
+            android:id="@+id/awardNameFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/shopLogo"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/shopnameIcon"
+            android:layout_toRightOf="@id/awardNameIcon"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
-                android:id="@+id/shopname"
+                android:id="@+id/awardName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/shop_name_maxLength"
@@ -86,26 +86,26 @@
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <ImageView
-            android:id="@+id/phoneIcon"
+            android:id="@+id/pointIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shop_phone_icon"
-            android:layout_alignBottom="@+id/phoneFloat"
+            android:layout_alignBottom="@+id/pointFloat"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/shopLogo" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/phoneFloat"
+            android:id="@+id/pointFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/shopnameFloat"
+            android:layout_below="@id/awardNameFloat"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/phoneIcon"
+            android:layout_toRightOf="@id/pointIcon"
             float:fletPadding="@dimen/activity_flet_padding"
             android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
-                android:id="@+id/phone"
+                android:id="@+id/point"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/phone_maxLength"
@@ -132,31 +132,31 @@
             android:id="@+id/shopcategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/phone"
+            android:layout_alignLeft="@id/point"
             android:layout_alignTop="@id/categoryTextview"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_toRightOf="@id/categoryTextview"
             android:background="@drawable/the_border"></Spinner>
 
         <ImageView
-            android:id="@+id/exchangeIcon"
+            android:id="@+id/quantityIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shop_exchange_icon"
-            android:layout_alignBottom="@+id/exchangeRatioFloat" />
+            android:layout_alignBottom="@+id/quantityFloat" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/exchangeRatioFloat"
+            android:id="@+id/quantityFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/shopcategory"
-            android:layout_toRightOf="@id/exchangeIcon"
+            android:layout_toRightOf="@id/quantityIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding"
             android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
-                android:id="@+id/exchangeRatio"
+                android:id="@+id/quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/exchange_ratio_maxLength"
@@ -168,24 +168,24 @@
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <ImageView
-            android:id="@+id/addressIcon"
+            android:id="@+id/descriptionIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/address_icon"
-            android:layout_alignBottom="@+id/shopAddressFloat" />
+            android:layout_alignBottom="@+id/descriptionFloat" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/shopAddressFloat"
+            android:id="@+id/descriptionFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/exchangeRatioFloat"
-            android:layout_toRightOf="@id/addressIcon"
+            android:layout_below="@id/quantityFloat"
+            android:layout_toRightOf="@id/descriptionIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding"
             android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
             <EditText
-                android:id="@+id/shopAddress"
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -201,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/shopAddressFloat"
+            android:layout_below="@id/descriptionFloat"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="I agree to the term of use"
