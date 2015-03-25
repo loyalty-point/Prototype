@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 
 public class ShopAwardsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
+    public static final String SHOP_ID = "shop_ID";
 
     //    @InjectView(R.id.textView)
     TextView textView;
@@ -69,10 +70,12 @@ public class ShopAwardsFragment extends Fragment {
         textView.setText("CARD " + position);*/
 
         ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
+        createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateAwardActivity.class);
+                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).shopID);
                 startActivity(i);
             }
         });
@@ -80,7 +83,7 @@ public class ShopAwardsFragment extends Fragment {
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
         List<Award> list = new ArrayList<Award>();
-        list.add(new Award("award 1", 100, 500, "http://award.image"));
+        list.add(new Award("award 1", 100, 500, null, "http://award.image", null));
         mAdapter = new AwardsListAdapter(getActivity(), list);
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
