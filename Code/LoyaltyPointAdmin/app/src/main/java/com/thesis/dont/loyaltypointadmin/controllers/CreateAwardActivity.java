@@ -181,16 +181,6 @@ public class CreateAwardActivity extends ActionBarActivity {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
-                    /*// không nén ảnh
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = getContentResolver().openInputStream(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    shopLogo = BitmapFactory.decodeStream(imageStream);
-                    shopLogoImgView.setImageBitmap(shopLogo);*/
                 }
         }
     }
