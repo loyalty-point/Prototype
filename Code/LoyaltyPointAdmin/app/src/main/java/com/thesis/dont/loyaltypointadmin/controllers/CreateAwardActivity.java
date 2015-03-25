@@ -104,35 +104,36 @@ public class CreateAwardActivity extends ActionBarActivity {
                         // Tạo award thành công
 
                         // Upload ảnh của award lên server
-                        GCSHelper.uploadImage(CreateAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
-                            @Override
-                            public void onComplete() {
+                        if(awardLogo!=null) {
+                            GCSHelper.uploadImage(CreateAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
+                                @Override
+                                public void onComplete() {
 
-                                // dismiss Progress Dialog
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                    }
-                                });
+                                    // dismiss Progress Dialog
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDialog.dismiss();
+                                        }
+                                    });
 
-                                /*Intent i = new Intent(CreateAwardActivity.this, ShopDetailActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);*/
-                                finish();
-                            }
+                                    finish();
+                                }
 
-                            @Override
-                            public void onError(final String error) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                        Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        });
+                                @Override
+                                public void onError(final String error) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDialog.dismiss();
+                                            Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            finish();
+                        }
                     }
 
                     @Override

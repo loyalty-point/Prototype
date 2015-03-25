@@ -36,7 +36,10 @@ public class ShopsListActivity extends BaseNavigationActivity {
         fragmentTransaction.add(new ShopsListMainFragment(), "ShopsListMainFragment");
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     /*****************  This function used by adapter ****************/
 //    public void onItemClick(int mPosition)

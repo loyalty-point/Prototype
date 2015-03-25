@@ -1,9 +1,12 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by tinntt on 3/24/2015.
  */
-public class Event {
+public class Event implements Parcelable {
     private String id;
     private int type;
     private String name;
@@ -127,5 +130,52 @@ public class Event {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeInt(type);
+        dest.writeString(name);
+        dest.writeString(time_start);
+        dest.writeString(time_end);
+        dest.writeString(description);
+        dest.writeString(barcode);
+        dest.writeString(goods_name);
+        dest.writeFloat(ratio);
+        dest.writeInt(number);
+        dest.writeInt(point);
+        dest.writeString(image);
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR
+            = new Parcelable.Creator<Event>() {
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    private Event(Parcel in) {
+        id = in.readString();
+        type = in.readInt();
+        name = in.readString();
+        time_start = in.readString();
+        time_end = in.readString();
+        description = in.readString();
+        barcode = in.readString();
+        goods_name = in.readString();
+        ratio = in.readFloat();
+        number = in.readInt();
+        point = in.readInt();
+        image = in.readString();
     }
 }

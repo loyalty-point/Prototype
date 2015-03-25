@@ -155,7 +155,7 @@ public class AwardModel {
                     response = httpclient.execute(httppost, responseHandler);
 
                     GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
-                    if(result.error == "") {
+                    if(result.error.equals("")) {
                         // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
                         /*String[] datas = result.listAwards.split("&"); //slit data to json struture
                         ArrayList<Award> listAwards = new ArrayList<Award>();

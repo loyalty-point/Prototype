@@ -1,7 +1,9 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -30,6 +32,7 @@ import java.util.Calendar;
 public class CreateEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private static final String ARG_SHOPID = "shop_id";
     private static final int SELECT_PHOTO = 100;
+    private static final int SCAN_BARCODE = 49374;
 
     ButtonFlat dateStartButton, dateEndButton;
     ButtonRectangle createButton, cancelBtn;
@@ -38,12 +41,21 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
     EditText eventName, description;
     private String shopId;
     boolean isStartDatePicker = true;
+    ProgressDialog mDialog;
+
+    Bitmap eventLogo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        shopId  = getIntent().getStringExtra(ARG_SHOPID);
+        shopId = getIntent().getStringExtra(ARG_SHOPID);
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Uploading shop logo");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
         Calendar c = Calendar.getInstance();
         category = (Spinner) findViewById(R.id.eventcategory);
         /** create value to list and add event change frangment**/
@@ -117,19 +129,50 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 } else if (!fragment.isFilledIn().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), fragment.isFilledIn(), Toast.LENGTH_LONG).show();
                 } else {
+                    mDialog.show();
                     Event event = new Event("", category.getSelectedItemPosition(), eventName.getText().toString(),
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
                     EventModel.addEvent(event, shopId, new EventModel.OnAddEventResult() {
                         @Override
-                        public void onSuccess() {
-                            finish();
+                        public void onSuccess(EventModel.CreateEventResult createEventResult) {
+                            if(eventLogo != null) {
+                                GCSHelper.uploadImage(CreateEventActivity.this, createEventResult.bucketName, createEventResult.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
+                                    @Override
+                                    public void onComplete() {
+
+                                        // dismiss Progress Dialog
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                            }
+                                        });
+
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onError(final String error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                                Toast.makeText(CreateEventActivity.this, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }else{
+                                finish();
+                            }
                         }
 
                         @Override
                         public void onError(String error) {
-                            Log.e("false", error);
+                            Log.e("", error);
+                            finish();
                         }
                     });
                 }
@@ -159,6 +202,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
         }
     }
+
     //call back when pick date
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -169,25 +213,29 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         }
 
     }
+
     //call back when scan bar code successfully
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch(requestCode) {
-//            case SELECT_PHOTO:
-//                if(resultCode == RESULT_OK){
-//                    Uri selectedImage = imageReturnedIntent.getData();
-//
-//                    // nén ảnh
-//                    try {
-//                        awardLogo = Helper.decodeUri(this, selectedImage);
-//                        awardLogoImgView.setImageBitmap(awardLogo);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//        }
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        fragment.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SELECT_PHOTO: {
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
+
+                    // nén ảnh
+                    try {
+                        eventLogo = Helper.decodeUri(this, selectedImage);
+                        iconChooser.setImageBitmap(eventLogo);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            case SCAN_BARCODE: {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
     }
 
     @Override

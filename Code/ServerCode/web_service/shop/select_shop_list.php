@@ -9,7 +9,7 @@ mysqli_query($localhost,"SET NAMES 'UTF8'");
 $token = $_POST['token'];
 
 if(strlen($token)!=64){
-    echo "token not found";
+    echo '{"error":"token not found","listShops":[]}';
     die();
 }
 
@@ -21,7 +21,7 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-	echo "wrong token";
+	echo '{"error":"wrong token","listShops":[]}';
 	die();
 }
 /**/
@@ -33,24 +33,28 @@ $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
 if($rows == 0) {//have no shop in database
-    echo "";
+    echo '{"error":"have no shop in database","listShops":[]}';;
 }
 else  {
+    $result = '{"error":"", "listShops":[';
     while($row = mysqli_fetch_array($query_exec)){
         $query_search = "select * from shop where id='".$row['shop_id']."'";
 
-        $query_exec1 = mysqli_query($localhost,$query_search) or die(mysql_error());
+        $query_exec1 = mysqli_query($localhost,$query_search);   
 
         while($row1 = mysqli_fetch_array($query_exec1)){
-            echo '{"id":"'.$row1['id'].
-                '","name":"'.$row1['name'].
-                '","address":"'.$row1['address'].
-                '","phone_number":"'.$row1['phone_number'].
-                '","category":"'.$row1['category'].
-                '","exchange_ratio":"'.$row1['exchange_ratio'].
-                '","image":"'.$row1['image'].'"}&';
+            $result = $result . '{' 
+                    . '"id":"' . $row1['id'] . '",'
+                    . '"name":"' . $row1['name'] . '",'
+                    . '"address":"' . $row1['address'] . '",'
+                    . '"phone_number":"' . $row1['phone_number'] . '",'
+                    . '"category":"' . $row1['category'] . '",'
+                    . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
+                    . '"image":"' . $row1['image'] . '"},';
         }
     }
+    $result = $result . ']}';
+    echo $result;
 }
 
 mysqli_close($localhost);
