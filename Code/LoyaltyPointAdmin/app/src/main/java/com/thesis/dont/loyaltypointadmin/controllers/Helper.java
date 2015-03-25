@@ -88,6 +88,14 @@ public class Helper {
         return false;
     }
 
+    public static boolean checkAwardName(String awardName) {
+        // check size (trên 2 kí tự)
+        if(awardName.length() < 1)
+            return true;
+
+        return false;
+    }
+
     public static boolean checkNotNull(String username, String password, String confirmPassword, String fullname, String phone) {
         if(username.equals("") || password.equals("") || confirmPassword.equals("") ||
                 fullname.equals("") || phone.equals("")) {
@@ -100,6 +108,14 @@ public class Helper {
     public static boolean checkNotNull(String shopname, String phone, String exchangeRatio, String address) {
         if(shopname.equals("") || phone.equals("") || exchangeRatio.equals("") ||
                 address.equals("")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean checkNotNull(String awardName, String point, String quantity) {
+        if(awardName.equals("") || point.equals("") || quantity.equals("")) {
             return true;
         }
 

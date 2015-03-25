@@ -49,7 +49,7 @@ public class EditShopActivity extends ActionBarActivity {
         setContentView(R.layout.activity_edit_shop);
 
         mPicasso = Picasso.with(this);
-        mPicasso.setIndicatorsEnabled(true);
+        /*mPicasso.setIndicatorsEnabled(true);*/
 
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Uploading shop logo");
