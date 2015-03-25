@@ -117,8 +117,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                     EventModel.addEvent(event, shopId, new EventModel.OnAddEventResult() {
                         @Override
                         public void onSuccess() {
-                            Intent i = new Intent(CreateEventActivity.this, ShopDetailActivity.class);
-                            startActivity(i);
+                            finish();
                         }
 
                         @Override
