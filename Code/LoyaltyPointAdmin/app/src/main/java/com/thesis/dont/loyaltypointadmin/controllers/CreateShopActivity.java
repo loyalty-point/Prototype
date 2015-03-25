@@ -3,7 +3,6 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -24,7 +23,6 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class CreateShopActivity extends ActionBarActivity {
 
@@ -38,18 +36,18 @@ public class CreateShopActivity extends ActionBarActivity {
 
     Bitmap shopLogo = null;
 
-    //String token;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_shop);
 
+        // init dialog
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Uploading shop logo");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
+        // init category combobox
         mCategory = (Spinner) findViewById(R.id.shopcategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -59,10 +57,11 @@ public class CreateShopActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         mCategory.setAdapter(adapter);
 
-        mShopName = (EditText) findViewById(R.id.shopname);
-        mPhone = (EditText) findViewById(R.id.phone);
-        mExchangeRatio = (EditText) findViewById(R.id.exchangeRatio);
-        mAddress = (EditText) findViewById(R.id.shopAddress);
+        // get references to layout components
+        mShopName = (EditText) findViewById(R.id.awardName);
+        mPhone = (EditText) findViewById(R.id.point);
+        mExchangeRatio = (EditText) findViewById(R.id.quantity);
+        mAddress = (EditText) findViewById(R.id.description);
         mAgreeTerm = (CheckBox) findViewById(R.id.agreeTerm);
 
         final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
@@ -89,6 +88,7 @@ public class CreateShopActivity extends ActionBarActivity {
             }
         });
 
+        // set click listener for shopLogoImgView
         shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
         shopLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override

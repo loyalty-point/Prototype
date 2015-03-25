@@ -87,15 +87,13 @@ public class ShopAwardsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateAwardActivity.class);
-                i.putExtra(SHOP_ID, shopID);
+                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).shopID);
                 startActivity(i);
             }
         });
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-
-        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>());
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 
