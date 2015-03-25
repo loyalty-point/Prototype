@@ -36,18 +36,18 @@ public class CreateShopActivity extends ActionBarActivity {
 
     Bitmap shopLogo = null;
 
-    //String token;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_shop);
 
+        // init dialog
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Uploading shop logo");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
+        // init category combobox
         mCategory = (Spinner) findViewById(R.id.shopcategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -57,6 +57,7 @@ public class CreateShopActivity extends ActionBarActivity {
         // Apply the adapter to the spinner
         mCategory.setAdapter(adapter);
 
+        // get references to layout components
         mShopName = (EditText) findViewById(R.id.awardName);
         mPhone = (EditText) findViewById(R.id.point);
         mExchangeRatio = (EditText) findViewById(R.id.quantity);
@@ -87,6 +88,7 @@ public class CreateShopActivity extends ActionBarActivity {
             }
         });
 
+        // set click listener for shopLogoImgView
         shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
         shopLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override

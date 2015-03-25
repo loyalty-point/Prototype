@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class ShopModel {
     static HttpPost httppost;
-    static HttpResponse response;
     static HttpClient httpclient;
     static List<NameValuePair> nameValuePairs;
 

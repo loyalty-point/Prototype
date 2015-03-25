@@ -155,7 +155,7 @@
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/descriptionFloat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/quantityFloat"
             android:layout_toRightOf="@id/descriptionIcon"
@@ -163,23 +163,23 @@
             float:fletPadding="@dimen/activity_flet_padding"
             android:layout_marginTop="@dimen/activity_createshop_marginTop">
 
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:hint="description"
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"
+                android:layout_alignTop="@+id/descriptionFloat"
+                android:layout_alignRight="@+id/pointFloat"
+                android:layout_alignEnd="@+id/pointFloat"
+                android:layout_alignLeft="@+id/descriptionFloat"
+                android:layout_alignStart="@+id/descriptionFloat"
+                android:layout_alignParentBottom="true"
+                android:gravity="top" />
 
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="description"
-            android:textStyle="italic"
-            android:textSize="@dimen/font_size"
-            android:layout_alignTop="@+id/descriptionFloat"
-            android:layout_alignRight="@+id/pointFloat"
-            android:layout_alignEnd="@+id/pointFloat"
-            android:layout_alignLeft="@+id/descriptionFloat"
-            android:layout_alignStart="@+id/descriptionFloat"
-            android:layout_alignParentBottom="true"
-            />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
     </RelativeLayout>
