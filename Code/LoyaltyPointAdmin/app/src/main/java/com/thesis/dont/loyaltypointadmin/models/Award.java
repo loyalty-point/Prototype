@@ -8,7 +8,6 @@ import android.os.Parcelable;
  */
 public class Award implements Parcelable {
     String id;
-    String id;
     String name;
     int point;
     int quantity;

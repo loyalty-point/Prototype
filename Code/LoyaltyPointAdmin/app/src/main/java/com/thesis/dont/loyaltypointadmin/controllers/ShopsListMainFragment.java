@@ -85,7 +85,6 @@ public class ShopsListMainFragment extends Fragment {
 
                 adapter = new CustomShopListAdapter(CustomListView, CustomListViewValuesArr, res);
 
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
