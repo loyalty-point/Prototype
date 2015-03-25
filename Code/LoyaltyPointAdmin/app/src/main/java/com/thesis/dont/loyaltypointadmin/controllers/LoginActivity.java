@@ -2,22 +2,24 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.Preference;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
+import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -26,6 +28,10 @@ public class LoginActivity extends ActionBarActivity {
 
     EditText mUsername, mPassword;
     CheckBox mRememberMe;
+
+    //TextView loyal, bag;
+    ShimmerTextView loyal;
+    TextView bag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,18 @@ public class LoginActivity extends ActionBarActivity {
             finish();
             return;
         }
+
+        // Đổi font cho app Name
+        loyal = (ShimmerTextView) findViewById(R.id.loyal);
+        Typeface customFont1 = Typeface.createFromAsset(getAssets(), "fonts/sweet_pea.ttf");
+        loyal.setTypeface(customFont1);
+
+        Shimmer shimmer = new Shimmer();
+        shimmer.start(loyal);
+
+        bag = (TextView) findViewById(R.id.bag);
+        Typeface customFont2 = Typeface.createFromAsset(getAssets(), "fonts/orange_juice.ttf");
+        bag.setTypeface(customFont2);
 
         mRememberMe = (CheckBox) findViewById(R.id.rememberMe);
 

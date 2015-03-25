@@ -77,11 +77,11 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addBottomSection(sectionBottom3);
         addBottomSection(sectionBottom4);
 
-        // add section to the account list
+        /*// add section to the account list
         MaterialSection sectionAccount1 = newSection("Nguyễn Tấn Đô", R.drawable.ic_user, new Intent(this, ShopsListActivity.class));
         MaterialSection sectionAccount2 = newSection("Nguyễn Trương Trung Tín", R.drawable.ic_user, new Intent(this, ShopsListActivity.class));
         addAccountSection(sectionAccount1);
-        addAccountSection(sectionAccount2);
+        addAccountSection(sectionAccount2);*/
 
         /*getToolbar().setTitleTextColor(getResources().getColor(R.color.TextIcons));
         getToolbar().setNavigationIcon(R.drawable.navigation_icon);*/

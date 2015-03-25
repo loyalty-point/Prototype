@@ -2,14 +2,67 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:float="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/MaterialBackground"
+    android:background="@color/MaterialDarkRed"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.LoginActivity">
 
     <RelativeLayout
+        android:id="@+id/appNameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:layout_centerHorizontal="true">
+
+        <!--<TextView
+            android:id="@+id/loyal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_60sdp"
+            android:text="loyal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/TextIcons"/>-->
+
+        <com.romainpiel.shimmer.ShimmerTextView
+            android:id="@+id/loyal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_60sdp"
+            android:text="loyal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/TextIcons"
+            app:reflectionColor="#111"/>
+
+        <TextView
+            android:id="@+id/bag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/loyal"
+            android:textSize="@dimen/_50sdp"
+            android:layout_centerVertical="true"
+            android:text="BAG"
+            android:textColor="@color/TextIcons"/>
+
+        <ImageView
+            android:id="@+id/appIcon"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignBottom="@id/bag"
+            android:layout_toRightOf="@id/bag"
+            android:background="@drawable/ic_bag"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loginLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -24,11 +77,13 @@
             android:textStyle="italic"
             android:layout_toRightOf="@id/usernameIcon"/>-->
 
+
         <ImageView
             android:id="@+id/usernameIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_user"
+            android:backgroundTint="@color/TextIcons"
             android:layout_alignBottom="@+id/usernameFloat"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentLeft="true"
@@ -39,6 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/usernameIcon"
+            android:layout_below="@id/appNameLayout"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
@@ -49,6 +105,9 @@
                 android:singleLine="true"
                 android:hint="@string/username"
                 android:textStyle="italic"
+                android:textColor="@color/TextIcons"
+                android:backgroundTint="@color/TextIcons"
+                android:textColorHint="@color/TextIcons"
                 android:textSize="@dimen/font_size"/>
             />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -58,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_password"
+            android:backgroundTint="@color/TextIcons"
             android:layout_alignBottom="@+id/passwordFloat"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentLeft="true"
@@ -80,6 +140,9 @@
                 android:password="true"
                 android:singleLine="true"
                 android:hint="@string/password"
+                android:textColor="@color/TextIcons"
+                android:backgroundTint="@color/TextIcons"
+                android:textColorHint="@color/TextIcons"
                 android:textStyle="italic"
                 android:textSize="@dimen/font_size"/>
             />
@@ -94,6 +157,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Remember Me"
+            android:textColor="@color/TextIcons"
+            android:buttonTint="@color/TextIcons"
             android:checked="true"
             android:textSize="@dimen/font_size"/>
 
@@ -105,7 +170,7 @@
             android:background="@color/DarkPrimaryColor"
             materialdesign:rippleSpeed="70"
             android:text="LOGIN"
-            android:textSize="@dimen/font_size"/>
+            android:textSize="@dimen/_15sdp"/>
 
 
         <TextView
@@ -116,51 +181,24 @@
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:text="@string/forgotPassword"
+            android:textColor="@color/TextIcons"
             android:textSize="@dimen/font_size"/>
-
-        <ImageButton
-            android:id="@+id/googleLogin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/forgotPassword"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/google_plus_icon"
-            />
-
-        <ImageButton
-            android:id="@+id/facebookLogin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/forgotPassword"
-            android:layout_toLeftOf="@id/googleLogin"
-            android:layout_alignTop="@id/googleLogin"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/facebook_icon"/>
-
-        <TextView
-            android:id="@+id/otherLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/facebookLogin"
-            android:layout_alignBottom="@id/facebookLogin"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"
-            android:text="Or login with:"
-            android:textSize="@dimen/font_size"/>
-
-        <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/facebookLogin"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:background="@color/AccentColor"
-            materialdesign:rippleSpeed="70"
-            android:text="REGISTER"
-            android:textSize="@dimen/font_size" />
 
     </RelativeLayout>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/AccentColor"
+        materialdesign:rippleSpeed="70"
+        android:text="REGISTER"
+        android:textSize="@dimen/_15sdp"
+        android:layout_alignLeft="@+id/appNameLayout"
+        android:layout_alignStart="@+id/appNameLayout"
+        android:layout_alignRight="@+id/appNameLayout"
+        android:layout_alignEnd="@+id/appNameLayout" />
 
 </RelativeLayout>
