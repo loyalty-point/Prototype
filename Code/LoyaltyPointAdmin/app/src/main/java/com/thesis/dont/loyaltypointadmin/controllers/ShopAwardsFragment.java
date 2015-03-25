@@ -94,7 +94,6 @@ public class ShopAwardsFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>());
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 

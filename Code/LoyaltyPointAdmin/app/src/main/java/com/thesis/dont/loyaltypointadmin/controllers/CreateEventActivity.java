@@ -2,6 +2,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,12 +24,16 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 
 public class CreateEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private static final String ARG_SHOPID = "shop_id";
+    private static final int SELECT_PHOTO = 100;
+
     ButtonFlat dateStartButton, dateEndButton;
     ButtonRectangle createButton, cancelBtn;
+    ImageView iconChooser;
     Spinner category;
     EditText eventName, description;
     private String shopId;
@@ -78,6 +84,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         dateEndButton = (ButtonFlat) findViewById(R.id.endDateButton);
         createButton = (ButtonRectangle) findViewById(R.id.createEventBtn);
         cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
+        iconChooser = (ImageView) findViewById(R.id.eventLogo);
 
         dateStartButton.setText("start date\n" + c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
         dateEndButton.setText("end date\n" + c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
@@ -134,6 +141,15 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 finish();
             }
         });
+
+        iconChooser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+            }
+        });
         //Add fragment to fragment container when create activity
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {
@@ -156,6 +172,20 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
     //call back when scan bar code successfully
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch(requestCode) {
+//            case SELECT_PHOTO:
+//                if(resultCode == RESULT_OK){
+//                    Uri selectedImage = imageReturnedIntent.getData();
+//
+//                    // nén ảnh
+//                    try {
+//                        awardLogo = Helper.decodeUri(this, selectedImage);
+//                        awardLogoImgView.setImageBitmap(awardLogo);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        }
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
