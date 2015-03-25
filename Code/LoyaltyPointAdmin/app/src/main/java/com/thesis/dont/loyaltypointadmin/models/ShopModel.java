@@ -224,8 +224,19 @@ public class ShopModel {
                         mOnSelectListShopResult.onError("wrong token");
                     else if(response.equals(""))
                         mOnSelectListShopResult.onError("no data");
-                    else
-                        mOnSelectListShopResult.onSuccess(response.toString());
+                    else {
+                        // Chuyển listShops từ dạng json sang ArrayList
+                        String[] datas = response.split("&"); //slit data to json struture
+                        ArrayList<Shop> listShops = new ArrayList<Shop>();
+
+                        for (int i = 0; i < datas.length; i++) {
+                            Shop shop = (Shop) Helper.jsonToObject(datas[i], Shop.class);
+                            listShops.add(shop);
+                        }
+
+                        mOnSelectListShopResult.onSuccess(listShops);
+                    }
+
                 } catch (UnsupportedEncodingException e) {
                     mOnSelectListShopResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
@@ -256,7 +267,7 @@ public class ShopModel {
     }
 
     public interface OnSelectListShopResult{
-        public void onSuccess(String data);
+        public void onSuccess(ArrayList<Shop> listShops);
         public void onError(String error);
     }
 

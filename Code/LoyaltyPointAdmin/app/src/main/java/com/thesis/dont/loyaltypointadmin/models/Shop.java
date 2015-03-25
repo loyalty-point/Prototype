@@ -1,9 +1,12 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by tinntt on 3/5/2015.
  */
-public class Shop {
+public class Shop implements Parcelable{
     String id;
     String name;
     String address;
@@ -12,7 +15,8 @@ public class Shop {
     String image;
     float exchange_ratio;
 
-    public Shop(String name, String address, String phone_number, String category, float exchange_ratio, String image){
+    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image){
+        this.id = id;
         this.name = name;
         this.address = address;
         this.phone_number = phone_number;
@@ -75,5 +79,42 @@ public class Shop {
 
     public void setExchange_ratio(float exchange_ratio) {
         this.exchange_ratio = exchange_ratio;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(address);
+        dest.writeString(phone_number);
+        dest.writeString(category);
+        dest.writeString(image);
+        dest.writeFloat(exchange_ratio);
+    }
+
+    public static final Parcelable.Creator<Shop> CREATOR
+            = new Parcelable.Creator<Shop>() {
+        public Shop createFromParcel(Parcel in) {
+            return new Shop(in);
+        }
+
+        public Shop[] newArray(int size) {
+            return new Shop[size];
+        }
+    };
+
+    private Shop(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        address = in.readString();
+        phone_number = in.readString();
+        category = in.readString();
+        image = in.readString();
+        exchange_ratio = in.readFloat();
     }
 }
