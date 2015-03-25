@@ -5,8 +5,7 @@
     <ImageView
         android:id="@+id/awardImage"
         android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:background="@drawable/ic_award"/>
+        android:layout_height="@dimen/_100sdp"/>
 
     <TextView
         android:id="@+id/awardName"

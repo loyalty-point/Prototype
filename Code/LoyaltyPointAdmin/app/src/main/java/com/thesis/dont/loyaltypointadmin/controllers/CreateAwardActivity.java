@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,8 @@ import com.thesis.dont.loyaltypointadmin.models.AwardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+
+import java.io.FileNotFoundException;
 
 public class CreateAwardActivity extends ActionBarActivity {
 
@@ -94,7 +97,7 @@ public class CreateAwardActivity extends ActionBarActivity {
                 mDialog.show();
 
                 // Create award
-                Award award = new Award(awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, shopID);
+                Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, shopID);
                 AwardModel.createAward(Global.userToken, award, new AwardModel.OnCreateAwardResult() {
                     @Override
                     public void onSuccess(AwardModel.CreateAwardResult result) {
@@ -113,9 +116,9 @@ public class CreateAwardActivity extends ActionBarActivity {
                                     }
                                 });
 
-                                Intent i = new Intent(CreateAwardActivity.this, ShopDetailActivity.class);
+                                /*Intent i = new Intent(CreateAwardActivity.this, ShopDetailActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);
+                                startActivity(i);*/
                                 finish();
                             }
 
@@ -160,6 +163,36 @@ public class CreateAwardActivity extends ActionBarActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        //super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+
+                    // nén ảnh
+                    try {
+                        awardLogo = Helper.decodeUri(this, selectedImage);
+                        awardLogoImgView.setImageBitmap(awardLogo);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    /*// không nén ảnh
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    shopLogo = BitmapFactory.decodeStream(imageStream);
+                    shopLogoImgView.setImageBitmap(shopLogo);*/
+                }
+        }
     }
 
     @Override

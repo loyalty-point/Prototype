@@ -4,42 +4,52 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Award;
+import com.thesis.dont.loyaltypointadmin.models.AwardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.io.FileNotFoundException;
 
-public class CreateShopActivity extends ActionBarActivity {
+public class EditAwardActivity extends ActionBarActivity {
 
-    ImageView shopLogoImgView;
-    EditText mShopName, mPhone, mExchangeRatio, mAddress;
-    Spinner mCategory;
-    CheckBox mAgreeTerm;
+    ImageView awardLogoImgView;
+    EditText mAwardName, mPoint, mQuantity, mDescription;
     ProgressDialog mDialog;
 
     private static final int SELECT_PHOTO = 100;
 
-    Bitmap shopLogo = null;
+    Bitmap awardLogo = null;
+
+    Award mOldAward;
+
+    static Picasso mPicasso;
+
+    boolean isChangeAwardImage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_shop);
+        setContentView(R.layout.activity_edit_award);
+
+        mPicasso = Picasso.with(this);
+
+        Intent i = getIntent();
+        mOldAward = (Award) i.getParcelableExtra(ShopAwardsFragment.AWARD_OBJECT);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -47,50 +57,15 @@ public class CreateShopActivity extends ActionBarActivity {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
-        // init category combobox
-        mCategory = (Spinner) findViewById(R.id.shopcategory);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.shopCategory, R.layout.spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        mCategory.setAdapter(adapter);
-
         // get references to layout components
-        mShopName = (EditText) findViewById(R.id.awardName);
-        mPhone = (EditText) findViewById(R.id.point);
-        mExchangeRatio = (EditText) findViewById(R.id.quantity);
-        mAddress = (EditText) findViewById(R.id.description);
-        mAgreeTerm = (CheckBox) findViewById(R.id.agreeTerm);
+        mAwardName = (EditText) findViewById(R.id.awardName);
+        mPoint = (EditText) findViewById(R.id.point);
+        mQuantity = (EditText) findViewById(R.id.quantity);
+        mDescription = (EditText) findViewById(R.id.description);
 
-        final ButtonRectangle createShopBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
-        ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
-
-        if(mAgreeTerm.isChecked()) {
-            createShopBtn.setEnabled(true);
-            createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
-        }else {
-            createShopBtn.setEnabled(false);
-            createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialDisable));
-        }
-        mAgreeTerm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mAgreeTerm.isChecked()) {
-                    createShopBtn.setEnabled(true);
-                    createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
-                }
-                else {
-                    createShopBtn.setEnabled(false);
-                    createShopBtn.setBackgroundColor(getResources().getColor(R.color.MaterialDisable));
-                }
-            }
-        });
-
-        // set click listener for shopLogoImgView
-        shopLogoImgView = (ImageView) findViewById(R.id.shopLogo);
-        shopLogoImgView.setOnClickListener(new View.OnClickListener() {
+        // set click listener for awardLogoImgView
+        awardLogoImgView = (ImageView) findViewById(R.id.awardLogo);
+        awardLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -99,48 +74,66 @@ public class CreateShopActivity extends ActionBarActivity {
             }
         });
 
-        createShopBtn.setOnClickListener(new View.OnClickListener() {
+        // load data lên UI components
+        mAwardName.setText(mOldAward.getName());
+        mPoint.setText(String.valueOf(mOldAward.getPoint()));
+        mQuantity.setText(String.valueOf(mOldAward.getQuantity()));
+        mDescription.setText(mOldAward.getDescription());
+        mPicasso.load(mOldAward.getImage()).placeholder(R.drawable.ic_award).into(awardLogoImgView);
+
+        // set click listener for create button
+        ButtonRectangle editAwardBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
+        editAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String shopname = mShopName.getText().toString();
-                final String phone = mPhone.getText().toString();
-                final String exchangeRatio = mExchangeRatio.getText().toString();
-                final String address = mAddress.getText().toString();
-                final String category = mCategory.getSelectedItem().toString();
+                final String awardName = mAwardName.getText().toString();
+                final String point = mPoint.getText().toString();
+                final String quantity = mQuantity.getText().toString();
+                final String description = mDescription.getText().toString();
 
                 // Kiểm tra khác null
-                if(Helper.checkNotNull(shopname, phone, exchangeRatio, address)) {
-                    Toast.makeText(CreateShopActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
+                if(Helper.checkNotNull(awardName, point, quantity)) {
+                    Toast.makeText(EditAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                // Kiểm tra shopname hợp lệ
-                if(Helper.checkShopName(shopname)) {
-                    Toast.makeText(CreateShopActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
+                // Kiểm tra award name hợp lệ
+                if(Helper.checkAwardName(awardName)) {
+                    Toast.makeText(EditAwardActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
-                // Gọi api để tạo shop
-
-                // Tạo đường dẫn của shopLogo trên Google Cloud Storage
-                // Upload ảnh lên Google Cloud Storage
+                // Gọi api để edit award
 
                 // Show progress dialog
                 mDialog.show();
 
-                // Create shop
-                Shop shop = new Shop(null, shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
-                ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
+                // Edit award
+                Award award = new Award(mOldAward.getID(), awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, mOldAward.getShopID());
+                AwardModel.editAward(Global.userToken, award, new AwardModel.OnEditAwardResult() {
                     @Override
-                    public void onSuccess(ShopModel.CreateShopResult result) {
-                        // Tạo shop thành công
+                    public void onSuccess(final AwardModel.EditAwardResult result) {
+                        // Sửa award thành công
 
-                        // Upload ảnh của shop lên server
-                        GCSHelper.uploadImage(CreateShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
+                        // Nếu người dùng không thay đổi ảnh thì không upload lên server
+                        if(!isChangeAwardImage) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDialog.dismiss();
+                                }
+                            });
+                            finish();
+                            return;
+                        }
+
+                        // Upload ảnh của award lên server
+                        GCSHelper.uploadImage(EditAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
                             @Override
                             public void onComplete() {
+                                isChangeAwardImage = false;
 
                                 // dismiss Progress Dialog
                                 runOnUiThread(new Runnable() {
@@ -150,19 +143,25 @@ public class CreateShopActivity extends ActionBarActivity {
                                     }
                                 });
 
-                                Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
+                                // clear cache on shopLogo
+                                String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
+                                mPicasso.invalidate(imageLink);
+
+                                /*Intent i = new Intent(EditAwardActivity.this, ShopDetailActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);
+                                startActivity(i);*/
                                 finish();
                             }
 
                             @Override
                             public void onError(final String error) {
+                                isChangeAwardImage = false;
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         mDialog.dismiss();
-                                        Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(EditAwardActivity.this, error, Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -170,28 +169,30 @@ public class CreateShopActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onError(final String e) {
-
+                    public void onError(final String error) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // Tạo shop không thành công
+                                // sửa award không thành công
                                 mDialog.dismiss();
-                                Toast.makeText(CreateShopActivity.this, e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(EditAwardActivity.this, error, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 });
-                ShopModel.createShop(shop, Global.userToken);
+
             }
         });
 
+
+        // set click listener for cancel button
+        ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
+                /*Intent i = new Intent(CreateAwardActivity.this, Shops.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+                startActivity(i);*/
                 finish();
             }
         });
@@ -208,8 +209,9 @@ public class CreateShopActivity extends ActionBarActivity {
 
                     // nén ảnh
                     try {
-                        shopLogo = Helper.decodeUri(this, selectedImage);
-                        shopLogoImgView.setImageBitmap(shopLogo);
+                        awardLogo = Helper.decodeUri(this, selectedImage);
+                        awardLogoImgView.setImageBitmap(awardLogo);
+                        isChangeAwardImage = true;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -230,7 +232,7 @@ public class CreateShopActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_shop, menu);
+        getMenuInflater().inflate(R.menu.menu_create_award, menu);
         return true;
     }
 
