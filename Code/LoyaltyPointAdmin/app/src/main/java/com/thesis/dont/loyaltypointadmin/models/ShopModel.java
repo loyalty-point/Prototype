@@ -219,6 +219,9 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
+
+
+
                     if(response.equals("wrong token"))
                         mOnSelectListShopResult.onError("wrong token");
                     else if(response.equals(""))

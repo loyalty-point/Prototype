@@ -46,7 +46,7 @@ public class ShopsListActivity extends BaseNavigationActivity {
 //
 //        // SHOW ALERT
 //
-//        Toast.makeText(CustomListView,
+//        Toast.makeText(mParentActivity,
 //                "" + tempValues.getShopname() + "Image:"+tempValues.getImg()+"Url:"+tempValues.getAddress(),Toast.LENGTH_LONG).show();
 //    }
 

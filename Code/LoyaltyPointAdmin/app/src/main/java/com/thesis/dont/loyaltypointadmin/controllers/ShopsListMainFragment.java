@@ -1,10 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -32,10 +29,9 @@ public class ShopsListMainFragment extends Fragment {
 
     public static String SHOP_OBJECT = "shop_object";
 
-    ActionSlideExpandableListView list;
-    CustomShopListAdapter adapter;
-    public ShopsListActivity CustomListView = null;
-    public ArrayList<Shop> CustomListViewValuesArr = new ArrayList<Shop>();
+    ListView mListView;
+    ShopsListAdapter mAdapter;
+    public ShopsListActivity mParentActivity = null;
 
     @Nullable
     @Override
@@ -49,20 +45,21 @@ public class ShopsListMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity activity = getActivity();
-        ButtonFloat createShopBtn = (ButtonFloat) activity.findViewById(R.id.createShopBtn);
+        mParentActivity = (ShopsListActivity) getActivity();
+
+        mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
+
+        ButtonFloat createShopBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createShopBtn);
         createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createShopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), CreateShopActivity.class);
-
+                Intent i = new Intent(mParentActivity, CreateShopActivity.class);
                 startActivity(i);
             }
         });
 
-        CustomListView = (ShopsListActivity) getActivity();
-        setListData(); //set data to list
+        setListData();
     }
 
     @Override
@@ -76,25 +73,21 @@ public class ShopsListMainFragment extends Fragment {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
 
-                CustomListViewValuesArr = listShops;
+                mAdapter = new ShopsListAdapter(mParentActivity, listShops);
 
-                Resources res = getResources();
-                list = (ActionSlideExpandableListView) getActivity().findViewById(R.id.shop_list);  // List defined in XML ( See Below )
-
-                /**************** Create Custom Adapter *********/
-
-                adapter = new CustomShopListAdapter(CustomListView, CustomListViewValuesArr, res);
-
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        list.setAdapter(new SlideExpandableListAdapter( //set adapter to list. it'will show to interface
-                                adapter,
+                        mListView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
+                        /*mListView.setAdapter(new SlideExpandableListAdapter( //set adapter to list. it'will show to interface
+                                mAdapter,
                                 R.id.expandable_toggle_button,
                                 R.id.expandable
-                        ));
+                        ));*/
 
-                        list.setItemActionListener(new ActionSlideExpandableListView.OnActionClickListener() {
+                        /*mListView.setItemActionListener(new ActionSlideExpandableListView.OnActionClickListener() {
 
                             @Override
                             public void onClick(View listView, View buttonview, int position) { //implement some operation when click the button of the card.
@@ -117,21 +110,22 @@ public class ShopsListMainFragment extends Fragment {
 
                             // note that we also add 1 or more ids to the setItemActionListener
                             // this is needed in order for the listview to discover the buttons
-                        }, R.id.details_button, R.id.edit_button);
-
+                        }, R.id.details_button, R.id.edit_button);*/
                     }
                 });
-
-                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onError(String error) {
-                Log.e("error", error);
+            public void onError(final String error) {
+                mParentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
+                    }
+                });
             }
         });
         ShopModel.getListShop(Global.userToken);
-        //ShopModel.getListShop("4f9aab34a15368a50069cde837365ebc6e6ace46c169880a2ffad300d40e7edf");
     }
 
     @Override
