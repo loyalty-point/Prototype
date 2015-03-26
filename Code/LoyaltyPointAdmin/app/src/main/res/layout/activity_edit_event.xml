@@ -29,12 +29,12 @@
 
 
         <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/createEventBtn"
+            android:id="@+id/confirmEventBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@color/AccentColor"
-            android:text="CREATE"
+            android:text="CONFIRM"
             android:textSize="@dimen/font_size"
             materialdesign:rippleSpeed="70" />
 
@@ -162,29 +162,8 @@
                 android:textStyle="italic" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <TextView
-            android:id="@+id/categoryTextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/descriptionFloat"
-            android:layout_marginTop="@dimen/activity_createshop_marginTop"
-            android:text="Category"
-            android:textAlignment="center"
-            android:textSize="@dimen/font_size"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/eventcategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/categoryTextview"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_toRightOf="@id/categoryTextview"
-            android:background="@drawable/the_border"></Spinner>
-
         <FrameLayout
-            android:layout_below="@id/eventcategory"
+            android:layout_below="@id/descriptionFloat"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"

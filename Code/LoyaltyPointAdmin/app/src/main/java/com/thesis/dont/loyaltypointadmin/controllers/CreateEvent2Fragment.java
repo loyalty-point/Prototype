@@ -43,4 +43,8 @@ public class CreateEvent2Fragment extends BaseEventCreateFragment {
     public String getRatio() {
         return ratioEdtText.getText().toString();
     }
+
+    public void setRatio(String ratio){
+        ratioEdtText.setText(ratio);
+    }
 }

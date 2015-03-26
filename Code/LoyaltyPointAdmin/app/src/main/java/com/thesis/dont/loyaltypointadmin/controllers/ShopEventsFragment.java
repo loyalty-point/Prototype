@@ -30,7 +30,8 @@ import butterknife.ButterKnife;
 public class ShopEventsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     private static final String ARG_SHOPID = "shop_id";
-    private static final String EVENT_OBJECT = "event_obj";
+    public static final String EVENT_OBJECT = "event_obj";
+    public static final String SHOP_ID = "shop_id";
 
     //    @InjectView(R.id.textView)
     ButtonFloat createEventBtn;
@@ -87,6 +88,7 @@ public class ShopEventsFragment extends Fragment {
                 Event event = (Event) mAdapter.getItem(position);
                 Intent i = new Intent(getActivity(), EditEventActivity.class);
                 i.putExtra(EVENT_OBJECT, event);
+                i.putExtra(SHOP_ID, shopId);
                 startActivity(i);
             }
         });
