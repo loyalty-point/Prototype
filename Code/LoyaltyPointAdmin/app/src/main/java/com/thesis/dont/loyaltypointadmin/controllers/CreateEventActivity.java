@@ -230,6 +230,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                         e.printStackTrace();
                     }
                 }
+                break;
             }
             case SCAN_BARCODE: {
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);

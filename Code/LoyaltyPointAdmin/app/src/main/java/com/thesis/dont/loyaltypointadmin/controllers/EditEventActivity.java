@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
@@ -44,7 +46,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
     ButtonRectangle confirmButton, cancelBtn;
     ImageView iconChooser;
     EditText eventName, description;
-    boolean isStartDatePicker = true;
+    boolean isStartDatePicker = true, isScanBarCode = false;
     ProgressDialog mDialog;
     Event oldEvent;
     CreateEvent1Fragment createEvent1Fragment;
@@ -102,6 +104,14 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         confirmButton = (ButtonRectangle) findViewById(R.id.confirmEventBtn);
         cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         iconChooser = (ImageView) findViewById(R.id.eventLogo);
+        iconChooser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+            }
+        });
 
         mPicasso.load(oldEvent.getImage()).placeholder(R.drawable.ic_award).into(iconChooser);
 
@@ -135,14 +145,14 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                     Toast.makeText(getApplicationContext(), fragment.isFilledIn(), Toast.LENGTH_LONG).show();
                 } else {
                     mDialog.show();
-                    Event event = new Event("", oldEvent.getType(), eventName.getText().toString(),
+                    Event event = new Event(oldEvent.getId(), oldEvent.getType(), eventName.getText().toString(),
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
                     EventModel.editEvent(Global.userToken,shopId , event, new EventModel.OnEditEventResult() {
 
                         @Override
-                        public void onSuccess(EventModel.EditEventResult result) {
+                        public void onSuccess(final EventModel.EditEventResult result) {
                             if(!isChangeAwardImage) {
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -166,6 +176,10 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                                                 mDialog.dismiss();
                                             }
                                         });
+
+                                        // clear cache on shopLogo
+                                        String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
+                                        mPicasso.invalidate(imageLink);
 
                                         finish();
                                     }
@@ -221,7 +235,10 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
             createEvent2Fragment.setRatio(String.valueOf(oldEvent.getRatio()));
         } else {
             createEvent1Fragment.setPoint(String.valueOf(oldEvent.getPoint()));
-            createEvent1Fragment.setBarCode(oldEvent.getBarcode());
+            if(!isScanBarCode) {
+                createEvent1Fragment.setBarCode(oldEvent.getBarcode());
+            }
+            isScanBarCode = false;
             createEvent1Fragment.setGoodsName(oldEvent.getGoods_name());
             createEvent1Fragment.setNumber(String.valueOf(oldEvent.getNumber()));
         }
@@ -245,10 +262,12 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                         e.printStackTrace();
                     }
                 }
+                break;
             }
             case SCAN_BARCODE: {
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                fragment.onActivityResult(requestCode, resultCode, data);
+                IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                createEvent1Fragment.setBarCode(scanningResult.getContents());
+                isScanBarCode = true;
             }
         }
     }

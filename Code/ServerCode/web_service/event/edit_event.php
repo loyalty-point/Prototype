@@ -7,7 +7,7 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $event = $_POST['event'];
 $token = $_POST['token'];
-$shopid = $POST['shop_id'];
+$shopid = $_POST['shop_id'];
 $event = json_decode($event); //chuyển từ string sang json.
 /* check token and return username */
 if(strlen($token)!=64){
@@ -46,7 +46,7 @@ $query = "update event "
     		  . "', image = '" . $imageLink
               . "' where id = '" . $event->id 
               . "' and shop_id = '".$shopid."'";
- 
+
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec){
