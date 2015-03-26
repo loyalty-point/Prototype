@@ -10,7 +10,6 @@
         <item name="android:textColorSecondary">@color/SecondaryText</item>
         <item name="android:divider">@color/DividerColor</item>
         <item name="android:windowContentOverlay">@null</item>
-
     </style>
 
 
@@ -48,9 +47,7 @@
         <item name="android:textColorSecondary">@color/SecondaryText</item>
         <item name="android:divider">@color/DividerColor</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
-
-        <!--<item name="android:titleTextStyle">@style/TitleStyle</item>-->
+        <item name="singleAccount">true</item>
     </style>
 
     <!-- ActionBar styles -->
@@ -68,5 +65,12 @@
     <style name="TitleStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:textColor">@color/MaterialWhite</item>
     </style>
+
+    <style name="FloatLabeledEditTextStyle">
+        <item name="android:textColor">@color/AccentColor</item>
+        <item name="android:tint">@color/TextIcons</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 
 </resources>

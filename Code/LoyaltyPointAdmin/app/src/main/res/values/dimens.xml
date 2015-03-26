@@ -13,6 +13,8 @@
     <dimen name="activity_register_marginTop">@dimen/_10sdp</dimen>
     <dimen name="activity_register_marginBottom">@dimen/_10sdp</dimen>
 
+    <dimen name="activity_login_registerBtn_marginLeft">@dimen/_20sdp</dimen>
+
     <dimen name="activity_register_info_marginLeft">@dimen/_48sdp</dimen>
     <dimen name="activity_register_info_marginRight">@dimen/_48sdp</dimen>
     <dimen name="activity_register_info_marginTop">@dimen/_48sdp</dimen>
@@ -27,4 +29,5 @@
     <!-- The recommended margin for the top, left, and right edges of a card. -->
     <dimen name="glass_card_margin">40px</dimen>
     <dimen name="font_size">@dimen/_9sdp</dimen>
+    <dimen name="padding">@dimen/_20sdp</dimen>
 </resources>
