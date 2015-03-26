@@ -150,6 +150,7 @@ public class EventModel {
 
                 nameValuePairs.add(new BasicNameValuePair("event", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -159,7 +160,7 @@ public class EventModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     EditEventResult result = (EditEventResult) Helper.jsonToObject(response, EditEventResult.class);
-                    if(result.error == "")
+                    if(result.error.equals(""))
                         mOnEditEventResult.onSuccess(result);
                     else
                         mOnEditEventResult.onError(result.error);
