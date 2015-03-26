@@ -75,12 +75,8 @@ public class ShopsListMainFragment extends Fragment {
 
                 mAdapter = new ShopsListAdapter(mParentActivity, listShops);
 
-<<<<<<< HEAD
                 mParentActivity.runOnUiThread(new Runnable() {
-=======
 
-                getActivity().runOnUiThread(new Runnable() {
->>>>>>> 8875c3c3c78da50cf5da45dc7723f772325e83b2
                     @Override
                     public void run() {
                         mListView.setAdapter(mAdapter);

@@ -27,14 +27,16 @@
 
             <com.gc.materialdesign.views.ButtonFloat
                 android:id="@+id/createShopBtn"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 materialdesign:iconDrawable="@drawable/ic_action_new"
                 android:background="@color/AccentColor"
                 app:cb_color="#99CC00"
                 materialdesign:animate="false"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"/>
         </RelativeLayout>
     </FrameLayout>
 

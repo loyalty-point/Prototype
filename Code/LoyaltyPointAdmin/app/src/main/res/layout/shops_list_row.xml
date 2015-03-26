@@ -7,8 +7,7 @@
     <ImageView
         android:id="@+id/cardImg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:background="@drawable/card_img"/>
+        android:layout_height="@dimen/_178sdp"/>
 
     <ImageView
         android:id="@+id/shopLogo"
@@ -19,6 +18,13 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:background="@color/DarkPrimaryColor"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@id/shopLogo"
+        android:background="@color/DarkPrimaryColorBlur"/>
+
     <TextView
         android:id="@+id/shopAddress"
         android:layout_width="wrap_content"
@@ -26,7 +32,10 @@
         android:layout_toRightOf="@id/shopLogo"
         android:layout_alignBottom="@id/shopLogo"
         android:layout_marginLeft="@dimen/_5sdp"
-        android:background="@color/DarkPrimaryColor" />
+        android:background="@color/DarkPrimaryColor"
+        android:textColor="@color/TextIcons"
+        android:padding="@dimen/_5sdp"
+        android:textSize="@dimen/font_size"/>
 
     <TextView
         android:id="@+id/shopName"
@@ -35,56 +44,27 @@
         android:layout_toRightOf="@id/shopLogo"
         android:layout_above="@id/shopAddress"
         android:layout_marginLeft="@dimen/_5sdp"
-        android:background="@color/DarkPrimaryColor" />
+        android:textColor="@color/TextIcons"
+        android:textSize="@dimen/_12sdp"
+        android:textStyle="bold"
+        android:padding="@dimen/_5sdp"
+        android:background="@color/DarkPrimaryColorBlur"/>
 
-    <!--<RelativeLayout
-        android:id="@+id/expandable_toggle_button"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="@dimen/glass_card_margin"
-        android:layout_marginRight="@dimen/glass_card_margin"
-        android:layout_marginTop="@dimen/glass_card_margin"
-        android:background="@drawable/kfc"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/contextMenuLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@color/DarkPrimaryColor">
 
-
-        <TextView
-            android:id="@+id/text"
-            android:textColor="#000"
-            android:textSize="40dp"
-            android:layout_marginLeft="@dimen/glass_card_margin"
-            android:layout_marginRight="@dimen/glass_card_margin"
-            android:layout_marginTop="@dimen/glass_card_margin"
+        <ImageButton
+            android:id="@+id/contextMenuBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/dots_vertical"/>
 
     </RelativeLayout>
 
-    &lt;!&ndash; this is the expandable view that is initially hidden and will slide out when the more button is pressed &ndash;&gt;
-    <LinearLayout
-        android:id="@+id/expandable"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="@dimen/glass_card_margin"
-        android:layout_marginRight="@dimen/glass_card_margin"
-        android:background="#000000"
-        android:orientation="horizontal">
-
-        &lt;!&ndash; put whatever you want in the expandable view &ndash;&gt;
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.5"
-            android:id="@+id/details_button"
-            android:text="Details" />
-
-        <Button
-            android:id="@+id/edit_button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.5"
-            android:text="Edit" />
-
-    </LinearLayout>-->
 </RelativeLayout>
 

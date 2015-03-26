@@ -219,11 +219,10 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-
-                    // Chuyển listShops từ dạng json sang ArrayList
-                    String[] datas = response.split("&"); //slit data to json struture
                     GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
+
                     if(result.error.equals("")){
+
                         ArrayList<Shop> listShops = new ArrayList<Shop>();
                         for(int i=0; i<result.listShops.length-1; i++) {
                             listShops.add(result.listShops[i]);
