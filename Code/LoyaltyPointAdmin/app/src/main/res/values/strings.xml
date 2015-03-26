@@ -39,12 +39,17 @@
     </array>
 
     <string name="title_activity_create_shop">CreateShopActivity</string>
-    <string name="username"><i>username</i></string>
-    <string name="password"><i>password</i></string>
+    <!--<string name="username"><i>username</i></string>-->
+    <string name="username">User Name</string>
+    <!--<string name="password"><i>password</i></string>-->
+    <string name="password">Password</string>
     <string name="forgotPassword"><i><u>Forgot your password?</u></i></string>
-    <string name="confirmpassword"><i>confirm password</i></string>
-    <string name="fullname"><i>fullname</i></string>
-    <string name="phonenumber"><i>phone number</i></string>
+    <!--<string name="confirmpassword"><i>confirm password</i></string>-->
+    <string name="confirmpassword">Confirm Password</string>
+    <!--<string name="fullname"><i>fullname</i></string>-->
+    <string name="fullname">Full Name</string>
+    <!--<string name="phonenumber"><i>phone number</i></string>-->
+    <string name="phonenumber">Phone Number</string>
     <string name="title_activity_shop_detail">ShopDetailActivity</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

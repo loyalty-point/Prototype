@@ -2,13 +2,17 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.User;
@@ -18,16 +22,31 @@ import com.thesis.dont.loyaltypointadmin.models.UserModel;
 public class RegisterActivity extends ActionBarActivity {
     EditText mUsername, mPassword, mConfirmPassword, mFullname, mPhone;
 
+    ShimmerTextView loyal;
+    TextView bag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Đổi font cho app Name
+        loyal = (ShimmerTextView) findViewById(R.id.loyal);
+        Typeface customFont1 = Typeface.createFromAsset(getAssets(), "fonts/sweet_pea.ttf");
+        loyal.setTypeface(customFont1);
+
+        Shimmer shimmer = new Shimmer();
+        shimmer.start(loyal);
+
+        bag = (TextView) findViewById(R.id.bag);
+        Typeface customFont2 = Typeface.createFromAsset(getAssets(), "fonts/orange_juice.ttf");
+        bag.setTypeface(customFont2);
+
         mUsername = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
         mConfirmPassword = (EditText) findViewById(R.id.confirmPassword);
         mFullname = (EditText) findViewById(R.id.fullname);
-        mPhone = (EditText) findViewById(R.id.point);
+        mPhone = (EditText) findViewById(R.id.phone);
 
         ButtonRectangle registerBtn = (ButtonRectangle) findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -138,5 +157,12 @@ public class RegisterActivity extends ActionBarActivity {
                 RegisterActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 }

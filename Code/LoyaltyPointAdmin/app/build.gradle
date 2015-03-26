@@ -90,4 +90,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.romainpiel.shimmer:library:1.3.0@aar'
+
+    compile 'com.beardedhen:androidbootstrap:+'
 }
