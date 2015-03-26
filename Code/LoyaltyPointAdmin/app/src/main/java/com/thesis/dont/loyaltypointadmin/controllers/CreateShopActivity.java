@@ -138,35 +138,39 @@ public class CreateShopActivity extends ActionBarActivity {
                         // Tạo shop thành công
 
                         // Upload ảnh của shop lên server
-                        GCSHelper.uploadImage(CreateShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
-                            @Override
-                            public void onComplete() {
+                        if(shopLogo != null) {
+                            GCSHelper.uploadImage(CreateShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
+                                @Override
+                                public void onComplete() {
 
-                                // dismiss Progress Dialog
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                    }
-                                });
+                                    // dismiss Progress Dialog
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDialog.dismiss();
+                                        }
+                                    });
 
-                                Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);
-                                finish();
-                            }
+//                                    Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
+//                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                    startActivity(i);
+                                    finish();
+                                }
 
-                            @Override
-                            public void onError(final String error) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                        Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        });
+                                @Override
+                                public void onError(final String error) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDialog.dismiss();
+                                            Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            });
+                        }else {
+                            finish();
+                        }
                     }
 
                     @Override

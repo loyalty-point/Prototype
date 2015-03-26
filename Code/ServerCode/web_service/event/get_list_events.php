@@ -10,7 +10,7 @@ $token = $_POST['token'];
 $shopID = $_POST['shopID'];
 
 if(strlen($token)!=64){
-    echo '{"error":"token not found", "listAwards":[]}';
+    echo '{"error":"token not found", "listEvents":[]}';
     die();
 }
 
@@ -22,7 +22,7 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-    echo '{"error":"wrong token", "listAwards":[]}';
+    echo '{"error":"wrong token", "listEvents":[]}';
 	die();
 }
 /**/
@@ -34,27 +34,32 @@ $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
 if($rows == 0) {//have no shop in database
-    echo '{"error":"It' . "'" . 's not your shop", "listAwards":[]}';
+    echo '{"error":"It' . "'" . 's not your shop", "listEvents":[]}';
 }
 else  {
 
     // mọi thông tin cung cấp đều đúng
     // lấy danh sách awards rồi trả về cho người dùng
-    $query = "select * from award where shopID = '" . $shopID . "'";
+    $query = "select * from event where shop_id = '" . $shopID . "'";
     
     $query_exec = mysqli_query($localhost, $query);
 
-    $result = '{"error":"", "listAwards":[';
+    $result = '{"error":"", "listEvents":[';
 
     while($row = mysqli_fetch_array($query_exec)){
             $result = $result . '{' 
                     . '"id":"' . $row['id'] . '",'
+                    . '"type":"' . $row['type'] . '",'
                     . '"name":"' . $row['name'] . '",'
-                    . '"point":"' . $row['point'] . '",'
-                    . '"quantity":"' . $row['quantity'] . '",'
+                    . '"time_start":"' . $row['time_start'] . '",'
+                    . '"time_end":"' . $row['time_end'] . '",'
                     . '"description":"' . $row['description'] . '",'
-                    . '"image":"' . $row['image'] . '",'
-                    . '"shopID":"' . $row['shopID'] . '"},';
+                    . '"barcode":"' . $row['barcode'] . '",'
+                    . '"goods_name":"' . $row['goods_name'] . '",'
+                    . '"ratio":"' . $row['ratio'] . '",'
+                    . '"number":"' . $row['number'] . '",'
+                    . '"point":"' . $row['point'] . '",'
+                    . '"image":"' . $row['image'] . '"},';
     }
 
     $result = $result . ']}';

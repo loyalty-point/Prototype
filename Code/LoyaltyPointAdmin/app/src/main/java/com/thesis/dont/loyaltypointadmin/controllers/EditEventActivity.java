@@ -5,12 +5,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,84 +25,86 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Award;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 
-public class CreateEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
-    private static final String ARG_SHOPID = "shop_id";
+public class EditEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
+
     private static final int SELECT_PHOTO = 100;
     private static final int SCAN_BARCODE = 49374;
 
     ButtonFlat dateStartButton, dateEndButton;
-    ButtonRectangle createButton, cancelBtn;
+    ButtonRectangle confirmButton, cancelBtn;
     ImageView iconChooser;
-    Spinner category;
     EditText eventName, description;
-    private String shopId;
     boolean isStartDatePicker = true;
     ProgressDialog mDialog;
-
+    Event oldEvent;
+    CreateEvent1Fragment createEvent1Fragment;
+    CreateEvent2Fragment createEvent2Fragment;
+    static Picasso mPicasso;
+    String shopId;
     Bitmap eventLogo = null;
+    boolean isChangeAwardImage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_event);
-        shopId = getIntent().getStringExtra(ARG_SHOPID);
+        setContentView(R.layout.activity_edit_event);
 
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Uploading shop logo");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
+        mPicasso = Picasso.with(this);
+
+        Intent i = getIntent();
+        oldEvent = (Event) i.getParcelableExtra(ShopEventsFragment.EVENT_OBJECT);
+        shopId = i.getStringExtra(ShopEventsFragment.SHOP_ID);
 
         Calendar c = Calendar.getInstance();
-        category = (Spinner) findViewById(R.id.eventcategory);
         /** create value to list and add event change frangment**/
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.eventCategory, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category.setAdapter(adapter);
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Change frangment when choose the category
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Create new fragment and transaction
-                if (position == 1) {
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        // Create new fragment and transaction
+        if (oldEvent.getType() == 1) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            createEvent2Fragment = new CreateEvent2Fragment();
+            fragmentTransaction.replace(R.id.fragment_container, createEvent2Fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            createEvent1Fragment = new CreateEvent1Fragment();
+            fragmentTransaction.replace(R.id.fragment_container, createEvent1Fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
-                    fragmentTransaction.replace(R.id.fragment_container, new CreateEvent2Fragment());
-                    fragmentTransaction.addToBackStack(null);
+        }
 
-                    fragmentTransaction.commit();
-                } else {
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-                    fragmentTransaction.replace(R.id.fragment_container, new CreateEvent1Fragment());
-                    fragmentTransaction.addToBackStack(null);
-
-                    fragmentTransaction.commit();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         /****/
         eventName = (EditText) findViewById(R.id.eventname);
+        eventName.setText(oldEvent.getName());
         description = (EditText) findViewById(R.id.descriptionEdtText);
+        description.setText(oldEvent.getDescription());
         dateStartButton = (ButtonFlat) findViewById(R.id.startDateButton);
+        dateStartButton.setText("start date\n" + oldEvent.getTime_start());
         dateEndButton = (ButtonFlat) findViewById(R.id.endDateButton);
-        createButton = (ButtonRectangle) findViewById(R.id.createEventBtn);
+        dateEndButton.setText("end date\n" + oldEvent.getTime_end());
+        confirmButton = (ButtonRectangle) findViewById(R.id.confirmEventBtn);
         cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         iconChooser = (ImageView) findViewById(R.id.eventLogo);
 
-        dateStartButton.setText("start date\n" + c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
-        dateEndButton.setText("end date\n" + c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
+        mPicasso.load(oldEvent.getImage()).placeholder(R.drawable.ic_award).into(iconChooser);
+
         //Choose day by show the DatePickerFragment
         dateStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,8 +123,8 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 isStartDatePicker = false;
             }
         });
-        //Add event to database
-        createButton.setOnClickListener(new View.OnClickListener() {
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BaseEventCreateFragment fragment = (BaseEventCreateFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -130,18 +135,30 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                     Toast.makeText(getApplicationContext(), fragment.isFilledIn(), Toast.LENGTH_LONG).show();
                 } else {
                     mDialog.show();
-                    Event event = new Event("", category.getSelectedItemPosition(), eventName.getText().toString(),
+                    Event event = new Event("", oldEvent.getType(), eventName.getText().toString(),
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
-                    EventModel.addEvent(event, shopId, new EventModel.OnAddEventResult() {
+                    EventModel.editEvent(Global.userToken,shopId , event, new EventModel.OnEditEventResult() {
+
                         @Override
-                        public void onSuccess(EventModel.CreateEventResult createEventResult) {
-                            if(eventLogo != null) {
-                                GCSHelper.uploadImage(CreateEventActivity.this, createEventResult.bucketName, createEventResult.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
+                        public void onSuccess(EventModel.EditEventResult result) {
+                            if(!isChangeAwardImage) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mDialog.dismiss();
+                                    }
+                                });
+                                finish();
+                                return;
+                            }
+
+                            if (eventLogo != null) {
+                                GCSHelper.uploadImage(EditEventActivity.this, result.bucketName, result.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
                                     @Override
                                     public void onComplete() {
-
+                                        isChangeAwardImage = false;
                                         // dismiss Progress Dialog
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -159,12 +176,12 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                                             @Override
                                             public void run() {
                                                 mDialog.dismiss();
-                                                Toast.makeText(CreateEventActivity.this, error, Toast.LENGTH_LONG).show();
+                                                Toast.makeText(EditEventActivity.this, error, Toast.LENGTH_LONG).show();
                                             }
                                         });
                                     }
                                 });
-                            }else{
+                            } else {
                                 finish();
                             }
                         }
@@ -184,23 +201,6 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 finish();
             }
         });
-
-        iconChooser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-            }
-        });
-        //Add fragment to fragment container when create activity
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            CreateEvent1Fragment firstFragment = new CreateEvent1Fragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
-        }
     }
 
     //call back when pick date
@@ -210,6 +210,20 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
             dateStartButton.setText("start date\n" + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
         } else {
             dateEndButton.setText("end date\n" + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (oldEvent.getType() == 1) {
+            createEvent2Fragment.setRatio(String.valueOf(oldEvent.getRatio()));
+        } else {
+            createEvent1Fragment.setPoint(String.valueOf(oldEvent.getPoint()));
+            createEvent1Fragment.setBarCode(oldEvent.getBarcode());
+            createEvent1Fragment.setGoodsName(oldEvent.getGoods_name());
+            createEvent1Fragment.setNumber(String.valueOf(oldEvent.getNumber()));
         }
 
     }
@@ -226,6 +240,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                     try {
                         eventLogo = Helper.decodeUri(this, selectedImage);
                         iconChooser.setImageBitmap(eventLogo);
+                        isChangeAwardImage =true;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -236,11 +251,5 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        finish();
     }
 }

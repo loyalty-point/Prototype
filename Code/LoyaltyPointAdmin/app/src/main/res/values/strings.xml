@@ -62,5 +62,6 @@
     <string name="title_activity_create_event1_fragment">CreateEvent1Fragment</string>
     <string name="title_activity_create_award">CreateAwardActivity</string>
     <string name="title_activity_edit_award">EditAwardActivity</string>
+    <string name="title_activity_edit_event">EditEventActivity</string>
 
 </resources>

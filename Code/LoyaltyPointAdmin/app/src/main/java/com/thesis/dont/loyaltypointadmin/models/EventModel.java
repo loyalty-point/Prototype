@@ -32,6 +32,8 @@ public class EventModel {
         System.loadLibrary("services");
     }
     public static native String getAddEvent();
+    public static native String getGetListEvents();
+    public static native String getEditEvent();
 
     public static void addEvent(Event event, final String shopId, final OnAddEventResult onAddEventResult){
         final String json = Helper.objectToJson(event);
@@ -58,10 +60,12 @@ public class EventModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("true"))
-                        onAddEventResult.onSuccess();
+                    CreateEventResult createEventResult = (CreateEventResult)Helper.jsonToObject(response, CreateEventResult.class);
+
+                    if(createEventResult.error.equals(""))
+                        onAddEventResult.onSuccess(createEventResult);
                     else
-                        onAddEventResult.onError(null);
+                        onAddEventResult.onError(createEventResult.error);
                 } catch (UnsupportedEncodingException e) {
                     onAddEventResult.onError(e.toString());
                     e.printStackTrace();
@@ -77,9 +81,135 @@ public class EventModel {
         t.start();
     }
 
+    public static void getListEvents(final String shopID, final OnGetListResult onGetListResult){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListEvents();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
+                    if(result.error.equals("")) {
+                        ArrayList<Event> listEvents = new ArrayList<Event>();
+                        for(int i=0; i<result.listEvents.length-1; i++) {
+                            listEvents.add(result.listEvents[i]);
+                        }
+                        onGetListResult.onSuccess(listEvents);
+                    }
+                    else
+                        onGetListResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    onGetListResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onGetListResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onGetListResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void editEvent(final String token, final String shopID, final Event event,
+                                 final OnEditEventResult mOnEditEventResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String json = Helper.objectToJson(event);
+
+                String link = getEditEvent();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("event", json));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    EditEventResult result = (EditEventResult) Helper.jsonToObject(response, EditEventResult.class);
+                    if(result.error == "")
+                        mOnEditEventResult.onSuccess(result);
+                    else
+                        mOnEditEventResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnEditEventResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnEditEventResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnEditEventResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnAddEventResult{
-        public void onSuccess();
+        public void onSuccess(CreateEventResult createEventResult);
 
         public void onError(String error);
+    }
+
+    public interface OnGetListResult{
+        public void onSuccess(ArrayList<Event> listEvents);
+
+        public void onError(String error);
+    }
+
+    public interface OnEditEventResult{
+        public void onSuccess(EditEventResult result);
+        public void onError(String error);
+    }
+
+    public class CreateEventResult {
+        public String error;
+        public String bucketName;
+        public String fileName;
+    }
+
+    public class GetListEvents {
+        public String error;
+        public Event[] listEvents;
+    }
+
+    public class EditEventResult{
+        public String error;
+        public String bucketName;
+        public String fileName;
     }
 }

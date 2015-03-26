@@ -30,17 +30,20 @@ public class CreateEvent1Fragment extends BaseEventCreateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_event1, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_event1, container, false);
+        barcodeEdtText = (EditText) view.findViewById(R.id.barcodeEdtText);
+        goodsNameEdtText = (EditText) view.findViewById(R.id.nameEdtText);
+        numberEdtText = (EditText) view.findViewById(R.id.numberEdtText);
+        pointEdtText = (EditText) view.findViewById(R.id.pointEdtText);
+        barcodeScannerBtn = (ButtonRectangle) view.findViewById(R.id.barcodeScannerBtn);
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        barcodeEdtText = (EditText) getActivity().findViewById(R.id.barcodeEdtText);
-        goodsNameEdtText = (EditText) getActivity().findViewById(R.id.nameEdtText);
-        numberEdtText = (EditText) getActivity().findViewById(R.id.numberEdtText);
-        pointEdtText = (EditText) getActivity().findViewById(R.id.pointEdtText);
-        barcodeScannerBtn = (ButtonRectangle) getActivity().findViewById(R.id.barcodeScannerBtn);
+
         barcodeScannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,5 +96,21 @@ public class CreateEvent1Fragment extends BaseEventCreateFragment {
     @Override
     public String getPoint() {
         return pointEdtText.getText().toString();
+    }
+
+    public void setBarCode(String barCode) {
+        barcodeEdtText.setText(barCode);
+    }
+
+    public void setGoodsName(String goodsName){
+        goodsNameEdtText.setText(goodsName);
+    }
+
+    public void setNumber(String number){
+        numberEdtText.setText(number);
+    }
+
+    public void setPoint(String point){
+        pointEdtText.setText(point);
     }
 }

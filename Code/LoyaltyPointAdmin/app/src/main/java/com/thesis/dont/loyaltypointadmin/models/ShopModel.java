@@ -210,7 +210,7 @@ public class ShopModel {
 
                 nameValuePairs = new ArrayList<NameValuePair>(1);
 
-                nameValuePairs.add(new BasicNameValuePair("token", token_string));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -220,24 +220,18 @@ public class ShopModel {
 
                     response = httpclient.execute(httppost, responseHandler);
 
-
-
-                    if(response.equals("wrong token"))
-                        mOnSelectListShopResult.onError("wrong token");
-                    else if(response.equals(""))
-                        mOnSelectListShopResult.onError("no data");
-                    else {
-                        // Chuyển listShops từ dạng json sang ArrayList
-                        String[] datas = response.split("&"); //slit data to json struture
+                    // Chuyển listShops từ dạng json sang ArrayList
+                    String[] datas = response.split("&"); //slit data to json struture
+                    GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
+                    if(result.error.equals("")){
                         ArrayList<Shop> listShops = new ArrayList<Shop>();
-
-                        for (int i = 0; i < datas.length; i++) {
-                            Shop shop = (Shop) Helper.jsonToObject(datas[i], Shop.class);
-                            listShops.add(shop);
+                        for(int i=0; i<result.listShops.length-1; i++) {
+                            listShops.add(result.listShops[i]);
                         }
-
                         mOnSelectListShopResult.onSuccess(listShops);
                     }
+                    else
+                        mOnSelectListShopResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
                     mOnSelectListShopResult.onError("UnsupportedEncodingException");
@@ -290,5 +284,10 @@ public class ShopModel {
 
     public static void setOnEditShopInfoResult(OnEditShopInfoResult mOnEditShopInfoResult) {
         ShopModel.mOnEditShopInfoResult = mOnEditShopInfoResult;
+    }
+
+    public class GetListShops {
+        public String error;
+        public Shop[] listShops;
     }
 }
