@@ -17,17 +17,6 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:layout_centerHorizontal="true">
 
-        <!--<TextView
-            android:id="@+id/loyal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_60sdp"
-            android:text="loyal"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/TextIcons"/>-->
-
         <com.romainpiel.shimmer.ShimmerTextView
             android:id="@+id/loyal"
             android:layout_width="wrap_content"
@@ -90,18 +79,6 @@
                 android:textSize="@dimen/font_size"/>
             />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        <!--<ImageView
-            android:id="@+id/passwordIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_password"
-            android:backgroundTint="@color/TextIcons"
-            android:layout_alignBottom="@+id/passwordFloat"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />-->
-
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/passwordFloat"

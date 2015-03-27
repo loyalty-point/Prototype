@@ -220,16 +220,18 @@ public class ShopModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
+
                     if(result.error.equals("")){
+
                         ArrayList<Shop> listShops = new ArrayList<Shop>();
                         for(int i=0; i<result.listShops.length-1; i++) {
                             listShops.add(result.listShops[i]);
                         }
                         mOnSelectListShopResult.onSuccess(listShops);
                     }
-                    else if(response.equals("")){
+                    else
                         mOnSelectListShopResult.onError(result.error);
-                    }
+
                 } catch (UnsupportedEncodingException e) {
                     mOnSelectListShopResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();

@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,7 +33,7 @@ public class CreateShopActivity extends ActionBarActivity {
     CheckBox mAgreeTerm;
     ProgressDialog mDialog;
 
-    private static final int SELECT_PHOTO = 100;
+    public static final int SELECT_PHOTO = 100;
 
     Bitmap shopLogo = null;
 
@@ -93,9 +94,10 @@ public class CreateShopActivity extends ActionBarActivity {
         shopLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+                Intent i = new Intent(CreateShopActivity.this, CropImageActivity.class);
+                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                startActivityForResult(i, SELECT_PHOTO);
             }
         });
 
@@ -203,30 +205,15 @@ public class CreateShopActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        //super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
+                    byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // nén ảnh
-                    try {
-                        shopLogo = Helper.decodeUri(this, selectedImage);
-                        shopLogoImgView.setImageBitmap(shopLogo);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    /*// không nén ảnh
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = getContentResolver().openInputStream(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    shopLogo = BitmapFactory.decodeStream(imageStream);
-                    shopLogoImgView.setImageBitmap(shopLogo);*/
+                    // không nén ảnh
+                    shopLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+                    shopLogoImgView.setImageBitmap(shopLogo);
                 }
         }
     }

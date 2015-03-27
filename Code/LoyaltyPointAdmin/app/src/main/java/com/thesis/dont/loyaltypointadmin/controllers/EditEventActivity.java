@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -107,9 +108,9 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         iconChooser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                Intent i = new Intent(EditEventActivity.this, CropImageActivity.class);
+                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                startActivityForResult(i, SELECT_PHOTO);
             }
         });
 
@@ -248,19 +249,15 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
     //call back when scan bar code successfully
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             case SELECT_PHOTO: {
-                if (resultCode == RESULT_OK) {
-                    Uri selectedImage = data.getData();
+                if(resultCode == RESULT_OK){
+                    byte[] imageByteArray = data.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // nén ảnh
-                    try {
-                        eventLogo = Helper.decodeUri(this, selectedImage);
-                        iconChooser.setImageBitmap(eventLogo);
-                        isChangeAwardImage =true;
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    // không nén ảnh
+                    eventLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+                    iconChooser.setImageBitmap(eventLogo);
                 }
                 break;
             }

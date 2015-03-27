@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -83,9 +84,9 @@ public class EditShopActivity extends ActionBarActivity {
         shopLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                Intent i = new Intent(EditShopActivity.this, CropImageActivity.class);
+                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                startActivityForResult(i, SELECT_PHOTO);
             }
         });
 
@@ -97,47 +98,12 @@ public class EditShopActivity extends ActionBarActivity {
         mAddress.setText(mOldShop.getAddress());
         mCategory.setSelection(mCategoryAdapter.getPosition(mOldShop.getCategory()));
         mPicasso.load(mOldShop.getImage()).placeholder(R.drawable.ic_store).into(shopLogoImgView);
-        /*ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
-            @Override
-            public void onSuccess(final Shop shop) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mShopName.setText(shop.getName());
-                        mPhone.setText(shop.getPhone_number());
-                        mCategory.setSelection(mCategoryAdapter.getPosition(shop.getCategory()));
-                        mExchangeRatio.setText(String.valueOf(shop.getExchange_ratio()));
-                        mAddress.setText(shop.getAddress());
-
-                        // Load ảnh
-                        //Picasso.with(EditShopActivity.this).cache.clear();
-                        mPicasso.load(shop.getImage()).into(shopLogoImgView);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(final String error) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(EditShopActivity.this, error, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-        
-        ShopModel.getShopInfo(Global.userToken, shopID);*/
 
         // cancel Button
         ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
-                /*Intent i = new Intent(EditShopActivity.this, ShopsListActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);*/
                 finish();
             }
         });
@@ -256,31 +222,15 @@ public class EditShopActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        //super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
+                    byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // nén ảnh
-                    try {
-                        shopLogo = Helper.decodeUri(this, selectedImage);
-                        shopLogoImgView.setImageBitmap(shopLogo);
-                        isChangeAwardImage = true;
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    /*// không nén ảnh
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = getContentResolver().openInputStream(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    shopLogo = BitmapFactory.decodeStream(imageStream);
-                    shopLogoImgView.setImageBitmap(shopLogo);*/
+                    // không nén ảnh
+                    shopLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+                    shopLogoImgView.setImageBitmap(shopLogo);
                 }
         }
     }

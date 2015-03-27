@@ -67,14 +67,14 @@ dependencies {
     compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.easing:library:1.0.0@aar'
+    /*compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
-    compile 'com.daimajia.androidviewhover:library:1.0.3@aar'
+    compile 'com.daimajia.androidviewhover:library:1.0.3@aar'*/
     compile 'com.android.support:cardview-v7:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile 'com.android.support:support-v4:21.0.3'
-    compile(group: 'it.sephiroth.android.library.fork.slideexpandable', name: 'slideexpandable', version: '1.0.3.1', ext: 'aar')
+    /*compile(group: 'it.sephiroth.android.library.fork.slideexpandable', name: 'slideexpandable', version: '1.0.3.1', ext: 'aar')*/
     compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile project(':sdp')
@@ -92,4 +92,6 @@ dependencies {
     compile 'com.romainpiel.shimmer:library:1.3.0@aar'
 
     compile 'com.beardedhen:androidbootstrap:+'
+
+    compile 'com.edmodo:cropper:1.0.1'
 }

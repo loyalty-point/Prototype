@@ -189,6 +189,7 @@
     <color name="PrimaryColor">#ff54709b</color>
     <!--<color name="DarkPrimaryColor">#ff445963</color>-->
     <color name="DarkPrimaryColor">#ff465d82</color>
+    <color name="DarkPrimaryColorBlur">#aa465d82</color>
     <!--<color name="LightPrimaryColor">#ffced7db</color>-->
     <color name="LightPrimaryColor">#ffbdbadd</color>
     <color name="TextIcons">#fffefefe</color>

@@ -20,8 +20,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
-import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
+
 
 import java.util.ArrayList;
 
@@ -49,7 +48,7 @@ public class ShopsListActivity extends BaseNavigationActivity {
 //
 //        // SHOW ALERT
 //
-//        Toast.makeText(CustomListView,
+//        Toast.makeText(mParentActivity,
 //                "" + tempValues.getShopname() + "Image:"+tempValues.getImg()+"Url:"+tempValues.getAddress(),Toast.LENGTH_LONG).show();
 //    }
 

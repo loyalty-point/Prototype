@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -61,9 +62,9 @@ public class CreateAwardActivity extends ActionBarActivity {
         awardLogoImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                Intent i = new Intent(CreateAwardActivity.this, CropImageActivity.class);
+                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                startActivityForResult(i, SELECT_PHOTO);
             }
         });
 
@@ -167,20 +168,15 @@ public class CreateAwardActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        //super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
+                    byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // nén ảnh
-                    try {
-                        awardLogo = Helper.decodeUri(this, selectedImage);
-                        awardLogoImgView.setImageBitmap(awardLogo);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    // không nén ảnh
+                    awardLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+                    awardLogoImgView.setImageBitmap(awardLogo);
                 }
         }
     }

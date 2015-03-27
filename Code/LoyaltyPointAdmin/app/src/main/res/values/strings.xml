@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Loyal Bag</string>
+    <string name="app_name">Loyal Bag Manager</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_shops_list">Shops List</string>
-    <string name="title_activity_login">Loyalty Point Admin</string>
+    <string name="title_activity_shops_list">Your Shops</string>
+    <string name="title_activity_login">Loyal Bag Manager</string>
     <string name="title_activity_detail_shop">Shop detail</string>
 
     <string-array name="nav_drawer_items">
@@ -63,5 +63,6 @@
     <string name="title_activity_create_award">CreateAwardActivity</string>
     <string name="title_activity_edit_award">EditAwardActivity</string>
     <string name="title_activity_edit_event">EditEventActivity</string>
+    <string name="title_activity_crop_image">CropImageActivity</string>
 
 </resources>
