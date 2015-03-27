@@ -120,7 +120,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         dateStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment("EditEventActivity");
                 newFragment.show(getSupportFragmentManager(), "datePicker");
                 isStartDatePicker = true;
             }
@@ -129,7 +129,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         dateEndButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment("EditEventActivity");
                 newFragment.show(getSupportFragmentManager(), "datePicker");
                 isStartDatePicker = false;
             }
@@ -267,5 +267,11 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                 isScanBarCode = true;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
     }
 }

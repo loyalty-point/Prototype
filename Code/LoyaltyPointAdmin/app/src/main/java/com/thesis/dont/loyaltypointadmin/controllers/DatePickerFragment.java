@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
 
 
@@ -11,6 +12,12 @@ import java.util.Calendar;
 
 
 public class DatePickerFragment extends DialogFragment {
+
+    private String type;
+
+    public DatePickerFragment(String type) {
+        this.type = type;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -21,6 +28,11 @@ public class DatePickerFragment extends DialogFragment {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), (CreateEventActivity)getActivity(), year, month, day);
+        if (type.equals("CreateEventActivity")) {
+            return new DatePickerDialog(getActivity(), (CreateEventActivity) getActivity(), year, month, day);
+        } else if (type.equals("EditEventActivity")) {
+            return new DatePickerDialog(getActivity(), (EditEventActivity) getActivity(), year, month, day);
+        }
+        return null;
     }
 }

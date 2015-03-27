@@ -105,7 +105,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         dateStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment("CreateEventActivity");
                 newFragment.show(getSupportFragmentManager(), "datePicker");
                 isStartDatePicker = true;
             }
@@ -114,7 +114,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         dateEndButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment("CreateEventActivity");
                 newFragment.show(getSupportFragmentManager(), "datePicker");
                 isStartDatePicker = false;
             }

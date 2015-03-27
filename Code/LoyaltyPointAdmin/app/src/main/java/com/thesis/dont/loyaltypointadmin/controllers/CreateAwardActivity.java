@@ -117,7 +117,6 @@ public class CreateAwardActivity extends ActionBarActivity {
                                             mDialog.dismiss();
                                         }
                                     });
-
                                     finish();
                                 }
 
