@@ -20,8 +20,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
-import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
+
 
 import java.util.ArrayList;
 

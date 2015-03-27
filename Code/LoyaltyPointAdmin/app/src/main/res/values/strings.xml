@@ -63,5 +63,6 @@
     <string name="title_activity_create_award">CreateAwardActivity</string>
     <string name="title_activity_edit_award">EditAwardActivity</string>
     <string name="title_activity_edit_event">EditEventActivity</string>
+    <string name="title_activity_crop_image">CropImageActivity</string>
 
 </resources>

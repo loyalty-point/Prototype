@@ -16,8 +16,6 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
-import com.tjerkw.slideexpandable.library.SlideExpandableListAdapter;
 
 import java.util.ArrayList;
 
@@ -81,37 +79,6 @@ public class ShopsListMainFragment extends Fragment {
                     public void run() {
                         mListView.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
-
-                        /*mListView.setAdapter(new SlideExpandableListAdapter( //set adapter to list. it'will show to interface
-                                mAdapter,
-                                R.id.expandable_toggle_button,
-                                R.id.expandable
-                        ));*/
-
-                        /*mListView.setItemActionListener(new ActionSlideExpandableListView.OnActionClickListener() {
-
-                            @Override
-                            public void onClick(View listView, View buttonview, int position) { //implement some operation when click the button of the card.
-
-                                if (buttonview.getId() == R.id.details_button) {
-                                    // Details
-                                    Intent i = new Intent(getActivity(), ShopDetailActivity.class);
-                                    i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
-                                    i.putExtra(Global.SHOP_NAME, CustomListViewValuesArr.get(position).getName());
-                                    startActivity(i);
-                                } else {
-                                    // Edit
-                                    Intent i = new Intent(getActivity(), EditShopActivity.class);
-                                    Shop shop = CustomListViewValuesArr.get(position);
-                                    i.putExtra(SHOP_OBJECT, shop);
-                                    //i.putExtra("SHOP_ID", CustomListViewValuesArr.get(position).getId());
-                                    startActivity(i);
-                                }
-                            }
-
-                            // note that we also add 1 or more ids to the setItemActionListener
-                            // this is needed in order for the listview to discover the buttons
-                        }, R.id.details_button, R.id.edit_button);*/
                     }
                 });
             }
