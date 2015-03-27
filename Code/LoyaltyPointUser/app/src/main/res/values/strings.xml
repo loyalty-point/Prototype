@@ -65,5 +65,10 @@
     <string name="title_activity_edit_event">EditEventActivity</string>
     <string name="title_activity_crop_image">CropImageActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_cards_list">CardsListActivity</string>
+    <string name="title_activity_base_navigation">BaseNavigationActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_search_shop">SearchShopActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

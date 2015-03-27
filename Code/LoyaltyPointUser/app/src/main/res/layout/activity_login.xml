@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/appNameLayout"
             float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
-            float:fletPadding="@dimen/activity_flet_padding">
+            float:fletPadding="@dimen/activity_flet_padding"
+            android:textSize="@dimen/font_size">
 
             <EditText
                 android:id="@+id/username"

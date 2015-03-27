@@ -107,9 +107,9 @@ public class RegisterActivity extends ActionBarActivity {
                                 editor.commit();
 
                                 // Vào trang shops list
-                                /*Intent i = new Intent(RegisterActivity.this, ShopsListActivity.class);
+                                Intent i = new Intent(RegisterActivity.this, CardsListActivity.class);
                                 startActivity(i);
-                                finish();*/
+                                finish();
                             }
 
                             @Override
