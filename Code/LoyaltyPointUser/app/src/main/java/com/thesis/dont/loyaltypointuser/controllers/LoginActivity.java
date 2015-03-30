@@ -25,6 +25,8 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
+import java.io.Writer;
+
 public class LoginActivity extends ActionBarActivity {
 
     public static final String LOGIN_STATE = "login_state";
@@ -112,7 +114,7 @@ public class LoginActivity extends ActionBarActivity {
 
                             editor.commit();
                         }
-
+                        //com.google.zxing.integration.android. a;
                         Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
                         startActivity(i);
                         finish();
