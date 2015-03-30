@@ -17,92 +17,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tinntt on 3/5/2015.
+ * Created by 11120_000 on 25/03/15.
  */
-public class ShopModel {
+public class AwardModel {
+
     static HttpPost httppost;
     static HttpClient httpclient;
     static List<NameValuePair> nameValuePairs;
 
-    static OnCreateShopResult mOnCreateShopResult;
-    static OnGetShopInfoResult mOnGetShopInfoResult;
-
     static {
         System.loadLibrary("services");
     }
-    public static native String getCreateShop();
-    public static native String getGetShopInfo();
-    public static native String getGetAllShop();
 
-    public static void createShop(Shop shop, String token){
-        final String token_string = token;
-        final String json = Helper.objectToJson(shop);
+    public static native String getCreateAward();
+    public static native String getEditAward();
+    public static native String getGetListAwards();
+
+    public static void createAward(final String token, final Award award,
+                                   final OnCreateAwardResult mOnCreateAwardResult){
+
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getCreateShop();
+                String json = Helper.objectToJson(award);
+
+                String link = getCreateAward();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
-                nameValuePairs.add(new BasicNameValuePair("shop", json));
-                nameValuePairs.add(new BasicNameValuePair("token", token_string));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    CreateShopResult result = (CreateShopResult) Helper.jsonToObject(response, CreateShopResult.class);
-                    if(result.error == "")
-                        mOnCreateShopResult.onSuccess(result);
-                    else
-                        mOnCreateShopResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnCreateShopResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnCreateShopResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnCreateShopResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public class CreateShopResult {
-        public String error;
-        public String shopID;
-        public String bucketName;
-        public String fileName;
-    }
-
-    public static void getShopInfo(final String token, final String shopID){
-        /*final String token_string = token;
-        final String json = Helper.objectToJson(shop);*/
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetShopInfo();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("award", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
@@ -112,21 +60,20 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
-                        mOnGetShopInfoResult.onError(response);
-                    else {
-                        Shop shop = (Shop) Helper.jsonToObject(response, Shop.class);
-                        mOnGetShopInfoResult.onSuccess(shop);
-                    }
+                    CreateAwardResult result = (CreateAwardResult) Helper.jsonToObject(response, CreateAwardResult.class);
+                    if(result.error == "")
+                        mOnCreateAwardResult.onSuccess(result);
+                    else
+                        mOnCreateAwardResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnGetShopInfoResult.onError("UnsupportedEncodingException");
+                    mOnCreateAwardResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnGetShopInfoResult.onError("ClientProtocolException");
+                    mOnCreateAwardResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnGetShopInfoResult.onError("IOException");
+                    mOnCreateAwardResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -134,21 +81,25 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getAllShop(String token, final OnSelectAllShopResult mOnSelectAllShopResult){
-        final String token_string = token;
+    public static void editAward(final String token, final Award award,
+                                   final OnEditAwardResult mOnEditAwardResult){
+
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetAllShop();
+                String json = Helper.objectToJson(award);
+
+                String link = getEditAward();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs = new ArrayList<NameValuePair>(2);
 
-                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("award", json));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -157,27 +108,20 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
-
-                    if(result.error.equals("")){
-
-                        ArrayList<Shop> listShops = new ArrayList<Shop>();
-                        for(int i=0; i<result.listShops.length-1; i++) {
-                            listShops.add(result.listShops[i]);
-                        }
-                        mOnSelectAllShopResult.onSuccess(listShops);
-                    }
+                    EditAwardResult result = (EditAwardResult) Helper.jsonToObject(response, EditAwardResult.class);
+                    if(result.error == "")
+                        mOnEditAwardResult.onSuccess(result);
                     else
-                        mOnSelectAllShopResult.onError(result.error);
+                        mOnEditAwardResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnSelectAllShopResult.onError("UnsupportedEncodingException");
+                    mOnEditAwardResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnSelectAllShopResult.onError("ClientProtocolException");
+                    mOnEditAwardResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnSelectAllShopResult.onError("IOException");
+                    mOnEditAwardResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -185,27 +129,96 @@ public class ShopModel {
         t.start();
     }
 
-    public static void setOnGetShopInfoResult(OnGetShopInfoResult mOnGetShopInfoResult) {
-        ShopModel.mOnGetShopInfoResult = mOnGetShopInfoResult;
+    public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListAwards();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
+                    if(result.error.equals("")) {
+                        // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
+                        /*String[] datas = result.listAwards.split("&"); //slit data to json struture
+                        ArrayList<Award> listAwards = new ArrayList<Award>();
+
+                        for (int i = 0; i < datas.length; i++) {
+                            Award award = (Award) Helper.jsonToObject(datas[i], Award.class);
+                            listAwards.add(award); //add award object to array
+                        }*/
+                        ArrayList<Award> listAwards = new ArrayList<Award>();
+                        for(int i=0; i<result.listAwards.length-1; i++) {
+                            listAwards.add(result.listAwards[i]);
+                        }
+
+                        mOnGetListAwardsResult.onSuccess(listAwards);
+                    }
+                    else
+                        mOnGetListAwardsResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetListAwardsResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetListAwardsResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetListAwardsResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
     }
 
-    public interface OnSelectAllShopResult{
-        public void onSuccess(ArrayList<Shop> listShops);
+    public interface OnCreateAwardResult {
+        public void onSuccess(CreateAwardResult result);
         public void onError(String error);
     }
 
-    public interface OnCreateShopResult{
-        public void onSuccess(CreateShopResult result);
+    public interface OnEditAwardResult {
+        public void onSuccess(EditAwardResult result);
         public void onError(String error);
     }
 
-    public interface OnGetShopInfoResult{
-        public void onSuccess(Shop shop);
+
+    public interface OnGetListAwardsResult{
+        public void onSuccess(ArrayList<Award> listAwards);
         public void onError(String error);
     }
 
-    public class GetListShops {
+    public class CreateAwardResult {
         public String error;
-        public Shop[] listShops;
+        public String bucketName;
+        public String fileName;
+    }
+
+    public class EditAwardResult {
+        public String error;
+        public String bucketName;
+        public String fileName;
+    }
+
+    public class GetListAwards {
+        public String error;
+        public Award[] listAwards;
     }
 }

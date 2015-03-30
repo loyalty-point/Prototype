@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,11 +15,20 @@ import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
 
-public class BarCodeActivity extends ActionBarActivity {
+public class BarCodeActivity extends BaseNavigationActivity {
 
     ImageView barcodeImgView;
 
     @Override
+    public void init(Bundle savedInstanceState) {
+        super.init(savedInstanceState);
+
+        /*FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(new ShopsCardMainFragment(), "ShopsListMainFragment");*/
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_code);
@@ -50,7 +61,7 @@ public class BarCodeActivity extends ActionBarActivity {
                 });
             }
         });
-    }
+    }*/
 
 
     @Override
