@@ -17,15 +17,15 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 public class BarCodeActivity extends BaseNavigationActivity {
 
-    ImageView barcodeImgView;
-
     @Override
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
 
-        /*FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(new ShopsCardMainFragment(), "ShopsListMainFragment");*/
+        fragmentTransaction.add(new AccountFragment(), "AccountFragment");
+
+        setDefaultSectionLoaded(1);
     }
 
     /*@Override
