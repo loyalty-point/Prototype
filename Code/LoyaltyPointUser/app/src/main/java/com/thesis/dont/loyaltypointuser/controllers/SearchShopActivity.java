@@ -95,6 +95,9 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setOnSuggestionListener(this);
+
+        searchView.setIconifiedByDefault(false);
+
         searchView.setSuggestionsAdapter(mAdapter);
         return true;
     }
