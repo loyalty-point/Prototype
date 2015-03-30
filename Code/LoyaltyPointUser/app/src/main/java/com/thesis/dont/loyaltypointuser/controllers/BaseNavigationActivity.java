@@ -33,14 +33,18 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         this.addAccount(account);
 
         // add section to the top list
-        MaterialSection sectionTop1 = newSection("Your Shops", R.drawable.ic_store, new ShopsCardMainFragment());
+        MaterialSection sectionTop1 = newSection("My Cards", R.drawable.ic_store, new ShopsCardMainFragment());
+        //MaterialSection sectionTop2 = newSection("Bar Code", R.drawable.ic_store, new Intent(this, BarCodeActivity.class));
+        MaterialSection sectionTop2 = newSection("My Account", R.drawable.account_circle_ic, new AccountFragment());
         sectionTop1.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
+        sectionTop2.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         //sectionTop1.setNotifications(4);
 
         /*MaterialSection sectionTop2 = newSection("Section 2", R.drawable.ic_user, new Intent(this, RegisterActivity.class));*/
         //sectionTop2.setNotifications(10);
 
         addSection(sectionTop1);
+        addSection(sectionTop2);
         /*addSection(sectionTop2);*/
 
         // add section to the bottom list

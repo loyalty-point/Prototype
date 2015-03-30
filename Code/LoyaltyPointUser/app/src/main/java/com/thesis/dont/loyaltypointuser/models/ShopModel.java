@@ -1,9 +1,7 @@
 package com.thesis.dont.loyaltypointuser.models;
 
-import com.google.gson.Gson;
 import com.thesis.dont.loyaltypointuser.controllers.Helper;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -185,6 +183,10 @@ public class ShopModel {
             }
         };
         t.start();
+    }
+
+    public static void setOnGetShopInfoResult(OnGetShopInfoResult mOnGetShopInfoResult) {
+        ShopModel.mOnGetShopInfoResult = mOnGetShopInfoResult;
     }
 
     public interface OnSelectAllShopResult{

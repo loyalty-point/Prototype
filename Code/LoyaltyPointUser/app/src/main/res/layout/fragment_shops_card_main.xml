@@ -27,8 +27,8 @@
 
             <com.gc.materialdesign.views.ButtonFloat
                 android:id="@+id/createShopBtn"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
                 materialdesign:iconDrawable="@drawable/ic_action_new"
                 android:background="@color/AccentColor"
                 app:cb_color="#99CC00"

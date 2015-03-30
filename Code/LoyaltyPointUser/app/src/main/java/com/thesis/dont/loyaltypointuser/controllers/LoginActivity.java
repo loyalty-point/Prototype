@@ -7,23 +7,18 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
-import com.thesis.dont.loyaltypointuser.models.Global;
-import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -47,10 +42,10 @@ public class LoginActivity extends ActionBarActivity {
         Global.userToken = preference.getString(TOKEN, "");
         if(!Global.userToken.equals("")) {
             // Đã lưu trạng thái đăng nhập
-            /*Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+            Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
             startActivity(i);
             finish();
-            return;*/
+            return;
         }
 
         // Đổi font cho app Name
@@ -112,7 +107,7 @@ public class LoginActivity extends ActionBarActivity {
 
                             editor.commit();
                         }
-
+                        //com.google.zxing.integration.android. a;
                         Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
                         startActivity(i);
                         finish();

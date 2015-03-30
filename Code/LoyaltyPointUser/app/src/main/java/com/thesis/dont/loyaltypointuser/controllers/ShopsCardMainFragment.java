@@ -24,7 +24,7 @@ public class ShopsCardMainFragment extends Fragment {
 
     ListView mListView;
     ShopsListAdapter mAdapter;
-    public CardsListActivity mParentActivity = null;
+    public Activity mParentActivity = null;
 
     @Nullable
     @Override
@@ -38,7 +38,7 @@ public class ShopsCardMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mParentActivity = (CardsListActivity) getActivity();
+        mParentActivity = getActivity();
 
         mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
 
