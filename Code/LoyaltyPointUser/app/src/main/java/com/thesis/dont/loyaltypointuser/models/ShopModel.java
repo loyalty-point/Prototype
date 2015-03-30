@@ -185,6 +185,52 @@ public class ShopModel {
         t.start();
     }
 
+    public static void followShop(String token, String shopId, final OnFollowShopResult onFollowShopResult){
+        final String token_string = token;
+        final String shopId_string = shopId;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCreateShop();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId_string));
+                nameValuePairs.add(new BasicNameValuePair("token", token_string));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    FollowShop result = (FollowShop) Helper.jsonToObject(response, FollowShop.class);
+                    if(result.error == "")
+                        onFollowShopResult.onSuccess();
+                    else
+                        onFollowShopResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    onFollowShopResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onFollowShopResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onFollowShopResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public static void setOnGetShopInfoResult(OnGetShopInfoResult mOnGetShopInfoResult) {
         ShopModel.mOnGetShopInfoResult = mOnGetShopInfoResult;
     }
@@ -204,6 +250,15 @@ public class ShopModel {
         public void onError(String error);
     }
 
+    public interface OnFollowShopResult{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public class FollowShop{
+        public String error;
+        public String data;
+    }
     public class GetListShops {
         public String error;
         public Shop[] listShops;

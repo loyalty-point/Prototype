@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -11,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
@@ -26,32 +29,40 @@ import java.util.List;
 public class SearchShopActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
     private static final String SHOP_NAME = "shopName";
     private static final String SHOP_ADDRESS = "shopAddress";
-//    private static
+    private static final String SHOP_IMAGE = "shopImg";
 
-    private ArrayList<String> shopsNameList;
+    private ArrayList<Shop> listShop;
     private ListView listView;
     private SimpleCursorAdapter mAdapter;
-//    private ShopsListAdapter shopsListAdapter;
+    MatrixCursor cursor;
+
+    static Picasso mPicaso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
-        final String[] from = new String[]{"shopName"};
-        final int[] to = new int[]{R.id.text1};
-        mAdapter = new SimpleCursorAdapter(this,
-                R.layout.suggestion_list,
-                null,
-                from,
-                to,
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-//        shopsListAdapter = new ShopsListAdapter(this, new ArrayList<Shop>());
+        mPicaso = Picasso.with(this);
+        mAdapter = createAndBindingData();
+
         listView = (ListView) findViewById(R.id.shopsList);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SearchShopActivity.this,"click" + String.valueOf(position),Toast.LENGTH_LONG).show();
+                if(parent.getSelectedItemId() == R.id.addFollowShop){
+                    Toast.makeText(SearchShopActivity.this,"click button" + String.valueOf(position),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                Toast.makeText(SearchShopActivity.this,"select" + String.valueOf(position),Toast.LENGTH_LONG).show();
+                if(parent.getSelectedItemId() == R.id.addFollowShop){
+                    Toast.makeText(SearchShopActivity.this,"select button" +String.valueOf(position),Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -59,8 +70,6 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
             }
         });
-
-        shopsNameList = new ArrayList<String>();
         getListShops();
     }
 
@@ -68,16 +77,11 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         ShopModel.getAllShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
-                for(int i = 0; i<listShops.size();i++){
-                    shopsNameList.add(listShops.get(i).getName());
-                }
-
-//                shopsListAdapter.setListShops(listShops);
+                SearchShopActivity.this.listShop = listShops;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateAdapter("");
-//                        shopsListAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -94,6 +98,48 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         });
     }
 
+    public SimpleCursorAdapter createAndBindingData(){
+        final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS};
+        final int[] to = new int[]{R.id.shopImg, R.id.shopName, R.id.shopAddress};
+        //create cursor and add it to Adapter.
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS});
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,
+                R.layout.suggestion_list,
+                cursor,
+                from,
+                to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
+        //override method setViewValue to set image
+        SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder() {
+
+            public boolean setViewValue(View view, Cursor cursor,
+                                        int columnIndex) {
+                if(cursor.getCount() > 0) {
+                    if(view.getId() == R.id.shopImg) {
+                        ImageView image = (ImageView) view;
+                        String link = cursor.getString(columnIndex);
+                        mPicaso.load(link).placeholder(R.drawable.ic_store).into(image);
+                    }else if(view.getId() == R.id.shopName || view.getId() == R.id.shopAddress){
+                        TextView tv = (TextView) view;
+                        ((TextView) view).setText(cursor.getString(columnIndex));
+                    }
+                }
+                return true;
+            }
+        };
+
+        //binding data to viewid
+        ImageView image = (ImageView) findViewById(R.id.shopImg);
+        viewBinder.setViewValue(image, cursor, cursor.getColumnIndex(SHOP_IMAGE));
+        TextView name = (TextView) findViewById(R.id.shopName);
+        viewBinder.setViewValue(name, cursor, cursor.getColumnIndex(SHOP_NAME));
+        TextView address = (TextView) findViewById(R.id.shopAddress);
+        viewBinder.setViewValue(address, cursor, cursor.getColumnIndex(SHOP_ADDRESS));
+        //set viewbinder for adapter
+        simpleCursorAdapter.setViewBinder(viewBinder);
+        return simpleCursorAdapter;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -107,12 +153,12 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
     // You must implements your logic to get data using OrmLite
     private void populateAdapter(String query) {
-        final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "shopName"});
-        for (int i = 0; i < shopsNameList.size(); i++) {
-            if (shopsNameList.get(i).toLowerCase().startsWith(query.toLowerCase()))
-                c.addRow(new Object[]{i, shopsNameList.get(i)});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS});
+        for (int i = 0; i < listShop.size(); i++) {
+            if (listShop.get(i).getName().toLowerCase().startsWith(query.toLowerCase()))
+                cursor.addRow(new Object[]{i, listShop.get(i).getImage(), listShop.get(i).getName(), listShop.get(i).getAddress()});
         }
-        mAdapter.changeCursor(c);
+        mAdapter.changeCursor(cursor);
     }
 
     @Override

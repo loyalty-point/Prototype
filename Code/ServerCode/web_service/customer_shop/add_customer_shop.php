@@ -10,29 +10,28 @@ $shop_id = $_POST['shop_id'];
 $token = $_POST['token'];
 
 /* check token and return username */
-$query = "select username from admin_users where token='".$token."'";
-
+$query = "select username from customer_users where token='".$token."'";
 $query_exec = mysqli_query($localhost, $query);
 
 $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-	echo "wrong token";
+	echo '{"error":"wrong token", "data":""}';
 	die();
 }
 /**/
 
-$query = "insert into admin_shop values ('"
+$query = "insert into customer_shop values ('"
 							.$username."','"
 							.$shop_id."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec)
-	echo 'true'; //insert thành công.
+	echo '{"error":"", "data":""}'; //insert thành công.
 else 
-	echo 'false'; //insert không thành công vì đã có username
+	echo '{"error":"you are following this shop", "data":""}';; //insert không thành công vì đã có username
 
 mysqli_close($localhost);
 ?>
