@@ -6,30 +6,33 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Shop;
+import com.thesis.dont.loyaltypointuser.models.ShopModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchShopActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
-    private static final String[] SUGGESTIONS = {
-            "Bauru", "Sao Paulo", "Rio de Janeiro",
-            "Bahia", "Mato Grosso", "Minas Gerais",
-            "Tocantins", "Rio Grande do Sul"
-    };
+    private ArrayList<String> shopsNameList;
+    private ListView listView;
     private SimpleCursorAdapter mAdapter;
-    private TextView mStatusView;
+    private ShopsListAdapter shopsListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
-        mStatusView = (TextView) findViewById(R.id.resultTv);
         final String[] from = new String[]{"cityName"};
         final int[] to = new int[]{R.id.text1};
         mAdapter = new SimpleCursorAdapter(this,
@@ -38,6 +41,50 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 from,
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        shopsListAdapter = new ShopsListAdapter(this, new ArrayList<Shop>());
+        listView = (ListView) findViewById(R.id.shopsList);
+        listView.setAdapter(shopsListAdapter);
+        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        shopsNameList = new ArrayList<String>();
+        getListShops();
+    }
+
+    public void getListShops() {
+        ShopModel.getAllShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
+            @Override
+            public void onSuccess(ArrayList<Shop> listShops) {
+                for(int i = 0; i<listShops.size();i++){
+                    shopsNameList.add(listShops.get(i).getName());
+                }
+                shopsListAdapter.setListShops(listShops);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        shopsListAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SearchShopActivity.this, "error: " + error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -52,22 +99,20 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     }
 
     public boolean onQueryTextChange(String newText) {
-        mStatusView.setText("Query = " + newText);
         populateAdapter(newText);
         return true;
     }
 
     public boolean onQueryTextSubmit(String query) {
-        mStatusView.setText("Query = " + query + " : submitted");
         return true;
     }
 
     // You must implements your logic to get data using OrmLite
     private void populateAdapter(String query) {
         final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "cityName"});
-        for (int i = 0; i < SUGGESTIONS.length; i++) {
-            if (SUGGESTIONS[i].toLowerCase().startsWith(query.toLowerCase()))
-                c.addRow(new Object[]{i, SUGGESTIONS[i]});
+        for (int i = 0; i < shopsNameList.size(); i++) {
+            if (shopsNameList.get(i).toLowerCase().startsWith(query.toLowerCase()))
+                c.addRow(new Object[]{i, shopsNameList.get(i)});
         }
         mAdapter.changeCursor(c);
     }
