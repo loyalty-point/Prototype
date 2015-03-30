@@ -26,16 +26,13 @@ public class ShopModel {
 
     static OnCreateShopResult mOnCreateShopResult;
     static OnGetShopInfoResult mOnGetShopInfoResult;
-    static OnSelectListShopResult mOnSelectListShopResult;
-    static OnEditShopInfoResult mOnEditShopInfoResult;
 
     static {
         System.loadLibrary("services");
     }
     public static native String getCreateShop();
-    public static native String getGetListShop();
     public static native String getGetShopInfo();
-    public static native String getEditShopInfo();
+    public static native String getGetAllShop();
 
     public static void createShop(Shop shop, String token){
         final String token_string = token;
@@ -83,64 +80,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void editShop(final String token, final String shopID, Shop shop){
-
-        final String json = Helper.objectToJson(shop);
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getEditShopInfo();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(3);
-
-                nameValuePairs.add(new BasicNameValuePair("shop", json));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-
-                    EditShopResult result = (EditShopResult) Helper.jsonToObject(response, EditShopResult.class);
-                    if(result.error == "")
-                        mOnEditShopInfoResult.onSuccess(result);
-                    else
-                        mOnEditShopInfoResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnEditShopInfoResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnEditShopInfoResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnEditShopInfoResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
     public class CreateShopResult {
-        public String error;
-        public String shopID;
-        public String bucketName;
-        public String fileName;
-    }
-
-    public class EditShopResult {
         public String error;
         public String shopID;
         public String bucketName;
@@ -194,14 +134,14 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getListShop(String token){
+    public static void getAllShop(String token, final OnSelectAllShopResult mOnSelectAllShopResult){
         final String token_string = token;
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetListShop();
+                String link = getGetAllShop();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -225,19 +165,19 @@ public class ShopModel {
                         for(int i=0; i<result.listShops.length-1; i++) {
                             listShops.add(result.listShops[i]);
                         }
-                        mOnSelectListShopResult.onSuccess(listShops);
+                        mOnSelectAllShopResult.onSuccess(listShops);
                     }
                     else
-                        mOnSelectListShopResult.onError(result.error);
+                        mOnSelectAllShopResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnSelectListShopResult.onError("UnsupportedEncodingException");
+                    mOnSelectAllShopResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnSelectListShopResult.onError("ClientProtocolException");
+                    mOnSelectAllShopResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnSelectListShopResult.onError("IOException");
+                    mOnSelectAllShopResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -245,42 +185,19 @@ public class ShopModel {
         t.start();
     }
 
-    public interface OnCreateShopResult{
-        public void onSuccess(CreateShopResult result);
+    public interface OnSelectAllShopResult{
+        public void onSuccess(ArrayList<Shop> listShops);
         public void onError(String error);
     }
 
-    public static OnCreateShopResult getOnCreateShopResult() { return mOnCreateShopResult; }
-    public static void setOnCreateShopResult(OnCreateShopResult mOnCreateShopResult){
-        ShopModel.mOnCreateShopResult = mOnCreateShopResult;
-    }
-
-    public static void setOnGetShopInfoResult(OnGetShopInfoResult mOnGetShopInfoResult) {
-        ShopModel.mOnGetShopInfoResult = mOnGetShopInfoResult;
-    }
-
-    public interface OnSelectListShopResult{
-        public void onSuccess(ArrayList<Shop> listShops);
+    public interface OnCreateShopResult{
+        public void onSuccess(CreateShopResult result);
         public void onError(String error);
     }
 
     public interface OnGetShopInfoResult{
         public void onSuccess(Shop shop);
         public void onError(String error);
-    }
-
-    public interface OnEditShopInfoResult {
-        public void onSuccess(EditShopResult result);
-        public void onError(String error);
-    }
-
-    public static OnSelectListShopResult getOnSelectListShopResult() {return mOnSelectListShopResult;}
-    public static void setOnSelectListShopResult(OnSelectListShopResult mOnSelectListShopResult){
-        ShopModel.mOnSelectListShopResult = mOnSelectListShopResult;
-    }
-
-    public static void setOnEditShopInfoResult(OnEditShopInfoResult mOnEditShopInfoResult) {
-        ShopModel.mOnEditShopInfoResult = mOnEditShopInfoResult;
     }
 
     public class GetListShops {
