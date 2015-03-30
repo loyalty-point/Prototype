@@ -23,17 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchShopActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
+    private static final String SHOP_NAME = "shopName";
+    private static final String SHOP_ADDRESS = "shopAddress";
+//    private static
 
     private ArrayList<String> shopsNameList;
     private ListView listView;
     private SimpleCursorAdapter mAdapter;
-    private ShopsListAdapter shopsListAdapter;
+//    private ShopsListAdapter shopsListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
-        final String[] from = new String[]{"cityName"};
+        final String[] from = new String[]{"shopName"};
         final int[] to = new int[]{R.id.text1};
         mAdapter = new SimpleCursorAdapter(this,
                 R.layout.suggestion_list,
@@ -41,9 +44,9 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 from,
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        shopsListAdapter = new ShopsListAdapter(this, new ArrayList<Shop>());
+//        shopsListAdapter = new ShopsListAdapter(this, new ArrayList<Shop>());
         listView = (ListView) findViewById(R.id.shopsList);
-        listView.setAdapter(shopsListAdapter);
+        listView.setAdapter(mAdapter);
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -55,6 +58,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
             }
         });
+
         shopsNameList = new ArrayList<String>();
         getListShops();
     }
@@ -66,11 +70,13 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 for(int i = 0; i<listShops.size();i++){
                     shopsNameList.add(listShops.get(i).getName());
                 }
-                shopsListAdapter.setListShops(listShops);
+
+//                shopsListAdapter.setListShops(listShops);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        shopsListAdapter.notifyDataSetChanged();
+                        populateAdapter("");
+//                        shopsListAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -94,22 +100,13 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setOnSuggestionListener(this);
-        searchView.setSuggestionsAdapter(mAdapter);
-        return true;
-    }
-
-    public boolean onQueryTextChange(String newText) {
-        populateAdapter(newText);
-        return true;
-    }
-
-    public boolean onQueryTextSubmit(String query) {
+//        searchView.setSuggestionsAdapter(mAdapter);
         return true;
     }
 
     // You must implements your logic to get data using OrmLite
     private void populateAdapter(String query) {
-        final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "cityName"});
+        final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "shopName"});
         for (int i = 0; i < shopsNameList.size(); i++) {
             if (shopsNameList.get(i).toLowerCase().startsWith(query.toLowerCase()))
                 c.addRow(new Object[]{i, shopsNameList.get(i)});
@@ -126,6 +123,15 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     @Override
     public boolean onSuggestionClick(int i) {
         Toast.makeText(this, String.valueOf(i) + " " + mAdapter.getCursor().getString(i), Toast.LENGTH_LONG).show();
+        return true;
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        populateAdapter(newText);
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
         return true;
     }
 }
