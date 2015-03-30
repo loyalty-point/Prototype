@@ -54,7 +54,7 @@ public class EditShopActivity extends ActionBarActivity {
         mPicasso = Picasso.with(this);
 
         Intent i = getIntent();
-        mOldShop = (Shop) i.getParcelableExtra(ShopsListMainFragment.SHOP_OBJECT);
+        mOldShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
 
         // init dialog
         mDialog = new ProgressDialog(this);

@@ -95,4 +95,13 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:+'
 
     compile 'com.edmodo:cropper:1.0.1'
+
+    // Shape Image View
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+
+    // Expandable button menu
+    compile 'co.lemonlabs:expandable-button-menu:1.0.0'
+
+    // Circle Button
+    compile 'com.github.markushi:circlebutton:1.1'
 }

@@ -1,3 +1,4 @@
+/*
 package com.thesis.dont.loyaltypointadmin.views;
 
 import android.animation.ObjectAnimator;
@@ -150,3 +151,4 @@ public class CircleButton extends ImageView {
                 Math.min(255, Color.green(color) + amount), Math.min(255, Color.blue(color) + amount));
     }
 }
+*/

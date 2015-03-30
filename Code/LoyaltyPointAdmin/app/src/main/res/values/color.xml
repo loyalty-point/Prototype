@@ -143,6 +143,7 @@
     <color name="Black">#000000</color>
     <color name="MaterialWhite">#ffffff</color>
     <color name="MaterialRed">#f44336</color>
+    <color name="MaterialLightRed">#E57373</color>
     <color name="MaterialDarkRed">#871c1c</color>
     <color name="MaterialPink">#e91e63</color>
     <color name="MaterialPurple">#9c27b0</color>
@@ -189,7 +190,7 @@
     <color name="PrimaryColor">#ff54709b</color>
     <!--<color name="DarkPrimaryColor">#ff445963</color>-->
     <color name="DarkPrimaryColor">#ff465d82</color>
-    <color name="DarkPrimaryColorBlur">#aa465d82</color>
+    <color name="DarkPrimaryColorBlur">#dd465d82</color>
     <!--<color name="LightPrimaryColor">#ffced7db</color>-->
     <color name="LightPrimaryColor">#ffbdbadd</color>
     <color name="TextIcons">#fffefefe</color>

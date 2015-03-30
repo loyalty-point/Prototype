@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,11 +26,11 @@ import java.util.ArrayList;
  */
 public class ShopsListMainFragment extends Fragment {
 
-    public static String SHOP_OBJECT = "shop_object";
-
     ListView mListView;
     ShopsListAdapter mAdapter;
     public ShopsListActivity mParentActivity = null;
+
+    ProgressDialog mDialog;
 
     @Nullable
     @Override
@@ -42,8 +43,13 @@ public class ShopsListMainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mParentActivity = (ShopsListActivity) getActivity();
+
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Loading data");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
 
         mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
 
@@ -57,7 +63,7 @@ public class ShopsListMainFragment extends Fragment {
             }
         });
 
-        setListData();
+        //setListData();
     }
 
     @Override
@@ -67,6 +73,7 @@ public class ShopsListMainFragment extends Fragment {
 
     public void setListData()
     {
+        mDialog.show();
         ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
@@ -77,6 +84,7 @@ public class ShopsListMainFragment extends Fragment {
 
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         mListView.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -88,6 +96,7 @@ public class ShopsListMainFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
                     }
                 });
