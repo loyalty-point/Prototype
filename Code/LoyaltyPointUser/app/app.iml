@@ -108,8 +108,13 @@
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-1.19.0" level="project" />
     <orderEntry type="library" exported="" name="cropper-1.0.1" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" exported="" name="jetty-util-6.1.26" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
+=======
+    <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="jetty-util-6.1.26" level="project" />
+>>>>>>> 0be4834737c42c2a5df32d999fa3ac2c293cfdfc
     <orderEntry type="library" exported="" name="library-0.0.6" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-jetty-1.19.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
