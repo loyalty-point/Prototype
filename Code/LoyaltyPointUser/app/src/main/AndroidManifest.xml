@@ -25,9 +25,10 @@
         android:logo="@drawable/ic_bag"
         android:theme="@style/AppTheme"
         tools:replace="android:icon" >
-        <!--<meta-data-->
-        <!--android:name="android.app.default_searchable"-->
-        <!--android:value=".controllers.SearchActivity" />-->
+
+        <!-- <meta-data -->
+        <!-- android:name="android.app.default_searchable" -->
+        <!-- android:value=".controllers.SearchActivity" /> -->
 
         <activity
             android:name=".controllers.LoginActivity"
@@ -56,6 +57,15 @@
         <activity
             android:name=".controllers.SearchShopActivity"
             android:label="@string/title_activity_search_shop" >
+        </activity>
+        <activity
+            android:name=".controllers.BarCodeActivity"
+            android:label="@string/title_activity_bar_code"
+            android:theme="@style/NoActionBarWithNavDrawer">
+        </activity>
+        <activity
+            android:name=".controllers.ShopDetailActivity"
+            android:label="@string/title_activity_shop_detail" >
         </activity>
     </application>
 

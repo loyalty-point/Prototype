@@ -12,17 +12,28 @@ public class User {
     String address;
     String avatar;
     String token;
+    String barcode;
 
-    public User(String username, String password, String fullname, String phone, String email, String address, String avatar, String token){
+    public User(String username, String password, String fullname, String phone, String email, String address, String barcode, String avatar, String token){
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.barcode = barcode;
         this.avatar = avatar;
         this.token = token;
     }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
 
     public String getUsername() {
         return username;

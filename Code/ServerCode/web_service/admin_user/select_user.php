@@ -11,7 +11,7 @@ $query_search = "select * from admin_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 
-$rows = mysqli_num_rows($query_exec);
+$rows = mysqli_num_rows($query_exec); 
 
 if($rows == 0) {//Không có token này trong db
     echo "";

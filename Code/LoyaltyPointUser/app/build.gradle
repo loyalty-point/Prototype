@@ -93,4 +93,7 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:+'
 
     compile 'com.edmodo:cropper:1.0.1'
+
+    // zxing
+    compile 'com.google.zxing:core:3.0.0'
 }
