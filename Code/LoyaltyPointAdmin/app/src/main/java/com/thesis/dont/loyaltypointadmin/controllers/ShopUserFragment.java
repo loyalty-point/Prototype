@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +15,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -29,7 +33,7 @@ import butterknife.ButterKnife;
 public class ShopUserFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
     private static final String ARG_POSITION = "position";
 
-    ImageView actionBtn;
+    ButtonFloat barcodeBtn;
 
     Activity mParentActivity;
 
@@ -63,19 +67,35 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         /*actionBtn = (ButtonFloat) mParentActivity.findViewById(R.id.actionBtn);
         actionBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));*/
 
+        ImageView actionBtn;
         actionBtn = new ImageView(mParentActivity);
-        actionBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        //actionBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         actionBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_new));
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(mParentActivity)
                 .setContentView(actionBtn)
+                .setBackgroundDrawable(R.drawable.expandable_button_background_accent)
                 .build();
 
+        //actionButton.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        //actionButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.account_background));
+
+
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(mParentActivity);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.expandable_button_background_accent));
 
         // create barcode Item
         ImageView barcodeItem = new ImageView(mParentActivity);
+        //barcodeItem.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         barcodeItem.setImageDrawable(getResources().getDrawable(R.drawable.barcode_ic));
+        //SubActionButton barcodeAction = itemBuilder.setContentView(barcodeItem).build();
+        /*barcodeItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mParentActivity, "You have clicked barcode button", Toast.LENGTH_LONG).show();
+            }
+        });*/
+
         SubActionButton barcodeAction = itemBuilder.setContentView(barcodeItem).build();
         barcodeAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +106,16 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
         // create NFC Item
         ImageView NFCItem = new ImageView(mParentActivity);
+        //NFCItem.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         NFCItem.setImageDrawable(getResources().getDrawable(R.drawable.nfc_ic));
+
+        /*NFCItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mParentActivity, "You have clicked NFC button", Toast.LENGTH_LONG).show();
+            }
+        });*/
+
         SubActionButton NFCAction = itemBuilder.setContentView(NFCItem).build();
         NFCAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +124,15 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             }
         });
 
+        /*FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(mParentActivity)
+                .addSubActionView(itemBuilder.setContentView(barcodeItem).build())
+                .addSubActionView(itemBuilder.setContentView(NFCItem).build())
+                .attachTo(actionButton)
+                .build();*/
+
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(mParentActivity)
-                .addSubActionView(barcodeItem)
-                .addSubActionView(NFCItem)
+                .addSubActionView(barcodeAction)
+                .addSubActionView(NFCAction)
                 .attachTo(actionButton)
                 .build();
     }
@@ -111,6 +146,16 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         // add expandable button
         //addExpandableButton();
 
+        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
+        barcodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start Scan Barcode Activity
+                IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+                scanIntegrator.initiateScan();
+            }
+        });
+
         setHasOptionsMenu(true);
     }
 
@@ -121,6 +166,17 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         searchView.setOnQueryTextListener(this);
         searchView.setOnSuggestionListener(this);
         searchView.setSuggestionsAdapter(mAdapter);
+    }
+
+    //call back when scan the bar code successfully
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            // Load user from barcode
+            String barcode = scanningResult.getContents();
+        } else {
+
+        }
     }
 
     @Override

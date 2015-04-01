@@ -26,6 +26,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -33,7 +34,6 @@ import java.util.Calendar;
 public class CreateEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
     private static final String ARG_SHOPID = "shop_id";
     private static final int SELECT_PHOTO = 100;
-    private static final int SCAN_BARCODE = 49374;
 
     ButtonFlat dateStartButton, dateEndButton;
     ButtonRectangle createButton, cancelBtn;
@@ -229,7 +229,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                 }
                 break;
             }
-            case SCAN_BARCODE: {
+            case Global.SCAN_BARCODE: {
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 fragment.onActivityResult(requestCode, resultCode, data);
             }

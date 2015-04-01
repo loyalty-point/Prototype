@@ -43,7 +43,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         this.addAccount(account);
 
         // add section to the top list
-        MaterialSection sectionTop1 = newSection("Your Shops", R.drawable.ic_store, new ShopsListMainFragment());
+        MaterialSection sectionTop1 = newSection("My Shops", R.drawable.ic_store, new ShopsListMainFragment());
         sectionTop1.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         //sectionTop1.setNotifications(4);
 

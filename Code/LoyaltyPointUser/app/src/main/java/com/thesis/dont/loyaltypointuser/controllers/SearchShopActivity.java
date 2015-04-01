@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -128,6 +129,14 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                     }else if(view.getId() == R.id.shopName || view.getId() == R.id.shopAddress){
                         TextView tv = (TextView) view;
                         ((TextView) view).setText(cursor.getString(columnIndex));
+                    }else if(view.getId() == R.id.addFollowShop) {
+                        Button addFollowShopBtn = (Button)view;
+                        addFollowShopBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
                     }
                 }
                 return true;

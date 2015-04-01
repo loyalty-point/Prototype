@@ -1,6 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -54,6 +56,20 @@ public class ShopDetailActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //call back when scan bar code successfully
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case Global.SCAN_BARCODE: {
+                if(resultCode == RESULT_OK){
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_fragment);
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
+                break;
+            }
+        }
     }
 
     @Override

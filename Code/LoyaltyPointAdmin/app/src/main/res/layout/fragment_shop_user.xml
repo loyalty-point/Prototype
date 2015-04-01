@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/user_fragment"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopUserFragment">
 
-    <!--<com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/actionBtn"
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/barcodeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        materialdesign:iconDrawable="@drawable/ic_action_new"
+        materialdesign:iconDrawable="@drawable/barcode_ic"
         android:background="@color/AccentColor"
         app:cb_color="#99CC00"
         materialdesign:animate="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
--->
-</RelativeLayout>
+</FrameLayout>
