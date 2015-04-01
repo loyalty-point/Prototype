@@ -9,14 +9,20 @@
     android:id="@+id/user_fragment"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopUserFragment">
 
-    <com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/barcodeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        materialdesign:iconDrawable="@drawable/barcode_ic"
-        android:background="@color/AccentColor"
-        app:cb_color="#99CC00"
-        materialdesign:animate="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/barcodeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            materialdesign:iconDrawable="@drawable/barcode_ic"
+            android:background="@color/AccentColor"
+            app:cb_color="#99CC00"
+            materialdesign:animate="false"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 </FrameLayout>

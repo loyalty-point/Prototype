@@ -1,9 +1,12 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by dont on 2/2/2015.
  */
-public class User {
+public class User implements Parcelable {
     String username;
     String password;
     String fullname;
@@ -86,5 +89,44 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(password);
+        dest.writeString(fullname);
+        dest.writeString(phone);
+        dest.writeString(email);
+        dest.writeString(address);
+        dest.writeString(avatar);
+        dest.writeString(token);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    private User(Parcel in) {
+        username = in.readString();
+        password = in.readString();
+        fullname = in.readString();
+        phone = in.readString();
+        email = in.readString();
+        address = in.readString();
+        avatar = in.readString();
+        token = in.readString();
     }
 }

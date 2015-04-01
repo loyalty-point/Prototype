@@ -14,6 +14,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 
+import java.util.List;
+
 public class ShopDetailActivity extends ActionBarActivity {
 
     String shopName;
@@ -64,8 +66,12 @@ public class ShopDetailActivity extends ActionBarActivity {
         switch (requestCode) {
             case Global.SCAN_BARCODE: {
                 if(resultCode == RESULT_OK){
-                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_fragment);
-                    fragment.onActivityResult(requestCode, resultCode, data);
+                    /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_fragment);
+                    fragment.onActivityResult(requestCode, resultCode, data);*/
+                    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                    for(int i=0; i<fragments.size(); i++) {
+                        fragments.get(i).onActivityResult(requestCode, resultCode, data);
+                    }
                 }
                 break;
             }

@@ -92,7 +92,7 @@ dependencies {
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.19.0'
     compile 'com.google.api-client:google-api-client-java6:1.19.0'
 
-    compile 'com.android.support:multidex:1.0.0'
+    /*compile 'com.android.support:multidex:1.0.0'*/
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
@@ -113,4 +113,7 @@ dependencies {
 
     // Expandable Button
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+
+    // barcode scanner
+    compile 'me.dm7.barcodescanner:zbar:1.6.3'
 }

@@ -27,6 +27,8 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Global;
+import com.thesis.dont.loyaltypointadmin.models.User;
 
 import butterknife.ButterKnife;
 
@@ -61,6 +63,82 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
         ViewCompat.setElevation(rootView, 50);
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mParentActivity = getActivity();
+
+        // add expandable button
+        //addExpandableButton();
+
+        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
+        barcodeBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        barcodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start Scan Barcode Activity
+                /*IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+                scanIntegrator.initiateScan();*/
+
+                Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
+                User user = new User("username", "password", "fullname", "phone", "email", "address", "avatar", "token");
+                i.putExtra(Global.USER_OBJECT, user);
+                startActivity(i);
+
+                /*Intent i = new Intent(mParentActivity, ScannerActivity.class);
+                startActivity(i);*/
+            }
+        });
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search_shop, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnSuggestionListener(this);
+        searchView.setSuggestionsAdapter(mAdapter);
+    }
+
+    //call back when scan the bar code successfully
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            // Load user from barcode
+            String barcode = scanningResult.getContents();
+            // Start CalculatePointActivity
+            Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
+            User user = new User("username", "password", "fullname", "phone", "email", "address", "avatar", "token");
+            i.putExtra(Global.USER_OBJECT, user);
+            startActivity(i);
+        } else {
+
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int i) {
+        return false;
     }
 
     private void addExpandableButton() {
@@ -135,67 +213,5 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 .addSubActionView(NFCAction)
                 .attachTo(actionButton)
                 .build();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mParentActivity = getActivity();
-
-        // add expandable button
-        //addExpandableButton();
-
-        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
-        barcodeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start Scan Barcode Activity
-                IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
-                scanIntegrator.initiateScan();
-            }
-        });
-
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_search_shop, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-        searchView.setSuggestionsAdapter(mAdapter);
-    }
-
-    //call back when scan the bar code successfully
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            // Load user from barcode
-            String barcode = scanningResult.getContents();
-        } else {
-
-        }
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int i) {
-        return false;
     }
 }

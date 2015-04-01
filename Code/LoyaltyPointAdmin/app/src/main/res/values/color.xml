@@ -199,5 +199,6 @@
     <color name="PrimaryText">#ff202020</color>
     <color name="SecondaryText">#ff717171</color>
     <color name="DividerColor">#ffb5b5b5</color>
-    <color name="Background">#ffeeeeee</color>
+    <!--<color name="Background">#ffeeeeee</color>-->
+    <color name="Background">#ff303945</color>
 </resources>
