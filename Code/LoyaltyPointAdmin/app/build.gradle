@@ -16,8 +16,8 @@ android {
             moduleName "hello-jni"
         }
 
-        // Enabling multidex support.
-        multiDexEnabled true
+        /*// Enabling multidex support.
+        multiDexEnabled true*/
 
     }
 
@@ -48,11 +48,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
     }
 
-    dexOptions {
+    /*dexOptions {
         javaMaxHeapSize "4g"
-    }
+    }*/
 }
 
 repositories {

@@ -17,8 +17,8 @@ android {
             moduleName "hello-jni"
         }
 
-        // Enabling multidex support.
-        multiDexEnabled true
+        /*// Enabling multidex support.
+        multiDexEnabled true*/
     }
 
     sourceSets.main {
@@ -48,6 +48,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
         }
     }
 }
@@ -84,7 +90,7 @@ dependencies {
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.19.0'
     compile 'com.google.api-client:google-api-client-java6:1.19.0'
 
-    compile 'com.android.support:multidex:1.0.0'
+    /*compile 'com.android.support:multidex:1.0.0'*/
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 

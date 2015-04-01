@@ -1,14 +1,17 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -42,6 +45,9 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mPicaso = Picasso.with(this);
         mAdapter = createAndBindingData();
 
@@ -149,6 +155,19 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         searchView.setOnSuggestionListener(this);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // You must implements your logic to get data using OrmLite

@@ -109,7 +109,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         mParentActivity = getActivity();
 
         // add expandable button
-        addExpandableButton();
+        //addExpandableButton();
 
         setHasOptionsMenu(true);
     }
