@@ -151,8 +151,7 @@ public class ShopsListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Shop shop = (Shop) getItem(shopIndex);
                 Intent i = new Intent(mParentActivity, ShopDetailActivity.class);
-                i.putExtra("SHOP_ID", shop.getId());
-                i.putExtra(Global.SHOP_NAME, shop.getName());
+                i.putExtra(Global.SHOP_OBJECT, shop);
                 mParentActivity.startActivity(i);
             }
         });

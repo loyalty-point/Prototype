@@ -78,7 +78,7 @@ public class ShopAwardsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        shopID = ((ShopDetailActivity)getActivity()).shopID;
+        shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
 
         // set listener for createAward button
         ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
@@ -87,7 +87,7 @@ public class ShopAwardsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateAwardActivity.class);
-                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).shopID);
+                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).getCurrentShop().getId());
                 startActivity(i);
             }
         });

@@ -9,6 +9,11 @@ public class Global {
     public static String SHOP_NAME = "shop_name";
     public static String SHOP_OBJECT = "shop_object";
     public static String USER_OBJECT = "user_object";
+    public static String PRODUCT_LIST = "prodcut_list";
+
+    public static String TOTAL_MONEY = "total_money";
+
 
     public static final int SCAN_BARCODE = 49374;
+    public static final int CAMERA_REQUEST = 49375;
 }

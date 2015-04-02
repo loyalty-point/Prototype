@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Product;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
@@ -24,11 +28,7 @@ import me.dm7.barcodescanner.zbar.Result;
 public class CalculatePointActivity extends ActionBarActivity {
 
     User mUser;
-
-    ImageView mUserAvatar;
-    TextView mFullName, mPhone;
-
-    static Picasso mPicasso;
+    Shop mShop;
 
     ListView mListView;
     ListProductsAdapter mAdapter;
@@ -38,21 +38,11 @@ public class CalculatePointActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculate_point);
 
-        mPicasso = Picasso.with(this);
-
         Intent i = getIntent();
         mUser = (User) i.getParcelableExtra(Global.USER_OBJECT);
+        mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
 
-        // Set user info to layout
-        /*mUserAvatar = (ImageView) findViewById(R.id.userAvatarImgView);
-        mFullName = (TextView) findViewById(R.id.fullname);
-        mPhone = (TextView) findViewById(R.id.phone);*/
-
-        //mPicasso.load(mUser.getAvatar()).placeholder(R.drawable.user_avatar).into(mUserAvatar);
-        //mPicasso.load("").placeholder(R.drawable.user_avatar).into(mUserAvatar);
-        /*mFullName.setText(mUser.getFullname());
-        mPhone.setText(mUser.getPhone());*/
-
+        // setup fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.barcodeScannerLayout, new ScannerFragment());
@@ -64,6 +54,43 @@ public class CalculatePointActivity extends ActionBarActivity {
         mListView = (ListView) findViewById(R.id.listProducts);
         mAdapter = new ListProductsAdapter(this, new ArrayList<Product>());
         mListView.setAdapter(mAdapter);
+
+        // set listeners for buttons
+        ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ButtonRectangle nextBtn = (ButtonRectangle) findViewById(R.id.registerBtn);
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CalculatePointActivity.this, ConfirmUpdatePointActivity.class);
+
+                // put user into intent
+                i.putExtra(Global.USER_OBJECT, mUser);
+
+                // put shop into intent
+                i.putExtra(Global.SHOP_OBJECT, mShop);
+
+                // put total money into intent
+                EditText totalMoneyEditText = (EditText) findViewById(R.id.totalMoney);
+                int totalMoney = 0;
+                if(!totalMoneyEditText.getText().equals("")) {
+                    totalMoney = Integer.valueOf(totalMoneyEditText.getText().toString());
+                }
+                i.putExtra(Global.TOTAL_MONEY, totalMoney);
+
+                // put list products into intent
+                //i.putExtra(Global.PRODUCT_LIST, mAdapter.getListProducts());
+                i.putParcelableArrayListExtra(Global.PRODUCT_LIST, mAdapter.getListProducts());
+
+                startActivity(i);
+            }
+        });
     }
 
     @Override

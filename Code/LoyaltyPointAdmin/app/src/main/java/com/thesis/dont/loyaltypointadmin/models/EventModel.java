@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import android.util.Pair;
+
 import com.thesis.dont.loyaltypointadmin.controllers.Helper;
 
 import org.apache.http.HttpResponse;
@@ -34,6 +36,7 @@ public class EventModel {
     public static native String getAddEvent();
     public static native String getGetListEvents();
     public static native String getEditEvent();
+    public static native String getCalculatePoint();
 
     public static void addEvent(Event event, final String shopId, final OnAddEventResult onAddEventResult){
         final String json = Helper.objectToJson(event);
@@ -180,6 +183,52 @@ public class EventModel {
         t.start();
     }
 
+    public static void calculatePoint(final String shopId, final int totalMoney, final ArrayList<Product> products, final OnCalculatePointResult mOnCalculatePointResult){
+        /*//final String json = Helper.objectToJson(event);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getAddEvent();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("event", json));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    *//*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*//*
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CreateEventResult createEventResult = (CreateEventResult)Helper.jsonToObject(response, CreateEventResult.class);
+
+                    if(createEventResult.error.equals(""))
+                        onAddEventResult.onSuccess(createEventResult);
+                    else
+                        onAddEventResult.onError(createEventResult.error);
+                } catch (UnsupportedEncodingException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();*/
+    }
+
     public interface OnAddEventResult{
         public void onSuccess(CreateEventResult createEventResult);
 
@@ -194,6 +243,11 @@ public class EventModel {
 
     public interface OnEditEventResult{
         public void onSuccess(EditEventResult result);
+        public void onError(String error);
+    }
+
+    public interface OnCalculatePointResult{
+        public void onSuccess(ArrayList<Pair<Event, Integer>> result, int pointFromMoney, int totalPoint);
         public void onError(String error);
     }
 
