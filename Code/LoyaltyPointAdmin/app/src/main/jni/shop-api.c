@@ -19,3 +19,10 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getEditShopInfo(
 {
     return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/edit_shop.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetFollowingUsers(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/get_following_users.php");
+}
+
+

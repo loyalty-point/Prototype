@@ -1,22 +1,31 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,27 +35,45 @@ import com.google.zxing.integration.android.IntentResult;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
+import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.User;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import butterknife.ButterKnife;
 
-public class ShopUserFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
+public class ShopUserFragment extends Fragment implements SearchView.OnQueryTextListener {
     private static final String ARG_POSITION = "position";
+    private static final String ARG_SHOPID = "shopId";
+    private static final String USER_ID = "userId";
+    private static final String USER_NAME = "userName";
+    private static final String USER_IMG = "userImg";
+    private static final String USER_PHONENUMBER = "userPhoneNumber";
 
     ButtonFloat barcodeBtn;
 
     Activity mParentActivity;
 
+    private String shopId;
+
+    private ArrayList<User> listUser;
+    private ListView listView;
+    private CustomSimpleCursorAdapter mAdapter;
+    MatrixCursor cursor;
+    public static Picasso mPicaso;
+
     private int position;
 
-    private SimpleCursorAdapter mAdapter;
 
     public ShopUserFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
+        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -54,6 +81,8 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        shopId = getArguments().getString(ARG_SHOPID);
+
     }
 
     @Override
@@ -66,12 +95,37 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         return rootView;
     }
 
+    private void getListUsers(){
+        ShopModel.getFollowingUsers(Global.userToken,shopId,new ShopModel.OnSelectFollowingUsersResult() {
+            @Override
+            public void onSuccess(ArrayList<User> listUsers) {
+                listUser = listUsers;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateAdapter("");
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "error: " + error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
+        mPicaso = Picasso.with(mParentActivity);
         // add expandable button
         //addExpandableButton();
 
@@ -100,7 +154,19 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 startActivity(i);*/
             }
         });
-
+        //create list user and search adapter.
+        final String[] from = new String[]{USER_NAME};
+        final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
+        //create adapter and add it to list
+        mAdapter = new CustomSimpleCursorAdapter(getActivity(),
+                R.layout.search_user_layout,
+                cursor,
+                from,
+                to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        listView = (ListView) getActivity().findViewById(R.id.usersList);
+        listView.setAdapter(mAdapter);
+        getListUsers();
         setHasOptionsMenu(true);
     }
 
@@ -109,8 +175,6 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         inflater.inflate(R.menu.menu_search_shop, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-        searchView.setSuggestionsAdapter(mAdapter);
     }
 
     //call back when scan the bar code successfully
@@ -129,23 +193,26 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         }
     }
 
+    // search logic
+    private void populateAdapter(String query) {
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
+        for (int i = 0; i < listUser.size(); i++) {
+            if (listUser.get(i).getFullname().toLowerCase().startsWith(query.toLowerCase()))
+                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername()});
+        }
+        mAdapter.changeCursor(cursor);
+
+    }
+
     @Override
     public boolean onQueryTextSubmit(String s) {
+        populateAdapter(s);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int i) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int i) {
+        populateAdapter(s);
         return false;
     }
 
@@ -221,5 +288,49 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 .addSubActionView(NFCAction)
                 .attachTo(actionButton)
                 .build();
+    }
+
+    //Custom cursor to update data for suggestion list
+    public class CustomSimpleCursorAdapter extends SimpleCursorAdapter {
+        private Context mContext;
+
+        public CustomSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+            this.mContext = context;
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.search_user_layout, parent, false);
+
+            return view;
+        }
+
+        @Override
+        public void bindView(View view, final Context context, final Cursor cursor) {
+            String name = cursor.getString(cursor.getColumnIndex(USER_NAME));
+            String phone = cursor.getString(cursor.getColumnIndex(USER_PHONENUMBER));
+            String image = cursor.getString(cursor.getColumnIndex(USER_IMG));
+            final String id = cursor.getString(cursor.getColumnIndex(USER_IMG));
+
+            TextView userName = (TextView) view.findViewById(R.id.userName);
+            TextView userPhone = (TextView) view.findViewById(R.id.userPhone);
+            ImageView userImg = (ImageView) view.findViewById(R.id.userImg);
+
+            userName.setText(name);
+            userPhone.setText(phone);
+            if(image.equals(""))
+                image = null;
+            mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
+
+            Button yourButton = (Button) view.findViewById(R.id.addUserPoint);
+            yourButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("user_name", id);
+                }
+            });
+        }
     }
 }

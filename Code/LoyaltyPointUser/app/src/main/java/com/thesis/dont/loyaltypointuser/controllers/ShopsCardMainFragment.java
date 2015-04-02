@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
 
@@ -62,6 +63,32 @@ public class ShopsCardMainFragment extends Fragment {
 
     public void setListData()
     {
+
+        ShopModel.getFollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
+            @Override
+            public void onSuccess(ArrayList<Shop> listShops) {
+                mAdapter = new ShopsListAdapter(mParentActivity, listShops);
+
+                mParentActivity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mListView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                mParentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
+                    }
+                });
+            }
+        });
 //        ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
 //            @Override
 //            public void onSuccess(ArrayList<Shop> listShops) {

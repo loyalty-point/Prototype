@@ -27,7 +27,7 @@ if($username == ""){
 /**/
 
 $result = '{"error":"", "listShops":[';
-$query_search = "select * from shop";
+$query_search = "select * from shop where id in (select shop_id from customer_shop where username = '".$username."')";
 
 $query_exec1 = mysqli_query($localhost,$query_search);
 

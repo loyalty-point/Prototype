@@ -1,6 +1,12 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
@@ -9,15 +15,19 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,19 +38,20 @@ import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class SearchShopActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
-    private static final String SHOP_NAME = "shopName";
-    private static final String SHOP_ADDRESS = "shopAddress";
-    private static final String SHOP_IMAGE = "shopImg";
+public class SearchShopActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
+    public static final String SHOP_NAME = "shopName";
+    public static final String SHOP_ADDRESS = "shopAddress";
+    public static final String SHOP_IMAGE = "shopImg";
+    public static final String SHOP_ID = "shopId";
 
     private ArrayList<Shop> listShop;
     private ListView listView;
-    private SimpleCursorAdapter mAdapter;
+    private CustomSimpleCursorAdapter mAdapter;
+
     MatrixCursor cursor;
 
-    static Picasso mPicaso;
+    public static Picasso mPicaso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,38 +61,22 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mPicaso = Picasso.with(this);
-        mAdapter = createAndBindingData();
-
+        final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID};
+        final int[] to = new int[]{R.id.shopImg, R.id.shopName, R.id.shopAddress};
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID});
+        //create adapter and add it to list
+        mAdapter = new CustomSimpleCursorAdapter(this,
+                R.layout.suggestion_list,
+                cursor,
+                from,
+                to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) findViewById(R.id.shopsList);
         listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SearchShopActivity.this,"click" + String.valueOf(position),Toast.LENGTH_LONG).show();
-                if(parent.getSelectedItemId() == R.id.addFollowShop){
-                    Toast.makeText(SearchShopActivity.this,"click button" + String.valueOf(position),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SearchShopActivity.this,"select" + String.valueOf(position),Toast.LENGTH_LONG).show();
-                if(parent.getSelectedItemId() == R.id.addFollowShop){
-                    Toast.makeText(SearchShopActivity.this,"select button" +String.valueOf(position),Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         getListShops();
     }
 
     public void getListShops() {
-        ShopModel.getAllShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
+        ShopModel.getUnfollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
                 SearchShopActivity.this.listShop = listShops;
@@ -105,64 +100,12 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         });
     }
 
-    public SimpleCursorAdapter createAndBindingData(){
-        final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS};
-        final int[] to = new int[]{R.id.shopImg, R.id.shopName, R.id.shopAddress};
-        //create cursor and add it to Adapter.
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS});
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,
-                R.layout.suggestion_list,
-                cursor,
-                from,
-                to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-
-        //override method setViewValue to set image
-        SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder() {
-
-            public boolean setViewValue(View view, Cursor cursor,
-                                        int columnIndex) {
-                if(cursor.getCount() > 0) {
-                    if(view.getId() == R.id.shopImg) {
-                        ImageView image = (ImageView) view;
-                        String link = cursor.getString(columnIndex);
-                        mPicaso.load(link).placeholder(R.drawable.ic_store).into(image);
-                    }else if(view.getId() == R.id.shopName || view.getId() == R.id.shopAddress){
-                        TextView tv = (TextView) view;
-                        ((TextView) view).setText(cursor.getString(columnIndex));
-                    }else if(view.getId() == R.id.addFollowShop) {
-                        Button addFollowShopBtn = (Button)view;
-                        addFollowShopBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        });
-                    }
-                }
-                return true;
-            }
-        };
-
-        //binding data to viewid
-        ImageView image = (ImageView) findViewById(R.id.shopImg);
-        viewBinder.setViewValue(image, cursor, cursor.getColumnIndex(SHOP_IMAGE));
-        TextView name = (TextView) findViewById(R.id.shopName);
-        viewBinder.setViewValue(name, cursor, cursor.getColumnIndex(SHOP_NAME));
-        TextView address = (TextView) findViewById(R.id.shopAddress);
-        viewBinder.setViewValue(address, cursor, cursor.getColumnIndex(SHOP_ADDRESS));
-        //set viewbinder for adapter
-        simpleCursorAdapter.setViewBinder(viewBinder);
-        return simpleCursorAdapter;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search_shop, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-
         return true;
     }
 
@@ -179,34 +122,112 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         return super.onOptionsItemSelected(item);
     }
 
-    // You must implements your logic to get data using OrmLite
+    // search logic
     private void populateAdapter(String query) {
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID});
         for (int i = 0; i < listShop.size(); i++) {
             if (listShop.get(i).getName().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listShop.get(i).getImage(), listShop.get(i).getName(), listShop.get(i).getAddress()});
+                cursor.addRow(new Object[]{i, listShop.get(i).getImage(), listShop.get(i).getName(), listShop.get(i).getAddress(), listShop.get(i).getId()});
         }
         mAdapter.changeCursor(cursor);
+
     }
 
     @Override
-    public boolean onSuggestionSelect(int i) {
-        Toast.makeText(this, String.valueOf(i) + " " + mAdapter.getCursor().getString(i), Toast.LENGTH_LONG).show();
-        return true;
+    public boolean onQueryTextSubmit(String s) {
+        populateAdapter(s);
+        return false;
     }
 
     @Override
-    public boolean onSuggestionClick(int i) {
-        Toast.makeText(this, String.valueOf(i) + " " + mAdapter.getCursor().getString(i), Toast.LENGTH_LONG).show();
-        return true;
+    public boolean onQueryTextChange(String s) {
+        populateAdapter(s);
+        return false;
     }
 
-    public boolean onQueryTextChange(String newText) {
-        populateAdapter(newText);
-        return true;
-    }
+    //custom adapter for suggestion list
+    public class CustomSimpleCursorAdapter extends SimpleCursorAdapter {
+        private Context context;
 
-    public boolean onQueryTextSubmit(String query) {
-        return true;
+        public CustomSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+            this.context = context;
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.suggestion_list, parent, false);
+
+
+            return view;
+        }
+
+        //bind view to get data from list
+        @Override
+        public void bindView(View view, final Context context, final Cursor cursor) {
+            String name = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_NAME));
+            String address = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ADDRESS));
+            String image = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_IMAGE));
+            final String id = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ID));
+
+            TextView shopName = (TextView) view.findViewById(R.id.shopName);
+            TextView shopAddress = (TextView) view.findViewById(R.id.shopAddress);
+            ImageView shopImage = (ImageView) view.findViewById(R.id.shopImg);
+
+            shopName.setText(name);
+            shopAddress.setText(address);
+            SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(shopImage);
+
+            Button followBtn = (Button) view.findViewById(R.id.addFollowShop);
+            followBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE: {
+                                    ShopModel.followShop(Global.userToken,id,new ShopModel.OnFollowShopResult() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.e("result", "success");
+                                            for(int i = 0;i<listShop.size();i++){
+                                                if(listShop.get(i).getId().equals(id)){
+                                                    listShop.remove(i);
+                                                    break;
+                                                }
+                                            }
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    populateAdapter("");
+                                                }
+                                            });
+
+                                        }
+
+                                        @Override
+                                        public void onError(String error) {
+                                            Log.e("error", error);
+                                        }
+                                    });
+                                    break;
+                                }
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Do you want to follow this shop?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+                }
+            });
+        }
     }
 }
