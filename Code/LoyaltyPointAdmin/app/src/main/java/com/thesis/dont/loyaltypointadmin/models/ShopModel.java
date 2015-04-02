@@ -39,6 +39,7 @@ public class ShopModel {
     public static native String getGetListShop();
     public static native String getGetShopInfo();
     public static native String getEditShopInfo();
+    public static native String getGetFollowingUsers();
 
     public static void createShop(Shop shop, String token){
         final String token_string = token;
@@ -248,6 +249,59 @@ public class ShopModel {
         t.start();
     }
 
+    public static void getFollowingUsers(String token, String shopId, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
+        final String token_string = token;
+        final String shopId_string = shopId;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetFollowingUsers();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId_string));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetListFollowingUsers result = (GetListFollowingUsers) Helper.jsonToObject(response, GetListFollowingUsers.class);
+
+                    if(result.error.equals("")){
+
+                        ArrayList<User> listUsers = new ArrayList<User>();
+                        for(int i=0; i<result.listUsers.length-1; i++) {
+                            listUsers.add(result.listUsers[i]);
+                        }
+                        mOnSelectFollowingUsersResult.onSuccess(listUsers);
+                    }
+                    else
+                        mOnSelectFollowingUsersResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnSelectFollowingUsersResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnSelectFollowingUsersResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnSelectFollowingUsersResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnCreateShopResult{
         public void onSuccess(CreateShopResult result);
         public void onError(String error);
@@ -277,6 +331,11 @@ public class ShopModel {
         public void onError(String error);
     }
 
+    public interface OnSelectFollowingUsersResult{
+        public void onSuccess(ArrayList<User> listUsers);
+        public void onError(String error);
+    }
+
     public static OnSelectListShopResult getOnSelectListShopResult() {return mOnSelectListShopResult;}
     public static void setOnSelectListShopResult(OnSelectListShopResult mOnSelectListShopResult){
         ShopModel.mOnSelectListShopResult = mOnSelectListShopResult;
@@ -289,5 +348,10 @@ public class ShopModel {
     public class GetListShops {
         public String error;
         public Shop[] listShops;
+    }
+
+    public class GetListFollowingUsers{
+        public String error;
+        public User[] listUsers;
     }
 }

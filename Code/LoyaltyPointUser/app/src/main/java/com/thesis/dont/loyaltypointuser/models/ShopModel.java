@@ -32,7 +32,8 @@ public class ShopModel {
     }
     public static native String getCreateShop();
     public static native String getGetShopInfo();
-    public static native String getGetAllShop();
+    public static native String getGetUnfollowedShop();
+    public static native String getGetFollowedShop();
     public static native String getFollowShop();
 
     public static void createShop(Shop shop, String token){
@@ -135,14 +136,65 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getAllShop(String token, final OnSelectAllShopResult mOnSelectAllShopResult){
+    public static void getUnfollowedShop(String token, final OnSelectAllShopResult mOnSelectAllShopResult){
         final String token_string = token;
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetAllShop();
+                String link = getGetUnfollowedShop();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
+
+                    if(result.error.equals("")){
+
+                        ArrayList<Shop> listShops = new ArrayList<Shop>();
+                        for(int i=0; i<result.listShops.length-1; i++) {
+                            listShops.add(result.listShops[i]);
+                        }
+                        mOnSelectAllShopResult.onSuccess(listShops);
+                    }
+                    else
+                        mOnSelectAllShopResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnSelectAllShopResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnSelectAllShopResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnSelectAllShopResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void getFollowedShop(String token, final OnSelectAllShopResult mOnSelectAllShopResult){
+        final String token_string = token;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetFollowedShop();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
