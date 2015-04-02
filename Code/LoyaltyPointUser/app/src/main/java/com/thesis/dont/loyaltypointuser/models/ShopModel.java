@@ -33,6 +33,7 @@ public class ShopModel {
     public static native String getCreateShop();
     public static native String getGetShopInfo();
     public static native String getGetAllShop();
+    public static native String getFollowShop();
 
     public static void createShop(Shop shop, String token){
         final String token_string = token;
@@ -193,7 +194,7 @@ public class ShopModel {
             public void run() {
                 super.run();
 
-                String link = getCreateShop();
+                String link = getFollowShop();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -211,7 +212,7 @@ public class ShopModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     FollowShop result = (FollowShop) Helper.jsonToObject(response, FollowShop.class);
-                    if(result.error == "")
+                    if(result.error.equals(""))
                         onFollowShopResult.onSuccess();
                     else
                         onFollowShopResult.onError(result.error);

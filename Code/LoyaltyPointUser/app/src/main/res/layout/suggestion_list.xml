@@ -26,6 +26,8 @@
         android:textSize="@dimen/font_size" />
 
     <Button
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:id="@+id/addFollowShop"
         android:layout_width="@dimen/_60sdp"
         android:layout_height="match_parent"
