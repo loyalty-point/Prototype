@@ -1,8 +1,10 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,9 +12,11 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +48,9 @@ public class SearchShopActivity extends ActionBarActivity implements CustomSimpl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mPicaso = Picasso.with(this);
         final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID};
         final int[] to = new int[]{R.id.shopImg, R.id.shopName, R.id.shopAddress};
@@ -107,6 +114,19 @@ public class SearchShopActivity extends ActionBarActivity implements CustomSimpl
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search_shop, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // You must implements your logic to get data using OrmLite

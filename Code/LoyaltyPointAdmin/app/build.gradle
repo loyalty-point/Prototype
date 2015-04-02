@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.thesis.dont.loyaltypointadmin"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 21
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
@@ -16,8 +16,8 @@ android {
             moduleName "hello-jni"
         }
 
-        // Enabling multidex support.
-        multiDexEnabled true
+        /*// Enabling multidex support.
+        multiDexEnabled true*/
 
     }
 
@@ -48,11 +48,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
     }
 
-    dexOptions {
+    /*dexOptions {
         javaMaxHeapSize "4g"
-    }
+    }*/
 }
 
 repositories {
@@ -86,7 +92,7 @@ dependencies {
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.19.0'
     compile 'com.google.api-client:google-api-client-java6:1.19.0'
 
-    compile 'com.android.support:multidex:1.0.0'
+    /*compile 'com.android.support:multidex:1.0.0'*/
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
@@ -104,4 +110,10 @@ dependencies {
 
     // Circle Button
     compile 'com.github.markushi:circlebutton:1.1'
+
+    // Expandable Button
+    compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+
+    // barcode scanner
+    compile 'me.dm7.barcodescanner:zbar:1.6.3'
 }

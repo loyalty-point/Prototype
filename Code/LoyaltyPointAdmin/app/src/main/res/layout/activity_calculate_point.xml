@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding"
+    android:background="@color/DarkPrimaryColor"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.CalculatePointActivity">
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:id="@+id/totalMoneyFloat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_70sdp"
+        float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
+        float:fletPadding="@dimen/activity_flet_padding">
+
+        <EditText
+            android:id="@+id/totalMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/total"
+            android:numeric="integer"
+            android:textStyle="normal"
+            android:textColor="@color/TextIcons"
+            android:backgroundTint="@color/TextIcons"
+            android:textColorHint="@color/TextIcons"
+            android:drawableLeft="@drawable/money_ic"
+            android:drawablePadding="@dimen/_10sdp"
+            android:textSize="@dimen/font_size"/>
+        />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    // TOTALS POINT from MONEY
+    <TextView
+        android:id="@+id/vnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VND"
+        android:textColor="@color/TextIcons"
+        android:layout_alignBottom="@id/totalMoneyFloat"
+        android:layout_toRightOf="@id/totalMoneyFloat"/>
+
+    <TextView
+        android:id="@+id/totalMoneyPoint"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/totalMoneyFloat"
+        android:gravity="right"
+        android:text="0"/>
+
+    // PRODUCTS
+    <TextView
+        android:id="@+id/products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalMoneyFloat"
+        android:text="PRODUCTS"/>
+
+
+    // BUTTON LAYOUT
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="CANCEL"
+            android:background="@color/MaterialGrey"
+            materialdesign:rippleSpeed="70"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/font_size"/>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/registerBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="NEXT"
+            android:background="@color/AccentColor"
+            materialdesign:rippleSpeed="70"
+            android:textColor="@color/White"
+            android:textSize="@dimen/font_size"/>
+
+    </LinearLayout>
+
+    <!--<FrameLayout
+        android:id="@+id/barcodeScannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnLayout"
+        android:layout_below="@id/events"></FrameLayout>-->
+
+    // BARCODE SCANNER
+    <fragment
+        android:name="com.thesis.dont.loyaltypointadmin.controllers.ScannerFragment"
+        android:id="@+id/barcodeScannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_above="@id/btnLayout"></fragment>
+
+    // LIST PRODUCTS
+    <ListView
+        android:id="@+id/listProducts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/barcodeScannerLayout"
+        android:layout_below="@id/products"></ListView>
+
+
+
+</RelativeLayout>

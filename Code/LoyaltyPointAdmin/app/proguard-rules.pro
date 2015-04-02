@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-ignorewarnings
+-dontobfuscate
+
+-keep class android.support.v7.widget.** { *; }
+-keep class net.sourceforge.zbar.** { *; }
+
