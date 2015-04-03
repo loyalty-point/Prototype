@@ -89,33 +89,6 @@ public class ShopsCardMainFragment extends Fragment {
                 });
             }
         });
-//        ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
-//            @Override
-//            public void onSuccess(ArrayList<Shop> listShops) {
-//
-//                mAdapter = new ShopsListAdapter(mParentActivity, listShops);
-//
-//                mParentActivity.runOnUiThread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        mListView.setAdapter(mAdapter);
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onError(final String error) {
-//                mParentActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
-//                    }
-//                });
-//            }
-//        });
-//        ShopModel.getListShop(Global.userToken);
     }
 
     @Override
