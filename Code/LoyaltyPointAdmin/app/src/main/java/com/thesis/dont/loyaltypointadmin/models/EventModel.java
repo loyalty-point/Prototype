@@ -183,50 +183,58 @@ public class EventModel {
         t.start();
     }
 
-    public static void calculatePoint(final String shopId, final int totalMoney, final ArrayList<Product> products, final OnCalculatePointResult mOnCalculatePointResult){
-        /*//final String json = Helper.objectToJson(event);
+    public static void calculatePoint(final String token, final String shopId, final int totalMoney, final ArrayList<Product> products, final OnCalculatePointResult mOnCalculatePointResult){
+        //final String json = Helper.objectToJson(event);
+        final String listproducts = Helper.objectToJson(products);
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getAddEvent();
+                String link = getCalculatePoint();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(3);
+                nameValuePairs = new ArrayList<NameValuePair>(4);
 
+                nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
-                nameValuePairs.add(new BasicNameValuePair("event", json));
-                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("total_money", String.valueOf(totalMoney)));
+                nameValuePairs.add(new BasicNameValuePair("list_products", listproducts));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    *//*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*//*
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    CreateEventResult createEventResult = (CreateEventResult)Helper.jsonToObject(response, CreateEventResult.class);
+                    CalculatePointResult calculatePointResult = (CalculatePointResult)Helper.jsonToObject(response, CalculatePointResult.class);
 
-                    if(createEventResult.error.equals(""))
-                        onAddEventResult.onSuccess(createEventResult);
+                    if(calculatePointResult.error.equals("")) {
+                        // parse from AchievedEvent[] -> ArrayList<AchievedEvent>
+                        ArrayList<AchievedEvent> events = new ArrayList<AchievedEvent>();
+                        for(int i=0; i<calculatePointResult.achievedEvents.length-1; i++) { // trừ 1 là do kết quả trả về dư 1 dấu ','
+                            events.add(calculatePointResult.achievedEvents[i]);
+                        }
+                        mOnCalculatePointResult.onSuccess(events, calculatePointResult.pointsFromMoney, calculatePointResult.totalPoints);
+                    }
                     else
-                        onAddEventResult.onError(createEventResult.error);
+                        mOnCalculatePointResult.onError(calculatePointResult.error);
                 } catch (UnsupportedEncodingException e) {
-                    onAddEventResult.onError(e.toString());
+                    mOnCalculatePointResult.onError(e.toString());
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    onAddEventResult.onError(e.toString());
+                    mOnCalculatePointResult.onError(e.toString());
                     e.printStackTrace();
                 } catch (IOException e) {
-                    onAddEventResult.onError(e.toString());
+                    mOnCalculatePointResult.onError(e.toString());
                     e.printStackTrace();
                 }
             }
         };
-        t.start();*/
+        t.start();
     }
 
     public interface OnAddEventResult{
@@ -247,7 +255,7 @@ public class EventModel {
     }
 
     public interface OnCalculatePointResult{
-        public void onSuccess(ArrayList<Pair<Event, Integer>> result, int pointFromMoney, int totalPoint);
+        public void onSuccess(ArrayList<AchievedEvent> result, int pointFromMoney, int totalPoint);
         public void onError(String error);
     }
 
@@ -266,5 +274,12 @@ public class EventModel {
         public String error;
         public String bucketName;
         public String fileName;
+    }
+
+    public class CalculatePointResult{
+        public String error;
+        public int pointsFromMoney;
+        public AchievedEvent[] achievedEvents;
+        public int totalPoints;
     }
 }

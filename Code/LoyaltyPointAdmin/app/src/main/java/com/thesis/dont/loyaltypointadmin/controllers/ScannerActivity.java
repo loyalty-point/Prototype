@@ -1,5 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -8,10 +11,16 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Global;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
+import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +39,19 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
     private boolean mAutoFocus;
     private ArrayList<Integer> mSelectedIndices;
 
+    // data from previous activity
+    ArrayList<User> listUsers;
+    Shop mShop;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
+
+        // get data
+        Intent i = getIntent();
+        listUsers = i.getParcelableArrayListExtra(Global.USER_LIST);
+        mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+
         if(state != null) {
             mFlash = state.getBoolean(FLASH_STATE, false);
             mAutoFocus = state.getBoolean(AUTO_FOCUS_STATE, true);
@@ -127,7 +146,62 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
-        showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
+
+        // find user in users
+        User foundUser = null;
+        String barcode = rawResult.getContents();
+        for(int i=0; i<listUsers.size(); i++) {
+            User user = listUsers.get(i);
+            if(user.getBarcode().equals(barcode)) {
+                foundUser = user;
+                break;
+            }
+        }
+
+        if(foundUser != null) {
+            // Dialog
+            AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(this);
+            mDialogBuilder.setTitle("Found A User");
+            String message = foundUser.getFullname() + "\n" + foundUser.getPhone();
+            mDialogBuilder.setMessage(message);
+            mDialogBuilder.setCancelable(false);
+
+            // Set listeners for dialog's buttons
+            final User finalFoundUser = foundUser;
+            mDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                    Intent i = new Intent(ScannerActivity.this, CalculatePointActivity.class);
+
+                    // put username into intent
+                    i.putExtra(Global.USER_NAME, finalFoundUser.getUsername());
+
+                    // put shop into intent
+                    i.putExtra(Global.SHOP_OBJECT, mShop);
+
+                    startActivity(i);
+                    finish();
+                }
+            });
+            mDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+
+                    mScannerView.startCamera();
+                    mScannerView.setFlash(mFlash);
+                    mScannerView.setAutoFocus(mAutoFocus);
+                }
+            });
+            mDialogBuilder.show();
+        }else {
+            mScannerView.startCamera();
+            mScannerView.setFlash(mFlash);
+            mScannerView.setAutoFocus(mAutoFocus);
+        }
+        //showMessageDialog("Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
     }
 
     public void showMessageDialog(String message) {

@@ -13,6 +13,7 @@ public class User implements Parcelable {
     String phone;
     String email;
     String address;
+    String barcode;
     String avatar;
     String token;
 
@@ -25,6 +26,14 @@ public class User implements Parcelable {
         this.address = address;
         this.avatar = avatar;
         this.token = token;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getUsername() {
@@ -104,6 +113,7 @@ public class User implements Parcelable {
         dest.writeString(phone);
         dest.writeString(email);
         dest.writeString(address);
+        dest.writeString(barcode);
         dest.writeString(avatar);
         dest.writeString(token);
     }
@@ -126,6 +136,7 @@ public class User implements Parcelable {
         phone = in.readString();
         email = in.readString();
         address = in.readString();
+        barcode = in.readString();
         avatar = in.readString();
         token = in.readString();
     }

@@ -27,7 +27,7 @@ import me.dm7.barcodescanner.zbar.Result;
 
 public class CalculatePointActivity extends ActionBarActivity {
 
-    User mUser;
+    String  mUserName;
     Shop mShop;
 
     ListView mListView;
@@ -39,7 +39,7 @@ public class CalculatePointActivity extends ActionBarActivity {
         setContentView(R.layout.activity_calculate_point);
 
         Intent i = getIntent();
-        mUser = (User) i.getParcelableExtra(Global.USER_OBJECT);
+        mUserName = i.getStringExtra(Global.USER_NAME);
         mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
 
         // setup fragment
@@ -64,14 +64,14 @@ public class CalculatePointActivity extends ActionBarActivity {
             }
         });
 
-        ButtonRectangle nextBtn = (ButtonRectangle) findViewById(R.id.registerBtn);
+        ButtonRectangle nextBtn = (ButtonRectangle) findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CalculatePointActivity.this, ConfirmUpdatePointActivity.class);
 
-                // put user into intent
-                i.putExtra(Global.USER_OBJECT, mUser);
+                // put username into intent
+                i.putExtra(Global.USER_NAME, mUserName);
 
                 // put shop into intent
                 i.putExtra(Global.SHOP_OBJECT, mShop);
@@ -79,7 +79,7 @@ public class CalculatePointActivity extends ActionBarActivity {
                 // put total money into intent
                 EditText totalMoneyEditText = (EditText) findViewById(R.id.totalMoney);
                 int totalMoney = 0;
-                if(!totalMoneyEditText.getText().equals("")) {
+                if(!totalMoneyEditText.getText().toString().equals("")) {
                     totalMoney = Integer.valueOf(totalMoneyEditText.getText().toString());
                 }
                 i.putExtra(Global.TOTAL_MONEY, totalMoney);

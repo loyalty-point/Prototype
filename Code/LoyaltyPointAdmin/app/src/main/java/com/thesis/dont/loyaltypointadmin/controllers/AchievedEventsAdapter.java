@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.AchievedEvent;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.Product;
 
@@ -21,23 +22,21 @@ import java.util.ArrayList;
  */
 public class AchievedEventsAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
-    private ArrayList<Pair<Event, Integer>> mAchievedEvents = new ArrayList<Pair<Event, Integer>>();
+    private ArrayList<AchievedEvent> mAchievedEvents = new ArrayList<AchievedEvent>();
 
     private Activity mParentActivity;
 
-    public AchievedEventsAdapter(){}
-
-    public AchievedEventsAdapter(Context context, ArrayList<Pair<Event, Integer>> mAchievedEvents) {
+    public AchievedEventsAdapter(Context context, ArrayList<AchievedEvent> mAchievedEvents) {
         mInflater = LayoutInflater.from(context);
         this.mAchievedEvents = mAchievedEvents;
         mParentActivity = (Activity) context;
     }
 
-    public ArrayList<Pair<Event, Integer>> getListAchievedEvents() {
+    public ArrayList<AchievedEvent> getListAchievedEvents() {
         return mAchievedEvents;
     }
 
-    public void setListAchievedEvents(ArrayList<Pair<Event, Integer>> listEvents) {
+    public void setListAchievedEvents(ArrayList<AchievedEvent> listEvents) {
         mAchievedEvents = listEvents;
     }
 
@@ -62,7 +61,7 @@ public class AchievedEventsAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if(convertView == null) {
-            view = mInflater.inflate(R.layout.products_list_row, parent, false);
+            view = mInflater.inflate(R.layout.achieved_events_list_row, parent, false);
 
             // Create holder
             holder = new ViewHolder();
@@ -78,17 +77,17 @@ public class AchievedEventsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Pair<Event, Integer> event = (Pair<Event, Integer>) getItem(position);
-        holder.index.setText(String.valueOf(position+1));
-        holder.quantity.setText(String.valueOf(event.second));
-        holder.name.setText(event.first.getName());
-        int point = event.first.getPoint() * event.second;
+        AchievedEvent event = (AchievedEvent) getItem(position);
+        holder.index.setText(String.valueOf(position+1) + ".");
+        holder.quantity.setText(String.valueOf(event.getQuantity()));
+        holder.name.setText(event.getEvent().getName());
+        int point = event.getEvent().getPoint() * event.getQuantity();
         holder.point.setText(String.valueOf(point));
 
         return view;
     }
 
-    public void add(Pair<Event, Integer> event) {
+    public void add(AchievedEvent event) {
         mAchievedEvents.add(event);
     }
 

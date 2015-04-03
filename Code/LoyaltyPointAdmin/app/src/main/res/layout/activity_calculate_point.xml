@@ -80,7 +80,7 @@
             android:textSize="@dimen/font_size"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/registerBtn"
+            android:id="@+id/nextBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"

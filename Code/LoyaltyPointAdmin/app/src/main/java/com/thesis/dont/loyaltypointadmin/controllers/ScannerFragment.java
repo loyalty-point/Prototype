@@ -174,7 +174,6 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
         } catch (Exception e) {}
 
         // Dialog
-
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
         mDialogBuilder.setTitle("Product Found");
         mDialogBuilder.setCancelable(false);
@@ -190,7 +189,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
 
         mDialogBuilder.setView(quantityEditText);
 
-        initDialog();
+        //initDialog();
         // Set listeners for dialog's buttons
         mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
             @Override

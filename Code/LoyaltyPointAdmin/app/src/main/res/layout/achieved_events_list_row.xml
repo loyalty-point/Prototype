@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/quantity"
+        android:gravity="center"
         android:text="X"/>
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/multiple"
-        android:layout_toLeftOf="@id/point"/>
+        android:layout_toLeftOf="@id/point"
+        android:layout_marginLeft="@dimen/_10sdp"/>
 
 </RelativeLayout>

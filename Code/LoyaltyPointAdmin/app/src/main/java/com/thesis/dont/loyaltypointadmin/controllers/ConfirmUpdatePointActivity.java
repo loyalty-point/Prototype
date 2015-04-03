@@ -1,8 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,24 +10,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.AchievedEvent;
+import com.thesis.dont.loyaltypointadmin.models.EventModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Product;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
+import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
     User mUser;
+    String mUserName;
     Shop mShop;
     int totalMoney;
+    int mTotalPoint;
     ArrayList<Product> mProducts;
 
     // User info
@@ -37,19 +47,38 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
     // Bill info
     EditText mBillCode;
     ImageView mBillImage;
+    Bitmap mBillImageBitmap;
+
+    // Point
+    TextView mPointFromMoneyTV, mTotalPointsTV, mTotalMoney;
+
+    // List achieved events
+    ListView mListView;
+    AchievedEventsAdapter mAdapter;
 
     static Picasso mPicasso;
+    ProgressDialog mCalculatePointDialog, mUpdatePointDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_update_point);
 
+        // init dialog
+        mCalculatePointDialog = new ProgressDialog(this);
+        mCalculatePointDialog.setTitle("Calculating point");
+        mCalculatePointDialog.setMessage("Please wait...");
+        mCalculatePointDialog.setCancelable(false);
+
+        mUpdatePointDialog = new ProgressDialog(this);
+        mUpdatePointDialog.setTitle("Updating point");
+        mUpdatePointDialog.setMessage("Please wait...");
+        mUpdatePointDialog.setCancelable(false);
+
         mPicasso = Picasso.with(this);
 
         // get data
         Intent i = getIntent();
-        mUser = (User) i.getParcelableExtra(Global.USER_OBJECT);
         mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
         totalMoney = i.getIntExtra(Global.TOTAL_MONEY, 0);
         mProducts = i.getParcelableArrayListExtra(Global.PRODUCT_LIST);
@@ -59,13 +88,50 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         mFullName = (TextView) findViewById(R.id.fullname);
         mPhone = (TextView) findViewById(R.id.phone);
 
-        mPicasso.load(mUser.getAvatar()).placeholder(R.drawable.user_avatar).into(mUserAvatar);
-        mFullName.setText(mUser.getFullname());
-        mPhone.setText(mUser.getPhone());
+        //mUser = (User) i.getParcelableExtra(Global.USER_OBJECT);
+        mUserName = i.getStringExtra(Global.USER_NAME);
 
         // get references to another view components
         mBillImage = (ImageView) findViewById(R.id.billImage);
         mBillCode = (EditText) findViewById(R.id.billCode);
+        mPointFromMoneyTV = (TextView) findViewById(R.id.totalPointFromMoney);
+        mTotalPointsTV = (TextView) findViewById(R.id.totalPoints);
+        mTotalMoney = (TextView) findViewById(R.id.totalMoney);
+        mTotalMoney.setText(String.valueOf(totalMoney));
+
+        // init list achieved events
+        mListView = (ListView) findViewById(R.id.listEvents);
+        mAdapter = new AchievedEventsAdapter(this, new ArrayList<AchievedEvent>());
+        mListView.setAdapter(mAdapter);
+
+        // get user info
+        ShopModel.getCustomerInfo(Global.userToken, mShop.getId(), mUserName, new ShopModel.OnGetCustomerInfoResult() {
+            @Override
+            public void onSuccess(User user) {
+                mUser = user;
+                if(mUser.getAvatar().equals(""))
+                    mUser.setAvatar(null);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPicasso.load(mUser.getAvatar()).placeholder(R.drawable.user_avatar).into(mUserAvatar);
+                        mFullName.setText(mUser.getFullname());
+                        mPhone.setText(mUser.getPhone());
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ConfirmUpdatePointActivity.this, error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
         // set listener for buttons
         ButtonRectangle backBtn = (ButtonRectangle) findViewById(R.id.backBtn);
@@ -76,17 +142,78 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
             }
         });
 
-        ButtonRectangle confirmBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
+        final ButtonRectangle confirmBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
+        confirmBtn.setEnabled(false);
+        confirmBtn.setBackgroundColor(getResources().getColor(R.color.MaterialDisable));
+
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call API to update point
-                //ConfirmUpdatePointActivity.this.getbackst
-                Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
-                i.putExtra(Global.SHOP_OBJECT, mShop);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                finish();
+                // Lấy billcode
+                final String billcode = mBillCode.getText().toString();
+
+                // Lấy thời gian hiện tại
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+                String time = dateFormat.format(date); //2014/08/06 15:59:48
+
+                // Gọi API để cập nhật điểm
+                mUpdatePointDialog.show();
+                ShopModel.updatePoint(Global.userToken, mShop.getId(), mUser.getUsername(), mUser.getFullname(), mUser.getPhone(),
+                        mTotalPoint, billcode, time, new ShopModel.OnUpdatePointResult() {
+                    @Override
+                    public void onSuccess(ShopModel.UpdatePointResult result) {
+                        // Nếu bucketName == "", nghĩa là chủ shop không nhập hóa đơn vào
+                        // Tắt dialog và chuyển về trang ShopDetailActivity
+                        if(result.bucketName.equals("")) {
+                            mUpdatePointDialog.dismiss();
+
+                            Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
+                            i.putExtra(Global.SHOP_OBJECT, mShop);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            finish();
+                            return;
+                        }
+
+                        // Nếu bucketName != "", ta upload mBillImageBitmap lên Google Cloud Storage
+                        GCSHelper.uploadImage(ConfirmUpdatePointActivity.this, result.bucketName, result.fileName,
+                                mBillImageBitmap, new GCSHelper.OnUploadImageResult() {
+                                    @Override
+                                    public void onComplete() {
+                                        mUpdatePointDialog.dismiss();
+
+                                        Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
+                                        i.putExtra(Global.SHOP_OBJECT, mShop);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(i);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onError(final String error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mUpdatePointDialog.dismiss();
+                                                Toast.makeText(ConfirmUpdatePointActivity.this, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onError(final String error) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mUpdatePointDialog.dismiss();
+                                Toast.makeText(ConfirmUpdatePointActivity.this, error, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
             }
         });
 
@@ -101,7 +228,44 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         });
 
         // call calculate point API
+        mCalculatePointDialog.show();
+        EventModel.calculatePoint(Global.userToken, mShop.getId(), totalMoney, mProducts, new EventModel.OnCalculatePointResult() {
+            @Override
+            public void onSuccess(final ArrayList<AchievedEvent> result, final int pointFromMoney, final int totalPoint) {
 
+                mTotalPoint = totalPoint;
+
+                // update layout
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCalculatePointDialog.dismiss();
+
+                        // update point
+                        mPointFromMoneyTV.setText(String.valueOf(pointFromMoney));
+                        mTotalPointsTV.setText(String.valueOf(totalPoint));
+
+                        // update list achieved events data
+                        mAdapter.setListAchievedEvents(result);
+                        mAdapter.notifyDataSetChanged();
+
+                        // enable confirmBtn
+                        confirmBtn.setEnabled(true);
+                        confirmBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+                    }
+                });
+            }
+
+            @Override
+            public void onError(final String error) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ConfirmUpdatePointActivity.this, error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -110,8 +274,9 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         switch(requestCode) {
             case Global.CAMERA_REQUEST:
                 if(resultCode == RESULT_OK){
-                    Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
-                    mBillImage.setImageBitmap(photo);
+                    mBillImageBitmap = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                    mBillImageBitmap = Helper.resizeBitmap(this, mBillImageBitmap);
+                    mBillImage.setImageBitmap(mBillImageBitmap);
                 }
         }
     }

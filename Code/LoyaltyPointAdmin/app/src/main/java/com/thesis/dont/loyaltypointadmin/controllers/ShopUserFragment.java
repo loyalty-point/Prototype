@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -135,23 +136,15 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             @Override
             public void onClick(View v) {
                 // Start Scan Barcode Activity
-                /*IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
-                scanIntegrator.initiateScan();*/
 
-                Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
-
-                // put user into intent
-                User user = new User("username", "password", "fullname", "phone", "email", "address", "avatar", "token");
-                i.putExtra(Global.USER_OBJECT, user);
+                Intent i = new Intent(mParentActivity, ScannerActivity.class);
+                i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
 
                 // put shop into intent
                 Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
                 i.putExtra(Global.SHOP_OBJECT, shop);
 
                 startActivity(i);
-
-                /*Intent i = new Intent(mParentActivity, ScannerActivity.class);
-                startActivity(i);*/
             }
         });
         //create list user and search adapter.
@@ -179,7 +172,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     //call back when scan the bar code successfully
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        /*IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult != null) {
             // Load user from barcode
             String barcode = scanningResult.getContents();
@@ -190,7 +183,15 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             startActivity(i);
         } else {
 
-        }
+        }*/
+
+        /*switch(requestCode) {
+            case Global.SCAN_BARCODE:
+                if(resultCode == Activity.RESULT_OK){
+                    String barcode = intent.getStringExtra(Global.BARCODE);
+
+                }
+        }*/
     }
 
     // search logic
@@ -216,9 +217,61 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         return false;
     }
 
+    //Custom cursor to update data for suggestion list
+    public class CustomSimpleCursorAdapter extends SimpleCursorAdapter {
+        private Context mContext;
+
+        public CustomSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+            this.mContext = context;
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.search_user_layout, parent, false);
+
+            return view;
+        }
+
+        @Override
+        public void bindView(View view, final Context context, final Cursor cursor) {
+            String fullname = cursor.getString(cursor.getColumnIndex(USER_NAME));
+            String phone = cursor.getString(cursor.getColumnIndex(USER_PHONENUMBER));
+            String image = cursor.getString(cursor.getColumnIndex(USER_IMG));
+            final String username = cursor.getString(cursor.getColumnIndex(USER_ID));
+
+            TextView userName = (TextView) view.findViewById(R.id.userName);
+            TextView userPhone = (TextView) view.findViewById(R.id.userPhone);
+            ImageView userImg = (ImageView) view.findViewById(R.id.userImg);
+
+            userName.setText(fullname);
+            userPhone.setText(phone);
+            if(image.equals(""))
+                image = null;
+            mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
+
+            Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
+            addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
+
+                    // put username into intent
+                    i.putExtra(Global.USER_NAME, username);
+
+                    // put shop into intent
+                    Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
+                    i.putExtra(Global.SHOP_OBJECT, shop);
+
+                    startActivity(i);
+                }
+            });
+        }
+    }
+
+
     private void addExpandableButton() {
-        /*actionBtn = (ButtonFloat) mParentActivity.findViewById(R.id.actionBtn);
-        actionBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));*/
 
         ImageView actionBtn;
         actionBtn = new ImageView(mParentActivity);
@@ -230,10 +283,6 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 .setBackgroundDrawable(R.drawable.expandable_button_background_accent)
                 .build();
 
-        //actionButton.setBackgroundColor(getResources().getColor(R.color.AccentColor));
-        //actionButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.account_background));
-
-
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(mParentActivity);
         itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.expandable_button_background_accent));
 
@@ -241,13 +290,6 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         ImageView barcodeItem = new ImageView(mParentActivity);
         //barcodeItem.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         barcodeItem.setImageDrawable(getResources().getDrawable(R.drawable.barcode_ic));
-        //SubActionButton barcodeAction = itemBuilder.setContentView(barcodeItem).build();
-        /*barcodeItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mParentActivity, "You have clicked barcode button", Toast.LENGTH_LONG).show();
-            }
-        });*/
 
         SubActionButton barcodeAction = itemBuilder.setContentView(barcodeItem).build();
         barcodeAction.setOnClickListener(new View.OnClickListener() {
@@ -277,60 +319,10 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             }
         });
 
-        /*FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(mParentActivity)
-                .addSubActionView(itemBuilder.setContentView(barcodeItem).build())
-                .addSubActionView(itemBuilder.setContentView(NFCItem).build())
-                .attachTo(actionButton)
-                .build();*/
-
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(mParentActivity)
                 .addSubActionView(barcodeAction)
                 .addSubActionView(NFCAction)
                 .attachTo(actionButton)
                 .build();
-    }
-
-    //Custom cursor to update data for suggestion list
-    public class CustomSimpleCursorAdapter extends SimpleCursorAdapter {
-        private Context mContext;
-
-        public CustomSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-            super(context, layout, c, from, to, flags);
-            this.mContext = context;
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.search_user_layout, parent, false);
-
-            return view;
-        }
-
-        @Override
-        public void bindView(View view, final Context context, final Cursor cursor) {
-            String name = cursor.getString(cursor.getColumnIndex(USER_NAME));
-            String phone = cursor.getString(cursor.getColumnIndex(USER_PHONENUMBER));
-            String image = cursor.getString(cursor.getColumnIndex(USER_IMG));
-            final String id = cursor.getString(cursor.getColumnIndex(USER_IMG));
-
-            TextView userName = (TextView) view.findViewById(R.id.userName);
-            TextView userPhone = (TextView) view.findViewById(R.id.userPhone);
-            ImageView userImg = (ImageView) view.findViewById(R.id.userImg);
-
-            userName.setText(name);
-            userPhone.setText(phone);
-            if(image.equals(""))
-                image = null;
-            mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
-
-            Button yourButton = (Button) view.findViewById(R.id.addUserPoint);
-            yourButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.e("user_name", id);
-                }
-            });
-        }
     }
 }
