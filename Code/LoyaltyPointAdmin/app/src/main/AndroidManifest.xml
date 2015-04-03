@@ -115,7 +115,8 @@
         </activity>
         <activity
             android:name=".controllers.ConfirmUpdatePointActivity"
-            android:label="@string/title_activity_confirm_update_point" >
+            android:label="@string/title_activity_confirm_update_point"
+            android:theme="@style/NoActionBar" >
         </activity>
     </application>
 

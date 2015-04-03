@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
@@ -138,8 +139,15 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 scanIntegrator.initiateScan();*/
 
                 Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
+
+                // put user into intent
                 User user = new User("username", "password", "fullname", "phone", "email", "address", "avatar", "token");
                 i.putExtra(Global.USER_OBJECT, user);
+
+                // put shop into intent
+                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
+                i.putExtra(Global.SHOP_OBJECT, shop);
+
                 startActivity(i);
 
                 /*Intent i = new Intent(mParentActivity, ScannerActivity.class);
