@@ -27,7 +27,7 @@ public class ShopDetailActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         shop = getIntent().getParcelableExtra(Global.SHOP_OBJECT);
         setTitle(shop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId()));
+        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

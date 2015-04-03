@@ -32,6 +32,10 @@ $query_search = "select * from shop where id in (select shop_id from customer_sh
 $query_exec1 = mysqli_query($localhost,$query_search);
 
 while($row = mysqli_fetch_array($query_exec1)){
+    $query_search = "select point from customer_shop where username='".$username."' and shop_id='".$row['id']."'";
+    $query_exec2 = mysqli_query($localhost, $query_search);
+    $row1 = mysqli_fetch_array($query_exec2);
+
     $result = $result . '{'
             . '"id":"' . $row['id'] . '",'
             . '"name":"' . $row['name'] . '",'
@@ -39,7 +43,8 @@ while($row = mysqli_fetch_array($query_exec1)){
             . '"phone_number":"' . $row['phone_number'] . '",'
             . '"category":"' . $row['category'] . '",'
             . '"exchange_ratio":"' . $row['exchange_ratio'] . '",'
-            . '"image":"' . $row['image'] . '"},';
+            . '"image":"' . $row['image'] .'",'
+            . '"point":"' . $row1['point'] . '"},';
 }
 $result = $result . ']}';
 echo $result;

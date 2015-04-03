@@ -15,3 +15,8 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_AwardModel_getEditAward(JNI
 {
     return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/award/edit_award.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointuser_models_AwardModel_getEditAward(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/award/edit_award.php");
+}

@@ -237,7 +237,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void followShop(String token, String shopId, final OnFollowShopResult onFollowShopResult){
+    public static void followShop(String token, String shopId, final int point,  final OnFollowShopResult onFollowShopResult){
         final String token_string = token;
         final String shopId_string = shopId;
         Thread t = new Thread() {
@@ -250,10 +250,11 @@ public class ShopModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(2);
+                nameValuePairs = new ArrayList<NameValuePair>(3);
 
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId_string));
                 nameValuePairs.add(new BasicNameValuePair("token", token_string));
+                nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(point)));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

@@ -198,7 +198,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE: {
-                                    ShopModel.followShop(Global.userToken, id, new ShopModel.OnFollowShopResult() {
+                                    ShopModel.followShop(Global.userToken, id, 0, new ShopModel.OnFollowShopResult() {
                                         @Override
                                         public void onSuccess() {
                                             Log.e("result", "success");

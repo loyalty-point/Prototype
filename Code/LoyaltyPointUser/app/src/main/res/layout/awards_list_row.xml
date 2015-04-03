@@ -27,4 +27,15 @@
         android:layout_toRightOf="@id/awardImage"
         android:layout_below="@id/awardPoint"/>
 
+    <Button
+        android:id="@+id/awardBuy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BUY"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/awardPoint"/>
+
 </RelativeLayout>

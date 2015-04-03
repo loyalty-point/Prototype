@@ -12,14 +12,16 @@ import android.util.Log;
 public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
     private final String[] TITLES = {"Shop Home", "Events", "Awards", "History", "Relatives"};
     private String shopId = null;
+    private int userPoint = 0;
 
     public ShopDetailTabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public ShopDetailTabPagerAdapter(FragmentManager fm, String shopId) {
+    public ShopDetailTabPagerAdapter(FragmentManager fm, String shopId, int userPoint) {
         super(fm);
         this.shopId = shopId;
+        this.userPoint = userPoint;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
         else if (position == 1)
             return new ShopEventsFragment(position, shopId);
         else if (position == 2)
-            return new ShopAwardsFragment(position, shopId);
+            return new ShopAwardsFragment(position, shopId, userPoint);
         else if (position == 3)
             return new ShopHistoryFragment(position, shopId);
         else

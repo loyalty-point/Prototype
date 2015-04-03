@@ -8,6 +8,7 @@ mysqli_query($localhost,"SET NAMES 'UTF8'");
 
 $shop_id = $_POST['shop_id'];
 $token = $_POST['token'];
+$point = $_POST['point'];
 
 /* check token and return username */
 $query = "select username from customer_users where token='".$token."'";
@@ -24,7 +25,8 @@ if($username == ""){
 
 $query = "insert into customer_shop values ('"
 							.$username."','"
-							.$shop_id."')";  //insert vào database
+							.$shop_id ."','"
+							.$point ."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
 

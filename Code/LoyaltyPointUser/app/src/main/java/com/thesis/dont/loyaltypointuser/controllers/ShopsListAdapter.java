@@ -68,6 +68,7 @@ public class ShopsListAdapter extends BaseAdapter {
         public TextView shopName;
         public TextView shopAddress;
         public ImageButton contextMenuBtn;
+        public TextView point;
     }
 
     //Show view of shop card
@@ -85,6 +86,7 @@ public class ShopsListAdapter extends BaseAdapter {
             holder.shopLogo = (ImageView) view.findViewById(R.id.shopLogo);
             holder.shopName = (TextView) view.findViewById(R.id.shopName);
             holder.shopAddress = (TextView) view.findViewById(R.id.shopAddress);
+            holder.point = (TextView) view.findViewById(R.id.shopPoint);
 
             holder.contextMenuBtn = (ImageButton) view.findViewById(R.id.contextMenuBtn);
             // save holder
@@ -105,6 +107,7 @@ public class ShopsListAdapter extends BaseAdapter {
         // Load shop name and shop address
         holder.shopName.setText(shop.getName());
         holder.shopAddress.setText(shop.getAddress());
+        holder.point.setText("Point: " + String.valueOf(shop.getPoint()));
 
         final ListPopupWindow mMenuContext;
         mMenuContext = new ListPopupWindow(mParentActivity);
