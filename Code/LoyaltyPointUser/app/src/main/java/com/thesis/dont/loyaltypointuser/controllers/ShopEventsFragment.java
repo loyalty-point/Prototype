@@ -69,8 +69,32 @@ public class ShopEventsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mAdapter = new EventsListAdapter(getActivity(), new ArrayList<Event>());
+        mListView = (ListView) getActivity().findViewById(R.id.listEvents);
+        mListView.setAdapter(mAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Click iteam to open new activity to show data of event for user.
+                Event event = (Event) mAdapter.getItem(position);
+                Intent i = new Intent(getActivity(), EventDetailActivity.class);
+                i.putExtra(EVENT_OBJECT, event);
+                i.putExtra(SHOP_ID, shopId);
+                startActivity(i);
+            }
+        });
+
+        // Load dữ liệu lên list
+        getListEvents();
+    }
+
     public void getListEvents() {
-        EventModel.getListEvents(shopId, new EventModel.OnGetListResult() {
+        EventModel.getListEvents(Global.userToken, shopId, new EventModel.OnGetListResult() {
 
             @Override
             public void onSuccess(ArrayList<Event> listEvents) {

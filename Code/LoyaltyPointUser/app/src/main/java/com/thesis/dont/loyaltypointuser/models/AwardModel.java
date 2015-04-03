@@ -30,7 +30,7 @@ public class AwardModel {
     }
 
     public static native String getCreateAward();
-    public static native String getEditAward();
+    public static native String getCustomerGetListAwards();
     public static native String getGetListAwards();
 
     public static void createAward(final String token, final Award award,
@@ -81,54 +81,6 @@ public class AwardModel {
         t.start();
     }
 
-    public static void editAward(final String token, final Award award,
-                                   final OnEditAwardResult mOnEditAwardResult){
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String json = Helper.objectToJson(award);
-
-                String link = getEditAward();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("award", json));
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    EditAwardResult result = (EditAwardResult) Helper.jsonToObject(response, EditAwardResult.class);
-                    if(result.error == "")
-                        mOnEditAwardResult.onSuccess(result);
-                    else
-                        mOnEditAwardResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnEditAwardResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnEditAwardResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnEditAwardResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
     public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
         Thread t = new Thread() {
@@ -136,7 +88,7 @@ public class AwardModel {
             public void run() {
                 super.run();
 
-                String link = getGetListAwards();
+                String link = getCustomerGetListAwards();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);

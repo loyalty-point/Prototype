@@ -90,7 +90,6 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
             fragmentTransaction.replace(R.id.fragment_container, createEvent1Fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-
         }
 
         /****/

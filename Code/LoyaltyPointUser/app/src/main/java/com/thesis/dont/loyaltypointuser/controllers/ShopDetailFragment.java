@@ -3,26 +3,21 @@ package com.thesis.dont.loyaltypointuser.controllers;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
-import com.thesis.dont.loyaltypointuser.models.User;
-import com.thesis.dont.loyaltypointuser.models.UserModel;
+
 
 import butterknife.ButterKnife;
 
@@ -70,14 +65,16 @@ public class ShopDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final TextView shopName = (TextView)getActivity().findViewById(R.id.shopName);
-        ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
+        final TextView shopName = (TextView)getActivity().findViewById(R.id.shopNameTv);
+        final ImageView shopImg = (ImageView)getActivity().findViewById(R.id.shopImg);
+        ShopModel.getShopInfo(Global.userToken, this.shopId, new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         shopName.setText(shop.getName());
+                        Picasso.with(getActivity()).load(shop.getImage()).placeholder(R.drawable.ic_award).into(shopImg);
                     }
                 });
 
@@ -88,7 +85,6 @@ public class ShopDetailFragment extends Fragment {
 //                shopName.setText(error);
             }
         });
-        ShopModel.getShopInfo(Global.userToken, this.shopId);
     }
 
 }

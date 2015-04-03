@@ -77,8 +77,7 @@ public class ShopAwardsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        shopID = ((ShopDetailActivity)getActivity()).shopID;
+        shopID = ((ShopDetailActivity)getActivity()).shop.getId();
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview

@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"Shop Home", "Events", "Awards", "Users", "Relatives"};
+    private final String[] TITLES = {"Shop Home", "Events", "Awards", "History", "Relatives"};
     private String shopId = null;
 
     public ShopDetailTabPagerAdapter(FragmentManager fm) {
