@@ -28,6 +28,7 @@ public class ShopAwardsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     public static final String SHOP_ID = "shop_ID";
     public static final String AWARD_OBJECT = "award_object";
+    public static final String USER_POINT = "user_point";
 
     //    @InjectView(R.id.textView)
     TextView textView;
@@ -38,10 +39,12 @@ public class ShopAwardsFragment extends Fragment {
     private int position;
 
     String shopID;
+    private int userPoint;
 
-    public ShopAwardsFragment(int position, String shopId){
+    public ShopAwardsFragment(int position, String shopId, int userPoint){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
+        b.putInt(USER_POINT, userPoint);
         this.setArguments(b);
     }
 
@@ -57,6 +60,7 @@ public class ShopAwardsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        userPoint = getArguments().getInt(USER_POINT);
     }
 
     @Override
@@ -77,12 +81,11 @@ public class ShopAwardsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        shopID = ((ShopDetailActivity)getActivity()).shopID;
+        shopID = ((ShopDetailActivity)getActivity()).shop.getId();
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>());
+        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>(), userPoint);
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 

@@ -25,13 +25,12 @@ public class ShopModel {
     static List<NameValuePair> nameValuePairs;
 
     static OnCreateShopResult mOnCreateShopResult;
-    static OnGetShopInfoResult mOnGetShopInfoResult;
 
     static {
         System.loadLibrary("services");
     }
     public static native String getCreateShop();
-    public static native String getGetShopInfo();
+    public static native String getCustomerGetShopInfo();
     public static native String getGetUnfollowedShop();
     public static native String getGetFollowedShop();
     public static native String getFollowShop();
@@ -89,7 +88,7 @@ public class ShopModel {
         public String fileName;
     }
 
-    public static void getShopInfo(final String token, final String shopID){
+    public static void getShopInfo(final String token, final String shopID, final OnGetShopInfoResult mOnGetShopInfoResult){
         /*final String token_string = token;
         final String json = Helper.objectToJson(shop);*/
         Thread t = new Thread() {
@@ -97,7 +96,7 @@ public class ShopModel {
             public void run() {
                 super.run();
 
-                String link = getGetShopInfo();
+                String link = getCustomerGetShopInfo();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -114,11 +113,11 @@ public class ShopModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
-                        mOnGetShopInfoResult.onError(response);
+                    GetShopInfo getShopInfo = (GetShopInfo)Helper.jsonToObject(response, GetShopInfo.class);
+                    if(getShopInfo.error.equals(""))
+                        mOnGetShopInfoResult.onSuccess(getShopInfo.shop[0]);
                     else {
-                        Shop shop = (Shop) Helper.jsonToObject(response, Shop.class);
-                        mOnGetShopInfoResult.onSuccess(shop);
+                        mOnGetShopInfoResult.onError(getShopInfo.error);
                     }
 
                 } catch (UnsupportedEncodingException e) {
@@ -238,7 +237,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void followShop(String token, String shopId, final OnFollowShopResult onFollowShopResult){
+    public static void followShop(String token, String shopId, final int point,  final OnFollowShopResult onFollowShopResult){
         final String token_string = token;
         final String shopId_string = shopId;
         Thread t = new Thread() {
@@ -251,10 +250,11 @@ public class ShopModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(2);
+                nameValuePairs = new ArrayList<NameValuePair>(3);
 
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId_string));
                 nameValuePairs.add(new BasicNameValuePair("token", token_string));
+                nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(point)));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -284,9 +284,6 @@ public class ShopModel {
         t.start();
     }
 
-    public static void setOnGetShopInfoResult(OnGetShopInfoResult mOnGetShopInfoResult) {
-        ShopModel.mOnGetShopInfoResult = mOnGetShopInfoResult;
-    }
 
     public interface OnSelectAllShopResult{
         public void onSuccess(ArrayList<Shop> listShops);
@@ -306,6 +303,11 @@ public class ShopModel {
     public interface OnFollowShopResult{
         public void onSuccess();
         public void onError(String error);
+    }
+
+    public class GetShopInfo{
+        public String error;
+        public Shop[] shop;
     }
 
     public class FollowShop{

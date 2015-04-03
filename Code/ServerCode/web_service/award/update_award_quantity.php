@@ -13,10 +13,10 @@ $shopID = $award->shopID;
 /* check token and return username */
 if(strlen($token)!=64){
 	/*echo "token not found";*/
-	echo '{"error":"token not found", "bucketName":"", "fileName":""}';
+	echo '{"error":"token not found", "quantity":""}';
 	die();
 }
-$query = "select username from admin_users where token='".$token."'";
+$query = "select username from customer_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
@@ -24,7 +24,7 @@ $username = $row['username'];
 
 if($username == ""){
 	/*echo "wrong token";*/
-	echo '{"error":"wrong token", "bucketName":"", "fileName":""}';
+	echo '{"error":"wrong token", "quantity":""}';
 	die();
 }
 /**/
@@ -44,10 +44,10 @@ $query = "update award "
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec){
-	echo '{"error":"", "bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
+	echo '{"error":"", "quantity":"'.$award->quantity.'"}';
 }
 else {
-	echo '{"error":"edit shop unsuccessfully", "bucketName":"", "fileName":""}'; //insert không thành công vì đã có username
+	echo '{"error":"edit shop unsuccessfully", "quantity":""}'; //insert không thành công vì đã có username
 }
 
 mysqli_close($localhost);

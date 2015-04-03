@@ -32,7 +32,7 @@ public class EventModel {
         System.loadLibrary("services");
     }
     public static native String getAddEvent();
-    public static native String getGetListEvents();
+    public static native String getCustomerGetListEvents();
     public static native String getEditEvent();
 
     public static void addEvent(Event event, final String shopId, final OnAddEventResult onAddEventResult){
@@ -81,20 +81,20 @@ public class EventModel {
         t.start();
     }
 
-    public static void getListEvents(final String shopID, final OnGetListResult onGetListResult){
+    public static void getListEvents(final String userToken, final String shopID, final OnGetListResult onGetListResult){
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetListEvents();
+                String link = getCustomerGetListEvents();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
                 nameValuePairs = new ArrayList<NameValuePair>(1);
 
-                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("token", userToken));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
 
                 try {

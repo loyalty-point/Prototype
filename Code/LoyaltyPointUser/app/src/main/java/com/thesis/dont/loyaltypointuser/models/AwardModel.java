@@ -30,11 +30,16 @@ public class AwardModel {
     }
 
     public static native String getCreateAward();
-    public static native String getEditAward();
+
+    public static native String getCustomerGetListAwards();
+
     public static native String getGetListAwards();
 
-    public static void createAward(final String token, final Award award,
-                                   final OnCreateAwardResult mOnCreateAwardResult){
+    public static native String getEditQuantityAward();
+
+
+    public static void editQuantityAward(final String token, final Award award,
+                                         final OnEditQuantityAwardResult mOnEditQuantityAwardResult) {
 
         Thread t = new Thread() {
             @Override
@@ -43,7 +48,7 @@ public class AwardModel {
 
                 String json = Helper.objectToJson(award);
 
-                String link = getCreateAward();
+                String link = getEditQuantityAward();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -60,20 +65,20 @@ public class AwardModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    CreateAwardResult result = (CreateAwardResult) Helper.jsonToObject(response, CreateAwardResult.class);
-                    if(result.error == "")
-                        mOnCreateAwardResult.onSuccess(result);
+                    EditQuantityAwardResult result = (EditQuantityAwardResult) Helper.jsonToObject(response, EditQuantityAwardResult.class);
+                    if (result.error.equals(""))
+                        mOnEditQuantityAwardResult.onSuccess(result.quantity);
                     else
-                        mOnCreateAwardResult.onError(result.error);
+                        mOnEditQuantityAwardResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnCreateAwardResult.onError("UnsupportedEncodingException");
+                    mOnEditQuantityAwardResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnCreateAwardResult.onError("ClientProtocolException");
+                    mOnEditQuantityAwardResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnCreateAwardResult.onError("IOException");
+                    mOnEditQuantityAwardResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -81,62 +86,14 @@ public class AwardModel {
         t.start();
     }
 
-    public static void editAward(final String token, final Award award,
-                                   final OnEditAwardResult mOnEditAwardResult){
+    public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult) {
 
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String json = Helper.objectToJson(award);
-
-                String link = getEditAward();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("award", json));
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    EditAwardResult result = (EditAwardResult) Helper.jsonToObject(response, EditAwardResult.class);
-                    if(result.error == "")
-                        mOnEditAwardResult.onSuccess(result);
-                    else
-                        mOnEditAwardResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnEditAwardResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnEditAwardResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnEditAwardResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult){
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetListAwards();
+                String link = getCustomerGetListAwards();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -155,7 +112,7 @@ public class AwardModel {
                     response = httpclient.execute(httppost, responseHandler);
 
                     GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
-                    if(result.error.equals("")) {
+                    if (result.error.equals("")) {
                         // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
                         /*String[] datas = result.listAwards.split("&"); //slit data to json struture
                         ArrayList<Award> listAwards = new ArrayList<Award>();
@@ -165,13 +122,12 @@ public class AwardModel {
                             listAwards.add(award); //add award object to array
                         }*/
                         ArrayList<Award> listAwards = new ArrayList<Award>();
-                        for(int i=0; i<result.listAwards.length-1; i++) {
+                        for (int i = 0; i < result.listAwards.length - 1; i++) {
                             listAwards.add(result.listAwards[i]);
                         }
 
                         mOnGetListAwardsResult.onSuccess(listAwards);
-                    }
-                    else
+                    } else
                         mOnGetListAwardsResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
@@ -190,18 +146,21 @@ public class AwardModel {
     }
 
     public interface OnCreateAwardResult {
-        public void onSuccess(CreateAwardResult result);
+        public void onSuccess(CreateAwardResult createAwardResult);
+
         public void onError(String error);
     }
 
-    public interface OnEditAwardResult {
-        public void onSuccess(EditAwardResult result);
+    public interface OnEditQuantityAwardResult {
+        public void onSuccess(int quantity);
+
         public void onError(String error);
     }
 
 
-    public interface OnGetListAwardsResult{
+    public interface OnGetListAwardsResult {
         public void onSuccess(ArrayList<Award> listAwards);
+
         public void onError(String error);
     }
 
@@ -211,10 +170,9 @@ public class AwardModel {
         public String fileName;
     }
 
-    public class EditAwardResult {
+    public class EditQuantityAwardResult {
         public String error;
-        public String bucketName;
-        public String fileName;
+        public int quantity;
     }
 
     public class GetListAwards {

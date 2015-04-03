@@ -11,11 +11,11 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.Shop;
 
 public class ShopDetailActivity extends ActionBarActivity {
 
-    String shopName;
-    public String shopID;
+    public Shop shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +25,9 @@ public class ShopDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        shopID = getIntent().getStringExtra("SHOP_ID");
-        shopName = getIntent().getStringExtra(Global.SHOP_NAME);
-        setTitle(shopName);
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shopID));
+        shop = getIntent().getParcelableExtra(Global.SHOP_OBJECT);
+        setTitle(shop.getName());
+        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

@@ -23,7 +23,7 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 public class LoginActivity extends ActionBarActivity {
 
     public static final String LOGIN_STATE = "login_state";
-    public static final String TOKEN = "token";
+    public static final String TOKEN = "loyaltypoint_customer_token";
 
     EditText mUsername, mPassword;
     CheckBox mRememberMe;

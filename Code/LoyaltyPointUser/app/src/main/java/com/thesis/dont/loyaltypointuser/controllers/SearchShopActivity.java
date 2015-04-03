@@ -145,6 +145,12 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         return false;
     }
 
+    public static class ViewHolder {
+        public ImageView shopImg;
+        public TextView shopName;
+        public TextView shopAddress;
+    }
+
     //custom adapter for suggestion list
     public class CustomSimpleCursorAdapter extends SimpleCursorAdapter {
         private Context context;
@@ -159,25 +165,28 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.suggestion_list, parent, false);
 
+            ViewHolder holder = new ViewHolder();
+            holder.shopName = (TextView) view.findViewById(R.id.shopName);
+            holder.shopAddress = (TextView) view.findViewById(R.id.shopAddress);
+            holder.shopImg = (ImageView) view.findViewById(R.id.shopImg);
 
+            view.setTag(holder);
             return view;
         }
 
         //bind view to get data from list
         @Override
         public void bindView(View view, final Context context, final Cursor cursor) {
+            ViewHolder holder = (ViewHolder) view.getTag();
+
             String name = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_NAME));
             String address = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ADDRESS));
             String image = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_IMAGE));
             final String id = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ID));
 
-            TextView shopName = (TextView) view.findViewById(R.id.shopName);
-            TextView shopAddress = (TextView) view.findViewById(R.id.shopAddress);
-            ImageView shopImage = (ImageView) view.findViewById(R.id.shopImg);
-
-            shopName.setText(name);
-            shopAddress.setText(address);
-            SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(shopImage);
+            holder.shopName.setText(name);
+            holder.shopAddress.setText(address);
+            SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(holder.shopImg);
 
             Button followBtn = (Button) view.findViewById(R.id.addFollowShop);
             followBtn.setOnClickListener(new View.OnClickListener() {
@@ -187,14 +196,14 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which){
+                            switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE: {
-                                    ShopModel.followShop(Global.userToken,id,new ShopModel.OnFollowShopResult() {
+                                    ShopModel.followShop(Global.userToken, id, 0, new ShopModel.OnFollowShopResult() {
                                         @Override
                                         public void onSuccess() {
                                             Log.e("result", "success");
-                                            for(int i = 0;i<listShop.size();i++){
-                                                if(listShop.get(i).getId().equals(id)){
+                                            for (int i = 0; i < listShop.size(); i++) {
+                                                if (listShop.get(i).getId().equals(id)) {
                                                     listShop.remove(i);
                                                     break;
                                                 }
