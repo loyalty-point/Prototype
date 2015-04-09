@@ -40,6 +40,11 @@ public class ShopsListActivity extends BaseNavigationActivity {
         super.onResume();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("return","result");
+    }
+
     /*****************  This function used by adapter ****************/
 //    public void onItemClick(int mPosition)
 //    {

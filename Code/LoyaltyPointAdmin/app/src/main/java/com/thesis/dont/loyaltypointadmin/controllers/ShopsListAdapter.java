@@ -31,9 +31,11 @@ public class ShopsListAdapter extends BaseAdapter {
 
     private Context mParentActivity;
 
+    public static final int SELECT_PHOTO = 100;
+
     private LayoutInflater mInflater = null;
 
-    String[] menuItems ={"Edit", "Delete"};
+    String[] menuItems = {"Edit", "Delete", "Update Background"};
 
     Shop tempValues = null;
     int i = 0;
@@ -78,7 +80,7 @@ public class ShopsListAdapter extends BaseAdapter {
         View view;
         ViewHolder holder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             view = mInflater.inflate(R.layout.shops_list_row, parent, false);
 
             // Create holder
@@ -92,7 +94,7 @@ public class ShopsListAdapter extends BaseAdapter {
 
             // save holder
             view.setTag(holder);
-        }else {
+        } else {
             view = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
@@ -126,14 +128,21 @@ public class ShopsListAdapter extends BaseAdapter {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mMenuContext.dismiss();
                 switch (position) {
-                    case 0: // EDIT
+                    case 0: { // EDIT
                         Intent i = new Intent(mParentActivity, EditShopActivity.class);
                         Shop shop = (Shop) getItem(shopIndex);
                         i.putExtra(Global.SHOP_OBJECT, shop);
                         mParentActivity.startActivity(i);
                         break;
+                    }
                     case 1: // DELETE
                         break;
+                    case 2: { // CHANGE BACKGROUND
+                        Intent i = new Intent(mParentActivity, CropImageActivity.class);
+                        i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                        ((Activity)mParentActivity).startActivityForResult(i, SELECT_PHOTO);
+                        break;
+                    }
                 }
             }
         });
