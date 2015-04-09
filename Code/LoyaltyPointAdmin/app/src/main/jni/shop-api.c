@@ -17,27 +17,27 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetShopInfo(J
 
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getEditShopInfo(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/edit_shop.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/edit_shop.php");
 }
 
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetFollowingUsers(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/get_following_users.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/get_following_users.php");
 }
 
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetCustomerInfo(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/get_customer_info.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/get_customer_info.php");
 }
 
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getUpdatePoint(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/update_point.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/update_point.php");
 }
 
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetHistory(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/shop/get_history.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/get_history.php");
 }
 
 
