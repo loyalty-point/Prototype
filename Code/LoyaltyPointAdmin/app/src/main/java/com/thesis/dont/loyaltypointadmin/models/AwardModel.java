@@ -148,7 +148,7 @@ public class AwardModel {
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    //ResponseHandler<String> responseHandler d= new BasicResponseHandler();
                     ResponseHandler<String> responseHandler = Helper.getResponseHandler();
                     String response = null;
 
