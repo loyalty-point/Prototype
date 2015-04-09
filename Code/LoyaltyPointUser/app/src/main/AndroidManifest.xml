@@ -92,6 +92,11 @@
             android:name=".controllers.EventDetailActivity"
             android:label="@string/title_activity_event_detail" >
         </activity>
+        <activity
+            android:name=".controllers.MyAwardsActivity"
+            android:label="@string/title_activity_my_awards"
+            android:theme="@style/NoActionBarWithNavDrawer" >
+        </activity>
     </application>
 
 </manifest>

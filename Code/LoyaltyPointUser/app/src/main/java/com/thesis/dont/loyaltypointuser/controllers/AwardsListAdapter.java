@@ -1,20 +1,32 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Award;
+import com.thesis.dont.loyaltypointuser.models.AwardModel;
+import com.thesis.dont.loyaltypointuser.models.Global;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,14 +38,16 @@ public class AwardsListAdapter extends BaseAdapter{
     private int userPoint;
 
     private Activity mParentActivity;
+    private ShopAwardsFragment mParentFragment;
 
     public AwardsListAdapter(){}
 
-    public AwardsListAdapter(Context context, List<Award> mAwards, int userPoint) {
+    public AwardsListAdapter(Context context, ShopAwardsFragment mParentFragment, List<Award> mAwards, int userPoint) {
         mInflater = LayoutInflater.from(context);
         this.mAwards = mAwards;
         this.userPoint = userPoint;
         mParentActivity = (Activity) context;
+        this.mParentFragment = mParentFragment;
     }
 
     public void setListAwards(ArrayList<Award> listAwards) {
@@ -85,11 +99,73 @@ public class AwardsListAdapter extends BaseAdapter{
         holder.awardQuantity.setText("Quantity: " + String.valueOf(award.getQuantity()));
         if(userPoint < award.getPoint() && award.getQuantity() > 0){
             holder.awardBuy.setEnabled(false);
+            holder.awardBuy.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialGrey));
         }else{
             holder.awardBuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // Dialog
+                    AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
+                    mDialogBuilder.setTitle("How many?");
+                    mDialogBuilder.setCancelable(false);
 
+                    // Set up the input
+                    final EditText quantityEditText = new EditText(mParentActivity);
+
+                    // set properties for quantityEditText
+                    quantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    quantityEditText.setGravity(Gravity.CENTER);
+                    quantityEditText.setText("1");
+                    quantityEditText.setHint("Quantity?");
+
+                    mDialogBuilder.setView(quantityEditText);
+
+                    //initDialog();
+                    // Set listeners for dialog's buttons
+                    mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int quantity = Integer.valueOf(quantityEditText.getText().toString());
+
+                            if(quantity > award.getQuantity()) {
+                                Toast.makeText(mParentActivity, "Sorry, we just have " + award.getQuantity() + " remaining items", Toast.LENGTH_LONG).show();
+                            }else {
+                                // Lấy thời gian hiện tại
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                Date date = new Date();
+                                String time = dateFormat.format(date); //2014/08/06 15:59:48
+
+                                AwardModel.buyAward(Global.userToken, time, award.getShopID(), award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
+                                    @Override
+                                    public void onSuccess() {
+                                        mParentActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mParentFragment.refresh();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onError(final String error) {
+                                        mParentActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    mDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    mDialogBuilder.show();
                 }
             });
         }
