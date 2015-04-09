@@ -37,6 +37,7 @@ public class UserModel {
     public static native String getAddUser();
     public static native String getCheckUser();
     public static native String getGetUserInfo();
+    public static native String getGetMyAwards();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -170,6 +171,55 @@ public class UserModel {
         t.start();
     }
 
+    public static void getMyAwards(final String token, final OnGetMyAwardsResult mOnGetMyAwardsResult) {
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetMyAwards();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetMyAwardsResult result = (GetMyAwardsResult) Helper.jsonToObject(response, GetMyAwardsResult.class);
+                    if(result.error.equals("")) {
+                        ArrayList<AwardHistory> listAwards = new ArrayList<AwardHistory>();
+                        for(int i=0; i<result.listAwards.length-1; i++) {
+                            listAwards.add(result.listAwards[i]);
+                        }
+                        mOnGetMyAwardsResult.onSuccess(listAwards);
+                    }
+                    else
+                        mOnGetMyAwardsResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetMyAwardsResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetMyAwardsResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetMyAwardsResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public class LoginResult {
         String error;
         String token;
@@ -196,6 +246,17 @@ public class UserModel {
         public void onSuccess(User user);
 
         public void onError(String e);
+    }
+
+    public interface OnGetMyAwardsResult {
+        public void onSuccess(ArrayList<AwardHistory> awards);
+
+        public void onError(String e);
+    }
+
+    public class GetMyAwardsResult {
+        public String error;
+        public AwardHistory[] listAwards;
     }
 
 

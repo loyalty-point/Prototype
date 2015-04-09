@@ -30,12 +30,10 @@ public class AwardModel {
     }
 
     public static native String getCreateAward();
-
     public static native String getCustomerGetListAwards();
-
     public static native String getGetListAwards();
-
     public static native String getEditQuantityAward();
+    public static native String getBuyAward();
 
 
     public static void editQuantityAward(final String token, final Award award,
@@ -145,6 +143,65 @@ public class AwardModel {
         t.start();
     }
 
+    public static void buyAward(final String token, final String time,
+                                final String shopId,
+                                final String awardID,
+                                final int quantity,
+                                final OnBuyAwardResult mOnBuyAwardResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getBuyAward();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(5);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("time", time));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("award_id", awardID));
+                nameValuePairs.add(new BasicNameValuePair("quantity", String.valueOf(quantity)));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    BuyAwardResult result = (BuyAwardResult) Helper.jsonToObject(response, BuyAwardResult.class);
+
+                    if(result.error.equals("")) {
+                        mOnBuyAwardResult.onSuccess();
+                    }
+                    else
+                        mOnBuyAwardResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnBuyAwardResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnBuyAwardResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnBuyAwardResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnBuyAwardResult{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
     public interface OnCreateAwardResult {
         public void onSuccess(CreateAwardResult createAwardResult);
 
@@ -178,5 +235,9 @@ public class AwardModel {
     public class GetListAwards {
         public String error;
         public Award[] listAwards;
+    }
+
+    public class BuyAwardResult{
+        public String error;
     }
 }

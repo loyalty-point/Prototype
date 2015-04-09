@@ -72,5 +72,6 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_bar_code">BarCodeActivity</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
+    <string name="title_activity_my_awards">MyAwardsActivity</string>
 
 </resources>

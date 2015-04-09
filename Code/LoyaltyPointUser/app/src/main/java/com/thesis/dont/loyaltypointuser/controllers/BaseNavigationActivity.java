@@ -22,22 +22,17 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         allowArrowAnimation();
 
         MaterialAccount account = new MaterialAccount(this.getResources(),"Nguyễn Tấn Đô","nguyentando106@gmail.com", R.drawable.user_avatar, R.color.MaterialGreen);
-        //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.color.MaterialBlueGrey);
-        int color[] = {R.color.MaterialDeepOrange};
-        Bitmap bm = Bitmap.createBitmap(color, 1, 1, Bitmap.Config.ARGB_8888);
-        //bm.eraseColor(R.color.MaterialDeepOrange);
-        //account.setBackground(bm);
         account.setBackground(R.drawable.account_background);
 
-        //account.setBackground(R.color.MaterialBlueGrey);
         this.addAccount(account);
 
         // add section to the top list
         MaterialSection sectionTop1 = newSection("My Cards", R.drawable.ic_store, new ShopsCardMainFragment());
-        //MaterialSection sectionTop2 = newSection("Bar Code", R.drawable.ic_store, new Intent(this, BarCodeActivity.class));
         MaterialSection sectionTop2 = newSection("My Account", R.drawable.account_circle_ic, new AccountFragment());
+        MaterialSection sectionTop3 = newSection("My Awards", R.drawable.ic_award, new MyAwardsFragment());
         sectionTop1.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         sectionTop2.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
+        sectionTop3.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         //sectionTop1.setNotifications(4);
 
         /*MaterialSection sectionTop2 = newSection("Section 2", R.drawable.ic_user, new Intent(this, RegisterActivity.class));*/
@@ -45,7 +40,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
 
         addSection(sectionTop1);
         addSection(sectionTop2);
-        /*addSection(sectionTop2);*/
+        addSection(sectionTop3);
 
         // add section to the bottom list
         MaterialSection sectionBottom1 = newSection("Settings", R.drawable.ic_settings, new Intent(this, SettingsActivity.class));

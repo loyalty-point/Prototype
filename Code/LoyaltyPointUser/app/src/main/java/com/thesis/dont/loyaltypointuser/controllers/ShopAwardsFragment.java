@@ -78,6 +78,10 @@ public class ShopAwardsFragment extends Fragment {
         getListAwards();
     }
 
+    public void refresh() {
+        getListAwards();
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -85,7 +89,7 @@ public class ShopAwardsFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new AwardsListAdapter(getActivity(), new ArrayList<Award>(), userPoint);
+        mAdapter = new AwardsListAdapter(getActivity(), this, new ArrayList<Award>(), userPoint);
         mListView = (ListView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 
