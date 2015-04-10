@@ -122,6 +122,10 @@
             android:name=".controllers.UserDetailActivity"
             android:label="@string/title_activity_user_detail" >
         </activity>
+        <activity
+            android:name=".controllers.UserDetailTabPagerAdapter"
+            android:label="@string/title_activity_user_detail_tab_pager_adapter" >
+        </activity>
     </application>
 
 </manifest>

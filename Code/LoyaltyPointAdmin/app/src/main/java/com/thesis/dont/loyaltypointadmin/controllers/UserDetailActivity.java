@@ -21,12 +21,15 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.List;
 
 public class UserDetailActivity extends ActionBarActivity {
 
-    Shop mShop;
+    String userId;
+    String userFullName;
+    String shopId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +39,13 @@ public class UserDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        userId = i.getStringExtra(Global.USER_NAME);
+        userFullName = i.getStringExtra(Global.USER_FULLNAME);
+        shopId = i.getStringExtra(Global.SHOP_ID);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle(mShop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), mShop.getId()));
+        setTitle(userFullName);
+        pager.setAdapter(new UserDetailTabPagerAdapter(getSupportFragmentManager(), userId, shopId));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager
@@ -49,14 +54,10 @@ public class UserDetailActivity extends ActionBarActivity {
         tabs.setBackgroundResource(R.color.PrimaryColor);
         tabs.setTextColorResource(R.color.TextIconsHide);
         tabs.setIndicatorColorResource(R.color.TextIcons);
-        tabs.setIndicatorHeight(tabs.getIndicatorHeight()+5);
+        tabs.setIndicatorHeight(tabs.getIndicatorHeight() + 5);
         getSupportActionBar().setElevation(0);
 
         tabs.setViewPager(pager);
-    }
-
-    public Shop getCurrentShop() {
-        return mShop;
     }
 
     @Override
@@ -75,23 +76,18 @@ public class UserDetailActivity extends ActionBarActivity {
     //call back when scan bar code successfully
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case Global.SCAN_BARCODE: {
-                if(resultCode == RESULT_OK){
-                    /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_fragment);
-                    fragment.onActivityResult(requestCode, resultCode, data);*/
-                    List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                    for(int i=0; i<fragments.size(); i++) {
-                        fragments.get(i).onActivityResult(requestCode, resultCode, data);
-                    }
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+//        switch (requestCode) {
+//            case Global.SCAN_BARCODE: {
+//                if(resultCode == RESULT_OK){
+//                    /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_fragment);
+//                    fragment.onActivityResult(requestCode, resultCode, data);*/
+//                    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//                    for(int i=0; i<fragments.size(); i++) {
+//                        fragments.get(i).onActivityResult(requestCode, resultCode, data);
+//                    }
+//                }
+//                break;
+//            }
+//        }
     }
 }

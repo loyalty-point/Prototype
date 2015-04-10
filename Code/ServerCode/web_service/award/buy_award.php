@@ -47,11 +47,6 @@ $awardName = $awardRow['name'];
 $awardImage = $awardRow['image'];
 $awardPoint = $awardRow['point'];
 
-// update lại award quantity
-$newQuantity = $awardRow['quantity'] - $quantity;
-$query = "update award set quantity = '" . $newQuantity . "' where id = '" . $awardID . "'";
-$query_exec = mysqli_query($localhost, $query);
-
 
 // Lấy thông tin của shop
 $query = "select * from shop where id='".$shopID."'";
@@ -67,21 +62,12 @@ if($shopID == "") {
 $shopName = $shopRow['name'];
 $shopImage = $shopRow['image'];
 
-// Trừ điểm tích lũy của user trong bảng customer_shop
-$point = $quantity * $awardPoint;
-
-$query = "select * from customer_shop where username='".$username."' and shop_id = '" . $shopID . "'";
-$query_exec = mysqli_query($localhost, $query);
-$folllowRow = mysqli_fetch_array($query_exec);
-$currentPoint = $folllowRow['point'];
-$newPoint = $currentPoint - $point;
-
-$query = "update customer_shop set point = '".$newPoint."' where username='".$username."' and shop_id ='".$shopID."'";
-$query_exec = mysqli_query($localhost, $query);
-
 // Thêm 1 dòng vào bảng buy_award_history
 $id = uniqid();
 $isTaken = 0;
+$bucketName = "loyalty-point-photos";
+$path = "shops/" . $id;
+$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
 $query = "insert into buy_award_history values ('"
                             .$id."','"
                             .$clientTime."','"
@@ -89,6 +75,7 @@ $query = "insert into buy_award_history values ('"
                             .$userFullName."','"
                             .$shopID."','"
                             .$shopName."','"
+                            .$imageLink."','"
                             .$awardID."','"
                             .$awardName."','"
                             .$awardImage."','"
@@ -98,9 +85,25 @@ $query = "insert into buy_award_history values ('"
 $query_exec = mysqli_query($localhost, $query);
 if($query_exec) {
     echo '{"error":""}';
+    // update lại award quantity
+    $newQuantity = $awardRow['quantity'] - $quantity;
+    $query = "update award set quantity = '" . $newQuantity . "' where id = '" . $awardID . "'";
+    $query_exec = mysqli_query($localhost, $query);
+
+    // Trừ điểm tích lũy của user trong bảng customer_shop
+    $point = $quantity * $awardPoint;
+
+    $query = "select * from customer_shop where username='".$username."' and shop_id = '" . $shopID . "'";
+    $query_exec = mysqli_query($localhost, $query);
+    $folllowRow = mysqli_fetch_array($query_exec);
+    $currentPoint = $folllowRow['point'];
+    $newPoint = $currentPoint - $point;
+
+    $query = "update customer_shop set point = '".$newPoint."' where username='".$username."' and shop_id ='".$shopID."'";
+    $query_exec = mysqli_query($localhost, $query);
 }
 else 
-    echo '{"error":"save buying award history unsuccessfully"}';
+    echo '{"error":"'.mysqli_error($localhost).'"}';
 
 
 mysqli_close($localhost);

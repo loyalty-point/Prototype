@@ -7,9 +7,11 @@ public class Global {
     public static String userToken = null;
 
     public static String SHOP_NAME = "shop_name";
+    public static String SHOP_ID = "shop_id";
     public static String SHOP_OBJECT = "shop_object";
     public static String USER_OBJECT = "user_object";
     public static String USER_NAME = "user_name";
+    public static String USER_FULLNAME = "user_fullname";
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";

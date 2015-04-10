@@ -28,5 +28,5 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_AwardModel_getEditQuantityA
 
 jstring Java_com_thesis_dont_loyaltypointuser_models_AwardModel_getBuyAward(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/award/buy_award.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/award/buy_award.php");
 }
