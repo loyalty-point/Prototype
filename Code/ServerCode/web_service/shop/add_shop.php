@@ -16,7 +16,6 @@ if(strlen($token)!=64){
 	die();
 }
 $query = "select username from admin_users where token='".$token."'";
-
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];

@@ -70,7 +70,7 @@ public class ShopModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     CreateShopResult result = (CreateShopResult) Helper.jsonToObject(response, CreateShopResult.class);
-                    if(result.error == "")
+                    if(result.error.equals(""))
                         mOnCreateShopResult.onSuccess(result);
                     else
                         mOnCreateShopResult.onError(result.error);
