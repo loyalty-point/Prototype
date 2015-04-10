@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -159,6 +160,13 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) getActivity().findViewById(R.id.usersList);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
+                startActivity(i);
+            }
+        });
         getListUsers();
         setHasOptionsMenu(true);
     }

@@ -42,6 +42,7 @@ public class ShopsListMainFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.e("resume", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         mParentActivity = (ShopsListActivity) getActivity();
 
@@ -67,13 +68,13 @@ public class ShopsListMainFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("return","result1");
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void setListData()
@@ -113,7 +114,6 @@ public class ShopsListMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         setListData();
     }
 }

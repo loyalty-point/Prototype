@@ -28,8 +28,9 @@ if($username == ""){
 /**/
 $id = uniqid();
 $bucketName = "loyalty-point-photos";
-$fileName = "shops/" . $id . "/shopLogo";
-$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
+$path = "shops/" . $id;
+$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
+$backgroundLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopBackground";
 
 $query = "insert into shop values ('"
 							.$id."','"
@@ -38,10 +39,11 @@ $query = "insert into shop values ('"
 							.$shop->phone_number."','"
 							.$shop->category."','"
 							.$shop->exchange_ratio."','"
-							.$imageLink."')";  //insert vào database
+							.$imageLink."','"
+							.$backgroundLink."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
-
+echo mysqli_error($localhost);
 if($query_exec){
 	
 	$query = "insert into admin_shop values ('"

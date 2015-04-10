@@ -99,7 +99,8 @@ public class ShopsListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Shop shop = (Shop) getItem(position);
+        final Shop shop = (Shop) getItem(position);
+
 
         // Load card image
         Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img2).into(holder.cardImg);
@@ -117,8 +118,8 @@ public class ShopsListAdapter extends BaseAdapter {
         mMenuContext = new ListPopupWindow(mParentActivity);
         mMenuContext.setAdapter(new ArrayAdapter(mParentActivity,
                 R.layout.card_context_menu_item, menuItems));
-        mMenuContext.setWidth(150);
-        mMenuContext.setHeight(200);
+        mMenuContext.setWidth(350);
+        mMenuContext.setHeight(250);
         mMenuContext.setModal(true);
         mMenuContext.setAnchorView(holder.contextMenuBtn);
 
@@ -139,7 +140,9 @@ public class ShopsListAdapter extends BaseAdapter {
                         break;
                     case 2: { // CHANGE BACKGROUND
                         Intent i = new Intent(mParentActivity, CropImageActivity.class);
-                        i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                        i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 610);
+                        i.putExtra(CropImageActivity.ASPECT_RATIO_X, 948);
+                        i.putExtra(CropImageActivity.SHOP_ID, shop.getId());
                         ((Activity)mParentActivity).startActivityForResult(i, SELECT_PHOTO);
                         break;
                     }

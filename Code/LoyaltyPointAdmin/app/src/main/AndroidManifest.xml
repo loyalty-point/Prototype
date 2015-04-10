@@ -118,6 +118,10 @@
             android:label="@string/title_activity_confirm_update_point"
             android:theme="@style/NoActionBar" >
         </activity>
+        <activity
+            android:name=".controllers.UserDetailActivity"
+            android:label="@string/title_activity_user_detail" >
+        </activity>
     </application>
 
 </manifest>

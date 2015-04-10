@@ -16,7 +16,7 @@ public class Shop implements Parcelable{
     float exchange_ratio;
     String cardImg;
 
-    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image){
+    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -24,6 +24,7 @@ public class Shop implements Parcelable{
         this.category = category;
         this.exchange_ratio = exchange_ratio;
         this.image = image;
+        this.cardImg = cardImg;
     }
 
     public String getCardImg() {
