@@ -79,5 +79,7 @@
     <string name="cancel_button">Cancel</string>
     <string name="title_activity_scanner">ScannerActivity</string>
     <string name="title_activity_confirm_update_point">ConfirmUpdatePointActivity</string>
+    <string name="title_activity_user_detail">UserDetailActivity</string>
+    <string name="title_activity_user_detail_tab_pager_adapter">UserDetailTabPagerAdapter</string>
 
 </resources>

@@ -39,6 +39,7 @@ public class ShopModel {
     public static native String getGetListShop();
     public static native String getGetShopInfo();
     public static native String getEditShopInfo();
+    public static native String getUpdateBackground();
     public static native String getGetFollowingUsers();
     public static native String getGetCustomerInfo();
     public static native String getUpdatePoint();
@@ -72,7 +73,7 @@ public class ShopModel {
 
                     response = httpclient.execute(httppost, responseHandler);
                     CreateShopResult result = (CreateShopResult) Helper.jsonToObject(response, CreateShopResult.class);
-                    if(result.error == "")
+                    if(result.error.equals(""))
                         mOnCreateShopResult.onSuccess(result);
                     else
                         mOnCreateShopResult.onError(result.error);
@@ -142,6 +143,53 @@ public class ShopModel {
         t.start();
     }
 
+    public static void updateBackgroundShop(final String token, final String shopID, final OnUpdateBackgroundResult mOnUpdateBackgroundResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getUpdateBackground();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    UpdateBackgroundResult result = (UpdateBackgroundResult) Helper.jsonToObject(response, UpdateBackgroundResult.class);
+                    if(result.error.equals(""))
+                        mOnUpdateBackgroundResult.onSuccess(result);
+                    else
+                        mOnUpdateBackgroundResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnUpdateBackgroundResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnUpdateBackgroundResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnUpdateBackgroundResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public class CreateShopResult {
         public String error;
         public String shopID;
@@ -150,6 +198,13 @@ public class ShopModel {
     }
 
     public class EditShopResult {
+        public String error;
+        public String shopID;
+        public String bucketName;
+        public String fileName;
+    }
+
+    public class UpdateBackgroundResult {
         public String error;
         public String shopID;
         public String bucketName;
@@ -587,6 +642,11 @@ public class ShopModel {
 
     public interface OnEditShopInfoResult {
         public void onSuccess(EditShopResult result);
+        public void onError(String error);
+    }
+
+    public interface OnUpdateBackgroundResult {
+        public void onSuccess(UpdateBackgroundResult result);
         public void onError(String error);
     }
 

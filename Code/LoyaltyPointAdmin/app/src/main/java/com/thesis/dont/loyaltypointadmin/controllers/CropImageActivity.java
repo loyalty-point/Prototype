@@ -34,23 +34,22 @@ import java.io.InputStream;
 
 public class CropImageActivity extends Activity {
 
-    public static String ASPECT_RATIO = "aspect_ratio";
+    public static final String ASPECT_RATIO_X = "ASPECT_RATIO_X";
+    public static final String ASPECT_RATIO_Y = "ASPECT_RATIO_Y";
     public static String CROPPED_IMAGE = "cropped_image";
+    public static String SHOP_ID = "shop_id";
 
     // Static final constants
-    private static final int DEFAULT_ASPECT_RATIO_VALUES = 10;
     private static final int ROTATE_NINETY_DEGREES = 90;
-    private static final String ASPECT_RATIO_X = "ASPECT_RATIO_X";
-    private static final String ASPECT_RATIO_Y = "ASPECT_RATIO_Y";
     private static final int ON_TOUCH = 1;
 
     // Instance variables
-    private int mAspectRatioX = DEFAULT_ASPECT_RATIO_VALUES;
-    private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
+    private int mAspectRatioX;
+    private int mAspectRatioY;
 
     Bitmap croppedImage;
     CropImageView cropImageView;
-
+    String shopId;
     ProgressDialog mDialog;
 
     // Saves the state upon rotating the screen/restarting the activity
@@ -81,11 +80,13 @@ public class CropImageActivity extends Activity {
 
         // get aspect ratio from Intent
         Intent i = getIntent();
-        int aspectRatio = i.getIntExtra(ASPECT_RATIO, 1);
+        mAspectRatioX = i.getIntExtra(ASPECT_RATIO_X, 1);
+        mAspectRatioY = i.getIntExtra(ASPECT_RATIO_Y, 1);
+        shopId = i.getStringExtra(SHOP_ID);
 
         // Initialize components of the app
         cropImageView = (CropImageView) findViewById(R.id.CropImageView);
-        cropImageView.setAspectRatio(1, aspectRatio);
+        cropImageView.setAspectRatio(mAspectRatioX, mAspectRatioY);
         cropImageView.setFixedAspectRatio(true);
 
         //Sets the rotate button
@@ -120,6 +121,9 @@ public class CropImageActivity extends Activity {
 
                                 Intent resultIntent = new Intent();
                                 resultIntent.putExtra(CROPPED_IMAGE, Helper.BitmapToByteArray(croppedImage));
+                                if(shopId != null){
+                                    resultIntent.putExtra(SHOP_ID, shopId);
+                                }
                                 setResult(Activity.RESULT_OK, resultIntent);
 
                                 finish();

@@ -70,7 +70,8 @@ public class EditAwardActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditAwardActivity.this, CropImageActivity.class);
-                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_X, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 1);
                 startActivityForResult(i, SELECT_PHOTO);
             }
         });

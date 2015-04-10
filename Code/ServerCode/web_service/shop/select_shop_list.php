@@ -50,7 +50,8 @@ else  {
                     . '"phone_number":"' . $row1['phone_number'] . '",'
                     . '"category":"' . $row1['category'] . '",'
                     . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
-                    . '"image":"' . $row1['image'] . '"},';
+                    . '"image":"' . $row1['image'] . '",'
+                    . '"cardImg":"' . $row1['background'] . '"},';
         }
     }
     $result = $result . ']}';

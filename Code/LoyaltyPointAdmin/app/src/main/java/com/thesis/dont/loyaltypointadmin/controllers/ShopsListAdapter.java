@@ -31,9 +31,11 @@ public class ShopsListAdapter extends BaseAdapter {
 
     private Context mParentActivity;
 
+    public static final int SELECT_PHOTO = 100;
+
     private LayoutInflater mInflater = null;
 
-    String[] menuItems ={"Edit", "Delete"};
+    String[] menuItems = {"Edit", "Delete", "Update Background"};
 
     Shop tempValues = null;
     int i = 0;
@@ -78,7 +80,7 @@ public class ShopsListAdapter extends BaseAdapter {
         View view;
         ViewHolder holder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             view = mInflater.inflate(R.layout.shops_list_row, parent, false);
 
             // Create holder
@@ -92,12 +94,13 @@ public class ShopsListAdapter extends BaseAdapter {
 
             // save holder
             view.setTag(holder);
-        }else {
+        } else {
             view = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Shop shop = (Shop) getItem(position);
+        final Shop shop = (Shop) getItem(position);
+
 
         if(shop.getCardImg() == null || shop.getCardImg().equals(""))
             shop.setCardImg(null);
@@ -120,8 +123,8 @@ public class ShopsListAdapter extends BaseAdapter {
         mMenuContext = new ListPopupWindow(mParentActivity);
         mMenuContext.setAdapter(new ArrayAdapter(mParentActivity,
                 R.layout.card_context_menu_item, menuItems));
-        mMenuContext.setWidth(150);
-        mMenuContext.setHeight(200);
+        mMenuContext.setWidth(350);
+        mMenuContext.setHeight(250);
         mMenuContext.setModal(true);
         mMenuContext.setAnchorView(holder.contextMenuBtn);
 
@@ -131,14 +134,23 @@ public class ShopsListAdapter extends BaseAdapter {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mMenuContext.dismiss();
                 switch (position) {
-                    case 0: // EDIT
+                    case 0: { // EDIT
                         Intent i = new Intent(mParentActivity, EditShopActivity.class);
                         Shop shop = (Shop) getItem(shopIndex);
                         i.putExtra(Global.SHOP_OBJECT, shop);
                         mParentActivity.startActivity(i);
                         break;
+                    }
                     case 1: // DELETE
                         break;
+                    case 2: { // CHANGE BACKGROUND
+                        Intent i = new Intent(mParentActivity, CropImageActivity.class);
+                        i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 610);
+                        i.putExtra(CropImageActivity.ASPECT_RATIO_X, 948);
+                        i.putExtra(CropImageActivity.SHOP_ID, shop.getId());
+                        ((Activity)mParentActivity).startActivityForResult(i, SELECT_PHOTO);
+                        break;
+                    }
                 }
             }
         });

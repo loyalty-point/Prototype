@@ -40,7 +40,8 @@ while($row = mysqli_fetch_array($query_exec)){
                 . '"phone_number":"' . $row['phone_number'] . '",'
                 . '"category":"' . $row['category'] . '",'
                 . '"exchange_ratio":"' . $row['exchange_ratio'] . '",'
-                . '"image":"' . $row['image'] . '"},';
+                . '"image":"' . $row1['image'] . '",'
+                . '"cardImg":"' . $row1['background'] . '"},';
 }
 $result = $result . ']}';
 echo $result;

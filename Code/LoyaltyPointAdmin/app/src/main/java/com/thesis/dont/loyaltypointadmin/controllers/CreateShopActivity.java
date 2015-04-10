@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,7 +97,8 @@ public class CreateShopActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(CreateShopActivity.this, CropImageActivity.class);
-                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_X, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 1);
                 startActivityForResult(i, SELECT_PHOTO);
             }
         });
@@ -133,7 +135,7 @@ public class CreateShopActivity extends ActionBarActivity {
                 mDialog.show();
 
                 // Create shop
-                Shop shop = new Shop(null, shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
+                Shop shop = new Shop(null, shopname, address, phone, category, Float.valueOf(exchangeRatio), null, null);
                 ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
                     @Override
                     public void onSuccess(ShopModel.CreateShopResult result) {

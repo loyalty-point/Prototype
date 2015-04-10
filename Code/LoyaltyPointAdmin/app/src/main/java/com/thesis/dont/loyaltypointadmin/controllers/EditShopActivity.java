@@ -85,7 +85,8 @@ public class EditShopActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditShopActivity.this, CropImageActivity.class);
-                i.putExtra(CropImageActivity.ASPECT_RATIO, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_X, 1);
+                i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 1);
                 startActivityForResult(i, SELECT_PHOTO);
             }
         });
@@ -138,7 +139,7 @@ public class EditShopActivity extends ActionBarActivity {
                 mDialog.show();
 
                 
-                final Shop shop = new Shop(mOldShop.getId(), shopname, address, phone, category, Float.valueOf(exchangeRatio), null);
+                final Shop shop = new Shop(mOldShop.getId(), shopname, address, phone, category, Float.valueOf(exchangeRatio), null, null);
                 ShopModel.setOnEditShopInfoResult(new ShopModel.OnEditShopInfoResult() {
                     @Override
                     public void onSuccess(final ShopModel.EditShopResult result) {

@@ -40,7 +40,8 @@ if($rows == 0){
         	'","phone_number":"'.$row['phone_number'].
         	'","category":"'.$row['category'].
         	'","exchange_ratio":"'.$row['exchange_ratio'].
-        	'","image":"'.$row['image'].'"},';
+            '","image":"'.$row['image'].
+        	'","cardImg":"'.$row['background'].'"},';
     }
 
     $result = $result.']}';

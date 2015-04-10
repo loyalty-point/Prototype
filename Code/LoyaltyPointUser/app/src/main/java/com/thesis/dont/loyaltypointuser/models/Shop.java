@@ -18,7 +18,7 @@ public class Shop implements Parcelable{
     int point;
     int isAccepted;
 
-    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, int point){
+    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg, int point){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -26,6 +26,7 @@ public class Shop implements Parcelable{
         this.category = category;
         this.exchange_ratio = exchange_ratio;
         this.image = image;
+        this.cardImg = cardImg;
         this.point = point;
     }
 

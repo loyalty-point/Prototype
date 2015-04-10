@@ -1,14 +1,10 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
@@ -16,23 +12,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -44,7 +36,6 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import butterknife.ButterKnife;
 
@@ -55,6 +46,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     private static final String USER_NAME = "userName";
     private static final String USER_IMG = "userImg";
     private static final String USER_PHONENUMBER = "userPhoneNumber";
+    public static final String USER_OBJECT = "userObject";
 
     ButtonFloat barcodeBtn;
 
@@ -71,7 +63,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     private int position;
 
 
-    public ShopUserFragment(int position, String shopId){
+    public ShopUserFragment(int position, String shopId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putString(ARG_SHOPID, shopId);
@@ -88,7 +80,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_user,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_shop_user, container, false);
 
         ButterKnife.inject(this, rootView);
 
@@ -96,8 +88,8 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         return rootView;
     }
 
-    private void getListUsers(){
-        ShopModel.getFollowingUsers(Global.userToken,shopId,new ShopModel.OnSelectFollowingUsersResult() {
+    private void getListUsers() {
+        ShopModel.getFollowingUsers(Global.userToken, shopId, new ShopModel.OnSelectFollowingUsersResult() {
             @Override
             public void onSuccess(ArrayList<User> listUsers) {
                 listUser = listUsers;
@@ -141,7 +133,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
 
                 // put shop into intent
-                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
+                Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
                 i.putExtra(Global.SHOP_OBJECT, shop);
 
                 startActivity(i);
@@ -157,8 +149,20 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 cursor,
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
         listView = (ListView) getActivity().findViewById(R.id.usersList);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
+                i.putExtra(Global.USER_NAME, cursor.getString(4));
+                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
+                i.putExtra(Global.SHOP_ID, shopId);
+                startActivity(i);
+
+            }
+        });
         getListUsers();
         setHasOptionsMenu(true);
     }
@@ -247,7 +251,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
             userName.setText(fullname);
             userPhone.setText(phone);
-            if(image.equals(""))
+            if (image.equals(""))
                 image = null;
             mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
 
@@ -261,7 +265,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                     i.putExtra(Global.USER_NAME, username);
 
                     // put shop into intent
-                    Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
+                    Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
                     i.putExtra(Global.SHOP_OBJECT, shop);
 
                     startActivity(i);

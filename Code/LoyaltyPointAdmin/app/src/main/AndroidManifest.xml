@@ -128,7 +128,14 @@
             android:label="@string/title_activity_confirm_update_point"
             android:theme="@style/NoActionBar" >
         </activity>
-
+        <activity
+            android:name=".controllers.UserDetailActivity"
+            android:label="@string/title_activity_user_detail" >
+        </activity>
+        <activity
+            android:name=".controllers.UserDetailTabPagerAdapter"
+            android:label="@string/title_activity_user_detail_tab_pager_adapter" >
+        </activity>
         // broadcast receiver for listening messages from Google Cloud Messages
         <receiver
             android:name=".apis.GcmBroadcastReceiver"
