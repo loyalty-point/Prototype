@@ -30,6 +30,7 @@ public class ShopDetailActivity extends ActionBarActivity {
 
         Intent i = getIntent();
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(mShop.getName());
@@ -45,6 +46,7 @@ public class ShopDetailActivity extends ActionBarActivity {
         tabs.setIndicatorHeight(tabs.getIndicatorHeight()+5);
         getSupportActionBar().setElevation(0);
 
+        pager.setCurrentItem(tabIndex);
         tabs.setViewPager(pager);
     }
 

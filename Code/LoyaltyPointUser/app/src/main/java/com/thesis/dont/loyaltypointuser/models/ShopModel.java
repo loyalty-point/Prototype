@@ -237,6 +237,7 @@ public class ShopModel {
         t.start();
     }
 
+
     public static void followShop(String token, String shopId, final int point,  final OnFollowShopResult onFollowShopResult){
         final String token_string = token;
         final String shopId_string = shopId;

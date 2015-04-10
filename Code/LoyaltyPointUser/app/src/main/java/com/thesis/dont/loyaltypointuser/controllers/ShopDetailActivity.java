@@ -25,7 +25,10 @@ public class ShopDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        shop = getIntent().getParcelableExtra(Global.SHOP_OBJECT);
+        Intent i = getIntent();
+        shop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
+
         setTitle(shop.getName());
         pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
@@ -39,6 +42,7 @@ public class ShopDetailActivity extends ActionBarActivity {
         tabs.setIndicatorHeight(tabs.getIndicatorHeight()+5);
         getSupportActionBar().setElevation(0);
 
+        pager.setCurrentItem(tabIndex);
         tabs.setViewPager(pager);
     }
 

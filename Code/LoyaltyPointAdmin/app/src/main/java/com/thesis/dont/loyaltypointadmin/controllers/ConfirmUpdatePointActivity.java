@@ -170,6 +170,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
                             Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
                             i.putExtra(Global.SHOP_OBJECT, mShop);
+                            i.putExtra(Global.TAB_INDEX, 3);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
                             finish();
@@ -185,6 +186,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
                                         Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
                                         i.putExtra(Global.SHOP_OBJECT, mShop);
+                                        i.putExtra(Global.TAB_INDEX, 3);
                                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(i);
                                         finish();

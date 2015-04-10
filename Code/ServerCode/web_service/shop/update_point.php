@@ -1,4 +1,5 @@
 <?php
+include_once '../GCM/GCM.php';
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -60,9 +61,27 @@ $newPoint = $point + $currentPoint;
 $query = "update customer_shop set point = " . $newPoint . " where username='".$customerName."' and shop_id='".$shopID."'";
 $query_exec = mysqli_query($localhost, $query);
 
-
-
 if($query_exec) {   // Cập nhật thành công
+
+    // Gửi notification cho user
+    // Từ $customerName -> regID (bảng customer_registration)
+    $query = "select * from customer_registration where username='".$customerName."'";
+    $query_exec = mysqli_query($localhost, $query);
+    $row = mysqli_fetch_array($query_exec);
+    $regID = $row['regID']; 
+
+    // Gửi thông báo đến regID
+    if($regID != "") {
+
+        $regID = array($regID);
+        $message = "add point";
+        $message = array("message" => $message, "shopID" => $shopID, "point" => $point, "newPoint" => $newPoint);
+
+        $gcm = new GCM();
+
+        $result = $gcm->send_notification($regID, $message);
+    }
+
     // Lưu lần cập nhật này vào bảng update_point_history
     $bucketName = "loyalty-point-photos";
     $fileName = "shops/" . $shopID . "/history/" . $billCode;

@@ -5,6 +5,7 @@ package com.thesis.dont.loyaltypointadmin.models;
  */
 public class Global {
     public static String userToken = null;
+    public static String regID = null;
 
     public static String SHOP_NAME = "shop_name";
     public static String SHOP_OBJECT = "shop_object";
@@ -13,6 +14,7 @@ public class Global {
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";
+    public static final String TAB_INDEX = "tab_index";
 
     public static String TOTAL_MONEY = "total_money";
 

@@ -1,4 +1,5 @@
 <?php
+include_once '../GCM/GCM.php';
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -23,15 +24,47 @@ if($username == ""){
 }
 /**/
 
+$isAccepted = 0;
+
 $query = "insert into customer_shop values ('"
 							.$username."','"
 							.$shop_id ."','"
-							.$point ."')";  //insert vào database
+							.$point ."','"
+							.$isAccepted ."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
 
-if($query_exec)
+if($query_exec) {
 	echo '{"error":"", "data":""}'; //insert thành công.
+
+	// Gửi notification cho admin shop
+	// Từ shopID -> $admin_username (bảng admin_shop)
+	$query = "select * from admin_shop where shop_id='".$shop_id."'";
+	$query_exec = mysqli_query($localhost, $query);
+	$row = mysqli_fetch_array($query_exec);
+	$admin_username = $row['admin_username'];
+
+	// Từ $admin_username -> regID (bảng admin_registration)
+	$query = "select * from admin_registration where username='".$admin_username."'";
+	$query_exec = mysqli_query($localhost, $query);
+	$row = mysqli_fetch_array($query_exec);
+	$regID = $row['regID'];	
+
+	// Gửi thông báo đến regID
+	if($regID != "") {
+
+		$regID = array($regID);
+		$message = "You've received a register request";
+		$message = array("message" => $message, "shopID" => $shop_id);
+
+		// put shopID vao $message
+
+
+		$gcm = new GCM();
+
+		$result = $gcm->send_notification($regID, $message);
+	}
+}
 else 
 	echo '{"error":"you are following this shop", "data":""}';; //insert không thành công vì đã có username
 

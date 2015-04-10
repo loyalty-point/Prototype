@@ -58,7 +58,7 @@ public class EditShopActivity extends ActionBarActivity {
 
         // init dialog
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Updating shop info");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
@@ -226,6 +226,8 @@ public class EditShopActivity extends ActionBarActivity {
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
+                    isChangeAwardImage = true;
+
                     byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
                     // không nén ảnh
