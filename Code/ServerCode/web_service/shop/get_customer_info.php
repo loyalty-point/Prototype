@@ -48,6 +48,7 @@ $result = '{"error":"", "user":';
             '","phone":"'.$query_exec['phone_number'].
             '","email":"'.$query_exec['email'].
             '","address":"'.$query_exec['address'].
+            '","identity_number":"'.$query_exec['identity_number'].
             '","barcode":"'.$query_exec['barcode'].
             '","avatar":"'.$query_exec['avatar'].
             '","token":"'.$query_exec['token'].'"}}';

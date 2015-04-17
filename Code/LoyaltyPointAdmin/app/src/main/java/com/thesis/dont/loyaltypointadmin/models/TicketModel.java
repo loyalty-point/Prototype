@@ -32,6 +32,7 @@ public class TicketModel {
     }
 
     public static native String getGetUserTicket();
+    public static native String getDeleteUserTicket();
 
     public static void getUserTicket(final String token, final String userId, final String shopId, final OnGetUserTicket mOnGetUserTicket){
         Thread t = new Thread() {
@@ -83,6 +84,51 @@ public class TicketModel {
         t.start();
     }
 
+    public static void deleteUserTicket(final String token, final String ticketId, final OnDeleteUserTicket mOnDeleteUserTicket){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getDeleteUserTicket();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    DeleteUserTicketResult result = (DeleteUserTicketResult) Helper.jsonToObject(response, DeleteUserTicketResult.class);
+                    if(result.error.equals("")) {
+                        mOnDeleteUserTicket.onSuccess();
+                    }
+                    else
+                        mOnDeleteUserTicket.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnDeleteUserTicket.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnDeleteUserTicket.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnDeleteUserTicket.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnGetUserTicket{
         public void onSuccess(ArrayList<AwardHistory> listTickets);
         public void onError(String error);
@@ -91,5 +137,14 @@ public class TicketModel {
     public class GetUserTicketResult {
         public String error;
         public AwardHistory[] listTickets;
+    }
+
+    public interface OnDeleteUserTicket{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public class DeleteUserTicketResult {
+        public String error;
     }
 }

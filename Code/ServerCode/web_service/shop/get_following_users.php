@@ -42,6 +42,7 @@ while($row = mysqli_fetch_array($query_exec)){
             '","phone":"'.$row1['phone_number'].
             '","email":"'.$row1['email'].
             '","address":"'.$row1['address'].
+            '","identity_number":"'.$row1['identity_number'].
             '","barcode":"'.$row1['barcode'].
             '","avatar":"'.$row1['avatar'].
             '","token":"'.$row1['token'].'"},';

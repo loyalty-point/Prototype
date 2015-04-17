@@ -141,7 +141,7 @@ public class AwardModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
@@ -157,13 +157,6 @@ public class AwardModel {
                     GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
                     if(result.error.equals("")) {
                         // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
-                        /*String[] datas = result.listAwards.split("&"); //slit data to json struture
-                        ArrayList<Award> listAwards = new ArrayList<Award>();
-
-                        for (int i = 0; i < datas.length; i++) {
-                            Award award = (Award) Helper.jsonToObject(datas[i], Award.class);
-                            listAwards.add(award); //add award object to array
-                        }*/
                         ArrayList<Award> listAwards = new ArrayList<Award>();
                         for(int i=0; i<result.listAwards.length-1; i++) {
                             listAwards.add(result.listAwards[i]);
