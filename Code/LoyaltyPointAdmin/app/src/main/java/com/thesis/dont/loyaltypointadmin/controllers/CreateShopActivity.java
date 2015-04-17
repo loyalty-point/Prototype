@@ -45,7 +45,7 @@ public class CreateShopActivity extends ActionBarActivity {
 
         // init dialog
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Creating shop");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 

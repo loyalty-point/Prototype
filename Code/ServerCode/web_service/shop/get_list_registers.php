@@ -10,7 +10,7 @@ $token = $_POST['token'];
 $shop_id = $_POST['shop_id'];
 
 if(strlen($token)!=64){
-    echo '{"error":"token not found","listUsers":[]}';
+    echo '{"error":"token not found","listRegisters":[]}';
     die();
 }
 
@@ -22,14 +22,14 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-        echo '{"error":"wrong token","listUsers":[]}';
+        echo '{"error":"wrong token","listRegisters":[]}';
         die();
 }
 /**/
 
-$query = "select username from customer_shop where shop_id = '".$shop_id."' and isAccepted != '0'";
+$query = "select username from customer_shop where shop_id = '".$shop_id."' and isAccepted = '0'";
 $query_exec = mysqli_query($localhost,$query);
-$result = '{"error":"", "listUsers":[';
+$result = '{"error":"", "listRegisters":[';
 while($row = mysqli_fetch_array($query_exec)){
 
     $query_search = "select * from customer_users where username = '".$row['username']."'";
@@ -42,7 +42,6 @@ while($row = mysqli_fetch_array($query_exec)){
             '","phone":"'.$row1['phone_number'].
             '","email":"'.$row1['email'].
             '","address":"'.$row1['address'].
-            '","identity_number":"'.$row1['identity_number'].
             '","barcode":"'.$row1['barcode'].
             '","avatar":"'.$row1['avatar'].
             '","token":"'.$row1['token'].'"},';

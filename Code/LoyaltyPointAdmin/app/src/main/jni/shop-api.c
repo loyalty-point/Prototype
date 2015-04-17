@@ -44,5 +44,12 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getUpdateBackgro
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/edit_background.php");
 }
+jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetListRegisters(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/get_list_registers.php");
+}
 
-
+jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getAcceptRegisterRequest(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/accept_register_request.php");
+}

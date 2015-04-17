@@ -99,7 +99,11 @@ public class ShopsListAdapter extends BaseAdapter {
         Shop shop = (Shop) getItem(position);
 
         // Load card image
-        Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img).into(holder.cardImg);
+        if(shop.isAccepted() == 0)
+            holder.cardImg.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialGrey));
+        else {
+            Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img2).into(holder.cardImg);
+        }
 
         // Load shop logo
         Picasso.with(mParentActivity).load(shop.getImage()).placeholder(R.drawable.ic_store).into(holder.shopLogo);

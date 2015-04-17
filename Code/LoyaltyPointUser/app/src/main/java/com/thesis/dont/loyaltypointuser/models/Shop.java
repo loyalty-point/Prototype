@@ -16,6 +16,7 @@ public class Shop implements Parcelable{
     float exchange_ratio;
     String cardImg;
     int point;
+    int isAccepted;
 
     public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg, int point){
         this.id = id;
@@ -27,6 +28,14 @@ public class Shop implements Parcelable{
         this.image = image;
         this.cardImg = cardImg;
         this.point = point;
+    }
+
+    public int isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(int isAccepted) {
+        this.isAccepted = isAccepted;
     }
 
     public String getCardImg() {
@@ -116,6 +125,7 @@ public class Shop implements Parcelable{
         dest.writeString(image);
         dest.writeFloat(exchange_ratio);
         dest.writeInt(point);
+        dest.writeInt(isAccepted);
     }
 
     public static final Creator<Shop> CREATOR
@@ -138,5 +148,6 @@ public class Shop implements Parcelable{
         image = in.readString();
         exchange_ratio = in.readFloat();
         point = in.readInt();
+        isAccepted = in.readInt();
     }
 }

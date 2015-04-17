@@ -53,7 +53,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         shopId = getIntent().getStringExtra(ARG_SHOPID);
 
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Creating event");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 

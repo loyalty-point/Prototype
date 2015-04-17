@@ -21,7 +21,7 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_UserModel_getGetUserInfo(JN
 
 jstring Java_com_thesis_dont_loyaltypointuser_models_UserModel_getGetMyAwards(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.216.164/web_service/customer_user/get_my_awards.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_user/get_my_awards.php");
 }
 
 

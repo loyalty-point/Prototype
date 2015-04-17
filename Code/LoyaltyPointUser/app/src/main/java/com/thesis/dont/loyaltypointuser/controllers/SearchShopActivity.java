@@ -2,6 +2,7 @@ package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -31,6 +32,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
@@ -45,11 +47,13 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     public static final String SHOP_IMAGE = "shopImg";
     public static final String SHOP_ID = "shopId";
 
-    private ArrayList<Shop> listShop;
+    private ArrayList<Shop> listShop = new ArrayList<Shop>();
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
 
     MatrixCursor cursor;
+
+    ProgressDialog mDialog;
 
     public static Picasso mPicaso;
 
@@ -57,6 +61,12 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
+
+        // init dialog
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Loading list shops");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -76,6 +86,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     }
 
     public void getListShops() {
+        mDialog.show();
         ShopModel.getUnfollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
@@ -83,6 +94,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         populateAdapter("");
                     }
                 });
@@ -93,6 +105,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         Toast.makeText(SearchShopActivity.this, "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -211,10 +224,19 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                                    builder.setTitle("Your request has been sent successfully")
+                                                            .setMessage("Please wait for the acceptance")
+                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                                }
+                                                            }).show();
                                                     populateAdapter("");
                                                 }
                                             });
-
+                                            //SimpleDialogFragment.createBuilder(SearchShopActivity.this, getSupportFragmentManager()).setMessage("You've just register as a member of this shop\nPlease waiting for the acceptance").show();
                                         }
 
                                         @Override
@@ -233,7 +255,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                     };
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Do you want to follow this shop?").setPositiveButton("Yes", dialogClickListener)
+                    builder.setMessage("Do you want to be a member of this shop?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 }
             });

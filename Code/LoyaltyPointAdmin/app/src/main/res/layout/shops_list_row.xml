@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/shopLogo"
-            android:textColor="@color/MaterialDarkRed"
+            android:textColor="@color/TextIcons"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             android:padding="@dimen/_3sdp"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/shopName"
             android:background="@color/DarkPrimaryColorBlur"
-            android:textColor="@color/MaterialLightRed"
+            android:textColor="@color/TextIcons"
             android:textStyle="bold"
             android:padding="@dimen/_3sdp"
             android:textSize="@dimen/_8sdp"/>

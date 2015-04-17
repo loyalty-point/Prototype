@@ -17,6 +17,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.apis.GCMHelper;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
 
@@ -99,6 +100,8 @@ public class LoginActivity extends ActionBarActivity {
                         // Đăng nhập thành công
                         Global.userToken = token;
 
+                        GCMHelper.GCMregistration(LoginActivity.this);
+
                         if(mRememberMe.isChecked()) {
                             // Lưu token vào trong shared preferences
                             SharedPreferences preferences = getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
@@ -114,12 +117,11 @@ public class LoginActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onError(String error) {
-                        final String fError = error;
+                    public void onError(final String error) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(LoginActivity.this, fError, Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
                             }
                         });
                     }

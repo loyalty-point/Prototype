@@ -102,6 +102,11 @@ public class ShopsListAdapter extends BaseAdapter {
         final Shop shop = (Shop) getItem(position);
 
 
+        if(shop.getCardImg() == null || shop.getCardImg().equals(""))
+            shop.setCardImg(null);
+        if(shop.getImage() == null || shop.getImage().equals(""))
+            shop.setImage(null);
+
         // Load card image
         Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img2).into(holder.cardImg);
 

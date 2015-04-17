@@ -1,12 +1,17 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +23,22 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.apis.GCMHelper;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
+
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -39,6 +51,12 @@ public class LoginActivity extends ActionBarActivity {
     //TextView loyal, bag;
     ShimmerTextView loyal;
     TextView bag;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //checkPlayServices();
+    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -107,6 +125,8 @@ public class LoginActivity extends ActionBarActivity {
                         // Đăng nhập thành công
                         Global.userToken = token;
 
+                        GCMHelper.GCMregistration(LoginActivity.this);
+
                         if(mRememberMe.isChecked()) {
                             // Lưu token vào trong shared preferences
                             SharedPreferences preferences = getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
@@ -122,12 +142,11 @@ public class LoginActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onError(String error) {
-                        final String fError = error;
+                    public void onError(final String error) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(LoginActivity.this, fError, Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -146,6 +165,9 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
     }
+
+
+
 
 
     @Override

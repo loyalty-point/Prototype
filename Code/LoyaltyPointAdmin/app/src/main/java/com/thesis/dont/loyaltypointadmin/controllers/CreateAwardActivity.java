@@ -47,7 +47,7 @@ public class CreateAwardActivity extends ActionBarActivity {
 
         // init dialog
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Creating award");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
