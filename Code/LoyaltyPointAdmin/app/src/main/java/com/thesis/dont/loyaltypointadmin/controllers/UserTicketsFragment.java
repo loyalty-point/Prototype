@@ -194,24 +194,24 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.setCancelable(false);
 
                     // Set up the input
-                    final EditText quantityEditText = new EditText(mParentActivity);
+                    final EditText IdentityNumberEditText = new EditText(mParentActivity);
 
                     // set properties for quantityEditText
-                    quantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    quantityEditText.setGravity(Gravity.CENTER);
-                    quantityEditText.setHint("User's Identity Number");
+                    IdentityNumberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    IdentityNumberEditText.setGravity(Gravity.CENTER);
+                    IdentityNumberEditText.setHint("User's Identity Number");
 
-                    mDialogBuilder.setView(quantityEditText);
+                    mDialogBuilder.setView(IdentityNumberEditText);
 
                     //initDialog();
                     // Set listeners for dialog's buttons
                     mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UserModel.checkIdentityNumberUser(Global.userToken, award.getUsername(), quantityEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
+                            UserModel.checkIdentityNumberUser(Global.userToken, award.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
                                 @Override
                                 public void onSuccess() {
-                                    TicketModel.deleteUserTicket(Global.userToken, award.getId(), new TicketModel.OnDeleteUserTicket() {
+                                    TicketModel.deleteUserTicket(Global.userToken, shopId, userId, award.getId(), new TicketModel.OnDeleteUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             listTickets.remove(position);

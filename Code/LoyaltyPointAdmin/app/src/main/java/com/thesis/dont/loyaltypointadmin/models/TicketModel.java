@@ -84,7 +84,7 @@ public class TicketModel {
         t.start();
     }
 
-    public static void deleteUserTicket(final String token, final String ticketId, final OnDeleteUserTicket mOnDeleteUserTicket){
+    public static void deleteUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnDeleteUserTicket mOnDeleteUserTicket){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -95,10 +95,12 @@ public class TicketModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(3);
+                nameValuePairs = new ArrayList<NameValuePair>(4);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
+                nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
+                nameValuePairs.add(new BasicNameValuePair("userId", userId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

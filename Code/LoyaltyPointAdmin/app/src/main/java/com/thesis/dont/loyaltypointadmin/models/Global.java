@@ -12,6 +12,7 @@ public class Global {
     public static String SHOP_OBJECT = "shop_object";
     public static String USER_OBJECT = "user_object";
     public static String USER_NAME = "user_name";
+    public static String USER_POINT = "user_point";
     public static String USER_FULLNAME = "user_fullname";
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";

@@ -338,7 +338,7 @@ public class ShopModel {
 
                     if(result.error.equals("")){
 
-                        ArrayList<User> listUsers = new ArrayList<User>();
+                        ArrayList<Customer> listUsers = new ArrayList<Customer>();
                         for(int i=0; i<result.listUsers.length-1; i++) {
                             listUsers.add(result.listUsers[i]);
                         }
@@ -651,7 +651,7 @@ public class ShopModel {
     }
 
     public interface OnSelectFollowingUsersResult{
-        public void onSuccess(ArrayList<User> listUsers);
+        public void onSuccess(ArrayList<Customer> listUsers);
         public void onError(String error);
     }
 
@@ -696,7 +696,7 @@ public class ShopModel {
 
     public class GetListFollowingUsers{
         public String error;
-        public User[] listUsers;
+        public Customer[] listUsers;
     }
 
     public class GetListRegisters{

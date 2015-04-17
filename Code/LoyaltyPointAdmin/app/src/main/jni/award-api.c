@@ -15,3 +15,7 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_AwardModel_getEditAward(JN
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/award/edit_award.php");
 }
+jstring Java_com_thesis_dont_loyaltypointadmin_models_AwardModel_getSellAward(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/award/sell_award.php");
+}

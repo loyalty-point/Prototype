@@ -27,7 +27,7 @@ if($username == ""){
 }
 /**/
 
-$query = "select username from customer_shop where shop_id = '".$shop_id."' and isAccepted != '0'";
+$query = "select username, point from customer_shop where shop_id = '".$shop_id."' and isAccepted != '0'";
 $query_exec = mysqli_query($localhost,$query);
 $result = '{"error":"", "listUsers":[';
 while($row = mysqli_fetch_array($query_exec)){
@@ -38,14 +38,14 @@ while($row = mysqli_fetch_array($query_exec)){
 
     while($row1 = mysqli_fetch_array($query_exec1)){
         $result = $result . '{"username":"'.$row1['username'].
-            '","password":"","fullname":"'.$row1['name'].
+            '","fullname":"'.$row1['name'].
             '","phone":"'.$row1['phone_number'].
             '","email":"'.$row1['email'].
             '","address":"'.$row1['address'].
             '","identity_number":"'.$row1['identity_number'].
             '","barcode":"'.$row1['barcode'].
             '","avatar":"'.$row1['avatar'].
-            '","token":"'.$row1['token'].'"},';
+            '","point":"'.$row['point'].'"},';
     }
 }
 $result = $result . ']}';
