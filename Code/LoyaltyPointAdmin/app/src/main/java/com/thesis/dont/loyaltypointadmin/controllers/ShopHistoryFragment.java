@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
-public class HistoryFragment extends Fragment {
+public class ShopHistoryFragment extends Fragment {
 
     public static final String SHOP_ID = "shop_ID";
 
@@ -37,11 +37,11 @@ public class HistoryFragment extends Fragment {
     ListView mListView;
     ListHistoriesAdapter mAdapter;
 
-    public HistoryFragment() {
+    public ShopHistoryFragment() {
         // Required empty public constructor
     }
 
-    public HistoryFragment(int position, String shopId){
+    public ShopHistoryFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putString(SHOP_ID, shopId);
         this.setArguments(b);

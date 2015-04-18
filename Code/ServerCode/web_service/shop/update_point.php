@@ -95,12 +95,12 @@ if($query_exec) {   // Cập nhật thành công
 
     $query = "insert into update_point_history values ('"
                                 .$billCode."','"
-                                .$shopID."','"
+                                .$shopID."','1','"
                                 .$customerName."','"
                                 .$fullname."','"
                                 .$phone."','"
                                 .$imageLink."','"
-                                .$point."','"
+                                .$point."','','','"
                                 .$clientTime."')";  //insert vào database
 
     $query_exec = mysqli_query($localhost, $query);

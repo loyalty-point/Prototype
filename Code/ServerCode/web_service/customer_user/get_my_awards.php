@@ -27,7 +27,7 @@ if($username == ""){
 
 // Lấy tất cả các dòng trong bảng buy_award_history, thỏa điều kiện
 // username == $username, sắp xếp theo thời gian giảm dần
-$query = "select * from buy_award_history where username='".$username."' order by time desc";
+$query = "select * from customer_tickets where username='".$username."' order by time desc";
 $query_exec = mysqli_query($localhost, $query);
 
 $result = '{"error":"", "listAwards":[';

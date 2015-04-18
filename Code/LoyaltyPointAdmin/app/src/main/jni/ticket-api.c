@@ -11,5 +11,10 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_TicketModel_getDeleteUserT
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/ticket/delete_user_ticket.php");
 }
 
+jstring Java_com_thesis_dont_loyaltypointadmin_models_TicketModel_getCancelUserTicket(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/ticket/cancel_user_ticket.php");
+}
+
 
 
