@@ -24,13 +24,20 @@ public class MyRoundedImageView extends RoundedImageView {
         super(context, attrs, defStyle);
     }
 
-    /*@Override
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
+        int originalWidth = MeasureSpec.getSize(widthMeasureSpec);
         aspectRatio = 610/(double)948;
-        int newHeight = (int)(widthMeasureSpec * aspectRatio);
-        super.onMeasure(widthMeasureSpec, newHeight);
-    }*/
+        int newHeight = (int)(originalWidth * aspectRatio);
+
+        super.onMeasure(
+                MeasureSpec.makeMeasureSpec(originalWidth, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(newHeight, MeasureSpec.EXACTLY));
+
+        //super.onMeasure(widthMeasureSpec, newHeight);
+        //super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+    }
 
 
 }

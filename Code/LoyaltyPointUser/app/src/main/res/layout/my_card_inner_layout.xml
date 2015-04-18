@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shadow="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_0sdp"
+    android:layout_marginRight="@dimen/_0sdp"
+    android:padding="@dimen/_0sdp">
+
+    <!-- Use same ID to use built-in features -->
+
+    <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+        android:id="@+id/cardImgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        shadow:z_depth_padding="z_depth5"
+        shadow:z_depth="z_depth5"
+        shadow:z_depth_shape="rect">
+
+        <com.thesis.dont.loyaltypointuser.views.MyRoundedImageView
+            android:id="@+id/cardImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_1sdp"
+            app:siBorderColor="@color/MaterialGrey"/>
+
+    </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+    <TextView
+        android:id="@+id/point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardImgLayout"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/big_font_size"
+        android:textStyle="bold"
+        android:textColor="@color/MaterialDarkRed"
+        android:gravity="center"
+        android:padding="1dp"
+        android:layout_margin="0dp"
+        android:text="0"/>
+
+</RelativeLayout>

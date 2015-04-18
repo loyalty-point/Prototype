@@ -10,7 +10,8 @@ import android.view.MenuItem;
 
 import com.thesis.dont.loyaltypointuser.R;
 
-public class CardsListActivity extends BaseNavigationActivity implements AccountFragment.OnFragmentInteractionListener{
+public class CardsListActivity extends BaseNavigationActivity implements AccountFragment.OnFragmentInteractionListener
+        , CardFragment.OnFragmentInteractionListener {
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -30,4 +31,6 @@ public class CardsListActivity extends BaseNavigationActivity implements Account
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
+
+
 }
