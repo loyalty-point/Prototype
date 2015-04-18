@@ -30,6 +30,7 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
@@ -46,6 +47,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     private static final String USER_NAME = "userName";
     private static final String USER_IMG = "userImg";
     private static final String USER_PHONENUMBER = "userPhoneNumber";
+    private static final String USER_POINT = "user_point";
     public static final String USER_OBJECT = "userObject";
 
     ButtonFloat barcodeBtn;
@@ -54,7 +56,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     private String shopId;
 
-    private ArrayList<User> listUser;
+    private ArrayList<Customer> listUser;
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
@@ -91,7 +93,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     private void getListUsers() {
         ShopModel.getFollowingUsers(Global.userToken, shopId, new ShopModel.OnSelectFollowingUsersResult() {
             @Override
-            public void onSuccess(ArrayList<User> listUsers) {
+            public void onSuccess(ArrayList<Customer> listUsers) {
                 listUser = listUsers;
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -142,7 +144,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         //create list user and search adapter.
         final String[] from = new String[]{USER_NAME};
         final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
         //create adapter and add it to list
         mAdapter = new CustomSimpleCursorAdapter(getActivity(),
                 R.layout.search_user_layout,
@@ -159,6 +161,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 i.putExtra(Global.USER_NAME, cursor.getString(4));
                 i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
                 i.putExtra(Global.SHOP_ID, shopId);
+                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
                 startActivity(i);
 
             }
@@ -200,10 +203,10 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     // search logic
     private void populateAdapter(String query) {
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
         for (int i = 0; i < listUser.size(); i++) {
             if (listUser.get(i).getFullname().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername()});
+                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername(), listUser.get(i).getPoint()});
         }
         mAdapter.changeCursor(cursor);
 

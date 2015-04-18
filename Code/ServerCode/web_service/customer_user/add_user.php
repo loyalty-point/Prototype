@@ -15,6 +15,7 @@ $query = "insert into customer_users values ('"
 							.$user->email."','"
 							.$user->fullname."','"
 							.$user->address."','"
+							.$user->identity_number."','"
 							.$user->barcode."','"
 							.$user->avatar."','"
 							.$user->token."')";  //insert vào database

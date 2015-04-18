@@ -26,6 +26,7 @@ else  {
             '","phone":"'.$row['phone_number'].
             '","email":"'.$row['email'].
             '","address":"'.$row['address'].
+            '","identity_number":"'.$row['identity_number'].
             '","barcode":"'.$row['barcode'].
             '","avatar":"'.$row['avatar'].
             '","token":"'.$row['token'].'"}';

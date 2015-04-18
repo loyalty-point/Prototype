@@ -129,6 +129,8 @@ public class AwardsListAdapter extends BaseAdapter{
 
                             if(quantity > award.getQuantity()) {
                                 Toast.makeText(mParentActivity, "Sorry, we just have " + award.getQuantity() + " remaining items", Toast.LENGTH_LONG).show();
+                            }else if((quantity*award.getPoint()) > userPoint){
+                                Toast.makeText(mParentActivity, "Sorry, Not enough point, you only have " + String.valueOf(userPoint) + "but you need " + String.valueOf(quantity*award.getPoint()) +" point to buy this award!", Toast.LENGTH_LONG).show();
                             }else {
                                 // Lấy thời gian hiện tại
                                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

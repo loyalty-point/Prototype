@@ -86,7 +86,7 @@ public class RegisterActivity extends ActionBarActivity {
                 // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
                 // Gọi api để đăng kí tài khoản
                 final String hashPass = Helper.hashPassphrase(password, username);
-                User user = new User(username, hashPass, fullname, phone, null, null, null, null);
+                User user = new User(username, hashPass, fullname, phone, null, null, null, null, null);
                 UserModel.setOnRegisterResult(new UserModel.OnRegisterResult() {
                     @Override
                     public void onSuccess() {

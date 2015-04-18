@@ -31,6 +31,7 @@ public class UserDetailActivity extends ActionBarActivity {
     String userFullName;
     String shopId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

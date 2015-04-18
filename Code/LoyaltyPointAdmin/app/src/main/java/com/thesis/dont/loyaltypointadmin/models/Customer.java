@@ -4,11 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by dont on 2/2/2015.
+ * Created by tinntt on 4/17/2015.
  */
-public class User implements Parcelable {
+public class Customer implements Parcelable {
     String username;
-    String password;
     String fullname;
     String phone;
     String email;
@@ -16,17 +15,17 @@ public class User implements Parcelable {
     String identity_number;
     String barcode;
     String avatar;
-    String token;
+    private int point;
 
-    public User(String username, String password, String fullname, String phone, String email, String address, String identity_number, String avatar, String token){
+    public Customer(String username, String fullname, String phone, String email, String address, String identity_number, String avatar, int point){
         this.username = username;
-        this.password = password;
         this.fullname = fullname;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.identity_number = identity_number;
         this.avatar = avatar;
-        this.token = token;
+        this.point = point;
     }
 
     public String getBarcode() {
@@ -43,14 +42,6 @@ public class User implements Parcelable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFullname() {
@@ -101,14 +92,6 @@ public class User implements Parcelable {
         this.avatar = avatar;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -117,36 +100,42 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
-        dest.writeString(password);
         dest.writeString(fullname);
         dest.writeString(phone);
         dest.writeString(email);
         dest.writeString(address);
+        dest.writeString(identity_number);
         dest.writeString(barcode);
         dest.writeString(avatar);
-        dest.writeString(token);
     }
 
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel in) {
-            return new User(in);
+    public static final Parcelable.Creator<Customer> CREATOR
+            = new Parcelable.Creator<Customer>() {
+        public Customer createFromParcel(Parcel in) {
+            return new Customer(in);
         }
 
-        public User[] newArray(int size) {
-            return new User[size];
+        public Customer[] newArray(int size) {
+            return new Customer[size];
         }
     };
 
-    private User(Parcel in) {
+    private Customer(Parcel in) {
         username = in.readString();
-        password = in.readString();
         fullname = in.readString();
         phone = in.readString();
         email = in.readString();
         address = in.readString();
+        identity_number = in.readString();
         barcode = in.readString();
         avatar = in.readString();
-        token = in.readString();
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 }

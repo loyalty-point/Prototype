@@ -197,10 +197,7 @@ public class AwardModel {
         t.start();
     }
 
-    public interface OnBuyAwardResult{
-        public void onSuccess();
-        public void onError(String error);
-    }
+
 
     public interface OnCreateAwardResult {
         public void onSuccess(CreateAwardResult createAwardResult);
@@ -235,6 +232,11 @@ public class AwardModel {
     public class GetListAwards {
         public String error;
         public Award[] listAwards;
+    }
+
+    public interface OnBuyAwardResult{
+        public void onSuccess();
+        public void onError(String error);
     }
 
     public class BuyAwardResult{

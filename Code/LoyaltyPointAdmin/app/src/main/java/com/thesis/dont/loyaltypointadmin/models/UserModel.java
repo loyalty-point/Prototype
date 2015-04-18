@@ -39,6 +39,7 @@ public class UserModel {
     public static native String getAddUser();
     public static native String getCheckUser();
     public static native String getSelectUser();
+    public static native String getCheckIdentityNumberUser();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -128,6 +129,51 @@ public class UserModel {
         t.start();
     }
 
+    public static void checkIdentityNumberUser(final String token, final String username, final String identityNumber, final OnCheckIdentityNumberResult mOnCheckIdentityNumberResult) {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCheckIdentityNumberUser();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("userId", username));
+                nameValuePairs.add(new BasicNameValuePair("identityNumber", identityNumber));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler); //tr? v? ki?u {"error":"","token":""}
+                    CheckIdentityNumberResult result = (CheckIdentityNumberResult) Helper.jsonToObject(response, CheckIdentityNumberResult.class);
+                    if(result.error.equals(""))
+                        mOnCheckIdentityNumberResult.onSuccess();
+                    else
+                        mOnCheckIdentityNumberResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnCheckIdentityNumberResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnCheckIdentityNumberResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnCheckIdentityNumberResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public class LoginResult {
         String error;
         String token;
@@ -137,6 +183,16 @@ public class UserModel {
         public void onSuccess();
 
         public void onError(Exception e);
+    }
+
+    public interface OnCheckIdentityNumberResult {
+        public void onSuccess();
+
+        public void onError(String error);
+    }
+
+    public class CheckIdentityNumberResult {
+        String error;
     }
 
     public interface OnLoginResult {

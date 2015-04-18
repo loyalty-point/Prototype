@@ -45,13 +45,6 @@ public class ShopAwardsFragment extends Fragment {
         this.setArguments(b);
     }
 
-//    public static ShopDetailFragment newInstance(int position) {
-//        ShopDetailFragment f = new ShopDetailFragment();
-//        Bundle b = new Bundle();
-//        b.putInt(ARG_POSITION, position);
-//        f.setArguments(b);
-//        return f;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

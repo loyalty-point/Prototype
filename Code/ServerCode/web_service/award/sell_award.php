@@ -1,4 +1,5 @@
 <?php
+include_once '../GCM/GCM.php';
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -7,6 +8,7 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 
 $token = $_POST['token'];
+$customer_username = $_POST['customer_username'];
 $clientTime = $_POST['time'];
 $shopID = $_POST['shop_id'];
 $awardID = $_POST['award_id'];
@@ -19,7 +21,7 @@ if(strlen($token)!=64){
     die();
 }
 
-$query = "select * from customer_users where token='".$token."'";
+$query = "select * from admin_users where token='".$token."'";
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
@@ -59,57 +61,63 @@ if($shopID == "") {
     die();
 }
 
-$shopName = $shopRow['name'];
-$shopImage = $shopRow['image'];
+// Lấy thông tin của customer
+$query = "select * from customer_users where username='".$customer_username."'";
+$query_exec = mysqli_query($localhost, $query);
+$customer = mysqli_fetch_array($query_exec);
+$customer_username = $customer['username'];
+
+if($customer_username == "") {
+    echo '{"error":"shop does not exist"}';
+    die();
+}
+
 
 // Trừ điểm tích lũy của user trong bảng customer_shop
 $point = $quantity * $awardPoint;
 
-$query = "select * from customer_shop where username='".$username."' and shop_id = '" . $shopID . "'";
+$query = "select * from customer_shop where username='".$customer_username."' and shop_id = '" . $shopID . "'";
 $query_exec = mysqli_query($localhost, $query);
 $folllowRow = mysqli_fetch_array($query_exec);
 $currentPoint = $folllowRow['point'];
-$newPoint = $currentPoint - $point;
-if($newPoint>=0){
-    $id = uniqid();
-    $isTaken = 0;
-    $bucketName = "loyalty-point-photos";
-    $path = "shops/" . $id;
-    $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
-    $query = "insert into buy_award_history values ('"
-                                .$id."','"
-                                .$clientTime."','"
-                                .$username."','"
-                                .$userFullName."','"
-                                .$shopID."','"
-                                .$shopName."','"
-                                .$imageLink."','"
-                                .$awardID."','"
-                                .$awardName."','"
-                                .$awardImage."','"
-                                .$quantity."','"
-                                .$isTaken."')";  //insert vào database
 
-    $query_exec = mysqli_query($localhost, $query);
-    if($query_exec) {
-        echo '{"error":""}';
+$newPoint = $currentPoint - $point;
+if($folllowRow){
+    if($newPoint >= 0){
         // update lại award quantity
         $newQuantity = $awardRow['quantity'] - $quantity;
         $query = "update award set quantity = '" . $newQuantity . "' where id = '" . $awardID . "'";
         $query_exec = mysqli_query($localhost, $query);
 
-        $query = "update customer_shop set point = '".$newPoint."' where username='".$username."' and shop_id ='".$shopID."'";
+        $query = "update customer_shop set point = '".$newPoint."' where username='".$customer_username."' and shop_id ='".$shopID."'";
         $query_exec = mysqli_query($localhost, $query);
+        echo '{"error":""}';
+
+        // Gửi notification cho user
+        // Từ $customerName -> regID (bảng customer_registration)
+        $query = "select * from customer_registration where username='".$customer_username."'";
+        $query_exec = mysqli_query($localhost, $query);
+        $row = mysqli_fetch_array($query_exec);
+        $regID = $row['regID'];
+
+            // Gửi thông báo đến regID
+        if($regID != "") {
+
+            $regID = array($regID);
+            $message = "trade successfully";
+            $message = array("message" => $message, "shopID" => $shopID);
+
+            $gcm = new GCM();
+
+            $result = $gcm->send_notification($regID, $message);
+
+        }
+    }else{
+        echo '{"error":"Not enough point"}';
     }
-    else 
-        echo '{"error":"'.mysqli_error($localhost).'"}';
 }else{
-    echo '{"error":"Not enough point!"}';
+    echo '{"error":"cannot update point"}';
 }
-
-// Thêm 1 dòng vào bảng buy_award_history
-
-
 
 mysqli_close($localhost);
 ?>
