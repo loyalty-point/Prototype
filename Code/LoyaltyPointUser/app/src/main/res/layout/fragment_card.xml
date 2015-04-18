@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <it.gmariotti.cardslib.library.view.CardViewNative
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card:card_layout_resourceID="@layout/my_card_layout"/>
+
+</RelativeLayout>
+
+
+<!--<it.gmariotti.cardslib.library.view.CardViewNative
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card:card_layout_resourceID="@layout/my_card_layout"/>-->

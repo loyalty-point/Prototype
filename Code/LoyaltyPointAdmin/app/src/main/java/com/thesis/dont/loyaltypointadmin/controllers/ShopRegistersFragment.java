@@ -141,8 +141,15 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) getActivity().findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
-        getListRegisters();
+        //getListRegisters();
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getListRegisters();
     }
 
     @Override
@@ -263,6 +270,19 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
 
                                                                 }
                                                             }).show();
+
+                                                    // Cập nhật lại danh sách registers và users
+                                                    for(User user : listUser) {
+                                                        if(user.getUsername().equals(username))
+                                                            listUser.remove(user);
+                                                    }
+
+                                                    mParentActivity.runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            populateAdapter("");
+                                                        }
+                                                    });
                                                 }
                                             });
                                         }

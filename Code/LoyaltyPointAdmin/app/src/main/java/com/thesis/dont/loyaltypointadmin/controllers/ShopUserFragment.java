@@ -166,7 +166,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
             }
         });
-        getListUsers();
+        //getListUsers();
         setHasOptionsMenu(true);
     }
 
@@ -210,6 +210,13 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         }
         mAdapter.changeCursor(cursor);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getListUsers();
     }
 
     @Override

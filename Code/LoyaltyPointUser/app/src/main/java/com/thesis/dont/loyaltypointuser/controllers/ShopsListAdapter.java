@@ -32,7 +32,7 @@ public class ShopsListAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater = null;
 
-    String[] menuItems = {"Unfollow"};
+    String[] menuItems = {"Deregister"};
 
     Shop tempValues = null;
     int i = 0;
@@ -117,7 +117,7 @@ public class ShopsListAdapter extends BaseAdapter {
         mMenuContext = new ListPopupWindow(mParentActivity);
         mMenuContext.setAdapter(new ArrayAdapter(mParentActivity,
                 R.layout.card_context_menu_item, menuItems));
-        mMenuContext.setWidth(150);
+        mMenuContext.setWidth(300);
         mMenuContext.setHeight(200);
         mMenuContext.setModal(true);
         mMenuContext.setAnchorView(holder.contextMenuBtn);

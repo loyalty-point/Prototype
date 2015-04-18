@@ -14,39 +14,20 @@
         android:layout_marginLeft="@dimen/_35sdp"
         android:layout_alignParentRight="true"
         app:siRadius="@dimen/_6sdp"
+        app:siBorderWidth="@dimen/_3sdp"
         app:siBorderColor="@color/MaterialGrey"/>
 
     <ImageButton
         android:id="@+id/contextMenuBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:src="@drawable/dots_vertical"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         android:background="@color/DarkPrimaryColorBlur"/>
-
-    <TextView
-        android:id="@+id/shopPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/DarkPrimaryColorBlur"
-        android:layout_marginLeft="@dimen/_45sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:textColor="@color/TextIcons"
-        android:textSize="@dimen/_20sdp"
-        android:textStyle="bold"/>
-
-    <!--<at.markushi.ui.CircleButton
-        android:id="@+id/contextMenuBtn"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:src="@drawable/dots_vertical"
-        app:cb_color="@color/PrimaryColor"
-        app:cb_pressedRingWidth="8dip" />-->
 
     <RelativeLayout
         android:id="@+id/shopInfoLayout"
@@ -87,6 +68,33 @@
             android:textSize="@dimen/_8sdp"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/shopPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/DarkPrimaryColorBlur"
+        android:layout_alignBottom="@id/shopInfoLayout"
+        android:layout_alignRight="@id/cardImg"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_3sdp"
+        android:paddingRight="@dimen/_3sdp"
+        android:textColor="@color/TextIcons"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"/>
+
+    <!--<at.markushi.ui.CircleButton
+        android:id="@+id/contextMenuBtn"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/dots_vertical"
+        app:cb_color="@color/PrimaryColor"
+        app:cb_pressedRingWidth="8dip" />-->
+
+
 
 </RelativeLayout>
 
