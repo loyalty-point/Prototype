@@ -85,7 +85,7 @@ public class TicketModel {
         t.start();
     }
 
-    public static void deleteUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnDeleteUserTicket mOnDeleteUserTicket){
+    public static void deleteUserTicket(final String token, final String ticketId, final String awardId, final String shopId, final String userId, final String time, final int quantity, final int total_point, final OnDeleteUserTicket mOnDeleteUserTicket){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -96,12 +96,16 @@ public class TicketModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(4);
+                nameValuePairs = new ArrayList<NameValuePair>(8);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
+                nameValuePairs.add(new BasicNameValuePair("awardId", awardId));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
+                nameValuePairs.add(new BasicNameValuePair("time", time));
+                nameValuePairs.add(new BasicNameValuePair("number", String.valueOf(quantity)));
+                nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(total_point)));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

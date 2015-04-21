@@ -509,7 +509,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void updatePoint(final String token, final String shopId, final String username,
+    public static void updatePoint(final String token, final ArrayList<AchievedEvent> achivedEventList, final String shopId, final String username,
                                    final String fullname, final String phone,
                                    final int point, final String billCode, final String time,
                                    final OnUpdatePointResult mOnUpdatePointResult){
@@ -524,7 +524,7 @@ public class ShopModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(8);
+                nameValuePairs = new ArrayList<NameValuePair>(9);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
@@ -533,6 +533,7 @@ public class ShopModel {
                 nameValuePairs.add(new BasicNameValuePair("phone", phone));
                 nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(point)));
                 nameValuePairs.add(new BasicNameValuePair("billCode", billCode));
+                nameValuePairs.add(new BasicNameValuePair("event_list",Helper.objectToJson(achivedEventList)));
                 nameValuePairs.add(new BasicNameValuePair("time", time));
 
                 try {

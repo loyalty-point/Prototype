@@ -81,5 +81,7 @@
     <string name="title_activity_confirm_update_point">ConfirmUpdatePointActivity</string>
     <string name="title_activity_user_detail">UserDetailActivity</string>
     <string name="title_activity_user_detail_tab_pager_adapter">UserDetailTabPagerAdapter</string>
+    <string name="title_activity_update_point_detail">UpdatePointDetailActivity</string>
+    <string name="title_activity_buy_award_detail">BuyAwardDetailActivity</string>
 
 </resources>

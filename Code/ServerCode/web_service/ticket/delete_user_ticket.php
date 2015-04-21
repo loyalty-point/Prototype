@@ -9,15 +9,20 @@ mysqli_query($localhost,"SET NAMES 'UTF8'");
 
 $token = $_POST['token'];
 $ticketId = $_POST['ticketId'];
+$awardId = $_POST['awardId'];
 $shopId = $_POST['shopId'];
 $userId = $_POST['userId'];
+$time = $_POST['time'];
+$number = $_POST['number'];
+$point = $_POST['point'];
+
 // Kiểm tra token
 if(strlen($token)!=64){
     echo '{"error":"token not found"}';
     die();
 }
 
-$query = "select username from admin_users where token='".$token."'";
+$query = "select * from admin_users where token='".$token."'";
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
@@ -27,9 +32,38 @@ if($username == ""){
     die();
 }
 
+$query = "select * from customer_users where username='".$userId."'";
+$query_exec = mysqli_query($localhost, $query);
+$row = mysqli_fetch_array($query_exec);
+$username = $row['username'];
+
+if($username == ""){
+    echo '{"error":"user is not exist"}';
+    die();
+}
+
 $query = "delete from customer_tickets where id='".$ticketId."'";
 $query_exec = mysqli_query($localhost, $query);
 if($query_exec){
+
+    $id = uniqid();
+    $query = "insert into history values ('"
+                            .$id."','0','"
+                            .$row['username']."','"
+                            .$row['name']."','"
+                            .$row['phone_number']."','"
+                            .$shopId."','"
+                            .$point."','"
+                            .$time."','')";
+    $query_exec = mysqli_query($localhost, $query);
+    $query = "insert into buy_award_history values ('"
+                            .$id."','"
+                            .$shopId."','"
+                            .$awardId."','"
+                            .$number."')";
+    $query_exec = mysqli_query($localhost, $query);
+
+
     echo '{"error":""}';
     // Gửi notification cho user
     // Từ $customerName -> regID (bảng customer_registration)

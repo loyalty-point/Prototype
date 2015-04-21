@@ -31,7 +31,10 @@ import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.TicketModel;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -172,22 +175,23 @@ public class UserTicketsFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            final AwardHistory award = (AwardHistory) getItem(position);
-            if (award.getAwardImage() == null || award.getAwardImage().equals(""))
-                award.setAwardImage(null);
+            final AwardHistory ticket = (AwardHistory) getItem(position);
+            if (ticket.getAwardImage() == null || ticket.getAwardImage().equals(""))
+                ticket.setAwardImage(null);
 
-            if (award.getShopImage() == null || award.getShopImage().equals(""))
-                award.setShopImage(null);
+            if (ticket.getShopImage() == null || ticket.getShopImage().equals(""))
+                ticket.setShopImage(null);
 
-            holder.time.setText(award.getTime());
-            Picasso.with(mParentActivity).load(award.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
-            holder.awardName.setText(award.getAwardName());
-            holder.quantity.setText(String.valueOf(award.getQuantity()));
+            holder.time.setText(ticket.getTime());
+            Picasso.with(mParentActivity).load(ticket.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
+            holder.awardName.setText(ticket.getAwardName());
+            holder.quantity.setText(String.valueOf(ticket.getQuantity()));
+            //serve order case.
             holder.sell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
-                    mDialogBuilder.setTitle("Give award");
+                    mDialogBuilder.setTitle("Give ticket");
                     mDialogBuilder.setCancelable(false);
 
                     // Set up the input
@@ -205,10 +209,15 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UserModel.checkIdentityNumberUser(Global.userToken, award.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
+                            //check identity number, if it's invalid. give user gift and delete ticket
+                            UserModel.checkIdentityNumberUser(Global.userToken, ticket.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
                                 @Override
                                 public void onSuccess() {
-                                    TicketModel.deleteUserTicket(Global.userToken, shopId, userId, award.getId(), new TicketModel.OnDeleteUserTicket() {
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                    Date date = new Date();
+                                    String time = dateFormat.format(date);
+                                    //delete award ticket when identity number checking was ok.
+                                    TicketModel.deleteUserTicket(Global.userToken, ticket.getId(), ticket.getAwardID(), shopId, userId, time, ticket.getQuantity(), ticket.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             listTickets.remove(position);
@@ -268,7 +277,7 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.show();
                 }
             });
-
+            //Cancel order case.
             holder.cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -291,10 +300,12 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UserModel.checkIdentityNumberUser(Global.userToken, award.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
+                            //Check identity number of user, if it's invalid. the order will be cancel.
+                            UserModel.checkIdentityNumberUser(Global.userToken, ticket.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
                                 @Override
                                 public void onSuccess() {
-                                    TicketModel.cancelUserTicket(Global.userToken, shopId, userId, award.getId(), new TicketModel.OnCancelUserTicket() {
+                                    //Cancel the order if the indentity number checking was ok.
+                                    TicketModel.cancelUserTicket(Global.userToken, shopId, userId, ticket.getId(), new TicketModel.OnCancelUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             listTickets.remove(position);

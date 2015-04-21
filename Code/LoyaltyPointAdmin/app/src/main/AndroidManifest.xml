@@ -13,16 +13,16 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     // Google Cloud Messages
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <permission android:name="com.thesis.dont.loyaltypointadmin.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.thesis.dont.loyaltypointadmin.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.thesis.dont.loyaltypointadmin.permission.C2D_MESSAGE" />
 
+    <uses-permission android:name="com.thesis.dont.loyaltypointadmin.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -142,10 +142,21 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.thesis.dont.loyaltypointadmin" />
             </intent-filter>
         </receiver>
+
         <service android:name=".apis.GcmIntentService" />
+
+        <activity
+            android:name=".controllers.UpdatePointDetailActivity"
+            android:label="@string/title_activity_update_point_detail" >
+        </activity>
+        <activity
+            android:name=".controllers.BuyAwardDetailActivity"
+            android:label="@string/title_activity_buy_award_detail" >
+        </activity>
     </application>
 
 </manifest>

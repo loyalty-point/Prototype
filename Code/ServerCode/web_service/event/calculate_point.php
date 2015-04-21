@@ -71,7 +71,7 @@ foreach($listProducts as $product) {
         }
     }
 }
-$listAchievedEvents .= ']';    
+  
 
 // Tính điểm cho event loại 1 (tiền -> điểm)
 // Duyệt trong events, tìm event nào có ratio cao nhất
@@ -79,8 +79,14 @@ $minRatio = 999999999999;
 foreach ($events as $event) {
         if($event['type'] == 1 && $event['ratio'] < $minRatio) {
             $minRatio = $event['ratio'];
+            $listAchievedEvents = $listAchievedEvents . '{"quantity":"0","event":{' 
+                                    . '"id":"' . $event['id'] . '",'
+                                    . '"name":"' . $event['name'] . '",'
+                                    . '"point":"' . $event['point'] . '",'
+                                    . '"image":"' . $event['image'] . '"}},';
         }
 }
+$listAchievedEvents .= ']';  
 $pointsFromMoney = (int)($totalMoney / $minRatio);
 
 $totalPoints = (int)($pointsFromMoney + $totalPointsFromEvents);

@@ -46,6 +46,8 @@ while($row = mysqli_fetch_array($query_exec)){
                 . '"quantity":"' . $row['quantity'] . '",'
                 . '"shopImage":"' . $row['shopImage'] . '",'
                 . '"shopName":"' . $row['shopName'] . '",'
+                . '"awardID":"' . $row['awardID'] . '",'
+                . '"total_point":"' . $row['total_point'] . '",'
                 . '"isTaken":"' . $row['isTaken'] . '"},';
 }
 

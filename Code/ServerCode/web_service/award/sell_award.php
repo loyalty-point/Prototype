@@ -92,16 +92,24 @@ if($folllowRow){
 
         $query = "update customer_shop set point = '".$newPoint."' where username='".$customer_username."' and shop_id ='".$shopID."'";
         $query_exec = mysqli_query($localhost, $query);
-       
-        $query = "insert into update_point_history values ('"
-                                .$billCode."','"
-                                .$shopID."','2','"
+        $id = uniqid();
+
+        $query = "insert into history values ('"
+                                .$id."','0','"
                                 .$customer_username."','"
                                 .$customer_fullname."','"
-                                .$phone."','"
-                                .$imageLink."','"
-                                .$point."','','','"
-                                .$clientTime."')";  //insert vào database
+                                .$customer['phone_number']."','"
+                                .$shopID."','"
+                                .$point."','"
+                                .$clientTime."','')";
+        $query_exec = mysqli_query($localhost, $query);
+        $query = "insert into buy_award_history values ('"
+                                .$id."','"
+                                .$shopID."','"
+                                .$awardID."','"
+                                .$quantity."')";
+        $query_exec = mysqli_query($localhost, $query);
+
         echo '{"error":""}';
 
         // Gửi notification cho user

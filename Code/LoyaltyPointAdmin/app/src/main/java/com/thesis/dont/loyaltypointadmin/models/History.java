@@ -6,7 +6,8 @@ package com.thesis.dont.loyaltypointadmin.models;
 public class History {
     String time;
     String billImage;
-    String billCode;
+    String id;
+    private String type;
     String username;
     String fullname;
     String phone;
@@ -28,12 +29,12 @@ public class History {
         this.billImage = billImage;
     }
 
-    public String getBillCode() {
-        return billCode;
+    public String getId() {
+        return id;
     }
 
-    public void setBillCode(String billCode) {
-        this.billCode = billCode;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -69,4 +70,11 @@ public class History {
     }
 
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
