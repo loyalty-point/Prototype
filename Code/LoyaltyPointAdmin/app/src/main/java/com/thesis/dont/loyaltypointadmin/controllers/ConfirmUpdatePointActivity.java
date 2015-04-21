@@ -51,7 +51,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
     // Point
     TextView mPointFromMoneyTV, mTotalPointsTV, mTotalMoney;
-
+    ArrayList<AchievedEvent> achivedEventList = new ArrayList<AchievedEvent>();
     // List achieved events
     ListView mListView;
     AchievedEventsAdapter mAdapter;
@@ -159,7 +159,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
                 // Gọi API để cập nhật điểm
                 mUpdatePointDialog.show();
-                ShopModel.updatePoint(Global.userToken, mShop.getId(), mUser.getUsername(), mUser.getFullname(), mUser.getPhone(),
+                ShopModel.updatePoint(Global.userToken, achivedEventList, mShop.getId(), mUser.getUsername(), mUser.getFullname(), mUser.getPhone(),
                         mTotalPoint, billcode, time, new ShopModel.OnUpdatePointResult() {
                     @Override
                     public void onSuccess(ShopModel.UpdatePointResult result) {
@@ -234,7 +234,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         EventModel.calculatePoint(Global.userToken, mShop.getId(), totalMoney, mProducts, new EventModel.OnCalculatePointResult() {
             @Override
             public void onSuccess(final ArrayList<AchievedEvent> result, final int pointFromMoney, final int totalPoint) {
-
+                achivedEventList = result;
                 mTotalPoint = totalPoint;
 
                 // update layout

@@ -15,6 +15,10 @@ $phone = $_POST['phone'];
 $point = $_POST['point'];
 $billCode = $_POST['billCode'];
 $clientTime = $_POST['time'];
+$event_list = $_POST['event_list'];
+$list = json_decode($event_list);
+// echo $list[0]->event->id;
+// die();
 
 // Kiểm tra token
 if(strlen($token)!=64){
@@ -90,21 +94,30 @@ if($query_exec) {   // Cập nhật thành công
     if($billCode == "" || $billCode == NULL) {
         $billCode = uniqid();
         $imageLink = NULL;
-    }
-        
+    }        
 
-    $query = "insert into update_point_history values ('"
-                                .$billCode."','"
-                                .$shopID."','"
+    $query = "insert into history values ('"
+                                .$billCode."','1','"
                                 .$customerName."','"
                                 .$fullname."','"
                                 .$phone."','"
-                                .$imageLink."','"
+                                .$shopID."','"
                                 .$point."','"
-                                .$clientTime."')";  //insert vào database
+                                .$clientTime."','"
+                                .$imageLink."')";  //insert vào database
 
     $query_exec = mysqli_query($localhost, $query);
     if($query_exec) {
+        //insert billcode info to database
+        for($i=0; $i < sizeof($list); $i++){
+            $query = "insert into update_point_history values ('','"
+                                            .$billCode."','"
+                                            .$list[$i]->event->id."','"
+                                            .$list[$i]->quantity."','"
+                                            .$shopID."')";  //insert vào database
+            
+            $query_exec = mysqli_query($localhost, $query);
+        }
         if($imageLink != NULL)
             echo '{"error":"", "bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
         else

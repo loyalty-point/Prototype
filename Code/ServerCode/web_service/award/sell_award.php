@@ -66,6 +66,7 @@ $query = "select * from customer_users where username='".$customer_username."'";
 $query_exec = mysqli_query($localhost, $query);
 $customer = mysqli_fetch_array($query_exec);
 $customer_username = $customer['username'];
+$customer_fullname = $customer['name'];
 
 if($customer_username == "") {
     echo '{"error":"shop does not exist"}';
@@ -91,6 +92,24 @@ if($folllowRow){
 
         $query = "update customer_shop set point = '".$newPoint."' where username='".$customer_username."' and shop_id ='".$shopID."'";
         $query_exec = mysqli_query($localhost, $query);
+        $id = uniqid();
+
+        $query = "insert into history values ('"
+                                .$id."','0','"
+                                .$customer_username."','"
+                                .$customer_fullname."','"
+                                .$customer['phone_number']."','"
+                                .$shopID."','"
+                                .$point."','"
+                                .$clientTime."','')";
+        $query_exec = mysqli_query($localhost, $query);
+        $query = "insert into buy_award_history values ('"
+                                .$id."','"
+                                .$shopID."','"
+                                .$awardID."','"
+                                .$quantity."')";
+        $query_exec = mysqli_query($localhost, $query);
+
         echo '{"error":""}';
 
         // Gửi notification cho user

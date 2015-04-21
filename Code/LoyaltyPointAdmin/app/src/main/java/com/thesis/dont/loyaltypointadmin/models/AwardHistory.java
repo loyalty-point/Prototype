@@ -14,6 +14,7 @@ public class AwardHistory {
     String awardID;
     String awardName;
     String awardImage;
+    private int total_point;
     int quantity;
     boolean isTaken;
 
@@ -114,5 +115,13 @@ public class AwardHistory {
 
     public void setTaken(boolean isTaken) {
         this.isTaken = isTaken;
+    }
+
+    public int getTotal_point() {
+        return total_point;
+    }
+
+    public void setTotal_point(int total_point) {
+        this.total_point = total_point;
     }
 }

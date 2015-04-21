@@ -31,7 +31,10 @@ import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.TicketModel;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -60,7 +63,7 @@ public class UserTicketsFragment extends Fragment {
         return rootView;
     }
 
-    public UserTicketsFragment(int position, String userId, String shopId){
+    public UserTicketsFragment(int position, String userId, String shopId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putString(ARG_USERID, userId);
@@ -121,7 +124,8 @@ public class UserTicketsFragment extends Fragment {
 
         private Activity mParentActivity;
 
-        public TicketsListAdapter(){}
+        public TicketsListAdapter() {
+        }
 
         public TicketsListAdapter(Context context, List<AwardHistory> mAwardHistory) {
             mInflater = LayoutInflater.from(context);
@@ -153,7 +157,7 @@ public class UserTicketsFragment extends Fragment {
             View view;
             ViewHolder holder;
 
-            if(convertView == null) {
+            if (convertView == null) {
                 view = mInflater.inflate(R.layout.ticket_list_row, parent, false);
 
                 holder = new ViewHolder();
@@ -162,35 +166,32 @@ public class UserTicketsFragment extends Fragment {
                 holder.awardImage = (ImageView) view.findViewById(R.id.awardImage);
                 holder.awardName = (TextView) view.findViewById(R.id.awardName);
                 holder.quantity = (TextView) view.findViewById(R.id.quantity);
-                holder.shopImage = (ImageView) view.findViewById(R.id.shopImage);
-                holder.shopName = (TextView) view.findViewById(R.id.shopName);
-                holder.available = (TextView) view.findViewById(R.id.available);
-
+                holder.sell = (TextView) view.findViewById(R.id.sell);
+                holder.cancel = (TextView) view.findViewById(R.id.cancel);
                 // save holder
                 view.setTag(holder);
-            }else {
+            } else {
                 view = convertView;
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            final AwardHistory award = (AwardHistory) getItem(position);
-            if(award.getAwardImage() == null || award.getAwardImage().equals(""))
-                award.setAwardImage(null);
+            final AwardHistory ticket = (AwardHistory) getItem(position);
+            if (ticket.getAwardImage() == null || ticket.getAwardImage().equals(""))
+                ticket.setAwardImage(null);
 
-            if(award.getShopImage() == null || award.getShopImage().equals(""))
-                award.setShopImage(null);
+            if (ticket.getShopImage() == null || ticket.getShopImage().equals(""))
+                ticket.setShopImage(null);
 
-            holder.time.setText(award.getTime());
-            Picasso.with(mParentActivity).load(award.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
-            holder.awardName.setText(award.getAwardName());
-            holder.quantity.setText(String.valueOf(award.getQuantity()));
-            Picasso.with(mParentActivity).load(award.getShopImage()).placeholder(R.drawable.ic_store).into(holder.shopImage);
-            holder.shopName.setText(award.getShopName());
-            holder.available.setOnClickListener(new View.OnClickListener() {
+            holder.time.setText(ticket.getTime());
+            Picasso.with(mParentActivity).load(ticket.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
+            holder.awardName.setText(ticket.getAwardName());
+            holder.quantity.setText(String.valueOf(ticket.getQuantity()));
+            //serve order case.
+            holder.sell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
-                    mDialogBuilder.setTitle("Identity number confirm");
+                    mDialogBuilder.setTitle("Give ticket");
                     mDialogBuilder.setCancelable(false);
 
                     // Set up the input
@@ -199,7 +200,7 @@ public class UserTicketsFragment extends Fragment {
                     // set properties for quantityEditText
                     IdentityNumberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                     IdentityNumberEditText.setGravity(Gravity.CENTER);
-                    IdentityNumberEditText.setHint("User's Identity Number");
+                    IdentityNumberEditText.setHint("User's Identity Number Confirm");
 
                     mDialogBuilder.setView(IdentityNumberEditText);
 
@@ -208,10 +209,15 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UserModel.checkIdentityNumberUser(Global.userToken, award.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
+                            //check identity number, if it's invalid. give user gift and delete ticket
+                            UserModel.checkIdentityNumberUser(Global.userToken, ticket.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
                                 @Override
                                 public void onSuccess() {
-                                    TicketModel.deleteUserTicket(Global.userToken, shopId, userId, award.getId(), new TicketModel.OnDeleteUserTicket() {
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                    Date date = new Date();
+                                    String time = dateFormat.format(date);
+                                    //delete award ticket when identity number checking was ok.
+                                    TicketModel.deleteUserTicket(Global.userToken, ticket.getId(), ticket.getAwardID(), shopId, userId, time, ticket.getQuantity(), ticket.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             listTickets.remove(position);
@@ -271,13 +277,93 @@ public class UserTicketsFragment extends Fragment {
                     mDialogBuilder.show();
                 }
             });
-            if(award.isTaken()) {
-                holder.available.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialDarkRed));
-                holder.available.setText("-");
-            }else {
-                holder.available.setBackgroundColor(mParentActivity.getResources().getColor(R.color.AccentColor));
-                holder.available.setText("+");
-            }
+            //Cancel order case.
+            holder.cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
+                    mDialogBuilder.setTitle("Cancel Orders");
+                    mDialogBuilder.setCancelable(false);
+
+                    // Set up the input
+                    final EditText IdentityNumberEditText = new EditText(mParentActivity);
+
+                    // set properties for quantityEditText
+                    IdentityNumberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    IdentityNumberEditText.setGravity(Gravity.CENTER);
+                    IdentityNumberEditText.setHint("User's Identity Number Confirm");
+
+                    mDialogBuilder.setView(IdentityNumberEditText);
+
+                    //initDialog();
+                    // Set listeners for dialog's buttons
+                    mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Check identity number of user, if it's invalid. the order will be cancel.
+                            UserModel.checkIdentityNumberUser(Global.userToken, ticket.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
+                                @Override
+                                public void onSuccess() {
+                                    //Cancel the order if the indentity number checking was ok.
+                                    TicketModel.cancelUserTicket(Global.userToken, shopId, userId, ticket.getId(), new TicketModel.OnCancelUserTicket() {
+                                        @Override
+                                        public void onSuccess() {
+                                            listTickets.remove(position);
+                                            mParentActivity.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    TicketsListAdapter.this.notifyDataSetChanged();
+                                                    new AlertDialog.Builder(mParentActivity)
+                                                            .setTitle("Cancel Success")
+                                                            .setMessage("User was got them point back!")
+                                                            .setIcon(android.R.drawable.ic_dialog_info)
+                                                            .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    // do nothing
+                                                                }
+                                                            })
+                                                            .show();
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(final String error) {
+                                            mParentActivity.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialog.Builder(mParentActivity)
+                                                            .setTitle("Error")
+                                                            .setMessage(error)
+                                                            .setIcon(android.R.drawable.ic_dialog_info)
+                                                            .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    // do nothing
+                                                                }
+                                                            })
+                                                            .show();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError(final String error) {
+
+                                }
+                            });
+                        }
+                    });
+                    mDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    mDialogBuilder.show();
+                }
+            });
 
             return view;
         }
@@ -287,9 +373,8 @@ public class UserTicketsFragment extends Fragment {
             public ImageView awardImage;
             public TextView awardName;
             public TextView quantity;
-            public ImageView shopImage;
-            public TextView shopName;
-            public TextView available;
+            public TextView sell;
+            public TextView cancel;
         }
     }
 }

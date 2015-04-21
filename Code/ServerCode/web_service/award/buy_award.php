@@ -76,7 +76,7 @@ if($newPoint>=0){
     $bucketName = "loyalty-point-photos";
     $path = "shops/" . $id;
     $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
-    $query = "insert into buy_award_history values ('"
+    $query = "insert into customer_tickets values ('"
                                 .$id."','"
                                 .$clientTime."','"
                                 .$username."','"
@@ -88,6 +88,7 @@ if($newPoint>=0){
                                 .$awardName."','"
                                 .$awardImage."','"
                                 .$quantity."','"
+                                .$point."','"
                                 .$isTaken."')";  //insert vào database
 
     $query_exec = mysqli_query($localhost, $query);

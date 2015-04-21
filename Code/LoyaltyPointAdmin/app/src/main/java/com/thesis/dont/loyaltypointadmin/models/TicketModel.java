@@ -33,6 +33,7 @@ public class TicketModel {
 
     public static native String getGetUserTicket();
     public static native String getDeleteUserTicket();
+    public static native String getCancelUserTicket();
 
     public static void getUserTicket(final String token, final String userId, final String shopId, final OnGetUserTicket mOnGetUserTicket){
         Thread t = new Thread() {
@@ -84,7 +85,7 @@ public class TicketModel {
         t.start();
     }
 
-    public static void deleteUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnDeleteUserTicket mOnDeleteUserTicket){
+    public static void deleteUserTicket(final String token, final String ticketId, final String awardId, final String shopId, final String userId, final String time, final int quantity, final int total_point, final OnDeleteUserTicket mOnDeleteUserTicket){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -95,12 +96,16 @@ public class TicketModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(4);
+                nameValuePairs = new ArrayList<NameValuePair>(8);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
+                nameValuePairs.add(new BasicNameValuePair("awardId", awardId));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
+                nameValuePairs.add(new BasicNameValuePair("time", time));
+                nameValuePairs.add(new BasicNameValuePair("number", String.valueOf(quantity)));
+                nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(total_point)));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -131,6 +136,53 @@ public class TicketModel {
         t.start();
     }
 
+    public static void cancelUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnCancelUserTicket mOnCancelUserTicket){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCancelUserTicket();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(4);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
+                nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
+                nameValuePairs.add(new BasicNameValuePair("userId", userId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CancelUserTicketResult result = (CancelUserTicketResult) Helper.jsonToObject(response, CancelUserTicketResult.class);
+                    if(result.error.equals("")) {
+                        mOnCancelUserTicket.onSuccess();
+                    }
+                    else
+                        mOnCancelUserTicket.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnCancelUserTicket.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnCancelUserTicket.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnCancelUserTicket.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnGetUserTicket{
         public void onSuccess(ArrayList<AwardHistory> listTickets);
         public void onError(String error);
@@ -147,6 +199,15 @@ public class TicketModel {
     }
 
     public class DeleteUserTicketResult {
+        public String error;
+    }
+
+    public interface OnCancelUserTicket{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public class CancelUserTicketResult {
         public String error;
     }
 }

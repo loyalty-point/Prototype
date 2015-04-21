@@ -151,7 +151,20 @@ public class GcmIntentService extends IntentService {
                         .setContentTitle("Congratulations")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(data.toString()))
-                        .setContentText(mShop.getName() + " has accepted your register request");
+                        .setContentText(mShop.getName() + " has give you a product");
+
+                Intent i = new Intent(this, ShopDetailActivity.class);
+                i.putExtra(Global.SHOP_OBJECT, mShop);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
+                mBuilder.setContentIntent(contentIntent);
+            }else if(message.equals("cancel successfully")) {
+                mBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_bag)
+                        .setContentTitle("Cancel")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(data.toString()))
+                        .setContentText(mShop.getName() + " just cancel your ticket");
 
                 Intent i = new Intent(this, ShopDetailActivity.class);
                 i.putExtra(Global.SHOP_OBJECT, mShop);

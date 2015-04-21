@@ -38,7 +38,7 @@ if($shopID == ""){
 
 // Lấy tất cả các dòng trong bảng update_point_history, thỏa điều kiện
 // shopID == $shopID
-$query = "select * from update_point_history where shopID='".$shopID."' order by time desc";
+$query = "select * from history where shop_id='".$shopID."' order by time desc";
 $query_exec = mysqli_query($localhost, $query);
 
 $result = '{"error":"", "listHistories":[';
@@ -47,11 +47,12 @@ while($row = mysqli_fetch_array($query_exec)){
         $result = $result . '{' 
                 . '"time":"' . $row['time'] . '",'
                 . '"billImage":"' . $row['billImage'] . '",'
-                . '"billCode":"' . $row['billcode'] . '",'
+                . '"id":"' . $row['id'] . '",'
+                . '"type":"' . $row['type'] . '",'
                 . '"username":"' . $row['username'] . '",'
                 . '"fullname":"' . $row['fullname'] . '",'
-                . '"phone":"' . $row['phone_number'] . '",'
-                . '"totalPoint":"' . $row['totalPoint'] . '"},';
+                . '"phone":"' . $row['phone'] . '",'
+                . '"totalPoint":"' . $row['total_point'] . '"},';
 }
 
 $result = $result . ']}';

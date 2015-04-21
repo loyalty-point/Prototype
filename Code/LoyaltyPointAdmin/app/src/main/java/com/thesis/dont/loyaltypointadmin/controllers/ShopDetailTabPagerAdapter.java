@@ -46,7 +46,7 @@ public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
         else if (position == 4)
             return new ShopRegistersFragment(position, shopId);
         else if(position == 5)
-            return new HistoryFragment(position, shopId);
+            return new ShopHistoryFragment(position, shopId);
         else
             return new ShopRelativeFragment(position, shopId);
 
