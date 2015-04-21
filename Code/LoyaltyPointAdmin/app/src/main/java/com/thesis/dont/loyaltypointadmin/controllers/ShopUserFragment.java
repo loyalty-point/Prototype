@@ -162,6 +162,8 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
                 i.putExtra(Global.SHOP_ID, shopId);
                 i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
+                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
+                i.putExtra(Global.SHOP_OBJECT, shop);
                 startActivity(i);
 
             }

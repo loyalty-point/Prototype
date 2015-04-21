@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +63,8 @@ public class ShopsCardMainFragment extends Fragment {
     TextView yourCardsTxt, yourRegistersTxt;
     int cardType = 0;
 
+    ProgressDialog mDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,19 +73,19 @@ public class ShopsCardMainFragment extends Fragment {
         return view;
     }
 
-    public void populateList(ArrayList<Shop> listShops) {
+    public void populateList(final ArrayList<Shop> listShops) {
         mPagerAdapter = new ListCardsPagerAdapter(((CardsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listShops);
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mPager.setAdapter(mPagerAdapter);
                 mPagerAdapter.notifyDataSetChanged();
-                if (mListCards.size() > 0) {
-                    mIndicator.removeAllViews();
+                mIndicator.removeAllViews();
+                if (listShops.size() > 0) {
                     mIndicator.setViewPager(mPager);
                     mIndicator.setVisibility(View.VISIBLE);
                 }
-
+                mDialog.dismiss();
             }
         });
     }
@@ -93,8 +96,16 @@ public class ShopsCardMainFragment extends Fragment {
 
         mParentActivity = getActivity();
 
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Loading data");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
         yourCardsTxt = (TextView) mParentActivity.findViewById(R.id.listCardsText);
         yourRegistersTxt = (TextView) mParentActivity.findViewById(R.id.listRegistersText);
+        mListCards = new ArrayList<Shop>();
+        mListRegisters = new ArrayList<Shop>();
 
         yourCardsTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +167,7 @@ public class ShopsCardMainFragment extends Fragment {
         mIndicator.setVisibility(View.GONE);
 
 
-        setListData();
+        //setListData();
 
         /*PagerModelManager manager = new PagerModelManager();
         manager.addCommonFragment(GuideFragment.class, getBgRes(), getTitles());
@@ -174,6 +185,7 @@ public class ShopsCardMainFragment extends Fragment {
 
     public void setListData()
     {
+        mDialog.show();
         ShopModel.getFollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
             @Override
             public void onSuccess(final ArrayList<Shop> listShops) {
@@ -209,6 +221,7 @@ public class ShopsCardMainFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
                     }
                 });
@@ -220,6 +233,6 @@ public class ShopsCardMainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        //setListData();
+        setListData();
     }
 }

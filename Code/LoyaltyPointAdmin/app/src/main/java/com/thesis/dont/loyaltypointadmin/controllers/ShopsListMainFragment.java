@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
@@ -19,6 +22,8 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.util.ArrayList;
+
+import github.chenupt.springindicator.SpringIndicator;
 
 
 /**
@@ -29,6 +34,10 @@ public class ShopsListMainFragment extends Fragment {
     ListView mListView;
     ShopsListAdapter mAdapter;
     public ShopsListActivity mParentActivity = null;
+
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
+    private SpringIndicator mIndicator;
 
     ProgressDialog mDialog;
 
@@ -44,6 +53,7 @@ public class ShopsListMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.e("resume", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+
         mParentActivity = (ShopsListActivity) getActivity();
 
         // init dialog
@@ -52,7 +62,7 @@ public class ShopsListMainFragment extends Fragment {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
-        mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
+        //mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
 
         ButtonFloat createShopBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createShopBtn);
         createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
@@ -64,6 +74,12 @@ public class ShopsListMainFragment extends Fragment {
             }
         });
 
+        mPager = (ViewPager) mParentActivity.findViewById(R.id.listShopsPager);
+        mPager.setPageTransformer(true, new CubeOutTransformer());
+        mPager.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        mIndicator = (SpringIndicator) mParentActivity.findViewById(R.id.listShopsIndicator);
+        mIndicator.setVisibility(View.GONE);
         //setListData();
     }
 
@@ -77,6 +93,23 @@ public class ShopsListMainFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void populateList(final ArrayList<Shop> listShops) {
+        mPagerAdapter = new ListShopsPagerAdapter(((ShopsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listShops);
+        mParentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPager.setAdapter(mPagerAdapter);
+                mPagerAdapter.notifyDataSetChanged();
+                mIndicator.removeAllViews();
+                if (listShops.size() > 0) {
+                    mIndicator.setViewPager(mPager);
+                    mIndicator.setVisibility(View.VISIBLE);
+                }
+                mDialog.dismiss();
+            }
+        });
+    }
+
     public void setListData()
     {
         mDialog.show();
@@ -84,7 +117,7 @@ public class ShopsListMainFragment extends Fragment {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
 
-                mAdapter = new ShopsListAdapter(mParentActivity, listShops);
+                /*mAdapter = new ShopsListAdapter(mParentActivity, listShops);
 
                 mParentActivity.runOnUiThread(new Runnable() {
 
@@ -94,7 +127,9 @@ public class ShopsListMainFragment extends Fragment {
                         mListView.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
                     }
-                });
+                });*/
+
+                populateList(listShops);
             }
 
             @Override

@@ -20,6 +20,7 @@ import java.util.List;
 public class ShopDetailActivity extends ActionBarActivity {
 
     Shop mShop;
+    int tabIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,11 @@ public class ShopDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
-        int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
+        if(mShop == null)
+            mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        
+        if(tabIndex == 0)
+            tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(mShop.getName());
@@ -48,6 +52,13 @@ public class ShopDetailActivity extends ActionBarActivity {
 
         pager.setCurrentItem(tabIndex);
         tabs.setViewPager(pager);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mShop = intent.getParcelableExtra(Global.SHOP_OBJECT);
+        tabIndex = intent.getIntExtra(Global.TAB_INDEX, 0);
     }
 
     public Shop getCurrentShop() {

@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shadow="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_0sdp"
+    android:layout_marginRight="@dimen/_0sdp"
+    android:padding="@dimen/_0sdp">
+
+    <!-- Use same ID to use built-in features -->
+
+    <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+        android:id="@+id/cardImgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        shadow:z_depth_padding="z_depth5"
+        shadow:z_depth="z_depth5"
+        shadow:z_depth_shape="rect">
+
+        <com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+            android:id="@+id/cardImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_1sdp"
+            app:siBorderColor="@color/MaterialGrey"/>
+
+    </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+</RelativeLayout>

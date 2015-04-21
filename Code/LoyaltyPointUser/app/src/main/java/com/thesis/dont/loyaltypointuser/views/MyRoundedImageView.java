@@ -34,9 +34,6 @@ public class MyRoundedImageView extends RoundedImageView {
         super.onMeasure(
                 MeasureSpec.makeMeasureSpec(originalWidth, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(newHeight, MeasureSpec.EXACTLY));
-
-        //super.onMeasure(widthMeasureSpec, newHeight);
-        //super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }
 
 
