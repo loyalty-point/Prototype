@@ -14,6 +14,7 @@ public class Global {
     public static String USER_NAME = "user_name";
     public static String USER_POINT = "user_point";
     public static String USER_FULLNAME = "user_fullname";
+    public static String HISTORY_OBJECT = "history_object";
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";

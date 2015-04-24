@@ -56,54 +56,48 @@
         android:textSize="@dimen/font_size"/>
 
     <ImageView
-        android:id="@+id/awardImage"
+        android:id="@+id/billImage"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_below="@id/date" />
 
     <TextView
-        android:id="@+id/userFullName"
+        android:id="@+id/shopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
-        android:layout_toRightOf="@id/awardImage"
+        android:layout_toRightOf="@id/billImage"
         android:textSize="@dimen/font_size"/>
 
     <TextView
-        android:id="@+id/userPhone"
+        android:id="@+id/shopAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userFullName"
-        android:layout_toRightOf="@id/awardImage"
+        android:layout_below="@id/shopName"
+        android:layout_toRightOf="@id/billImage"
         android:textSize="@dimen/font_size"/>
 
     <TextView
-        android:id="@+id/awardCode"
+        android:id="@+id/billCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userPhone"
-        android:layout_toRightOf="@id/awardImage"
+        android:layout_below="@id/shopAddress"
+        android:layout_toRightOf="@id/billImage"
         android:textSize="@dimen/font_size"/>
 
     <TextView
-        android:id="@+id/awardName"
+        android:id="@+id/billDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/awardImage"
+        android:layout_below="@id/billImage"
+        android:text="Detail:"
         android:textSize="@dimen/font_size"/>
 
-    <TextView
-        android:id="@+id/awardDetail"
+    <ListView
+        android:id="@+id/listEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/awardName"
-        android:textSize="@dimen/font_size"/>
-
-    <TextView
-        android:id="@+id/buyDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardDetail"
-        android:textSize="@dimen/font_size"/>
+        android:layout_below="@id/billDetail"
+        android:layout_above="@id/totalPoint"/>
 
 </RelativeLayout>

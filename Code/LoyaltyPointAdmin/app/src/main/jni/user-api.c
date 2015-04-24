@@ -20,3 +20,18 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_UserModel_getCheckIdentity
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_user/check_user_identity_number.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_UserModel_getGetHistory(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_shop/get_history.php");
+}
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_UserModel_getGetEventHistory(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_shop/get_event_history.php");
+}
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_UserModel_getGetAwardHistory(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_shop/get_award_history.php");
+}

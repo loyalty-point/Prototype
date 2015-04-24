@@ -38,6 +38,9 @@ public class UserModel {
     public static native String getCheckUser();
     public static native String getGetUserInfo();
     public static native String getGetMyAwards();
+    public static native String getGetHistory();
+    public static native String getGetEventHistory();
+    public static native String getGetAwardHistory();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -218,6 +221,185 @@ public class UserModel {
             }
         };
         t.start();
+    }
+
+    public static void getHistory(final String token, final String shopId,
+                                  final OnGetHistoryResult mOnGetHistoryResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetHistory();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetHistoryResult result = (GetHistoryResult) Helper.jsonToObject(response, GetHistoryResult.class);
+
+                    if(result.error.equals("")) {
+                        ArrayList<History> listHistories = new ArrayList<History>();
+                        for(int i=0; i<result.listHistories.length-1; i++) {
+                            listHistories.add(result.listHistories[i]);
+                        }
+                        mOnGetHistoryResult.onSuccess(listHistories);
+                    }
+                    else
+                        mOnGetHistoryResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetHistoryResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetHistoryResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetHistoryResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void getAchievedEventList(final String token, final String historyId, final OngetAchievedEventListResult mOngetAchievedEventListResult){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetEventHistory();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("history_id", historyId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    getAchievedEvents result = (getAchievedEvents) Helper.jsonToObject(response, getAchievedEvents.class);
+
+                    if(result.error.equals("")) {
+                        ArrayList<AchievedEvent> listAchievedEvents = new ArrayList<AchievedEvent>();
+                        for(int i=0; i<result.listAchievedEvents.length-1; i++) {
+                            listAchievedEvents.add(result.listAchievedEvents[i]);
+                        }
+                        mOngetAchievedEventListResult.onSuccess(listAchievedEvents);
+                    }
+                    else
+                        mOngetAchievedEventListResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOngetAchievedEventListResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOngetAchievedEventListResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOngetAchievedEventListResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void getAwardHistory(final String token, final String historyId, final OngetAwardHistoryResult mOngetAwardHistoryResult){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetAwardHistory();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("history_id", historyId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    getAwardHistory result = (getAwardHistory) Helper.jsonToObject(response, getAwardHistory.class);
+
+                    if(result.error.equals("")) {
+                        mOngetAwardHistoryResult.onSuccess(result.award,result.award_number);
+                    }
+                    else
+                        mOngetAwardHistoryResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOngetAwardHistoryResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOngetAwardHistoryResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOngetAwardHistoryResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OngetAwardHistoryResult{
+        public void onSuccess(Award award, int awardNumber);
+        public void onError(String error);
+    }
+
+    public class getAwardHistory {
+        public String error;
+        public Award award;
+        public int award_number;
+    }
+
+    public interface OngetAchievedEventListResult{
+        public void onSuccess(ArrayList<AchievedEvent> listAchievedEvents);
+        public void onError(String error);
+    }
+
+    public class getAchievedEvents {
+        public String error;
+        public AchievedEvent[] listAchievedEvents;
+    }
+
+    public interface OnGetHistoryResult{
+        public void onSuccess(ArrayList<History> listHistories);
+        public void onError(String error);
+    }
+
+    public class GetHistoryResult{
+        public String error;
+        public History[] listHistories;
     }
 
     public class LoginResult {

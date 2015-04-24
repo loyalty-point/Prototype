@@ -106,6 +106,14 @@
             android:label="@string/title_activity_my_awards"
             android:theme="@style/NoActionBarWithNavDrawer" >
         </activity>
+        <activity
+            android:name=".controllers.UpdatePointDetailActivity"
+            android:label="@string/title_activity_update_point_detail" >
+        </activity>
+        <activity
+            android:name=".controllers.BuyAwardDetailActivity"
+            android:label="@string/title_activity_buy_award_detail" >
+        </activity>
 
         // broadcast receiver for listening messages from Google Cloud Messages
         <receiver

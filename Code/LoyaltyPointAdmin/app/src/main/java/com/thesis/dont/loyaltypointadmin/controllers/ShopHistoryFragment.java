@@ -21,6 +21,7 @@ import com.thesis.dont.loyaltypointadmin.models.AwardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.History;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 import java.util.ArrayList;
 
@@ -84,7 +85,7 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void getListHistory() {
-        ShopModel.getHistory(Global.userToken, shopID, new ShopModel.OnGetHistoryResult() {
+        UserModel.getHistory(Global.userToken, shopID, new UserModel.OnGetHistoryResult() {
             @Override
             public void onSuccess(ArrayList<History> listHistories) {
                 mAdapter.setListHistories(listHistories);

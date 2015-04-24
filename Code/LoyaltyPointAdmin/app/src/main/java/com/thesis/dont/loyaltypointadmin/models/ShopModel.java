@@ -43,7 +43,6 @@ public class ShopModel {
     public static native String getGetFollowingUsers();
     public static native String getGetCustomerInfo();
     public static native String getUpdatePoint();
-    public static native String getGetHistory();
     public static native String getGetListRegisters();
     public static native String getAcceptRegisterRequest();
 
@@ -565,58 +564,6 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getHistory(final String token, final String shopId,
-                                   final OnGetHistoryResult mOnGetHistoryResult){
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetHistory();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    GetHistoryResult result = (GetHistoryResult) Helper.jsonToObject(response, GetHistoryResult.class);
-
-                    if(result.error.equals("")) {
-                        ArrayList<History> listHistories = new ArrayList<History>();
-                        for(int i=0; i<result.listHistories.length-1; i++) {
-                            listHistories.add(result.listHistories[i]);
-                        }
-                        mOnGetHistoryResult.onSuccess(listHistories);
-                    }
-                    else
-                        mOnGetHistoryResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnGetHistoryResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnGetHistoryResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnGetHistoryResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
     public interface OnCreateShopResult{
         public void onSuccess(CreateShopResult result);
         public void onError(String error);
@@ -671,11 +618,6 @@ public class ShopModel {
         public void onError(String error);
     }
 
-    public interface OnGetHistoryResult{
-        public void onSuccess(ArrayList<History> listHistories);
-        public void onError(String error);
-    }
-
     public interface OnAcceptRegisterRequestResult{
         public void onSuccess();
         public void onError(String error);
@@ -714,11 +656,6 @@ public class ShopModel {
         public String error;
         public String bucketName;
         public String fileName;
-    }
-
-    public class GetHistoryResult{
-        public String error;
-        public History[] listHistories;
     }
 
     public class AcceptRegisterRequestResult{

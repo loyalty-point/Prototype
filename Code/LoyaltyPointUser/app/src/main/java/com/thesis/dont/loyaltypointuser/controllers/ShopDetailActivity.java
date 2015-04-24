@@ -30,7 +30,7 @@ public class ShopDetailActivity extends ActionBarActivity {
         int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         setTitle(shop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint()));
+        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint(), shop.getName(), shop.getAddress()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

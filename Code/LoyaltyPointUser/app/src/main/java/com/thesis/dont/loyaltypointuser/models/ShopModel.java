@@ -35,6 +35,7 @@ public class ShopModel {
     public static native String getGetFollowedShop();
     public static native String getFollowShop();
 
+
     public static void createShop(Shop shop, String token){
         final String token_string = token;
         final String json = Helper.objectToJson(shop);
@@ -284,7 +285,6 @@ public class ShopModel {
         };
         t.start();
     }
-
 
     public interface OnSelectAllShopResult{
         public void onSuccess(ArrayList<Shop> listShops);

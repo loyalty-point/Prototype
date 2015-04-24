@@ -1,17 +1,14 @@
-package com.thesis.dont.loyaltypointadmin.controllers;
+package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,21 +16,22 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
-import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.models.AchievedEvent;
-import com.thesis.dont.loyaltypointadmin.models.Global;
-import com.thesis.dont.loyaltypointadmin.models.History;
-import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.thesis.dont.loyaltypointadmin.models.UserModel;
+import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.AchievedEvent;
+import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.History;
+import com.thesis.dont.loyaltypointuser.models.ShopModel;
+import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 import java.util.ArrayList;
 
 public class UpdatePointDetailActivity extends ActionBarActivity {
-    TextView dateTv, userFullnameTv, userPhoneTv, billCodeTv, totalPointTv;
+    TextView dateTv, shopNameTv, shopAddressTv, billCodeTv, totalPointTv;
     ImageView billImageIv;
     ListView detailLv;
     ButtonRectangle printBtn, deleteBtn;
     History history;
+    String shopName, shopAddress;
 
     AchievedEventsAdapter mAdapter;
 
@@ -43,10 +41,12 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_update_point_detail);
         Intent i = getIntent();
         history = i.getParcelableExtra(Global.HISTORY_OBJECT);
+        shopName = i.getStringExtra(Global.SHOP_NAME);
+        shopAddress = i.getStringExtra(Global.SHOP_ADDRESS);
 
         dateTv = (TextView) findViewById(R.id.date);
-        userFullnameTv = (TextView) findViewById(R.id.userFullName);
-        userPhoneTv = (TextView) findViewById(R.id.userPhone);
+        shopNameTv = (TextView) findViewById(R.id.shopName);
+        shopAddressTv = (TextView) findViewById(R.id.shopAddress);
         billCodeTv = (TextView) findViewById(R.id.billCode);
         billImageIv = (ImageView) findViewById(R.id.billImage);
         detailLv = (ListView) findViewById(R.id.listEvent);
@@ -55,8 +55,8 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());
-        userFullnameTv.setText(history.getFullname());
-        userPhoneTv.setText(history.getPhone());
+        shopNameTv.setText(shopName);
+        shopAddressTv.setText(shopAddress);
         billCodeTv.setText("billcode: " + history.getId());
         totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
         Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
@@ -72,12 +72,12 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             @Override
             public void onSuccess(ArrayList<AchievedEvent> listAchievedEvents) {
                 int idx = -1, point = history.getTotalPoint();
-                for(int i = 0; i<listAchievedEvents.size();i++){
-                    if(listAchievedEvents.get(i).getEvent().getType() == 1) //get event type 1
+                for (int i = 0; i < listAchievedEvents.size(); i++) {
+                    if (listAchievedEvents.get(i).getEvent().getType() == 1) //get event type 1
                         idx = i;
                     point = point - listAchievedEvents.get(i).getEvent().getPoint() * listAchievedEvents.get(i).getQuantity();
                 }
-                if(idx != -1){
+                if (idx != -1) {
                     listAchievedEvents.get(idx).getEvent().setPoint(point);
                 }
                 mAdapter.setListAchievedEvents(listAchievedEvents);

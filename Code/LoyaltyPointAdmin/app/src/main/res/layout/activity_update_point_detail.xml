@@ -1,12 +1,103 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.UpdatePointDetailActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/printBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="0.5"
+            android:background="@color/MaterialGreen"
+            android:text="PRINT"
+            android:textSize="@dimen/font_size"
+            materialdesign:rippleSpeed="70" />
+
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/deleteBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="0.5"
+            android:background="@color/MaterialRed"
+            android:text="DELETE"
+            android:textSize="@dimen/font_size"
+            materialdesign:rippleSpeed="70" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size"
+        android:id="@+id/totalPoint"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/btnLayout"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size"/>
+
+    <ImageView
+        android:id="@+id/billImage"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_below="@id/date" />
+
+    <TextView
+        android:id="@+id/userFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_toRightOf="@id/billImage"
+        android:textSize="@dimen/font_size"/>
+
+    <TextView
+        android:id="@+id/userPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userFullName"
+        android:layout_toRightOf="@id/billImage"
+        android:textSize="@dimen/font_size"/>
+
+    <TextView
+        android:id="@+id/billCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userPhone"
+        android:layout_toRightOf="@id/billImage"
+        android:textSize="@dimen/font_size"/>
+
+    <TextView
+        android:id="@+id/billDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billImage"
+        android:text="Detail:"
+        android:textSize="@dimen/font_size"/>
+
+    <ListView
+        android:id="@+id/listEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billDetail"
+        android:layout_above="@id/totalPoint"/>
 
 </RelativeLayout>

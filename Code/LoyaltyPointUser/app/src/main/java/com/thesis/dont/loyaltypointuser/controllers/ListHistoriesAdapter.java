@@ -1,4 +1,4 @@
-package com.thesis.dont.loyaltypointadmin.controllers;
+package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,29 +12,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.models.Award;
-import com.thesis.dont.loyaltypointadmin.models.Global;
-import com.thesis.dont.loyaltypointadmin.models.History;
+import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.History;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by 11120_000 on 04/04/15.
+ * Created by tinntt on 4/24/2015.
  */
 public class ListHistoriesAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<History> mHistories = new ArrayList<History>();
 
     private Activity mParentActivity;
+    private String shopName, shopAddress;
 
     public ListHistoriesAdapter(){}
 
-    public ListHistoriesAdapter(Context context, ArrayList<History> mHistories) {
+    public ListHistoriesAdapter(Context context, ArrayList<History> mHistories, String shopName, String shopAddress) {
         mInflater = LayoutInflater.from(context);
         this.mHistories = mHistories;
         mParentActivity = (Activity) context;
+        this.shopName = shopName;
+        this.shopAddress = shopAddress;
     }
 
     public void setListHistories(ArrayList<History> listHistories) {
@@ -70,9 +71,8 @@ public class ListHistoriesAdapter extends BaseAdapter {
             holder.time = (TextView) view.findViewById(R.id.time);
             holder.billImage = (ImageView) view.findViewById(R.id.billImage);
             holder.billCode = (TextView) view.findViewById(R.id.billCode);
-            holder.username = (TextView) view.findViewById(R.id.username);
-            holder.fullname = (TextView) view.findViewById(R.id.fullname);
-            holder.phone = (TextView) view.findViewById(R.id.phone);
+            holder.shopname = (TextView) view.findViewById(R.id.shopname);
+            holder.shopaddress = (TextView) view.findViewById(R.id.shopaddress);
             holder.detail = (TextView) view.findViewById(R.id.detail);
             holder.totalPoint = (TextView) view.findViewById(R.id.totalPoints);
 
@@ -88,18 +88,17 @@ public class ListHistoriesAdapter extends BaseAdapter {
             history.setBillImage(null);
 
         holder.time.setText(history.getTime());
-        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.bill_ic).into(holder.billImage);
+        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_award).into(holder.billImage);
         holder.billCode.setText(history.getId());
-        holder.username.setText(history.getUsername());
-        holder.fullname.setText(history.getFullname());
-        holder.phone.setText(history.getPhone());
+        holder.shopname.setText(shopName);
+        holder.shopaddress.setText(shopAddress);
         holder.totalPoint.setText(String.valueOf(history.getTotalPoint()));
         if(history.getType().equals("0")){ //buy award history
             holder.totalPoint.setBackgroundColor(Color.RED);
-            holder.detail.setText(history.getUsername() + " used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
+            holder.detail.setText("You used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
         }else if(history.getType().equals("1")){//got point from event history
             holder.totalPoint.setBackgroundColor(Color.GREEN);
-            holder.detail.setText(history.getUsername() + " got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
+            holder.detail.setText("You got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +106,14 @@ public class ListHistoriesAdapter extends BaseAdapter {
                 if(history.getType().equals("1")){//got point from buying product
                     Intent i = new Intent(mParentActivity, UpdatePointDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
+                    i.putExtra(Global.SHOP_NAME, shopName);
+                    i.putExtra(Global.SHOP_ADDRESS, shopAddress);
                     mParentActivity.startActivity(i);
                 }else if(history.getType().equals("0")){ //buy award
                     Intent i = new Intent(mParentActivity, BuyAwardDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
+                    i.putExtra(Global.SHOP_NAME, shopName);
+                    i.putExtra(Global.SHOP_ADDRESS, shopAddress);
                     mParentActivity.startActivity(i);
                 }
             }
@@ -123,9 +126,8 @@ public class ListHistoriesAdapter extends BaseAdapter {
         public TextView time;
         public ImageView billImage;
         public TextView billCode;
-        public TextView username;
-        public TextView fullname;
-        public TextView phone;
+        public TextView shopname;
+        public TextView shopaddress;
         public TextView detail;
         public TextView totalPoint;
     }

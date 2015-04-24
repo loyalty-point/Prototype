@@ -20,3 +20,4 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getCustomerGetSho
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/customer_select_shop.php");
 }
+

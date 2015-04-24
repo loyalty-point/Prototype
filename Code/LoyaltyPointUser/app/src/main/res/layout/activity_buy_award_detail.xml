@@ -62,7 +62,7 @@
         android:layout_below="@id/date" />
 
     <TextView
-        android:id="@+id/userFullName"
+        android:id="@+id/shopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
@@ -70,10 +70,10 @@
         android:textSize="@dimen/font_size"/>
 
     <TextView
-        android:id="@+id/userPhone"
+        android:id="@+id/shopAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userFullName"
+        android:layout_below="@id/shopName"
         android:layout_toRightOf="@id/awardImage"
         android:textSize="@dimen/font_size"/>
 
@@ -81,7 +81,7 @@
         android:id="@+id/awardCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userPhone"
+        android:layout_below="@id/shopAddress"
         android:layout_toRightOf="@id/awardImage"
         android:textSize="@dimen/font_size"/>
 

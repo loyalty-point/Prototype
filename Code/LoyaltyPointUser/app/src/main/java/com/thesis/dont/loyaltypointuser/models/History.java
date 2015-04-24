@@ -1,10 +1,10 @@
-package com.thesis.dont.loyaltypointadmin.models;
+package com.thesis.dont.loyaltypointuser.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by 11120_000 on 04/04/15.
+ * Created by tinntt on 4/24/2015.
  */
 public class History implements Parcelable {
     String time;

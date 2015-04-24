@@ -73,5 +73,7 @@
     <string name="title_activity_bar_code">BarCodeActivity</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
     <string name="title_activity_my_awards">MyAwardsActivity</string>
+    <string name="title_activity_update_point_detail">UpdatePointDetailActivity</string>
+    <string name="title_activity_buy_award_detail">BuyAwardDetailActivity</string>
 
 </resources>
