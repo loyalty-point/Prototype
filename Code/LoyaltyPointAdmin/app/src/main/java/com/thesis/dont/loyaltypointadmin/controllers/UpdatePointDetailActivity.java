@@ -56,10 +56,14 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
 
         dateTv.setText(history.getTime());
         userFullnameTv.setText(history.getFullname());
-        userPhoneTv.setText(history.getPhone());
-        billCodeTv.setText("billcode: " + history.getId());
-        totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
-        Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
+        userPhoneTv.setText("Phone: " + history.getPhone());
+        billCodeTv.setText("Billcode: " + history.getId());
+        totalPointTv.setText("Total point: " + String.valueOf(history.getTotalPoint()));
+        if(history.getBillImage() == null){
+            Picasso.with(this).load("null").placeholder(R.drawable.ic_award).into(billImageIv);
+        }else{
+            Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.ic_award).into(billImageIv);
+        }
 
         mAdapter = new AchievedEventsAdapter(this, new ArrayList<AchievedEvent>());
         detailLv.setAdapter(mAdapter);
@@ -144,11 +148,10 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             ViewHolder holder;
 
             if (convertView == null) {
-                view = mInflater.inflate(R.layout.achieved_events_list_row, parent, false);
+                view = mInflater.inflate(R.layout.event_history_list_row, parent, false);
 
                 // Create holder
                 holder = new ViewHolder();
-                holder.index = (TextView) view.findViewById(R.id.index);
                 holder.quantity = (TextView) view.findViewById(R.id.quantity);
                 holder.name = (TextView) view.findViewById(R.id.eventName);
                 holder.point = (TextView) view.findViewById(R.id.point);
@@ -161,7 +164,6 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             }
 
             AchievedEvent event = (AchievedEvent) getItem(position);
-            holder.index.setText(String.valueOf(position + 1) + ".");
             holder.quantity.setText(String.valueOf(event.getQuantity()));
             holder.name.setText(event.getEvent().getName());
             int point = 0;
@@ -180,7 +182,6 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         }
 
         public class ViewHolder {
-            public TextView index;
             public TextView quantity;
             public TextView name;
             public TextView point;

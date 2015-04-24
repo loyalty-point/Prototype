@@ -70,9 +70,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
 
             holder.time = (TextView) view.findViewById(R.id.time);
             holder.billImage = (ImageView) view.findViewById(R.id.billImage);
-            holder.billCode = (TextView) view.findViewById(R.id.billCode);
             holder.shopname = (TextView) view.findViewById(R.id.shopname);
-            holder.shopaddress = (TextView) view.findViewById(R.id.shopaddress);
             holder.detail = (TextView) view.findViewById(R.id.detail);
             holder.totalPoint = (TextView) view.findViewById(R.id.totalPoints);
 
@@ -89,15 +87,13 @@ public class ListHistoriesAdapter extends BaseAdapter {
 
         holder.time.setText(history.getTime());
         Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_award).into(holder.billImage);
-        holder.billCode.setText(history.getId());
         holder.shopname.setText(shopName);
-        holder.shopaddress.setText(shopAddress);
         holder.totalPoint.setText(String.valueOf(history.getTotalPoint()));
         if(history.getType().equals("0")){ //buy award history
-            holder.totalPoint.setBackgroundColor(Color.RED);
+            holder.totalPoint.setTextColor(Color.argb(255,100,0,0));
             holder.detail.setText("You used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
         }else if(history.getType().equals("1")){//got point from event history
-            holder.totalPoint.setBackgroundColor(Color.GREEN);
+            holder.totalPoint.setTextColor(Color.argb(255,0,100,0));
             holder.detail.setText("You got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
         }
         view.setOnClickListener(new View.OnClickListener() {
@@ -125,9 +121,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView time;
         public ImageView billImage;
-        public TextView billCode;
         public TextView shopname;
-        public TextView shopaddress;
         public TextView detail;
         public TextView totalPoint;
     }

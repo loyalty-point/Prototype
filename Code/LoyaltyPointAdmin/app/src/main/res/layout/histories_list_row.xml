@@ -23,14 +23,13 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/totalPoint"
+        android:layout_alignTop="@id/billImage"
         android:layout_toRightOf="@id/billImage">
 
         <TextView
             android:id="@+id/fullname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/billImage"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 

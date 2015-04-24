@@ -1,6 +1,8 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
@@ -45,10 +47,12 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());
-        shopNameTv.setText(shopName);
-        shopAddressTv.setText(shopAddress);
-        awardCodeTv.setText("ticket code: " + history.getId());
-        totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
+        shopNameTv.setText("Shop: " + shopName);
+        shopAddressTv.setText("Address: " + shopAddress);
+        awardCodeTv.setText("Ticket code: " + history.getId());
+        totalPointTv.setTextColor(Color.argb(255, 0, 100, 0));
+        totalPointTv.setPaintFlags(totalPointTv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        totalPointTv.setText("Total point: " + String.valueOf(history.getTotalPoint()));
 
         getAwardHistory();
     }
@@ -63,7 +67,11 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
                         awardNameTv.setText(award.getName());
                         awardDetailTv.setText(award.getDescription());
                         buyDetailTv.setText("You used " + history.getTotalPoint() + " to buy " + awardNumber + " " + award.getName());
-                        Picasso.with(BuyAwardDetailActivity.this).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageIv);
+                        if (award.getImage().equals("")) {
+                            Picasso.with(BuyAwardDetailActivity.this).load("null").placeholder(R.drawable.ic_award).into(awardImageIv);
+                        } else {
+                            Picasso.with(BuyAwardDetailActivity.this).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageIv);
+                        }
                     }
                 });
             }

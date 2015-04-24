@@ -42,68 +42,76 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/totalPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size"
-        android:id="@+id/totalPoint"
+        android:layout_above="@id/btnLayout"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/btnLayout"/>
+        android:textStyle="bold"
+        android:textSize="@dimen/_20sdp" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/font_size"
+        android:textStyle="italic" />
 
     <ImageView
         android:id="@+id/awardImage"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
-        android:layout_below="@id/date" />
+        android:layout_below="@id/date"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+
+    <TextView
+        android:id="@+id/awardName"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/awardImage"
+        android:layout_below="@id/date"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/awardCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardName"
+        android:layout_toRightOf="@id/awardImage"
+        android:textSize="@dimen/font_size" />
+
+    <TextView
+        android:id="@+id/awardDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardCode"
+        android:layout_toRightOf="@id/awardImage"
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/shopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/font_size"/>
+        android:layout_below="@id/awardImage"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/shopAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/shopName"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/font_size"/>
-
-    <TextView
-        android:id="@+id/awardCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/shopAddress"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/font_size"/>
-
-    <TextView
-        android:id="@+id/awardName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardImage"
-        android:textSize="@dimen/font_size"/>
-
-    <TextView
-        android:id="@+id/awardDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardName"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/buyDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/awardDetail"
-        android:textSize="@dimen/font_size"/>
+        android:layout_below="@id/shopAddress"
+        android:textSize="@dimen/font_size" />
 
 </RelativeLayout>

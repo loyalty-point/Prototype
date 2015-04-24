@@ -1,6 +1,8 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,9 +49,11 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
 
         dateTv.setText(history.getTime());
         userFullnameTv.setText(history.getFullname());
-        userPhoneTv.setText(history.getPhone());
-        awardCodeTv.setText("ticket code: " + history.getId());
-        totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
+        userPhoneTv.setText("Phone: " + history.getPhone());
+        awardCodeTv.setText("Ticket code: " + history.getId());
+        totalPointTv.setTextColor(Color.argb(255, 0, 100, 0));
+        totalPointTv.setPaintFlags(totalPointTv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        totalPointTv.setText("Total point: " + String.valueOf(history.getTotalPoint()));
 
         getAwardHistory();
     }
@@ -63,7 +67,7 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
                     public void run() {
                         awardNameTv.setText(award.getName());
                         awardDetailTv.setText(award.getDescription());
-                        buyDetailTv.setText(history.getFullname() + " used " + history.getTotalPoint() + " to buy " + awardNumber + " " + award.getName());
+                        buyDetailTv.setText(history.getFullname() + " used " + history.getTotalPoint() + " points to buy " + awardNumber + " " + award.getName());
                         Picasso.with(BuyAwardDetailActivity.this).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageIv);
                     }
                 });
