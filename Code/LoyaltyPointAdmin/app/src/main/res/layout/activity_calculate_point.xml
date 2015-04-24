@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding"
-    android:background="@color/DarkPrimaryColor"
+    android:background="@color/MaterialBackground"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CalculatePointActivity">
 
     <com.wrapp.floatlabelededittext.FloatLabeledEditText

@@ -61,6 +61,10 @@ public class UserAwardFragment extends Fragment {
     String shopID;
     String userID;
 
+    Activity mParentActivity;
+
+    public UserAwardFragment() {}
+
     public UserAwardFragment(int position, String userId, String shopId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -97,22 +101,24 @@ public class UserAwardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mParentActivity = getActivity();
+
         // set listener for createAward button
-        ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
+        ButtonFloat createAwardBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createAwardBtn);
         createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), CreateAwardActivity.class);
-                i.putExtra(SHOP_ID, ((ShopDetailActivity) getActivity()).getCurrentShop().getId());
+                Intent i = new Intent(mParentActivity, CreateAwardActivity.class);
+                i.putExtra(SHOP_ID, ((ShopDetailActivity) mParentActivity).getCurrentShop().getId());
                 startActivity(i);
             }
         });
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new UserAwardsListAdapter(getActivity(), new ArrayList<Award>());
-        mListView = (ListView) getActivity().findViewById(R.id.listAwards);
+        mAdapter = new UserAwardsListAdapter(mParentActivity, new ArrayList<Award>());
+        mListView = (ListView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 
         // set listener for Item Click
@@ -122,9 +128,6 @@ public class UserAwardFragment extends Fragment {
 
             }
         });
-
-        // Load dữ liệu lên list
-        getListAwards();
     }
 
     public void getListAwards() {
@@ -134,7 +137,7 @@ public class UserAwardFragment extends Fragment {
                 // Get listAwards thành công
                 // Cập nhật dữ liệu lên mAdapter
                 mAdapter.setListAwards(listAwards);
-                UserAwardFragment.this.getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.notifyDataSetChanged();
@@ -144,11 +147,11 @@ public class UserAwardFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(UserAwardFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

@@ -53,6 +53,8 @@ public class UserTicketsFragment extends Fragment {
     TicketsListAdapter mAdapter;
     ArrayList<AwardHistory> listTickets;
 
+    Activity mParentActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +64,8 @@ public class UserTicketsFragment extends Fragment {
         ViewCompat.setElevation(rootView, 50);
         return rootView;
     }
+
+    public UserTicketsFragment() {}
 
     public UserTicketsFragment(int position, String userId, String shopId) {
         Bundle b = new Bundle();
@@ -83,10 +87,17 @@ public class UserTicketsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new TicketsListAdapter(getActivity(), new ArrayList<AwardHistory>());
-        mListView = (ListView) getActivity().findViewById(R.id.listTickets);
+        mParentActivity = getActivity();
+
+        mAdapter = new TicketsListAdapter(mParentActivity, new ArrayList<AwardHistory>());
+        mListView = (ListView) mParentActivity.findViewById(R.id.listTickets);
         mListView.setAdapter(mAdapter);
-        // Load dữ liệu lên list
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         getListTickets();
     }
 
@@ -96,7 +107,7 @@ public class UserTicketsFragment extends Fragment {
             public void onSuccess(ArrayList<AwardHistory> listTickets) {
                 mAdapter.setListTickets(listTickets);
                 UserTicketsFragment.this.listTickets = listTickets;
-                UserTicketsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.notifyDataSetChanged();
@@ -106,11 +117,11 @@ public class UserTicketsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(UserTicketsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -226,8 +237,8 @@ public class UserTicketsFragment extends Fragment {
                                                 public void run() {
                                                     TicketsListAdapter.this.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
-                                                            .setTitle("Success")
-                                                            .setMessage("Award's sold!")
+                                                            .setTitle("Successfully")
+                                                            .setMessage("Award has been sold!")
                                                             .setIcon(android.R.drawable.ic_dialog_info)
                                                             .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                                                 public void onClick(DialogInterface dialog, int which) {
@@ -314,8 +325,8 @@ public class UserTicketsFragment extends Fragment {
                                                 public void run() {
                                                     TicketsListAdapter.this.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
-                                                            .setTitle("Cancel Success")
-                                                            .setMessage("User was got them point back!")
+                                                            .setTitle("Cancel Successfully")
+                                                            .setMessage("User has got their point back!")
                                                             .setIcon(android.R.drawable.ic_dialog_info)
                                                             .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                                                 public void onClick(DialogInterface dialog, int which) {

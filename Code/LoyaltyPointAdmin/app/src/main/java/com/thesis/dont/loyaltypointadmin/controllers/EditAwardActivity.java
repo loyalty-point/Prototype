@@ -54,7 +54,7 @@ public class EditAwardActivity extends ActionBarActivity {
 
         // init dialog
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Updating award info");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
@@ -210,6 +210,8 @@ public class EditAwardActivity extends ActionBarActivity {
                     // không nén ảnh
                     awardLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     awardLogoImgView.setImageBitmap(awardLogo);
+
+                    isChangeAwardImage = true;
                 }
         }
     }

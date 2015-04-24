@@ -63,7 +63,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         setContentView(R.layout.activity_edit_event);
 
         mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Uploading shop logo");
+        mDialog.setTitle("Updating event info");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
         mPicasso = Picasso.with(this);
@@ -258,6 +258,8 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                     // không nén ảnh
                     eventLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     iconChooser.setImageBitmap(eventLogo);
+
+                    isChangeAwardImage = true;
                 }
                 break;
             }

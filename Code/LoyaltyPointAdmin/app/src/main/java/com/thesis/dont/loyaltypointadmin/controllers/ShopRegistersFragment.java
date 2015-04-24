@@ -63,6 +63,7 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
 
     ProgressDialog mDialog;
 
+    public ShopRegistersFragment() {}
 
     public ShopRegistersFragment(int position, String shopId){
         Bundle b = new Bundle();

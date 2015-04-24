@@ -39,6 +39,8 @@ public class ShopAwardsFragment extends Fragment {
 
     String shopID;
 
+    public ShopAwardsFragment() {}
+
     public ShopAwardsFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -104,9 +106,6 @@ public class ShopAwardsFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        // Load dữ liệu lên list
-        getListAwards();
     }
 
     public void getListAwards() {

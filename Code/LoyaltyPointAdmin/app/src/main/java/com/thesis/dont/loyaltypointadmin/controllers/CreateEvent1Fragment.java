@@ -26,6 +26,8 @@ public class CreateEvent1Fragment extends BaseEventCreateFragment {
     ButtonRectangle barcodeScannerBtn;
     EditText goodsNameEdtText, barcodeEdtText, numberEdtText, pointEdtText;
 
+    public CreateEvent1Fragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -41,6 +41,8 @@ public class ShopsListMainFragment extends Fragment {
 
     ProgressDialog mDialog;
 
+    public ShopsListMainFragment() {}
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
