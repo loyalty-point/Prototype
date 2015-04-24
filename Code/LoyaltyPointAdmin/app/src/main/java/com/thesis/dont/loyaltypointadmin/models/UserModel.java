@@ -42,7 +42,7 @@ public class UserModel {
     public static native String getCheckIdentityNumberUser();
     public static native String getGetEventHistory();
     public static native String getGetAwardHistory();
-    public static native String getGetHistory();
+    public static native String getGetListHistory();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -177,15 +177,15 @@ public class UserModel {
         t.start();
     }
 
-    public static void getHistory(final String token, final String shopId,
-                                  final OnGetHistoryResult mOnGetHistoryResult){
+    public static void getListHistory(final String token, final String shopId,
+                                  final OnGetListHistoryResult mOnGetListHistoryResult){
 
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetHistory();
+                String link = getGetListHistory();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -202,26 +202,26 @@ public class UserModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    GetHistoryResult result = (GetHistoryResult) Helper.jsonToObject(response, GetHistoryResult.class);
+                    GetListHistoryResult result = (GetListHistoryResult) Helper.jsonToObject(response, GetListHistoryResult.class);
 
                     if(result.error.equals("")) {
                         ArrayList<History> listHistories = new ArrayList<History>();
                         for(int i=0; i<result.listHistories.length-1; i++) {
                             listHistories.add(result.listHistories[i]);
                         }
-                        mOnGetHistoryResult.onSuccess(listHistories);
+                        mOnGetListHistoryResult.onSuccess(listHistories);
                     }
                     else
-                        mOnGetHistoryResult.onError(result.error);
+                        mOnGetListHistoryResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnGetHistoryResult.onError("UnsupportedEncodingException");
+                    mOnGetListHistoryResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnGetHistoryResult.onError("ClientProtocolException");
+                    mOnGetListHistoryResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnGetHistoryResult.onError("IOException");
+                    mOnGetListHistoryResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -336,12 +336,12 @@ public class UserModel {
         public int award_number;
     }
 
-    public interface OnGetHistoryResult{
+    public interface OnGetListHistoryResult{
         public void onSuccess(ArrayList<History> listHistories);
         public void onError(String error);
     }
 
-    public class GetHistoryResult{
+    public class GetListHistoryResult{
         public String error;
         public History[] listHistories;
     }

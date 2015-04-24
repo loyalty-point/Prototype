@@ -17,13 +17,18 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.controllers.BuyAwardDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.LoginActivity;
 import com.thesis.dont.loyaltypointuser.controllers.ShopDetailActivity;
+import com.thesis.dont.loyaltypointuser.controllers.UpdatePointDetailActivity;
+import com.thesis.dont.loyaltypointuser.models.Award;
 import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.History;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
+import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 /**
  * Created by 11120_000 on 09/04/15.
@@ -34,6 +39,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
 
     Shop mShop;
+    History mHistory;
 
     public static final String TAG = "GcmIntentService";
 
@@ -74,14 +80,32 @@ public class GcmIntentService extends IntentService {
                     GcmBroadcastReceiver.completeWakefulIntent(intent);
                     return;
                 }
-
+                final String message = extras.getString("message");
                 String shopID = extras.getString("shopID");
 
                 ShopModel.getShopInfo(Global.userToken, shopID, new ShopModel.OnGetShopInfoResult() {
                     @Override
                     public void onSuccess(Shop shop) {
                         mShop = shop;
-                        sendNotification(extras, true);
+                        if(message.equals("trade successfully") || message.equals("add point")){
+                            String historyId = extras.getString("historyID");
+
+                            UserModel.getHistory(Global.userToken, historyId, new UserModel.OnGetHistoryResult() {
+                                @Override
+                                public void onSuccess(History history) {
+                                    mHistory = history;
+                                    sendNotification(extras, true);
+                                }
+
+                                @Override
+                                public void onError(String error) {
+
+                                }
+                            });
+                        }else{
+                            sendNotification(extras, true);
+                        }
+
                     }
 
                     @Override
@@ -125,9 +149,10 @@ public class GcmIntentService extends IntentService {
                                         .bigText(data.toString()))
                                 .setContentText("Added " + point + " point");
 
-                Intent i = new Intent(this, ShopDetailActivity.class);
-                i.putExtra(Global.SHOP_OBJECT, mShop);
-                i.putExtra(Global.TAB_INDEX, 2);
+                Intent i = new Intent(this, UpdatePointDetailActivity.class);
+                i.putExtra(Global.HISTORY_OBJECT, mHistory);
+                i.putExtra(Global.SHOP_NAME, mShop.getName());
+                i.putExtra(Global.SHOP_ADDRESS, mShop.getAddress());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
@@ -151,10 +176,12 @@ public class GcmIntentService extends IntentService {
                         .setContentTitle("Congratulations")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(data.toString()))
-                        .setContentText(mShop.getName() + " has give you a product");
+                        .setContentText(mShop.getName() + " just has given you a product");
 
-                Intent i = new Intent(this, ShopDetailActivity.class);
-                i.putExtra(Global.SHOP_OBJECT, mShop);
+                Intent i = new Intent(this, BuyAwardDetailActivity.class);
+                i.putExtra(Global.HISTORY_OBJECT, mHistory);
+                i.putExtra(Global.SHOP_NAME, mShop.getName());
+                i.putExtra(Global.SHOP_ADDRESS, mShop.getAddress());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
