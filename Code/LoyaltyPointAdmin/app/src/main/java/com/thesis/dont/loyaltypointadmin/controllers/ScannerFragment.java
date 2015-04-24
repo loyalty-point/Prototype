@@ -77,7 +77,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
         setHasOptionsMenu(true);
     }
 
-    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+    /*public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         MenuItem menuItem;
@@ -99,9 +99,9 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
 
         menuItem = menu.add(Menu.NONE, R.id.menu_formats, 0, R.string.formats);
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
@@ -129,7 +129,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     @Override
     public void onResume() {

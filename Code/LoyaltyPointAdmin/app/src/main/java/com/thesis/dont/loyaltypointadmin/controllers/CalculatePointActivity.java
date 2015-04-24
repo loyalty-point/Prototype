@@ -9,20 +9,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Product;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
-import com.thesis.dont.loyaltypointadmin.models.User;
+import com.thesis.dont.loyaltypointadmin.views.TotalMoneyHeader;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.view.CardViewNative;
 import me.dm7.barcodescanner.zbar.Result;
 
 public class CalculatePointActivity extends ActionBarActivity {
@@ -33,6 +33,8 @@ public class CalculatePointActivity extends ActionBarActivity {
     ListView mListView;
     ListProductsAdapter mAdapter;
 
+    ScannerFragment mScannerFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,29 @@ public class CalculatePointActivity extends ActionBarActivity {
         mUserName = i.getStringExtra(Global.USER_NAME);
         mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
 
+        // set up Total Money Card
+        // Create a Card
+        Card totalMoneyCard = new Card(this);
+
+        // Create a CardHeader
+        TotalMoneyHeader header = new TotalMoneyHeader(this);
+
+        // Add Header to card
+        totalMoneyCard.addCardHeader(header);
+
+        //Set card in the cardView
+        CardViewNative totalMoneyCardView = (CardViewNative) findViewById(R.id.totalMoneyFloat);
+
+        totalMoneyCardView.setCard(totalMoneyCard);
+
+        View mainContentView = totalMoneyCardView.findViewById(R.id.card_main_content_layout);
+        mainContentView.setVisibility(View.GONE);
+
         // setup fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.barcodeScannerLayout, new ScannerFragment());
+        mScannerFragment = new ScannerFragment();
+        fragmentTransaction.replace(R.id.barcodeScannerLayout, mScannerFragment);
         fragmentTransaction.addToBackStack(null);
 
         fragmentTransaction.commit();
@@ -120,5 +141,12 @@ public class CalculatePointActivity extends ActionBarActivity {
         Product product = new Product(quantity, result.getContents(), "Product Name");
         mAdapter.add(product);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mScannerFragment.onResume();
     }
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingBottom="@dimen/_5sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:background="@color/TextIcons">
 
     <!--<TextView
         android:id="@+id/index"
@@ -13,6 +16,10 @@
         android:id="@+id/quantity"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="wrap_content"
+        android:textColor="@color/MaterialDarkRed"
+        android:numeric="integer"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:text="1"/>
 
     <TextView
@@ -20,16 +27,21 @@
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/quantity"
         android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textColor="@color/PrimaryColor"
         android:text="product name"/>
 
     <EditText
         android:id="@+id/barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="0dp"
+        android:numeric="integer"
         android:layout_toRightOf="@id/quantity"
         android:layout_toLeftOf="@id/productName"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:text="0000000000"/>
 
 
