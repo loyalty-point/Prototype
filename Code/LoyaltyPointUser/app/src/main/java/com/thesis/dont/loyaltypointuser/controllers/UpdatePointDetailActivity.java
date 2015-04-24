@@ -59,7 +59,11 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         shopAddressTv.setText(shopAddress);
         billCodeTv.setText("billcode: " + history.getId());
         totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
-        Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
+        if(!history.getBillImage().equals(""))
+            Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
+        else{
+            Picasso.with(this).load("null").placeholder(R.drawable.card_img2).into(billImageIv);
+        }
 
         mAdapter = new AchievedEventsAdapter(this, new ArrayList<AchievedEvent>());
         detailLv.setAdapter(mAdapter);

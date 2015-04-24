@@ -124,7 +124,7 @@ if($folllowRow){
 
             $regID = array($regID);
             $message = "trade successfully";
-            $message = array("message" => $message, "shopID" => $shopID);
+            $message = array("message" => $message, "shopID" => $shopID, "historyID" => $id);
 
             $gcm = new GCM();
 

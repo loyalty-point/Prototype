@@ -62,9 +62,7 @@ if($query_exec){
                             .$awardId."','"
                             .$number."')";
     $query_exec = mysqli_query($localhost, $query);
-
-
-    echo '{"error":""}';
+  
     // Gửi notification cho user
     // Từ $customerName -> regID (bảng customer_registration)
     $query = "select * from customer_registration where username='".$userId."'";
@@ -77,13 +75,14 @@ if($query_exec){
 
         $regID = array($regID);
         $message = "trade successfully";
-        $message = array("message" => $message, "shopID" => $shopId);
-
+        $message = array("message" => $message, "shopID" => $shopID, "historyID" => $id);
+        
         $gcm = new GCM();
 
         $result = $gcm->send_notification($regID, $message);
 
     }
+    echo '{"error":""}';
 }else{
     echo '{"error":"cannot delete this ticket"}';
 }

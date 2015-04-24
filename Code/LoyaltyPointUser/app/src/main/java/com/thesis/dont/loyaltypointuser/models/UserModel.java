@@ -38,9 +38,10 @@ public class UserModel {
     public static native String getCheckUser();
     public static native String getGetUserInfo();
     public static native String getGetMyAwards();
-    public static native String getGetHistory();
+    public static native String getGetListHistory();
     public static native String getGetEventHistory();
     public static native String getGetAwardHistory();
+    public static native String getGetHistory();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -223,15 +224,15 @@ public class UserModel {
         t.start();
     }
 
-    public static void getHistory(final String token, final String shopId,
-                                  final OnGetHistoryResult mOnGetHistoryResult){
+    public static void getListHistory(final String token, final String shopId,
+                                  final OnGetListHistoryResult mOnGetListHistoryResult){
 
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                String link = getGetHistory();
+                String link = getGetListHistory();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
@@ -248,26 +249,26 @@ public class UserModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    GetHistoryResult result = (GetHistoryResult) Helper.jsonToObject(response, GetHistoryResult.class);
+                    GetListHistoryResult result = (GetListHistoryResult) Helper.jsonToObject(response, GetListHistoryResult.class);
 
                     if(result.error.equals("")) {
                         ArrayList<History> listHistories = new ArrayList<History>();
                         for(int i=0; i<result.listHistories.length-1; i++) {
                             listHistories.add(result.listHistories[i]);
                         }
-                        mOnGetHistoryResult.onSuccess(listHistories);
+                        mOnGetListHistoryResult.onSuccess(listHistories);
                     }
                     else
-                        mOnGetHistoryResult.onError(result.error);
+                        mOnGetListHistoryResult.onError(result.error);
 
                 } catch (UnsupportedEncodingException e) {
-                    mOnGetHistoryResult.onError("UnsupportedEncodingException");
+                    mOnGetListHistoryResult.onError("UnsupportedEncodingException");
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
-                    mOnGetHistoryResult.onError("ClientProtocolException");
+                    mOnGetListHistoryResult.onError("ClientProtocolException");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    mOnGetHistoryResult.onError("IOException");
+                    mOnGetListHistoryResult.onError("IOException");
                     e.printStackTrace();
                 }
             }
@@ -371,6 +372,64 @@ public class UserModel {
         t.start();
     }
 
+    public static void getHistory(final String token, final String historyId,
+                                  final OnGetHistoryResult mOnGetHistoryResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetHistory();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("history_id", historyId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetHistoryResult result = (GetHistoryResult) Helper.jsonToObject(response, GetHistoryResult.class);
+
+                    if(result.error.equals("")) {
+                        mOnGetHistoryResult.onSuccess(result.history);
+                    }
+                    else
+                        mOnGetHistoryResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetHistoryResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetHistoryResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetHistoryResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnGetHistoryResult{
+        public void onSuccess(History history);
+        public void onError(String error);
+    }
+
+    public class GetHistoryResult{
+        public String error;
+        public History history;
+    }
+
     public interface OngetAwardHistoryResult{
         public void onSuccess(Award award, int awardNumber);
         public void onError(String error);
@@ -392,12 +451,12 @@ public class UserModel {
         public AchievedEvent[] listAchievedEvents;
     }
 
-    public interface OnGetHistoryResult{
+    public interface OnGetListHistoryResult{
         public void onSuccess(ArrayList<History> listHistories);
         public void onError(String error);
     }
 
-    public class GetHistoryResult{
+    public class GetListHistoryResult{
         public String error;
         public History[] listHistories;
     }

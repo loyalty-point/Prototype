@@ -85,7 +85,7 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void getListHistory() {
-        UserModel.getHistory(Global.userToken, shopID, new UserModel.OnGetHistoryResult() {
+        UserModel.getListHistory(Global.userToken, shopID, new UserModel.OnGetListHistoryResult() {
             @Override
             public void onSuccess(ArrayList<History> listHistories) {
                 mAdapter.setListHistories(listHistories);
