@@ -65,6 +65,8 @@ public class ShopsCardMainFragment extends Fragment {
 
     ProgressDialog mDialog;
 
+    public ShopsCardMainFragment() {}
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

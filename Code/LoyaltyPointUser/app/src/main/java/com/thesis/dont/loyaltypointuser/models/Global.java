@@ -13,4 +13,9 @@ public class Global {
     public static String SHOP_NAME = "shop_name";
     public static final String TAB_INDEX = "tab_index";
 
+    public static final String FRAGMENT_ID = "fragment_id";
+
+    public static final int MY_CARDS = 0;
+    public static final int MY_ACCOUNT = 1;
+    public static final int MY_AWARDS = 2;
 }

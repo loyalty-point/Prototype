@@ -23,6 +23,8 @@ public class ShopRelativeFragment extends Fragment {
 
     private int position;
 
+    public ShopRelativeFragment() {}
+
     public ShopRelativeFragment(int position, String shopId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);

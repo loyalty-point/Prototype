@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,8 @@ public class ShopEventsFragment extends Fragment {
     private int position;
     private String shopId;
 
+    Activity mParentActivity;
+
     public ShopEventsFragment() {
         Bundle b = getArguments();
 
@@ -73,6 +76,8 @@ public class ShopEventsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mParentActivity = getActivity();
+
         mAdapter = new EventsListAdapter(getActivity(), new ArrayList<Event>());
         mListView = (ListView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
@@ -88,9 +93,6 @@ public class ShopEventsFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        // Load dữ liệu lên list
-        getListEvents();
     }
 
     public void getListEvents() {
@@ -99,7 +101,7 @@ public class ShopEventsFragment extends Fragment {
             @Override
             public void onSuccess(ArrayList<Event> listEvents) {
                 mAdapter.setListEvents(listEvents);
-                ShopEventsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.notifyDataSetChanged();
@@ -109,11 +111,11 @@ public class ShopEventsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(ShopEventsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

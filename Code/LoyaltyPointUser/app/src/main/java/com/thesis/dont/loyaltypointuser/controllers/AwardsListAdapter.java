@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.Gravity;
@@ -125,7 +126,7 @@ public class AwardsListAdapter extends BaseAdapter{
                     mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            int quantity = Integer.valueOf(quantityEditText.getText().toString());
+                            final int quantity = Integer.valueOf(quantityEditText.getText().toString());
 
                             if(quantity > award.getQuantity()) {
                                 Toast.makeText(mParentActivity, "Sorry, we just have " + award.getQuantity() + " remaining items", Toast.LENGTH_LONG).show();
@@ -133,7 +134,7 @@ public class AwardsListAdapter extends BaseAdapter{
                                 Toast.makeText(mParentActivity, "Sorry, Not enough point, you only have " + String.valueOf(userPoint) + "but you need " + String.valueOf(quantity*award.getPoint()) +" point to buy this award!", Toast.LENGTH_LONG).show();
                             }else {
                                 // Lấy thời gian hiện tại
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                                 Date date = new Date();
                                 String time = dateFormat.format(date); //2014/08/06 15:59:48
 
@@ -143,6 +144,29 @@ public class AwardsListAdapter extends BaseAdapter{
                                         mParentActivity.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+
+                                                LayoutInflater inflater = mParentActivity.getLayoutInflater();
+
+                                                builder.setTitle("Buy award successfully")
+                                                        .setMessage(quantity + " x " + award.getName())
+                                                        .setView(inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null))
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                // do nothing
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Go to My Awards", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                Intent i = new Intent(mParentActivity, CardsListActivity.class);
+                                                                i.putExtra(Global.FRAGMENT_ID, Global.MY_AWARDS);
+                                                                mParentActivity.startActivity(i);
+                                                                mParentActivity.finish();
+                                                            }
+                                                        })
+                                                        .show();
                                                 mParentFragment.refresh();
                                             }
                                         });

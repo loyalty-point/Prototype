@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointuser.models;
 
+import android.util.Log;
+
 import com.thesis.dont.loyaltypointuser.controllers.Helper;
 
 import org.apache.http.HttpResponse;
@@ -103,6 +105,7 @@ public class EventModel {
                     ResponseHandler<String> responseHandler = Helper.getResponseHandler();
                     String response = null;
 
+                    Log.e("Get List Events", "Befor run execute");
                     response = httpclient.execute(httppost, responseHandler);
 
                     GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
