@@ -1,5 +1,8 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
@@ -28,6 +32,12 @@ public class ShopDetailFragment extends Fragment {
     private int position;
     private String shopId;
     View rootView;
+
+    ProgressDialog mDialog;
+
+    Activity mParentActivity;
+
+    public ShopDetailFragment() {}
 
     public ShopDetailFragment(int position, String shopId) {
         Bundle b = new Bundle();
@@ -67,22 +77,38 @@ public class ShopDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         final TextView shopName = (TextView)getActivity().findViewById(R.id.shopNameTv);
         final ImageView shopImg = (ImageView)getActivity().findViewById(R.id.shopImg);
+
+        mParentActivity = getActivity();
+
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Loading data");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
+        mDialog.show();
         ShopModel.getShopInfo(Global.userToken, this.shopId, new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         shopName.setText(shop.getName());
                         Picasso.with(getActivity()).load(shop.getImage()).placeholder(R.drawable.ic_award).into(shopImg);
                     }
                 });
-
             }
 
             @Override
-            public void onError(String error) {
-//                shopName.setText(error);
+            public void onError(final String error) {
+                mParentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDialog.dismiss();
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }
