@@ -22,6 +22,8 @@ public class Global {
 
     public static String TOTAL_MONEY = "total_money";
 
+    public static final int SELECT_PHOTO = 100;
+
 
     public static final int SCAN_BARCODE = 49374;
     public static final int CAMERA_REQUEST = 49375;

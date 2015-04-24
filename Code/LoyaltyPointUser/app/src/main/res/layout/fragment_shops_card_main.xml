@@ -14,7 +14,7 @@
         android:layout_margin="@dimen/padding"
         android:textStyle="bold"
         android:textColor="@color/AccentColor"
-        android:text="YOUR CARDS"/>
+        android:text="MY CARDS"/>
 
     <TextView
         android:id="@+id/listRegistersText"
@@ -24,7 +24,7 @@
         android:textStyle="bold"
         android:layout_toRightOf="@id/listCardsText"
         android:textColor="@color/MaterialGrey"
-        android:text="YOUR REGISTERS"/>
+        android:text="MY REGISTERS"/>
 
     <github.chenupt.springindicator.SpringIndicator
         xmlns:app="http://schemas.android.com/apk/res-auto"

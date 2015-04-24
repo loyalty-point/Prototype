@@ -130,7 +130,15 @@
         </activity>
         <activity
             android:name=".controllers.UserDetailActivity"
-            android:label="@string/title_activity_user_detail" >
+            android:label="@string/title_activity_user_detail"
+            android:parentActivityName=".controllers.ShopDetailActivity"
+            android:launchMode="singleTop">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.ShopDetailActivity" />
+
         </activity>
         <activity
             android:name=".controllers.UserDetailTabPagerAdapter"

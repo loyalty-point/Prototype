@@ -64,6 +64,9 @@ android {
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
@@ -117,4 +120,26 @@ dependencies {
 
     // barcode scanner
     compile 'me.dm7.barcodescanner:zbar:1.6.3'
+
+    // Spring Indicator
+    compile 'com.github.chenupt.android:springindicator:1.0.1@aar'
+    compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
+
+    // Infinite View Pager
+    //compile 'com.antonyt.infiniteviewpager:library:1.0.0'
+
+    // View Pager Transform Animation
+    compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.1.0@aar'
+
+    // Card
+    /*compile 'com.github.gabrielemariotti.cards:library:1.9.1'*/
+
+    //Core
+    compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
+
+    //Optional for built-in cards
+    compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.0.1'
+
+    // ZShadow
+    compile 'com.github.ShogoMizumoto:ZDepthShadowLayout:1.0.4'
 }

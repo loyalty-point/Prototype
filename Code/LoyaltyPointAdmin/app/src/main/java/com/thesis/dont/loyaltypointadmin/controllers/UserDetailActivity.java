@@ -31,6 +31,7 @@ public class UserDetailActivity extends ActionBarActivity {
     String userFullName;
     String shopId;
 
+    Shop mShop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class UserDetailActivity extends ActionBarActivity {
         userId = i.getStringExtra(Global.USER_NAME);
         userFullName = i.getStringExtra(Global.USER_FULLNAME);
         shopId = i.getStringExtra(Global.SHOP_ID);
+        mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(userFullName);
@@ -68,6 +70,8 @@ public class UserDetailActivity extends ActionBarActivity {
             case android.R.id.home:
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
                 upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                upIntent.putExtra(Global.SHOP_OBJECT, mShop);
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
