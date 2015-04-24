@@ -69,10 +69,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
 
             holder.time = (TextView) view.findViewById(R.id.time);
             holder.billImage = (ImageView) view.findViewById(R.id.billImage);
-            holder.billCode = (TextView) view.findViewById(R.id.billCode);
-            holder.username = (TextView) view.findViewById(R.id.username);
             holder.fullname = (TextView) view.findViewById(R.id.fullname);
-            holder.phone = (TextView) view.findViewById(R.id.phone);
             holder.detail = (TextView) view.findViewById(R.id.detail);
             holder.totalPoint = (TextView) view.findViewById(R.id.totalPoints);
 
@@ -89,16 +86,13 @@ public class ListHistoriesAdapter extends BaseAdapter {
 
         holder.time.setText(history.getTime());
         Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.bill_ic).into(holder.billImage);
-        holder.billCode.setText(history.getId());
-        holder.username.setText(history.getUsername());
         holder.fullname.setText(history.getFullname());
-        holder.phone.setText(history.getPhone());
         holder.totalPoint.setText(String.valueOf(history.getTotalPoint()));
         if(history.getType().equals("0")){ //buy award history
-            holder.totalPoint.setBackgroundColor(Color.RED);
+            holder.totalPoint.setTextColor(Color.argb(255,100,0,0));
             holder.detail.setText(history.getUsername() + " used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
         }else if(history.getType().equals("1")){//got point from event history
-            holder.totalPoint.setBackgroundColor(Color.GREEN);
+            holder.totalPoint.setTextColor(Color.argb(255,0,100,0));
             holder.detail.setText(history.getUsername() + " got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
         }
         view.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +116,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView time;
         public ImageView billImage;
-        public TextView billCode;
-        public TextView username;
         public TextView fullname;
-        public TextView phone;
         public TextView detail;
         public TextView totalPoint;
     }
