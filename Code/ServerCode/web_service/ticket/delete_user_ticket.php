@@ -75,9 +75,8 @@ if($query_exec){
 
         $regID = array($regID);
         $message = "trade successfully";
-        $message = array("message" => $message, "shopID" => $shopID, "historyID" => $id);
-        
-        $gcm = new GCM();
+        $message = array("message" => $message, "shopID" => $shopId, "historyID" => $id);
+        $gcm = new GCM();   
 
         $result = $gcm->send_notification($regID, $message);
 
