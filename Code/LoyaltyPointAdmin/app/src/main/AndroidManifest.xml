@@ -117,7 +117,8 @@
         <activity
             android:name=".controllers.CalculatePointActivity"
             android:label="@string/title_activity_calculate_point"
-            android:theme="@style/NoActionBar" >
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".controllers.ScannerActivity"
@@ -139,10 +140,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".controllers.ShopDetailActivity" />
 
-        </activity>
-        <activity
-            android:name=".controllers.UserDetailTabPagerAdapter"
-            android:label="@string/title_activity_user_detail_tab_pager_adapter" >
         </activity>
         // broadcast receiver for listening messages from Google Cloud Messages
         <receiver

@@ -8,7 +8,7 @@
     android:background="@color/MaterialBackground"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CalculatePointActivity">
 
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:id="@+id/totalMoneyFloat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,17 +31,14 @@
             android:drawablePadding="@dimen/_10sdp"
             android:textSize="@dimen/font_size"/>
         />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
+
+    <it.gmariotti.cardslib.library.view.CardViewNative
+        android:id="@+id/totalMoneyFloat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     // TOTALS POINT from MONEY
-    <TextView
-        android:id="@+id/vnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="VND"
-        android:textColor="@color/TextIcons"
-        android:layout_alignBottom="@id/totalMoneyFloat"
-        android:layout_toRightOf="@id/totalMoneyFloat"/>
 
     <!--<TextView
         android:id="@+id/totalMoneyPoint"
@@ -58,7 +55,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/totalMoneyFloat"
+        android:textStyle="bold"
+        android:textColor="@color/AccentColor"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:text="PRODUCTS"/>
+
+    // TABLE HEADER
+    <RelativeLayout
+        android:id="@+id/tableHeader"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_below="@id/products">
+
+        <TextView
+            android:id="@+id/quantityHeader"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="QUANTITY"/>
+
+        <TextView
+            android:id="@+id/productNameHeader"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="PRODUCT NAME"/>
+
+        <TextView
+            android:id="@+id/barcodeHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/quantityHeader"
+            android:layout_toLeftOf="@id/productNameHeader"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="BARCODE"/>
+
+    </RelativeLayout>
 
 
     // BUTTON LAYOUT
@@ -105,6 +145,8 @@
         android:id="@+id/barcodeScannerLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_above="@id/btnLayout"></fragment>
 
     // LIST PRODUCTS
@@ -113,7 +155,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/barcodeScannerLayout"
-        android:layout_below="@id/products"></ListView>
+        android:layout_below="@id/tableHeader"></ListView>
 
 
 

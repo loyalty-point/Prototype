@@ -2,6 +2,8 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,16 +61,15 @@ public class ListProductsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if(convertView == null) {
             view = mInflater.inflate(R.layout.products_list_row, parent, false);
 
             // Create holder
             holder = new ViewHolder();
-            holder.index = (TextView) view.findViewById(R.id.index);
             holder.quantity = (EditText) view.findViewById(R.id.quantity);
             holder.barcode = (EditText) view.findViewById(R.id.barcode);
             holder.productName = (TextView) view.findViewById(R.id.productName);
@@ -81,9 +82,52 @@ public class ListProductsAdapter extends BaseAdapter {
         }
 
         Product product = (Product) getItem(position);
-        holder.index.setText(String.valueOf(position+1));
         holder.quantity.setText(String.valueOf(product.getQuantity()));
+        holder.quantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int curQuantity;
+
+                if(!holder.quantity.getText().toString().equals("")) {
+                    curQuantity = Integer.valueOf(holder.quantity.getText().toString());
+                }else {
+                    curQuantity = 0;
+                }
+
+                Product curProduct = (Product) getItem(position);
+                curProduct.setQuantity(curQuantity);
+            }
+        });
+
         holder.barcode.setText(product.getBarcode());
+        holder.barcode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String curBarcode;
+
+                if(holder.barcode.getText() != null) {
+                    curBarcode = holder.barcode.getText().toString();
+                }else {
+                    curBarcode = "0";
+                }
+
+                Product curProduct = (Product) getItem(position);
+                curProduct.setBarcode(curBarcode);
+            }
+        });
+
         holder.productName.setText(product.getName());
 
         return view;
@@ -94,7 +138,6 @@ public class ListProductsAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView index;
         public EditText quantity;
         public EditText barcode;
         public TextView productName;
