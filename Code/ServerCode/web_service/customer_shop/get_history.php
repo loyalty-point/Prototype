@@ -36,7 +36,7 @@ $result = '{"error":"", "history":';
 while($row = mysqli_fetch_array($query_exec)){
         $result = $result . '{' 
                 . '"time":"' . $row['time'] . '",'
-                . '"billImage":"' . $row['billImage'] . '",'
+                . '"billImage":"' . $row['image'] . '",'
                 . '"id":"' . $row['id'] . '",'
                 . '"type":"' . $row['type'] . '",'
                 . '"username":"' . $row['username'] . '",'

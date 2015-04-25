@@ -42,6 +42,16 @@ if($username == ""){
     die();
 }
 
+$query = "select * from award where id='".$awardId."' and shopID = '" . $shopId . "'";
+$query_exec = mysqli_query($localhost, $query);
+$awardRow = mysqli_fetch_array($query_exec);
+$awardID = $awardRow['id'];
+
+if($awardID == "") {
+    echo '{"error":"this shop does not have this award"}';
+    die();
+}
+
 $query = "delete from customer_tickets where id='".$ticketId."'";
 $query_exec = mysqli_query($localhost, $query);
 if($query_exec){
@@ -54,7 +64,8 @@ if($query_exec){
                             .$row['phone_number']."','"
                             .$shopId."','"
                             .$point."','"
-                            .$time."','')";
+                            .$time."','"
+                            .$awardRow['awardImage']."')";
     $query_exec = mysqli_query($localhost, $query);
     $query = "insert into buy_award_history values ('"
                             .$id."','"

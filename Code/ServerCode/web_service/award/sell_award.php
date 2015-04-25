@@ -101,7 +101,8 @@ if($folllowRow){
                                 .$customer['phone_number']."','"
                                 .$shopID."','"
                                 .$point."','"
-                                .$clientTime."','')";
+                                .$clientTime."','"
+                                .$awardImage."')";
         $query_exec = mysqli_query($localhost, $query);
         $query = "insert into buy_award_history values ('"
                                 .$id."','"
