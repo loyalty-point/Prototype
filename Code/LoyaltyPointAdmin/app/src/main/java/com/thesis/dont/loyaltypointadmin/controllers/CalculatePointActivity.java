@@ -62,14 +62,16 @@ public class CalculatePointActivity extends ActionBarActivity {
         View mainContentView = totalMoneyCardView.findViewById(R.id.card_main_content_layout);
         mainContentView.setVisibility(View.GONE);
 
-        // setup fragment
+        /*// setup fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         mScannerFragment = new ScannerFragment();
         fragmentTransaction.replace(R.id.barcodeScannerLayout, mScannerFragment);
         fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
+
+        mScannerFragment = (ScannerFragment) getSupportFragmentManager().getFragments().get(0);
 
         // init List Products
         mListView = (ListView) findViewById(R.id.listProducts);
@@ -137,16 +139,15 @@ public class CalculatePointActivity extends ActionBarActivity {
     }
 
     public void handleScanResult(Result result, int quantity) {
-        Log.e("Scan Result", result.getContents());
         Product product = new Product(quantity, result.getContents(), "Product Name");
         mAdapter.add(product);
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
 
         mScannerFragment.onResume();
-    }
+    }*/
 }

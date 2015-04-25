@@ -74,7 +74,7 @@ if($newPoint>=0){
     $id = uniqid();
     $isTaken = 0;
     $bucketName = "loyalty-point-photos";
-    $path = "shops/" . $id;
+    $path = "shops/" . $shopID;
     $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
     $query = "insert into customer_tickets values ('"
                                 .$id."','"
@@ -83,7 +83,7 @@ if($newPoint>=0){
                                 .$userFullName."','"
                                 .$shopID."','"
                                 .$shopName."','"
-                                .$imageLink."','"
+                                .$shopImage."','"
                                 .$awardID."','"
                                 .$awardName."','"
                                 .$awardImage."','"

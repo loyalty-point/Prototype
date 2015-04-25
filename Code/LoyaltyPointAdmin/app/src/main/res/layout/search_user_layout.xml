@@ -11,9 +11,11 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/userImg"
+        android:layout_alignTop="@id/userImg"
+        android:textColor="@color/DarkPrimaryColor"
         android:textSize="25dp" />
 
     <TextView
@@ -22,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/userName"
         android:layout_toRightOf="@id/userImg"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textSize="@dimen/font_size" />
 
     <Button
@@ -31,5 +34,8 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/AccentColor"
+        android:textColor="@color/TextIcons"
         android:text="ADD" />
 </RelativeLayout>
