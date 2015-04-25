@@ -42,6 +42,8 @@ public class ShopEventsFragment extends Fragment {
     private int position;
     private String shopId;
 
+    public ShopEventsFragment() {}
+
     public ShopEventsFragment(int position, String shopId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -92,9 +94,6 @@ public class ShopEventsFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        // Load dữ liệu lên list
-        getListEvents();
     }
 
     public void getListEvents() {

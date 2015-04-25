@@ -23,6 +23,8 @@ public class CreateEvent2Fragment extends BaseEventCreateFragment {
         return inflater.inflate(R.layout.fragment_create_event2, container, false);
     }
 
+    public CreateEvent2Fragment() {}
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

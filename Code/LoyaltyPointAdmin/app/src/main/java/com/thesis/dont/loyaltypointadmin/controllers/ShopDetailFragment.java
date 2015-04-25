@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -33,6 +36,10 @@ public class ShopDetailFragment extends Fragment {
     private int position;
     private String shopId;
     View rootView;
+
+    Activity mParentActivity;
+
+    public ShopDetailFragment() {}
 
     public ShopDetailFragment(int position, String shopId) {
         Bundle b = new Bundle();
@@ -70,11 +77,14 @@ public class ShopDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final TextView shopName = (TextView)getActivity().findViewById(R.id.shopName);
+
+        mParentActivity = getActivity();
+
+        final TextView shopName = (TextView)mParentActivity.findViewById(R.id.shopName);
         ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         shopName.setText(shop.getName());
@@ -84,8 +94,13 @@ public class ShopDetailFragment extends Fragment {
             }
 
             @Override
-            public void onError(String error) {
-//                shopName.setText(error);
+            public void onError(final String error) {
+                mParentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         ShopModel.getShopInfo(Global.userToken, this.shopId);

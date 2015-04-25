@@ -15,6 +15,8 @@ public class DatePickerFragment extends DialogFragment {
 
     private String type;
 
+    public DatePickerFragment() {}
+
     public DatePickerFragment(String type) {
         this.type = type;
     }

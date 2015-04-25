@@ -94,6 +94,9 @@ public class AwardsListAdapter extends BaseAdapter{
         }
 
         final Award award = (Award) getItem(position);
+        if(award.getImage() == null || award.getImage().equals(""))
+            award.setImage(null);
+
         Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
         holder.awardName.setText(award.getName());
         holder.awardPoint.setText("Point: " + String.valueOf(award.getPoint()));
@@ -146,11 +149,18 @@ public class AwardsListAdapter extends BaseAdapter{
                                             public void run() {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
 
+                                                // Create content layout for dialog
                                                 LayoutInflater inflater = mParentActivity.getLayoutInflater();
+                                                View contentView = inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null);
+
+                                                TextView quantityTv = (TextView) contentView.findViewById(R.id.quantity);
+                                                quantityTv.setText(String.valueOf(quantity) + " x " + award.getName());
+
+                                                ImageView awardImageView = (ImageView) contentView.findViewById(R.id.awardImage);
+                                                Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageView);
 
                                                 builder.setTitle("Buy award successfully")
-                                                        .setMessage(quantity + " x " + award.getName())
-                                                        .setView(inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null))
+                                                        .setView(contentView)
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {

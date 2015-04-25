@@ -26,6 +26,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
@@ -42,6 +43,8 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     private boolean mAutoFocus;
     private ArrayList<Integer> mSelectedIndices;
     private CalculatePointActivity mParentActivity;
+
+    public ScannerFragment() {}
 
 
     @Override

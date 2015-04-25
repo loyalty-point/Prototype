@@ -64,6 +64,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     private int position;
 
+    public ShopUserFragment() {}
 
     public ShopUserFragment(int position, String shopId) {
         Bundle b = new Bundle();
@@ -95,7 +96,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             @Override
             public void onSuccess(ArrayList<Customer> listUsers) {
                 listUser = listUsers;
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateAdapter("");
@@ -105,10 +106,10 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "error: " + error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -146,13 +147,13 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
         cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
         //create adapter and add it to list
-        mAdapter = new CustomSimpleCursorAdapter(getActivity(),
+        mAdapter = new CustomSimpleCursorAdapter(mParentActivity,
                 R.layout.search_user_layout,
                 cursor,
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-        listView = (ListView) getActivity().findViewById(R.id.usersList);
+        listView = (ListView) mParentActivity.findViewById(R.id.usersList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

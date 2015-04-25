@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding">
 
     <TextView
+        android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Yeahhh"/>
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="@color/MaterialDarkRed"
+        android:textSize="@dimen/font_size"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/awardImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quantity"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

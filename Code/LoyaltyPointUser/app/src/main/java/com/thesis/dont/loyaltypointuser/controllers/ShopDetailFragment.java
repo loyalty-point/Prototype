@@ -33,8 +33,6 @@ public class ShopDetailFragment extends Fragment {
     private String shopId;
     View rootView;
 
-    ProgressDialog mDialog;
-
     Activity mParentActivity;
 
     public ShopDetailFragment() {}
@@ -69,7 +67,6 @@ public class ShopDetailFragment extends Fragment {
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
-
     }
 
     @Override
@@ -80,20 +77,12 @@ public class ShopDetailFragment extends Fragment {
 
         mParentActivity = getActivity();
 
-        // init dialog
-        mDialog = new ProgressDialog(mParentActivity);
-        mDialog.setTitle("Loading data");
-        mDialog.setMessage("Please wait...");
-        mDialog.setCancelable(false);
-
-        mDialog.show();
         ShopModel.getShopInfo(Global.userToken, this.shopId, new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mDialog.dismiss();
                         shopName.setText(shop.getName());
                         Picasso.with(getActivity()).load(shop.getImage()).placeholder(R.drawable.ic_award).into(shopImg);
                     }
@@ -105,7 +94,6 @@ public class ShopDetailFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mDialog.dismiss();
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });

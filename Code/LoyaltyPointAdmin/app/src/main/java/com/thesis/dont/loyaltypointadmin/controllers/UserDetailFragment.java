@@ -20,6 +20,8 @@ import com.thesis.dont.loyaltypointadmin.R;
  */
 public class UserDetailFragment extends Fragment {
 
+    public UserDetailFragment() {}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
