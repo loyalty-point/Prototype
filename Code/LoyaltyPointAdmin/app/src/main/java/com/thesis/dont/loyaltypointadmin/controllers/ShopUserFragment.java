@@ -266,7 +266,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             userPhone.setText(phone);
             if (image.equals(""))
                 image = null;
-            mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
+            mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
 
             Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
             addBtn.setOnClickListener(new View.OnClickListener() {

@@ -68,7 +68,8 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = (CalculatePointActivity)getActivity();
-        initDialog();
+        //mScannerView.setResultHandler(this);
+        //initDialog();
     }
 
     @Override
@@ -99,9 +100,9 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
 
         menuItem = menu.add(Menu.NONE, R.id.menu_formats, 0, R.string.formats);
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }*/
+    }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
@@ -134,8 +135,9 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this);
+        //mScannerView.stopCamera();
         mScannerView.startCamera();
+        mScannerView.setResultHandler(this);
         mScannerView.setFlash(mFlash);
         mScannerView.setAutoFocus(mAutoFocus);
     }
@@ -202,9 +204,12 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
                 mParentActivity.handleScanResult(rawResult, quantity);
                 dialog.dismiss();
 
+                mScannerView.stopCamera();
                 mScannerView.startCamera();
+                /*mScannerView.startCamera();
+                mScannerView.setResultHandler(ScannerFragment.this);
                 mScannerView.setFlash(mFlash);
-                mScannerView.setAutoFocus(mAutoFocus);
+                mScannerView.setAutoFocus(mAutoFocus);*/
             }
         });
         mDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -212,9 +217,10 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
 
-                mScannerView.startCamera();
+                /*mScannerView.startCamera();
+                mScannerView.setResultHandler(ScannerFragment.this);
                 mScannerView.setFlash(mFlash);
-                mScannerView.setAutoFocus(mAutoFocus);
+                mScannerView.setAutoFocus(mAutoFocus);*/
             }
         });
         mDialogBuilder.show();
@@ -223,7 +229,6 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     public void showMessageDialog(String message) {
         DialogFragment fragment = MessageDialogFragment.newInstance("Scan Results", message, this);
         fragment.show(getActivity().getSupportFragmentManager(), "scan_results");
-        Log.e("Scan Result", message);
     }
 
     public void closeMessageDialog() {
@@ -246,6 +251,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     public void onDialogPositiveClick(DialogFragment dialog) {
         // Resume the camera
         mScannerView.startCamera();
+        mScannerView.setResultHandler(this);
         mScannerView.setFlash(mFlash);
         mScannerView.setAutoFocus(mAutoFocus);
     }
