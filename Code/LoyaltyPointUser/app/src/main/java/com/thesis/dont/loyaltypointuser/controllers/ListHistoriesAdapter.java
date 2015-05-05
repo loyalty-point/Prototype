@@ -88,11 +88,12 @@ public class ListHistoriesAdapter extends BaseAdapter {
         holder.time.setText(history.getTime());
         Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_award).into(holder.billImage);
         holder.shopname.setText(shopName);
-        holder.totalPoint.setText(String.valueOf(history.getTotalPoint()));
         if(history.getType().equals("0")){ //buy award history
+            holder.totalPoint.setText("-" + String.valueOf(history.getTotalPoint()));
             holder.totalPoint.setTextColor(Color.argb(255,100,0,0));
             holder.detail.setText("You used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
         }else if(history.getType().equals("1")){//got point from event history
+            holder.totalPoint.setText("+" + String.valueOf(history.getTotalPoint()));
             holder.totalPoint.setTextColor(Color.argb(255,0,100,0));
             holder.detail.setText("You got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
         }
