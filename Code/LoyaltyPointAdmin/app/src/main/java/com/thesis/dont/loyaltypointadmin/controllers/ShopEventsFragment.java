@@ -150,9 +150,9 @@ public class ShopEventsFragment extends Fragment {
             eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
             eventPointTv.setText(eventPoint);
 
-            eventImgIv = (ImageView) view.findViewById(R.id.eventImage);
-            if (eventImg.equals(""))
-                eventImg = "null";
+            eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
+            if (eventImg == null || eventImg.equals(""))
+                eventImg = null;
             Picasso.with(mParentActivity).load(eventImg).placeholder(R.drawable.ic_about).into(eventImgIv);
         }
 

@@ -28,7 +28,8 @@ public class ListHistoriesAdapter extends BaseAdapter {
     private Activity mParentActivity;
     private String shopName, shopAddress;
 
-    public ListHistoriesAdapter(){}
+    public ListHistoriesAdapter() {
+    }
 
     public ListHistoriesAdapter(Context context, ArrayList<History> mHistories, String shopName, String shopAddress) {
         mInflater = LayoutInflater.from(context);
@@ -62,7 +63,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
         View view;
         ViewHolder holder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             view = mInflater.inflate(R.layout.histories_list_row, parent, false);
 
             // Create holder
@@ -76,37 +77,41 @@ public class ListHistoriesAdapter extends BaseAdapter {
 
             // save holder
             view.setTag(holder);
-        }else {
+        } else {
             view = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
 
         final History history = (History) getItem(position);
-        if(history.getBillImage() == null || history.getBillImage().equals(""))
+        if (history.getBillImage() == null || history.getBillImage().equals(""))
             history.setBillImage(null);
 
         holder.time.setText(history.getTime());
-        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_award).into(holder.billImage);
-        holder.shopname.setText(shopName);
-        if(history.getType().equals("0")){ //buy award history
+        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_bill_dark).into(holder.billImage);
+
+        if (history.getType().equals("0")) { //buy award history
+            holder.shopname.setTextColor(mParentActivity.getResources().getColor(R.color.MaterialRed));
+            holder.shopname.setText("Buy Award");
             holder.totalPoint.setText("-" + String.valueOf(history.getTotalPoint()));
-            holder.totalPoint.setTextColor(Color.argb(255,100,0,0));
-            holder.detail.setText("You used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
-        }else if(history.getType().equals("1")){//got point from event history
+            holder.totalPoint.setTextColor(mParentActivity.getResources().getColor(R.color.MaterialRed));
+            holder.detail.setText("You used " + String.valueOf(history.getTotalPoint()) + " points to buy award(s)");
+        } else if (history.getType().equals("1")) {//got point from event history
+            holder.shopname.setTextColor(mParentActivity.getResources().getColor(R.color.AccentColor));
+            holder.shopname.setText("Add Point");
             holder.totalPoint.setText("+" + String.valueOf(history.getTotalPoint()));
-            holder.totalPoint.setTextColor(Color.argb(255,0,100,0));
-            holder.detail.setText("You got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
+            holder.totalPoint.setTextColor(mParentActivity.getResources().getColor(R.color.AccentColor));
+            holder.detail.setText("You got " + String.valueOf(history.getTotalPoint()) + " points from buying some products");
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(history.getType().equals("1")){//got point from buying product
+                if (history.getType().equals("1")) {//got point from buying product
                     Intent i = new Intent(mParentActivity, UpdatePointDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
                     i.putExtra(Global.SHOP_NAME, shopName);
                     i.putExtra(Global.SHOP_ADDRESS, shopAddress);
                     mParentActivity.startActivity(i);
-                }else if(history.getType().equals("0")){ //buy award
+                } else if (history.getType().equals("0")) { //buy award
                     Intent i = new Intent(mParentActivity, BuyAwardDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
                     i.putExtra(Global.SHOP_NAME, shopName);

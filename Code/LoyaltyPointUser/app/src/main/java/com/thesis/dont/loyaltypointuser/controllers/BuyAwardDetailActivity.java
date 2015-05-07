@@ -1,10 +1,10 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 public class BuyAwardDetailActivity extends ActionBarActivity {
     TextView dateTv, shopNameTv, shopAddressTv, awardCodeTv, totalPointTv, awardNameTv, awardDetailTv, buyDetailTv;
     ImageView awardImageIv;
-    ButtonRectangle printBtn, deleteBtn;
+    ButtonRectangle backBtn, deleteBtn;
 
     History history;
     String shopName, shopAddress;
@@ -42,7 +42,13 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
         awardDetailTv = (TextView) findViewById(R.id.awardDetail);
         buyDetailTv = (TextView) findViewById(R.id.buyDetail);
         awardImageIv = (ImageView) findViewById(R.id.awardImage);
-        printBtn = (ButtonRectangle) findViewById(R.id.printBtn);
+        backBtn = (ButtonRectangle) findViewById(R.id.printBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuyAwardDetailActivity.this.finish();
+            }
+        });
         deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
@@ -50,9 +56,9 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
         shopNameTv.setText("Shop: " + shopName);
         shopAddressTv.setText("Address: " + shopAddress);
         awardCodeTv.setText("Ticket code: " + history.getId());
-        totalPointTv.setTextColor(Color.argb(255, 0, 100, 0));
+        totalPointTv.setTextColor(getResources().getColor(R.color.MaterialRed));
         totalPointTv.setPaintFlags(totalPointTv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        totalPointTv.setText("Total point: " + String.valueOf(history.getTotalPoint()));
+        totalPointTv.setText("Total points: " + String.valueOf(history.getTotalPoint()));
 
         getAwardHistory();
     }
@@ -66,12 +72,12 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
                     public void run() {
                         awardNameTv.setText(award.getName());
                         awardDetailTv.setText(award.getDescription());
-                        buyDetailTv.setText("You used " + history.getTotalPoint() + " to buy " + awardNumber + " " + award.getName());
-                        if (award.getImage().equals("")) {
-                            Picasso.with(BuyAwardDetailActivity.this).load("null").placeholder(R.drawable.ic_award).into(awardImageIv);
-                        } else {
-                            Picasso.with(BuyAwardDetailActivity.this).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageIv);
-                        }
+                        buyDetailTv.setText("You used " + history.getTotalPoint() + " points to buy " + awardNumber + " " + award.getName());
+
+                        if(award.getImage() == null || award.getImage().equals(""))
+                            award.setImage(null);
+
+                        Picasso.with(BuyAwardDetailActivity.this).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageIv);
                     }
                 });
             }
