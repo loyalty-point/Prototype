@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.AwardHistory;
@@ -177,8 +178,8 @@ public class UserTicketsFragment extends Fragment {
                 holder.awardImage = (ImageView) view.findViewById(R.id.awardImage);
                 holder.awardName = (TextView) view.findViewById(R.id.awardName);
                 holder.quantity = (TextView) view.findViewById(R.id.quantity);
-                holder.sell = (TextView) view.findViewById(R.id.sell);
-                holder.cancel = (TextView) view.findViewById(R.id.cancel);
+                holder.sell = (ButtonRectangle) view.findViewById(R.id.sell);
+                holder.cancel = (ButtonRectangle) view.findViewById(R.id.cancel);
                 // save holder
                 view.setTag(holder);
             } else {
@@ -196,7 +197,7 @@ public class UserTicketsFragment extends Fragment {
             holder.time.setText(ticket.getTime());
             Picasso.with(mParentActivity).load(ticket.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
             holder.awardName.setText(ticket.getAwardName());
-            holder.quantity.setText(String.valueOf(ticket.getQuantity()));
+            holder.quantity.setText("Number of award: " + String.valueOf(ticket.getQuantity()));
             //serve order case.
             holder.sell.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -384,8 +385,8 @@ public class UserTicketsFragment extends Fragment {
             public ImageView awardImage;
             public TextView awardName;
             public TextView quantity;
-            public TextView sell;
-            public TextView cancel;
+            public ButtonRectangle sell;
+            public ButtonRectangle cancel;
         }
     }
 }

@@ -155,6 +155,7 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
                 holder.quantity = (TextView) view.findViewById(R.id.quantity);
                 holder.name = (TextView) view.findViewById(R.id.eventName);
                 holder.point = (TextView) view.findViewById(R.id.point);
+                holder.pointPerEvent = (TextView) view.findViewById(R.id.pointPerEvent);
 
                 // save holder
                 view.setTag(holder);
@@ -166,11 +167,15 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             AchievedEvent event = (AchievedEvent) getItem(position);
             holder.quantity.setText(String.valueOf(event.getQuantity()));
             holder.name.setText(event.getEvent().getName());
+
             int point = 0;
             if(event.getEvent().getType() == 1){
                 point = event.getEvent().getPoint();
+                holder.quantity.setText(String.valueOf(point * event.getEvent().getRatio()));
+                holder.pointPerEvent.setText(String.valueOf(event.getEvent().getRatio()/1000));
             }else{
                 point = event.getEvent().getPoint() * event.getQuantity();
+                holder.pointPerEvent.setText(String.valueOf(event.getEvent().getPoint()));
             }
             holder.point.setText(String.valueOf(point));
 
@@ -185,6 +190,7 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             public TextView quantity;
             public TextView name;
             public TextView point;
+            public TextView pointPerEvent;
         }
     }
 

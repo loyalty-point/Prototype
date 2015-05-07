@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
@@ -211,7 +212,7 @@ public class UserAwardFragment extends Fragment {
                 holder.awardPoint = (TextView) view.findViewById(R.id.awardPoint);
                 holder.awardQuantity = (TextView) view.findViewById(R.id.awardQuantity);
                 holder.awardImage = (ImageView) view.findViewById(R.id.awardImage);
-                holder.awardSellBtn = (Button) view.findViewById(R.id.awardSellBtn);
+                holder.awardSellBtn = (ButtonRectangle) view.findViewById(R.id.awardSellBtn);
 
                 // save holder
                 view.setTag(holder);
@@ -358,7 +359,7 @@ public class UserAwardFragment extends Fragment {
             public TextView awardPoint;
             public TextView awardQuantity;
             public ImageView awardImage;
-            public Button awardSellBtn;
+            public ButtonRectangle awardSellBtn;
         }
     }
 }

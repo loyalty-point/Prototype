@@ -66,9 +66,7 @@ public class MyAwardsListAdapter extends BaseAdapter {
             holder.awardImage = (ImageView) view.findViewById(R.id.awardImage);
             holder.awardName = (TextView) view.findViewById(R.id.awardName);
             holder.quantity = (TextView) view.findViewById(R.id.quantity);
-            holder.shopImage = (ImageView) view.findViewById(R.id.shopImage);
             holder.shopName = (TextView) view.findViewById(R.id.shopName);
-            holder.available = (TextView) view.findViewById(R.id.available);
 
             // save holder
             view.setTag(holder);
@@ -87,17 +85,8 @@ public class MyAwardsListAdapter extends BaseAdapter {
         holder.time.setText(award.getTime());
         Picasso.with(mParentActivity).load(award.getAwardImage()).placeholder(R.drawable.ic_award).into(holder.awardImage);
         holder.awardName.setText(award.getAwardName());
-        holder.quantity.setText(String.valueOf(award.getQuantity()));
-        Picasso.with(mParentActivity).load(award.getShopImage()).placeholder(R.drawable.ic_store).into(holder.shopImage);
-        holder.shopName.setText(award.getShopName());
-
-        if(award.isTaken()) {
-            holder.available.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialDarkRed));
-            holder.available.setText("-");
-        }else {
-            holder.available.setBackgroundColor(mParentActivity.getResources().getColor(R.color.AccentColor));
-            holder.available.setText("+");
-        }
+        holder.quantity.setText("Number of award: " + String.valueOf(award.getQuantity()));;
+        holder.shopName.setText("Shop name: " + award.getShopName());
 
         return view;
     }
@@ -107,8 +96,6 @@ public class MyAwardsListAdapter extends BaseAdapter {
         public ImageView awardImage;
         public TextView awardName;
         public TextView quantity;
-        public ImageView shopImage;
         public TextView shopName;
-        public TextView available;
     }
 }

@@ -1,69 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="@dimen/_10sdp"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/_10sdp">
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/customborder">
 
-    <ImageView
-        android:id="@+id/awardImage"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_margin="@dimen/_10sdp"
-        android:layout_below="@id/time"/>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/available"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/awardImage"
-        android:layout_alignBottom="@id/awardImage"
-        android:gravity="center"
-        android:textColor="@color/TextIcons"
-        android:textSize="@dimen/_30sdp"
-        android:background="@color/AccentColor"/>
+        <ImageView
+            android:id="@+id/awardImage"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_below="@id/time"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_3sdp"/>
 
-    <ImageView
-        android:id="@+id/shopImage"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_alignTop="@id/awardImage"
-        android:layout_alignBottom="@id/awardImage"
-        android:layout_toLeftOf="@id/available"/>
+        <TextView
+            android:id="@+id/awardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/awardImage"
+            android:layout_toRightOf="@id/awardImage"
+            android:textColor="@color/MaterialDarkRed"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/shopName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/shopImage"
-        android:layout_alignBottom="@id/time"
-        android:textStyle="bold"
-        android:textColor="@color/DarkPrimaryColor"/>
+        <TextView
+            android:id="@+id/shopName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/awardName"
+            android:layout_toRightOf="@id/awardImage"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/awardName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/awardImage"
-        android:layout_toLeftOf="@id/shopImage"
-        android:textStyle="bold"
-        android:textColor="@color/MaterialDarkRed"
-        android:layout_alignTop="@id/awardImage"/>
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shopName"
+            android:layout_toRightOf="@id/awardImage" />
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/awardImage"
-        android:layout_toLeftOf="@id/shopImage"
-        android:layout_below="@id/awardName"/>
-
+    </RelativeLayout>
 </RelativeLayout>
