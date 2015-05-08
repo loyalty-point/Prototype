@@ -13,6 +13,7 @@
         app:siTextColor="@color/DarkPrimaryColor"
         app:siSelectedTextColor="@color/TextIcons"
         app:siIndicatorColor="@color/PrimaryColor"
+        android:layout_marginTop="@dimen/_10sdp"
         android:id="@+id/listShopsIndicator"
         android:layout_width="match_parent"
         android:layout_height="56dp"/>
@@ -27,8 +28,8 @@
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/createShopBtn"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         materialdesign:iconDrawable="@drawable/ic_action_new"
         android:background="@color/AccentColor"
         app:cb_color="#99CC00"
