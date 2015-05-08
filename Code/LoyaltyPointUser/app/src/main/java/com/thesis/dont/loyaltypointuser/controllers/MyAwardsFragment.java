@@ -102,24 +102,44 @@ public class MyAwardsFragment extends Fragment {
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Award;
 import com.thesis.dont.loyaltypointuser.models.AwardHistory;
+import com.thesis.dont.loyaltypointuser.models.AwardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -130,52 +150,16 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class MyAwardsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    ListView mListView;
-    MyAwardsListAdapter mAdapter;
+    private CardGridView mListView;
+    CardGridArrayAdapter mAdapter;
 
     Activity mParentActivity;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public MyAwardsFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public void onResume() {
@@ -198,37 +182,32 @@ public class MyAwardsFragment extends Fragment {
         mParentActivity = getActivity();
 
         // init list histories
-        mListView = (ListView) mParentActivity.findViewById(R.id.listAwards);
-        mAdapter = new MyAwardsListAdapter(mParentActivity, new ArrayList<AwardHistory>());
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }*/
 
     public void getListAwards() {
         UserModel.getMyAwards(Global.userToken, new UserModel.OnGetMyAwardsResult() {
             @Override
-            public void onSuccess(ArrayList<AwardHistory> awards) {
-                mAdapter.setListAwards(awards);
+            public void onSuccess(final ArrayList<AwardHistory> awards) {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mAdapter.clear();
+                        for (int i = 0; i < awards.size(); i++) {
+
+                            AwardCard card = new AwardCard(getActivity());
+
+                            //Only for test, use different titles and ratings
+                            card.awardName = awards.get(i).getAwardName();
+                            card.awardQuantity = "Quantity: " + String.valueOf(awards.get(i).getQuantity());
+                            card.awardShopName = String.valueOf(awards.get(i).getShopName());
+                            card.awardImg = awards.get(i).getAwardImage();
+                            card.award = awards.get(i);
+
+                            mAdapter.add(card);
+                        }
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -247,25 +226,43 @@ public class MyAwardsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+    public class AwardCard extends Card {
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
+        protected TextView awardNameTv, awardQuantityTv, awardShopNameTv;
+        protected ImageView awardImgIv;
+        protected AwardHistory award;
 
+        protected String awardName, awardQuantity, awardShopName, awardImg;
+
+        public AwardCard(Context context) {
+            super(context, R.layout.my_awards_list_row);
+        }
+
+        public AwardCard(Context context, int innerLayout) {
+            super(context, innerLayout);
+        }
+
+        @Override
+        public void setupInnerViewElements(ViewGroup parent, View view) {
+
+            //Populate the inner elements
+
+            awardNameTv = (TextView) view.findViewById(R.id.awardName);
+            awardNameTv.setText(awardName);
+
+            awardQuantityTv = (TextView) view.findViewById(R.id.awardQuantity);
+            awardQuantityTv.setText(awardQuantity);
+            awardQuantityTv.setTextColor(Color.rgb(0, 100, 0));
+
+            awardShopNameTv = (TextView) view.findViewById(R.id.awardShopName);
+            awardShopNameTv.setText(awardShopName);
+
+
+            awardImgIv = (ImageView) view.findViewById(R.id.awardImg);
+            if (awardImg.equals(""))
+                awardImg = "null";
+            Picasso.with(mParentActivity).load(awardImg).placeholder(R.drawable.ic_about).into(awardImgIv);
+
+        }
+    }
 }

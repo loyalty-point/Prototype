@@ -27,14 +27,15 @@
 
     <ImageView
         android:id="@+id/eventImg"
-        android:layout_width="@dimen/_116sdp"
-        android:layout_height="@dimen/_116sdp"
+        android:layout_width="@dimen/_113sdp"
+        android:layout_height="@dimen/_113sdp"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_7sdp"/>
 
     <TextView
         android:id="@+id/eventName"
-        android:textColor="@color/black"
+        android:singleLine="true"
+        android:textColor="@color/MaterialRed"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:textSize="@dimen/font_size"
@@ -54,9 +55,11 @@
         android:id="@+id/eventPoint"
         android:layout_width="wrap_content"
         android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventDate"
-        android:layout_marginBottom="@dimen/_15sdp"/>
+        android:layout_marginRight="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"/>
 
 
 </RelativeLayout>
