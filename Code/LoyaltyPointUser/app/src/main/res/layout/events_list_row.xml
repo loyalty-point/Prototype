@@ -39,6 +39,7 @@
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:textSize="@dimen/font_size"
+        android:layout_marginRight="@dimen/_5sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventImg" />
@@ -59,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/eventDate"
         android:layout_marginRight="@dimen/_5sdp"
+        android:textColor="@color/AccentColor"
         android:paddingBottom="@dimen/_5sdp"/>
 
 

@@ -33,7 +33,7 @@
         android:layout_below="@id/shopName"
         android:layout_alignBottom="@id/shopLogo"
         android:textColor="@color/PrimaryColor"
-        android:textStyle="bold"
+
         android:padding="@dimen/_3sdp"
         android:textSize="@dimen/_8sdp"/>
 

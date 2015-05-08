@@ -170,7 +170,6 @@ public class ShopEventsFragment extends Fragment {
 
             eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
             eventPointTv.setText(eventPoint);
-            eventPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
             if (eventImg.equals(""))

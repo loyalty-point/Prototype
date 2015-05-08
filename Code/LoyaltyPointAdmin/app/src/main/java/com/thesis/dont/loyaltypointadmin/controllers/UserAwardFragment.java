@@ -110,7 +110,8 @@ public class UserAwardFragment extends Fragment {
 
         // set listener for createAward button
         ButtonFloat createAwardBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createAwardBtn);
-        createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        createAwardBtn.setVisibility(View.INVISIBLE);
+        /*createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +119,7 @@ public class UserAwardFragment extends Fragment {
                 i.putExtra(SHOP_ID, ((ShopDetailActivity) mParentActivity).getCurrentShop().getId());
                 startActivity(i);
             }
-        });
+        });*/
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
@@ -203,7 +204,6 @@ public class UserAwardFragment extends Fragment {
 
             awardPointTv = (TextView) view.findViewById(R.id.awardPoint);
             awardPointTv.setText(awardPoint);
-            awardPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             awardImgIv = (ImageView) view.findViewById(R.id.awardImg);
             if (awardImg.equals(""))

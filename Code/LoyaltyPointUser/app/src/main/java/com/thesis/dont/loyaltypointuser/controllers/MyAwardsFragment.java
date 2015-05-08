@@ -252,7 +252,7 @@ public class MyAwardsFragment extends Fragment {
 
             awardQuantityTv = (TextView) view.findViewById(R.id.awardQuantity);
             awardQuantityTv.setText(awardQuantity);
-            awardQuantityTv.setTextColor(Color.rgb(0, 100, 0));
+
 
             awardShopNameTv = (TextView) view.findViewById(R.id.awardShopName);
             awardShopNameTv.setText(awardShopName);

@@ -36,7 +36,7 @@
     <TextView
         android:id="@+id/awardName"
         android:singleLine="true"
-        android:textColor="@color/DarkPrimaryColor"
+        android:textColor="@color/MaterialRed"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:textSize="@dimen/font_size"
@@ -56,6 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_alignParentRight="true"
+        android:textColor="@color/AccentColor"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_below="@id/awardShopName"
         android:layout_marginRight="@dimen/_5sdp"

@@ -72,19 +72,20 @@ public class ShopDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final TextView shopName = (TextView)getActivity().findViewById(R.id.shopNameTv);
-        final ImageView shopImg = (ImageView)getActivity().findViewById(R.id.shopImg);
 
         mParentActivity = getActivity();
+
+        final TextView shopName = (TextView)mParentActivity.findViewById(R.id.shopNameTv);
+        final ImageView shopImg = (ImageView)mParentActivity.findViewById(R.id.shopImg);
 
         ShopModel.getShopInfo(Global.userToken, this.shopId, new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         shopName.setText(shop.getName());
-                        Picasso.with(getActivity()).load(shop.getImage()).placeholder(R.drawable.ic_award).into(shopImg);
+                        Picasso.with(mParentActivity).load(shop.getImage()).placeholder(R.drawable.ic_award).into(shopImg);
                     }
                 });
             }

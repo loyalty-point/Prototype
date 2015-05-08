@@ -89,12 +89,12 @@ public class ListHistoriesAdapter extends BaseAdapter {
         holder.fullname.setText(history.getFullname());
         if(history.getType().equals("0")){ //buy award history
             holder.totalPoint.setText("-" + String.valueOf(history.getTotalPoint()));
-            holder.totalPoint.setTextColor(Color.argb(255,100,0,0));
-            holder.detail.setText(history.getUsername() + " used " + String.valueOf(history.getTotalPoint()) + " point to buy award(s)");
+            holder.totalPoint.setTextColor(mParentActivity.getResources().getColor(R.color.MaterialRed));
+            holder.detail.setText(history.getUsername() + " used " + String.valueOf(history.getTotalPoint()) + " points to buy award(s)");
         }else if(history.getType().equals("1")){//got point from event history
             holder.totalPoint.setText("+" + String.valueOf(history.getTotalPoint()));
-            holder.totalPoint.setTextColor(Color.argb(255,0,100,0));
-            holder.detail.setText(history.getUsername() + " got " + String.valueOf(history.getTotalPoint()) + " point from buying some products");
+            holder.totalPoint.setTextColor(mParentActivity.getResources().getColor(R.color.AccentColor));
+            holder.detail.setText(history.getUsername() + " got " + String.valueOf(history.getTotalPoint()) + " points from buying some products");
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
