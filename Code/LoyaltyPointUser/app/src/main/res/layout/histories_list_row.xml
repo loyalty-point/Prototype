@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_5sdp"
-        android:background="@drawable/customborder">
+        android:background="@drawable/customborder"
+        android:paddingBottom="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/time"
@@ -21,8 +22,8 @@
 
         <ImageView
             android:id="@+id/billImage"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="@dimen/_55sdp"
             android:layout_centerVertical="true"
             android:layout_below="@id/time"
             android:layout_margin="@dimen/_5sdp" />
@@ -44,16 +45,22 @@
                 android:id="@+id/detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:textStyle="italic"
+                android:textColor="@color/MaterialGrey"
                 android:layout_below="@id/shopname" />
 
             <TextView
                 android:id="@+id/totalPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_below="@id/detail"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:gravity="right"
+                android:textStyle="bold"
                 android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:textColor="@color/TextIcons"
                 android:textSize="@dimen/_15sdp" />
         </RelativeLayout>

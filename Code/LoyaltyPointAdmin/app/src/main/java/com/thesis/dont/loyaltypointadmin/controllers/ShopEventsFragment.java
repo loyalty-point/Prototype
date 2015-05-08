@@ -124,8 +124,8 @@ public class ShopEventsFragment extends Fragment {
             eventPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
-            if (eventImg.equals(""))
-                eventImg = "null";
+            if (eventImg == null || eventImg.equals(""))
+                eventImg = null;
             Picasso.with(mParentActivity).load(eventImg).placeholder(R.drawable.ic_about).into(eventImgIv);
         }
 

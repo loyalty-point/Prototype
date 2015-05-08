@@ -20,7 +20,6 @@ import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.AchievedEvent;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.History;
-import com.thesis.dont.loyaltypointuser.models.ShopModel;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
     TextView dateTv, shopNameTv, shopAddressTv, billCodeTv, totalPointTv;
     ImageView billImageIv;
     ListView detailLv;
-    ButtonRectangle printBtn, deleteBtn;
+    ButtonRectangle backBtn, deleteBtn;
     History history;
     String shopName, shopAddress;
 
@@ -50,7 +49,13 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         billCodeTv = (TextView) findViewById(R.id.billCode);
         billImageIv = (ImageView) findViewById(R.id.billImage);
         detailLv = (ListView) findViewById(R.id.listEvent);
-        printBtn = (ButtonRectangle) findViewById(R.id.printBtn);
+        backBtn = (ButtonRectangle) findViewById(R.id.printBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdatePointDetailActivity.this.finish();
+            }
+        });
         deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
@@ -59,11 +64,12 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         shopAddressTv.setText(shopAddress);
         billCodeTv.setText("billcode: " + history.getId());
         totalPointTv.setText("total point: " + String.valueOf(history.getTotalPoint()));
-        if(history.getBillImage() == null)
-            Picasso.with(this).load("null").placeholder(R.drawable.card_img2).into(billImageIv);
-        else{
-            Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
-        }
+
+        if(history.getBillImage() == null || history.getBillImage().equals(""))
+            history.setBillImage(null);
+
+        Picasso.with(this).load(history.getBillImage()).placeholder(R.drawable.card_img2).into(billImageIv);
+
 
         mAdapter = new AchievedEventsAdapter(this, new ArrayList<AchievedEvent>());
         detailLv.setAdapter(mAdapter);

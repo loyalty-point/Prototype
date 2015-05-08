@@ -225,7 +225,7 @@ public class UserTicketsFragment extends Fragment {
                             UserModel.checkIdentityNumberUser(Global.userToken, ticket.getUsername(), IdentityNumberEditText.getText().toString(), new UserModel.OnCheckIdentityNumberResult() {
                                 @Override
                                 public void onSuccess() {
-                                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                                     Date date = new Date();
                                     String time = dateFormat.format(date);
                                     //delete award ticket when identity number checking was ok.

@@ -258,7 +258,7 @@ public class UserAwardFragment extends Fragment {
                                             @Override
                                             public void onSuccess() {
                                                 // Lấy thời gian hiện tại
-                                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                                                 Date date = new Date();
                                                 String time = dateFormat.format(date); //2014/08/06 15:59:48
                                                 AwardModel.sellAward(Global.userToken, userID, time, shopID, award.getID(), quantity, new AwardModel.OnSellAwardResult() {
