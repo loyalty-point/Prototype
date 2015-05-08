@@ -5,8 +5,7 @@
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopAwardsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,20 +14,24 @@
         android:layout_height="match_parent"
         android:columnWidth="@dimen/_75sdp"
         android:numColumns="auto_fit"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
+        android:verticalSpacing="@dimen/_2sdp"
         android:stretchMode="columnWidth"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingTop="@dimen/_7sdp"
         android:gravity="center"
         android:id="@+id/listAwards"/>
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/createAwardBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         materialdesign:iconDrawable="@drawable/ic_action_new"
         android:background="@color/AccentColor"
         app:cb_color="#99CC00"
         materialdesign:animate="false"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 

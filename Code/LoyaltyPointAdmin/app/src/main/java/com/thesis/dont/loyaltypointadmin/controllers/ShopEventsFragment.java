@@ -76,6 +76,7 @@ public class ShopEventsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         createEventBtn = (ButtonFloat) getActivity().findViewById(R.id.createEventBtn);
+        createEventBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +122,7 @@ public class ShopEventsFragment extends Fragment {
 
             eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
             eventPointTv.setText(eventPoint);
-            eventPointTv.setTextColor(Color.rgb(0, 100, 0));
+            //eventPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
             if (eventImg == null || eventImg.equals(""))

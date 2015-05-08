@@ -134,7 +134,7 @@ public class ShopAwardsFragment extends Fragment {
 
             awardPointTv = (TextView) view.findViewById(R.id.awardPoint);
             awardPointTv.setText(awardPoint);
-            awardPointTv.setTextColor(Color.rgb(0,100,0));
+
 
             awardImgIv = (ImageView) view.findViewById(R.id.awardImg);
             if (awardImg.equals(""))
