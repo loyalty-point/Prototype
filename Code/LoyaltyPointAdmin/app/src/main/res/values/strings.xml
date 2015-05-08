@@ -29,6 +29,29 @@
         <item>Type 2</item>
     </string-array>
 
+    // History: time filter spinner
+    <string-array name="timeFilterArray">
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
+        <item>All</item>
+    </string-array>
+
+
+    // History: type filter spinner
+    <string-array name="typeFilterArray">
+        <item>Buy Award</item>
+        <item>Add Point</item>
+        <item>All</item>
+    </string-array>
+
+    // History: sort type spinner
+    <string-array name="sortTypeArray">
+        <item>Time</item>
+        <item>Name</item>
+    </string-array>
+
     <array name="nav_drawer_icons">
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
