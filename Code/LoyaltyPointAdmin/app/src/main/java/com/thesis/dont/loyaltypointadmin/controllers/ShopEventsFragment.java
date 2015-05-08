@@ -3,40 +3,31 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.models.Award;
-import com.thesis.dont.loyaltypointadmin.models.AwardModel;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
-import com.thesis.dont.loyaltypointadmin.models.Global;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
-import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import it.gmariotti.cardslib.library.view.CardGridView;
 
 
@@ -98,42 +89,23 @@ public class ShopEventsFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
         mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
-        getListEvents();
 
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Event event = (Event) mAdapter.getItem(position);
-//                Intent i = new Intent(getActivity(), EditEventActivity.class);
-//                i.putExtra(EVENT_OBJECT, event);
-//                i.putExtra(SHOP_ID, shopId);
-//                startActivity(i);
-//            }
-//        });
     }
 
-    /**
-     * A card as Google Play
-     */
-    public class GplayGridCard extends Card {
+    public class EventCard extends Card {
 
         protected TextView eventNameTv, eventDateTv, eventPointTv;
         protected ImageView eventImgIv;
-        protected Button buyBtn;
-        protected int resourceIdThumbnail = -1;
+        protected Event event;
 
         protected String eventName, eventDate, eventPoint, eventImg;
 
-        public GplayGridCard(Context context) {
-            super(context, R.layout.card_list_grid_inner_content);
+        public EventCard(Context context) {
+            super(context, R.layout.event_list_row);
         }
 
-        public GplayGridCard(Context context, int innerLayout) {
+        public EventCard(Context context, int innerLayout) {
             super(context, innerLayout);
-        }
-
-        private void init() {
-
         }
 
         @Override
@@ -149,6 +121,7 @@ public class ShopEventsFragment extends Fragment {
 
             eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
             eventPointTv.setText(eventPoint);
+            eventPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
             if (eventImg == null || eventImg.equals(""))
@@ -156,26 +129,9 @@ public class ShopEventsFragment extends Fragment {
             Picasso.with(mParentActivity).load(eventImg).placeholder(R.drawable.ic_about).into(eventImgIv);
         }
 
-        /**
-         * CardThumbnail
-         */
-        class GplayGridThumb extends CardThumbnail {
-
-            public GplayGridThumb(Context context) {
-                super(context);
-            }
-
-            @Override
-            public void setupInnerViewElements(ViewGroup parent, View viewImage) {
-                /*
-                viewImage.getLayoutParams().width = 196;
-                viewImage.getLayoutParams().height = 196;
-                */
-
-            }
-        }
-
     }
+
+
 
     public void getListEvents() {
         EventModel.getListEvents(shopId, new EventModel.OnGetListResult() {
@@ -185,15 +141,26 @@ public class ShopEventsFragment extends Fragment {
                 ShopEventsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mAdapter.clear();
                         for (int i = 0; i < listEvents.size(); i++) {
 
-                            GplayGridCard card = new GplayGridCard(getActivity());
+                            EventCard card = new EventCard(getActivity());
 
                             //Only for test, use different titles and ratings
                             card.eventName = listEvents.get(i).getName();
                             card.eventDate = listEvents.get(i).getTime_start() + " - " + listEvents.get(i).getTime_end();
-                            card.eventPoint = "Points: " + String.valueOf(listEvents.get(i).getPoint());
+                            card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
+                            card.event = listEvents.get(i);
+                            card.setOnClickListener(new Card.OnCardClickListener() {
+                                @Override
+                                public void onClick(Card card, View view) {
+                                    Intent i = new Intent(getActivity(), EditEventActivity.class);
+                                    i.putExtra(EVENT_OBJECT, ((EventCard)card).event);
+                                    i.putExtra(SHOP_ID, shopId);
+                                    startActivity(i);
+                                }
+                            });
 
                             mAdapter.add(card);
                         }
@@ -218,5 +185,6 @@ public class ShopEventsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getListEvents();
     }
 }

@@ -4,60 +4,67 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/_10sdp">
 
-    <ImageView
-        android:id="@+id/awardImage"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_margin="@dimen/_5sdp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/customborder">
 
-    <com.gc.materialdesign.views.ButtonRectangle
-        android:id="@+id/sell"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@color/AccentColor"
+        <ImageView
+            android:id="@+id/awardImage"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_margin="@dimen/_5sdp" />
 
-        android:text="sell"
-        android:textColor="@color/TextIcons"
-        android:textSize="@dimen/_30sdp" />
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/sell"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/AccentColor"
 
-    <com.gc.materialdesign.views.ButtonRectangle
-        android:id="@+id/cancel"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/sell"
-        android:background="#FF0000"
-        android:text="cancel"
-        android:textColor="@color/TextIcons"
-        android:textSize="@dimen/_30sdp" />
+            android:text="sell"
+            android:textColor="@color/TextIcons"
+            android:textSize="@dimen/_30sdp" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/sell"
+            android:background="#FF0000"
+            android:text="cancel"
+            android:textColor="@color/TextIcons"
+            android:textSize="@dimen/_30sdp" />
 
 
-    <TextView
-        android:id="@+id/awardName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/sell"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/_15sdp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/awardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/sell"
+            android:layout_toRightOf="@id/awardImage"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardName"
-        android:layout_toLeftOf="@id/sell"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/font_size" />
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/awardName"
+            android:layout_toLeftOf="@id/sell"
+            android:layout_toRightOf="@id/awardImage"
+            android:textSize="@dimen/font_size" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/quantity"
-        android:layout_toLeftOf="@id/sell"
-        android:layout_toRightOf="@id/awardImage"
-        android:textSize="@dimen/font_size" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/quantity"
+            android:layout_toLeftOf="@id/sell"
+            android:layout_toRightOf="@id/awardImage"
+            android:textSize="@dimen/font_size" />
 
+    </RelativeLayout>
 </RelativeLayout>

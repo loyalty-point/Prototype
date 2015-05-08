@@ -1,7 +1,9 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
@@ -10,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Award;
 import com.thesis.dont.loyaltypointuser.models.AwardModel;
@@ -26,6 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 
 
 public class ShopEventsFragment extends Fragment {
@@ -37,8 +44,8 @@ public class ShopEventsFragment extends Fragment {
     //    @InjectView(R.id.textView)
     ButtonFloat createEventBtn;
 
-    ListView mListView;
-    EventsListAdapter mAdapter;
+    private CardGridView mListView;
+    CardGridArrayAdapter mAdapter;
 
     private int position;
     private String shopId;
@@ -77,33 +84,45 @@ public class ShopEventsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
-        mAdapter = new EventsListAdapter(getActivity(), new ArrayList<Event>());
-        mListView = (ListView) getActivity().findViewById(R.id.listEvents);
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Click iteam to open new activity to show data of event for user.
-                Event event = (Event) mAdapter.getItem(position);
-                Intent i = new Intent(getActivity(), EventDetailActivity.class);
-                i.putExtra(EVENT_OBJECT, event);
-                i.putExtra(SHOP_ID, shopId);
-                startActivity(i);
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //Click iteam to open new activity to show data of event for user.
+//                Event event = (Event) mAdapter.getItem(position);
+//                Intent i = new Intent(getActivity(), EventDetailActivity.class);
+//                i.putExtra(EVENT_OBJECT, event);
+//                i.putExtra(SHOP_ID, shopId);
+//                startActivity(i);
+//            }
+//        });
     }
 
     public void getListEvents() {
         EventModel.getListEvents(Global.userToken, shopId, new EventModel.OnGetListResult() {
 
             @Override
-            public void onSuccess(ArrayList<Event> listEvents) {
-                mAdapter.setListEvents(listEvents);
+            public void onSuccess(final ArrayList<Event> listEvents) {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mAdapter.clear();
+                        for (int i = 0; i < listEvents.size(); i++) {
+
+                            EventCard card = new EventCard(getActivity());
+
+                            //Only for test, use different titles and ratings
+                            card.eventName = listEvents.get(i).getName();
+                            card.eventDate = listEvents.get(i).getTime_start() + " - " + listEvents.get(i).getTime_end();
+                            card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
+                            card.eventImg = listEvents.get(i).getImage();
+                            card.event = listEvents.get(i);
+
+                            mAdapter.add(card);
+                        }
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -120,6 +139,45 @@ public class ShopEventsFragment extends Fragment {
                 });
             }
         });
+    }
+
+    public class EventCard extends Card {
+
+        protected TextView eventNameTv, eventDateTv, eventPointTv;
+        protected ImageView eventImgIv;
+        protected Event event;
+
+        protected String eventName, eventDate, eventPoint, eventImg;
+
+        public EventCard(Context context) {
+            super(context, R.layout.events_list_row);
+        }
+
+        public EventCard(Context context, int innerLayout) {
+            super(context, innerLayout);
+        }
+
+        @Override
+        public void setupInnerViewElements(ViewGroup parent, View view) {
+
+            //Populate the inner elements
+
+            eventNameTv = (TextView) view.findViewById(R.id.eventName);
+            eventNameTv.setText(eventName);
+
+            eventDateTv = (TextView) view.findViewById(R.id.eventDate);
+            eventDateTv.setText(eventDate);
+
+            eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
+            eventPointTv.setText(eventPoint);
+            eventPointTv.setTextColor(Color.rgb(0, 100, 0));
+
+            eventImgIv = (ImageView) view.findViewById(R.id.eventImg);
+            if (eventImg.equals(""))
+                eventImg = "null";
+            Picasso.with(mParentActivity).load(eventImg).placeholder(R.drawable.ic_about).into(eventImgIv);
+        }
+
     }
 
     @Override
