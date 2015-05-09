@@ -8,31 +8,6 @@
     android:background="@color/MaterialBackground"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CalculatePointActivity">
 
-    <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:id="@+id/totalMoneyFloat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_70sdp"
-        float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
-        float:fletPadding="@dimen/activity_flet_padding">
-
-        <EditText
-            android:id="@+id/totalMoney"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/total"
-            android:numeric="integer"
-            android:textStyle="normal"
-            android:textColor="@color/TextIcons"
-            android:backgroundTint="@color/TextIcons"
-            android:textColorHint="@color/TextIcons"
-            android:drawableLeft="@drawable/money_ic"
-            android:drawablePadding="@dimen/_10sdp"
-            android:textSize="@dimen/font_size"/>
-        />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
-
     <it.gmariotti.cardslib.library.view.CardViewNative
         android:id="@+id/totalMoneyFloat"
         android:layout_width="match_parent"
@@ -71,7 +46,7 @@
 
         <TextView
             android:id="@+id/quantityHeader"
-            android:layout_width="@dimen/_30sdp"
+            android:layout_width="@dimen/_35sdp"
             android:layout_height="wrap_content"
             android:textColor="@color/DarkPrimaryColor"
             android:textStyle="bold"

@@ -5,21 +5,14 @@
     android:paddingTop="@dimen/_5sdp"
     android:background="@color/TextIcons">
 
-    <!--<TextView
-        android:id="@+id/index"
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/quantity"
-        android:text="1"/>-->
-
     <EditText
         android:id="@+id/quantity"
-        android:layout_width="@dimen/_40sdp"
+        android:layout_width="@dimen/_20sdp"
         android:layout_height="wrap_content"
         android:textColor="@color/MaterialDarkRed"
         android:numeric="integer"
         android:textStyle="bold"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
         android:text="1"/>
 
     <TextView
@@ -37,11 +30,10 @@
         android:id="@+id/barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
         android:numeric="integer"
         android:layout_toRightOf="@id/quantity"
         android:layout_toLeftOf="@id/productName"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_28sdp"
         android:text="0000000000"/>
 
 

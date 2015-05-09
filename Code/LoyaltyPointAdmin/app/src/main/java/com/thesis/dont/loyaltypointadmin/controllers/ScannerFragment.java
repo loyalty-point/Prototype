@@ -217,6 +217,9 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
 
+                mScannerView.stopCamera();
+                mScannerView.startCamera();
+
                 /*mScannerView.startCamera();
                 mScannerView.setResultHandler(ScannerFragment.this);
                 mScannerView.setFlash(mFlash);
