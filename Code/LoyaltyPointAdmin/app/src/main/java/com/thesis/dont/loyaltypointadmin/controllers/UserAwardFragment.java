@@ -126,7 +126,6 @@ public class UserAwardFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
         mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
-//        getListAwards();
 
     }
 

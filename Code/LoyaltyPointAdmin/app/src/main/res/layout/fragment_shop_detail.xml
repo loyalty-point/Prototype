@@ -6,62 +6,247 @@
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopDetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_120sdp">
+        android:layout_height="wrap_content">
 
-        <!--<fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.MapFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-        </fragment>-->
+            <!--<fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/shopImg"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="#000" />
+            </fragment>-->
 
-        <TextView
-            android:id="@+id/shopName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/shopImg"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:layout_toRightOf="@id/shopImg"
-            android:textColor="#000"
-            android:textSize="@dimen/font_size"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/shopBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_img2"
+                android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/shopName"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/shopImg"
-            android:text="*****"
-            android:textColor="#000"
-            android:textSize="@dimen/font_size" />
+            <RelativeLayout
+                android:id="@+id/detailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shopBackground"
+                android:background="@color/white">
 
-        <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/callButton"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_below="@id/rating"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin_button"
-            android:layout_toRightOf="@id/shopImg"
-            android:background="@color/MaterialBlue"
-            android:text="CALL"
-            android:textSize="@dimen/font_size"
-            materialdesign:rippleSpeed="70" />
+                <ImageView
+                    android:id="@+id/shopImg"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:background="#000" />
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/shopName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/shopImg"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toRightOf="@id/shopImg"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/shopAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shopName"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toRightOf="@id/shopImg"
+                    android:textSize="@dimen/font_size" />
+
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shopAddress"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_toRightOf="@id/shopImg" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/shopImg"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/secondary_text_disabled_material_light" />
+
+                <LinearLayout
+                    android:id="@+id/infoShop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line1"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/userNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/eventNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/awardNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/infoDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/infoShop"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Users"
+                        android:textSize="@dimen/font_size" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Events"
+                        android:textSize="@dimen/font_size" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Awards"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_below="@id/infoDescription"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/secondary_text_disabled_material_light" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/newUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detailLayout"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Newest Customer"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <it.gmariotti.cardslib.library.view.CardGridView
+                android:id="@+id/listNewUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/newUser"
+                android:columnWidth="@dimen/_75sdp"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@+id/newEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listNewUsers"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Newest Event"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <it.gmariotti.cardslib.library.view.CardGridView
+                android:id="@+id/listNewEvents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/newEvent"
+                android:columnWidth="@dimen/_75sdp"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@+id/newAward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listNewEvents"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Newest Award"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <it.gmariotti.cardslib.library.view.CardGridView
+                android:id="@+id/listNewAwards"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/newAward"
+                android:columnWidth="@dimen/_75sdp"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/_2sdp" />
+
+        </RelativeLayout>
+    </ScrollView>
 </FrameLayout>

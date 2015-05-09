@@ -40,7 +40,7 @@ else  {
 
     // mọi thông tin cung cấp đều đúng
     // lấy danh sách awards rồi trả về cho người dùng
-    $query = "select * from event where shop_id = '" . $shopID . "'";
+    $query = "select * from event where shop_id = '" . $shopID . "' ORDER BY id DESC";
     
     $query_exec = mysqli_query($localhost, $query);
 

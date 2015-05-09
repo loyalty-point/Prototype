@@ -45,6 +45,8 @@ public class ShopModel {
     public static native String getUpdatePoint();
     public static native String getGetListRegisters();
     public static native String getAcceptRegisterRequest();
+    public static native String getGetNumUserEventAward();
+    public static native String getGetNewestUserEventAward();
 
     public static void createShop(Shop shop, String token){
         final String token_string = token;
@@ -508,6 +510,111 @@ public class ShopModel {
         t.start();
     }
 
+    public static void getNumUserEventAward(final String token, final String shopId, final OnGetNumUserAwardEventResult mOnGetNumUserAwardEventResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetNumUserEventAward();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetNumUserAwardEventResult result = (GetNumUserAwardEventResult) Helper.jsonToObject(response, GetNumUserAwardEventResult.class);
+
+                    if(result.error.equals(""))
+                        mOnGetNumUserAwardEventResult.onSuccess(result);
+                    else
+                        mOnGetNumUserAwardEventResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetNumUserAwardEventResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetNumUserAwardEventResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetNumUserAwardEventResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void getNewestUserEventAward(final String token, final String shopId, final OnGetNewestUserAwardEventResult mOnGetNumUserAwardEventResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetNewestUserEventAward();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetNewestUserAwardEventResult result = (GetNewestUserAwardEventResult) Helper.jsonToObject(response, GetNewestUserAwardEventResult.class);
+
+                    if(result.error.equals("")) {
+                        ArrayList<Customer> listCustomers = new ArrayList<Customer>();
+                        for (int i = 0; i < result.user_list.length - 1; i++) {
+                            listCustomers.add(result.user_list[i]);
+                        }
+                        ArrayList<Event> listEvents = new ArrayList<Event>();
+                        for (int i = 0; i < result.event_list.length - 1; i++) {
+                            listEvents.add(result.event_list[i]);
+                        }
+                        ArrayList<Award> listAwards = new ArrayList<Award>();
+                        for (int i = 0; i < result.award_list.length - 1; i++) {
+                            listAwards.add(result.award_list[i]);
+                        }
+                        mOnGetNumUserAwardEventResult.onSuccess(listCustomers, listEvents, listAwards);
+                    }
+                    else
+                        mOnGetNumUserAwardEventResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetNumUserAwardEventResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetNumUserAwardEventResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetNumUserAwardEventResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public static void updatePoint(final String token, final ArrayList<AchievedEvent> achivedEventList, final String shopId, final String username,
                                    final String fullname, final String phone,
                                    final int point, final String billCode, final String time,
@@ -562,6 +669,30 @@ public class ShopModel {
             }
         };
         t.start();
+    }
+
+    public interface OnGetNewestUserAwardEventResult{
+        public void onSuccess(ArrayList<Customer> listUsers, ArrayList<Event> listEvents, ArrayList<Award> listAwards);
+        public void onError(String error);
+    }
+
+    public class GetNewestUserAwardEventResult{
+        public String error;
+        public Customer[] user_list;
+        public Award[] award_list;
+        public Event[] event_list;
+    }
+
+    public interface OnGetNumUserAwardEventResult{
+        public void onSuccess(GetNumUserAwardEventResult result);
+        public void onError(String error);
+    }
+
+    public class GetNumUserAwardEventResult{
+        public String error;
+        public String user;
+        public String award;
+        public String event;
     }
 
     public interface OnCreateShopResult{
