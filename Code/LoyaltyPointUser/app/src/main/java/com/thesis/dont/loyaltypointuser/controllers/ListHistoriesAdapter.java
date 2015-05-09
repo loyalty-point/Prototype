@@ -43,6 +43,10 @@ public class ListHistoriesAdapter extends BaseAdapter {
         mHistories = listHistories;
     }
 
+    public ArrayList<History> getListHistories() {
+        return mHistories;
+    }
+
     @Override
     public int getCount() {
         return mHistories.size();

@@ -10,6 +10,7 @@
         <item name="android:textColorSecondary">@color/SecondaryText</item>
         <item name="android:divider">@color/DividerColor</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
     </style>
 
 

@@ -148,4 +148,7 @@ dependencies {
 
     // ZShadow
     compile 'com.github.ShogoMizumoto:ZDepthShadowLayout:1.0.4'
+
+    // image button
+    compile 'com.github.medyo:fancybuttons:1.2@aar'
 }
