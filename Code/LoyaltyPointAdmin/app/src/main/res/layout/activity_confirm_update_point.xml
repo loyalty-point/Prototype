@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding"
-    android:background="@color/DarkPrimaryColor"
+    android:background="@color/MaterialBackground"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.ConfirmUpdatePointActivity">
 
     // USER INFO
@@ -19,6 +19,9 @@
         android:id="@+id/fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/DarkPrimaryColor"
         android:layout_toRightOf="@id/userAvatarImgView"/>
 
     <TextView
@@ -26,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/userAvatarImgView"
+        android:layout_alignLeft="@id/fullname"
         android:layout_alignBottom="@id/userAvatarImgView"/>
 
     // TOTALS POINT FROM MONEY
@@ -34,6 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/userAvatarImgView"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/font_size"
         android:text="0"/>
 
     <TextView
@@ -41,7 +47,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="VND"
-        android:textColor="@color/TextIcons"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textColor="@color/DarkPrimaryColor"
         android:layout_alignBottom="@id/totalMoney"
         android:layout_toRightOf="@id/totalMoney"/>
 
@@ -51,6 +60,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/totalMoney"
+        android:textColor="@color/TextIcons"
+        android:background="@color/AccentColor"
+        android:paddingRight="@dimen/_5sdp"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size"
         android:gravity="right"
         android:text="0"/>
 
@@ -60,7 +74,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/totalMoney"
+        android:textStyle="bold"
+        android:textColor="@color/AccentColor"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:text="EVENTS"/>
+
+    // TABLE HEADER
+    <RelativeLayout
+        android:id="@+id/tableHeader"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_below="@id/events">
+
+        <TextView
+            android:id="@+id/quantityHeader"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="QUANTITY"/>
+
+        <TextView
+            android:id="@+id/pointHeader"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:gravity="right"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="POINTS"/>
+
+        <TextView
+            android:id="@+id/eventNameHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/quantityHeader"
+            android:layout_toLeftOf="@id/pointHeader"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="EVENT NAME"/>
+
+    </RelativeLayout>
 
     // BUTTON LAYOUT
     <LinearLayout
@@ -98,6 +156,7 @@
         android:id="@+id/captureBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
         materialdesign:iconDrawable="@drawable/camera_ic"
         android:background="@color/AccentColor"
         app:cb_color="#99CC00"
@@ -109,9 +168,10 @@
     // BILL
     <ImageView
         android:id="@+id/billImage"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
+        android:layout_width="@dimen/_75sdp"
+        android:layout_height="@dimen/_75sdp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_above="@id/captureBtn"
         android:background="@color/MaterialGrey"/>
 
@@ -119,6 +179,7 @@
         android:id="@+id/billCodeFloat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/billImage"
         float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
@@ -131,10 +192,7 @@
             android:singleLine="true"
             android:hint="Bill Code"
             android:textStyle="normal"
-            android:textColor="@color/TextIcons"
-            android:backgroundTint="@color/TextIcons"
-            android:textColorHint="@color/TextIcons"
-            android:drawableLeft="@drawable/bill_ic"
+            android:drawableLeft="@drawable/ic_bill_dark"
             android:drawablePadding="@dimen/_10sdp"
             android:textSize="@dimen/font_size"/>
         />
@@ -147,6 +205,11 @@
         android:id="@+id/totalPoints"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/TextIcons"
+        android:background="@color/AccentColor"
+        android:paddingRight="@dimen/_5sdp"
+        android:textSize="@dimen/_12sdp"
         android:layout_alignParentRight="true"
         android:layout_above="@id/billCodeFloat"
         android:gravity="right"
@@ -157,7 +220,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TOTAL POINTS:"
-        android:textColor="@color/TextIcons"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/MaterialRed"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:textStyle="bold"
         android:layout_alignBottom="@id/totalPoints"
         android:layout_toLeftOf="@id/totalPoints"/>
 
@@ -165,7 +231,7 @@
         android:id="@+id/listEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/events"
+        android:layout_below="@id/tableHeader"
         android:layout_above="@id/totalPoints"></ListView>
 
 </RelativeLayout>

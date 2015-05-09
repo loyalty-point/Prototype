@@ -65,7 +65,6 @@ public class AchievedEventsAdapter extends BaseAdapter {
 
             // Create holder
             holder = new ViewHolder();
-            holder.index = (TextView) view.findViewById(R.id.index);
             holder.quantity = (TextView) view.findViewById(R.id.quantity);
             holder.name = (TextView) view.findViewById(R.id.eventName);
             holder.point = (TextView) view.findViewById(R.id.point);
@@ -78,7 +77,6 @@ public class AchievedEventsAdapter extends BaseAdapter {
         }
 
         AchievedEvent event = (AchievedEvent) getItem(position);
-        holder.index.setText(String.valueOf(position+1) + ".");
         holder.quantity.setText(String.valueOf(event.getQuantity()));
         holder.name.setText(event.getEvent().getName());
         int point = event.getEvent().getPoint() * event.getQuantity();
@@ -92,7 +90,6 @@ public class AchievedEventsAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView index;
         public TextView quantity;
         public TextView name;
         public TextView point;

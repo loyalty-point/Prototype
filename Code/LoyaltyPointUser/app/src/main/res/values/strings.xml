@@ -91,7 +91,7 @@
     <string name="title_activity_cards_list">CardsListActivity</string>
     <string name="title_activity_base_navigation">BaseNavigationActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
-    <string name="title_activity_search_shop">SearchShopActivity</string>
+    <string name="title_activity_search_shop">Search Shop</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_bar_code">BarCodeActivity</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>

@@ -10,11 +10,26 @@
         android:layout_height="@dimen/_70sdp"
         android:layout_alignParentLeft="true" />
 
+    <Button
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:id="@+id/addFollowShop"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@color/AccentColor"
+        android:textStyle="bold"
+        android:textColor="@color/TextIcons"
+        android:text="REGISTER" />
+
     <TextView
         android:id="@+id/shopName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shopImg"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:textSize="25dp" />
 
     <TextView
@@ -23,15 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/shopName"
         android:layout_toRightOf="@id/shopImg"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_toLeftOf="@id/addFollowShop"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:textSize="@dimen/font_size" />
-
-    <Button
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:id="@+id/addFollowShop"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:text="ADD" />
 
 </RelativeLayout>

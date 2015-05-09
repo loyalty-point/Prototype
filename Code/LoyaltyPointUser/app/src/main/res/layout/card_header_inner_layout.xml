@@ -18,11 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shopLogo"
+        android:layout_alignTop="@id/shopLogo"
         android:layout_marginLeft="@dimen/_10sdp"
         android:textColor="@color/DarkPrimaryColor"
         android:textSize="@dimen/_10sdp"
-        android:textStyle="bold"
-        android:padding="@dimen/_3sdp"/>
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/shopAddress"
@@ -30,11 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shopLogo"
         android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_5sdp"
         android:layout_below="@id/shopName"
-        android:layout_alignBottom="@id/shopLogo"
         android:textColor="@color/PrimaryColor"
         android:textStyle="bold"
-        android:padding="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:textSize="@dimen/_8sdp"/>
 
 </RelativeLayout>
