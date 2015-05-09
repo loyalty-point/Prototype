@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/awardName"
-        android:textColor="@color/MaterialRed"
+        android:textColor="@color/DarkPrimaryColor"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginRight="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_10sdp"
