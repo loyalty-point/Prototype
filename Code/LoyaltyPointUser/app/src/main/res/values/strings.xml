@@ -98,5 +98,6 @@
     <string name="title_activity_my_awards">MyAwardsActivity</string>
     <string name="title_activity_update_point_detail">Update Point Detail</string>
     <string name="title_activity_buy_award_detail">Buy Award Detail</string>
+    <string name="title_activity_card_detail">CardDetailActivity</string>
 
 </resources>

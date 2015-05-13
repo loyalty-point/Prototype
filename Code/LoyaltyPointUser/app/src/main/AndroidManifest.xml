@@ -13,14 +13,15 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     // Google Cloud Messages
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <permission android:name="com.thesis.dont.loyaltypointuser.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.thesis.dont.loyaltypointuser.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.thesis.dont.loyaltypointuser.permission.C2D_MESSAGE" />
 
     <uses-feature
@@ -102,7 +103,6 @@
             android:name=".controllers.EventDetailActivity"
             android:label="@string/title_activity_event_detail" >
         </activity>
-
         <activity
             android:name=".controllers.UpdatePointDetailActivity"
             android:label="@string/title_activity_update_point_detail" >
@@ -111,17 +111,23 @@
             android:name=".controllers.BuyAwardDetailActivity"
             android:label="@string/title_activity_buy_award_detail" >
         </activity>
-
         // broadcast receiver for listening messages from Google Cloud Messages
         <receiver
             android:name=".apis.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.thesis.dont.loyaltypointuser" />
             </intent-filter>
         </receiver>
+
         <service android:name=".apis.GcmIntentService" />
+
+        <activity
+            android:name=".controllers.CardDetailActivity"
+            android:label="@string/title_activity_card_detail" >
+        </activity>
     </application>
 
 </manifest>

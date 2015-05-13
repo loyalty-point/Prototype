@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.controllers.CardDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.ShopDetailActivity;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
@@ -64,8 +65,9 @@ public class MyCard extends Card {
         cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent((Activity)mContext, ShopDetailActivity.class);
-                i.putExtra(Global.SHOP_OBJECT, mShop);
+//                Intent i = new Intent((Activity)mContext, ShopDetailActivity.class);
+//                i.putExtra(Global.SHOP_OBJECT, mShop);
+                Intent i = new Intent((Activity)mContext, CardDetailActivity.class);
                 mContext.startActivity(i);
             }
         });
