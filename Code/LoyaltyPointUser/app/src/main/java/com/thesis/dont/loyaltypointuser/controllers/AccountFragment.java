@@ -90,7 +90,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onSuccess(User user) {
                 // Generate ra ảnh barcode
-                final Bitmap barcodeImg = Helper.generateBarCodeImage(user.getBarcode());
+                final Bitmap barcodeImg = Helper.generateQRCodeImage(user.getBarcode(), 500, 500);
 
                 // Show lên màn hình
                 mParentActivity.runOnUiThread(new Runnable() {

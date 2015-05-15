@@ -42,7 +42,7 @@ public class BarCodeActivity extends BaseNavigationActivity {
             @Override
             public void onSuccess(User user) {
                 // Generate ra ảnh barcode
-                final Bitmap barcodeImg = Helper.generateBarCodeImage(user.getBarcode());
+                final Bitmap barcodeImg = Helper.generateQRCodeImage(user.getBarcode());
 
                 // Show lên màn hình
                 runOnUiThread(new Runnable() {

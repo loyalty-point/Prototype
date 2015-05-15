@@ -226,7 +226,16 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                                                 public void run() {
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                                     builder.setTitle("Your request has been sent successfully")
-                                                            .setMessage("Please wait for the acceptance")
+                                                            .setMessage("Please wait for the acceptance!")
+                                                            .setNegativeButton("My Pending Cards", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    Intent i = new Intent(SearchShopActivity.this, CardsListActivity.class);
+                                                                    i.putExtra(Global.FRAGMENT_ID, 1);
+                                                                    startActivity(i);
+                                                                    SearchShopActivity.this.finish();
+                                                                }
+                                                            })
                                                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
