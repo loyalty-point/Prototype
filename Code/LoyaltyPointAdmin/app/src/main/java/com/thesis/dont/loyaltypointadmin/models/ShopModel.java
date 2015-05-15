@@ -48,7 +48,7 @@ public class ShopModel {
     public static native String getGetNumUserEventAward();
     public static native String getGetNewestUserEventAward();
 
-    public static void createShop(Shop shop, String token){
+    public static void createShop(Shop shop, final String card_id, String token){
         final String token_string = token;
         final String json = Helper.objectToJson(shop);
         Thread t = new Thread() {
@@ -64,6 +64,7 @@ public class ShopModel {
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("shop", json));
+                nameValuePairs.add(new BasicNameValuePair("card_id", card_id));
                 nameValuePairs.add(new BasicNameValuePair("token", token_string));
 
                 try {

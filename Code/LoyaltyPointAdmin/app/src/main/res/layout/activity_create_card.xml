@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateShopActivity">
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="0.5"
+            android:background="@color/MaterialGrey"
+            android:text="Cancel"
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
+
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/confirmBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/AccentColor"
+            android:text="Create"
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnLayout"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/cardBackground"
+            android:layout_width="948px"
+            android:layout_height="610px"
+            android:background="@color/LightGrey"
+            android:layout_below="@+id/cardNameIcon"
+            android:layout_marginBottom="@dimen/activity_createshop_marginBottom"/>
+
+        <ImageView
+            android:id="@+id/cardNameIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shop_name_icon"
+            android:layout_alignBottom="@+id/cardNameFloat"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/cardNameFloat"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/cardNameIcon"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            float:fletPadding="@dimen/activity_flet_padding">
+
+            <EditText
+                android:id="@+id/cardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/shop_name_maxLength"
+                android:focusable="true"
+                android:hint="card name"
+                android:singleLine="true"
+                android:textStyle="italic"
+                android:textSize="@dimen/font_size"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    </RelativeLayout>
+
+</RelativeLayout>

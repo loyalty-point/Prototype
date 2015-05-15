@@ -1,44 +1,27 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.apis.GCMHelper;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
-import com.wrapp.floatlabelededittext.FloatLabeledEditText;
-
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -68,7 +51,7 @@ public class LoginActivity extends ActionBarActivity {
         Global.userToken = preference.getString(TOKEN, "");
         if(!Global.userToken.equals("")) {
             // Đã lưu trạng thái đăng nhập
-            Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+            Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
             startActivity(i);
             finish();
             return;
@@ -136,7 +119,7 @@ public class LoginActivity extends ActionBarActivity {
                             editor.commit();
                         }
 
-                        Intent i = new Intent(LoginActivity.this, ShopsListActivity.class);
+                        Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
                         startActivity(i);
                         finish();
                     }

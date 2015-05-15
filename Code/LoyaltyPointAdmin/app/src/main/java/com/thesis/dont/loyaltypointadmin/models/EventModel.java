@@ -249,6 +249,11 @@ public class EventModel {
         public void onError(String error);
     }
 
+    public class GetListEvents {
+        public String error;
+        public Event[] listEvents;
+    }
+
     public interface OnEditEventResult{
         public void onSuccess(EditEventResult result);
         public void onError(String error);
@@ -263,11 +268,6 @@ public class EventModel {
         public String error;
         public String bucketName;
         public String fileName;
-    }
-
-    public class GetListEvents {
-        public String error;
-        public Event[] listEvents;
     }
 
     public class EditEventResult{

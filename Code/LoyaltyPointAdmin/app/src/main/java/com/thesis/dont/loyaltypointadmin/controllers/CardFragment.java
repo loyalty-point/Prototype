@@ -28,7 +28,7 @@ public class CardFragment extends android.support.v4.app.Fragment {
 
     View mView;
 
-    Shop mShop;
+    com.thesis.dont.loyaltypointadmin.models.Card mCard;
 
     Context mContext;
 
@@ -36,9 +36,9 @@ public class CardFragment extends android.support.v4.app.Fragment {
 
     }
 
-    public CardFragment(Context context, Shop shop) {
+    public CardFragment(Context context, com.thesis.dont.loyaltypointadmin.models.Card card) {
         mContext = context;
-        mShop = shop;
+        mCard = card;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CardFragment extends android.support.v4.app.Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //Create a CardHeader
-        MyCardHeader header = new MyCardHeader(getActivity(), mShop);
+        MyCardHeader header = new MyCardHeader(getActivity(), mCard);
 
         //Add a popup menu. This method sets OverFlow button to visibile
         header.setPopupMenu(R.menu.card_popup_menu, new CardHeader.OnClickCardHeaderPopupMenuListener() {
@@ -73,7 +73,7 @@ public class CardFragment extends android.support.v4.app.Fragment {
                 if(title.equals("Edit")) {
 
                     Intent i = new Intent(mContext, EditShopActivity.class);
-                    i.putExtra(Global.SHOP_OBJECT, mShop);
+                    i.putExtra(Global.SHOP_OBJECT, mCard);
                     mContext.startActivity(i);
 
                 }else if(title.equals("Delete")) {
@@ -84,14 +84,14 @@ public class CardFragment extends android.support.v4.app.Fragment {
                     Intent i = new Intent(mContext, CropImageActivity.class);
                     i.putExtra(CropImageActivity.ASPECT_RATIO_Y, 610);
                     i.putExtra(CropImageActivity.ASPECT_RATIO_X, 948);
-                    i.putExtra(CropImageActivity.SHOP_ID, mShop.getId());
+                    i.putExtra(CropImageActivity.SHOP_ID, mCard.getId());
                     ((Activity)mContext).startActivityForResult(i, Global.SELECT_PHOTO);
                 }
             }
         });
 
         //Create a Card
-        Card card = new MyCard(getActivity(), mShop);
+        Card card = new MyCard(getActivity(), mCard);
         card.addCardHeader(header);
 
         //Set card in the cardView

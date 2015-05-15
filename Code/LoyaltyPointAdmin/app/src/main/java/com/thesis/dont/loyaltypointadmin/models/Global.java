@@ -6,7 +6,8 @@ package com.thesis.dont.loyaltypointadmin.models;
 public class Global {
     public static String userToken = null;
     public static String regID = null;
-
+    public static String CARD_ID = "card_id";
+    public static String OBJECT = "object";
     public static String SHOP_NAME = "shop_name";
     public static String SHOP_ID = "shop_id";
     public static String SHOP_OBJECT = "shop_object";

@@ -42,7 +42,7 @@
             android:theme="@style/NoActionBar" >
         </activity>
         <activity
-            android:name=".controllers.ShopsListActivity"
+            android:name=".controllers.CardsListActivity"
             android:label="@string/title_activity_shops_list"
             android:theme="@style/NoActionBarWithNavDrawer" >
         </activity>
@@ -64,12 +64,12 @@
         <activity
             android:name=".controllers.ShopDetailActivity"
             android:label="@string/title_activity_detail_shop"
-            android:parentActivityName=".controllers.ShopsListActivity" >
+            android:parentActivityName=".controllers.CardsListActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".controllers.ShopsListActivity" />
+                android:value=".controllers.CardsListActivity" />
         </activity>
         <activity
             android:name=".controllers.BaseNavigationActivity"
@@ -165,6 +165,14 @@
         <activity
             android:name=".controllers.CardDetailActivity"
             android:label="@string/title_activity_card_detail" >
+        </activity>
+        <activity
+            android:name=".controllers.SearchCard"
+            android:label="@string/title_activity_search_card" >
+        </activity>
+        <activity
+            android:name=".controllers.CreateCardActivity"
+            android:label="@string/title_activity_create_card" >
         </activity>
     </application>
 
