@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/Background"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateShopActivity">
 
     <LinearLayout
@@ -24,7 +25,7 @@
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_weight="0.5"
             android:background="@color/MaterialGrey"
-            android:text="Cancel"
+            android:text="CANCEL"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@color/AccentColor"
-            android:text="Next"
+            android:text="NEXT"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 
@@ -46,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btnLayout"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/Background">
 
         <ImageView
             android:id="@+id/shopLogo"
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/shop_name_maxLength"
                 android:focusable="true"
-                android:hint="shop name"
+                android:hint="Shop Name"
                 android:singleLine="true"
                 android:textStyle="italic"
                 android:textSize="@dimen/font_size"/>
@@ -109,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/phone_maxLength"
-                android:hint="phone number"
+                android:hint="Phone"
                 android:phoneNumber="true"
                 android:singleLine="true"
                 android:textStyle="italic"
@@ -160,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/exchange_ratio_maxLength"
-                android:hint="exchange ratio"
+                android:hint="Exchange Ratio"
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textStyle="italic"
@@ -189,7 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:hint="shop address"
+                android:hint="Address"
                 android:singleLine="true"
                 android:maxLength="@integer/shop_address_maxLength"
                 android:textStyle="italic"
@@ -204,7 +206,7 @@
             android:layout_below="@id/descriptionFloat"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="I agree to the term of use"
+            android:text="I agree to the terms of use and privacy policy"
             android:checked="true"
             android:textSize="@dimen/font_size"/>
 

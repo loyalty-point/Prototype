@@ -31,6 +31,8 @@ import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.util.ArrayList;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 public class SearchCard extends ActionBarActivity {
 
     private static final String CARD_NAME = "card_name";
@@ -40,7 +42,7 @@ public class SearchCard extends ActionBarActivity {
     ListView listCards;
     private CardsListAdapter mAdapter;
     MatrixCursor cursor;
-    ButtonFloat createCardBtn;
+    FancyButton createCardBtn;
     public static Picasso mPicaso;
     Shop shop;
     Bitmap shopImage;
@@ -118,7 +120,7 @@ public class SearchCard extends ActionBarActivity {
             }
         });
         //create new card
-        createCardBtn = (ButtonFloat) findViewById(R.id.createCardBtn);
+        createCardBtn = (FancyButton) findViewById(R.id.createCardBtn);
         createCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +164,6 @@ public class SearchCard extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         getListCards();
-
     }
 
     private void getListCards() {

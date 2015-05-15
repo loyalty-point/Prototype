@@ -142,6 +142,8 @@ public class ShopsCardMainFragment extends Fragment {
         mPager.setAdapter(mPagerAdapter);
 
         mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
+
+        setListData();
     }
 
     @Override
@@ -226,7 +228,7 @@ public class ShopsCardMainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        setListData();
+        //setListData();
     }
 
 }

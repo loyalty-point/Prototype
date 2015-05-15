@@ -3,7 +3,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by 11120_000 on 22/04/15.
  */
-public class ListCardsPagerAdapter extends FragmentStatePagerAdapter {
+public class ListCardsPagerAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     ArrayList<Card> mCards;
@@ -32,6 +32,10 @@ public class ListCardsPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         return null;
+    }
+
+    public void setListCards(ArrayList<Card> listCards) {
+        mCards = listCards;
     }
 
     @Override

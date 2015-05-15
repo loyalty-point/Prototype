@@ -23,10 +23,11 @@ import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+import com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView;
 
 public class CreateCardActivity extends ActionBarActivity {
 
-    ImageView cardImage;
+    MyRoundedImageView cardImage;
     Bitmap cardBackgroud = null;
     EditText cardName;
     ProgressDialog mDialog;
@@ -44,7 +45,7 @@ public class CreateCardActivity extends ActionBarActivity {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
-        cardImage = (ImageView) findViewById(R.id.cardBackground);
+        cardImage = (MyRoundedImageView) findViewById(R.id.cardBackground);
         cardName = (EditText) findViewById(R.id.cardName);
         cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         createBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);

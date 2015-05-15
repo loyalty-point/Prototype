@@ -22,9 +22,9 @@ public class CardsListActivity extends BaseNavigationActivity {
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        /*FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(new CardsListMainFragment(), "CardsListMainFragment");
+        fragmentTransaction.add(new CardsListMainFragment(), "CardsListMainFragment");*/
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Updating Card Background");
         mDialog.setMessage("Please wait...");

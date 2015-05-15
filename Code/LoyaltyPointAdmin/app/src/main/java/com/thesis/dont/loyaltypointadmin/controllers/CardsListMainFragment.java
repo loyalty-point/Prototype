@@ -1,6 +1,6 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
@@ -26,7 +27,7 @@ import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.util.ArrayList;
 
-import github.chenupt.springindicator.SpringIndicator;
+import me.relex.circleindicator.CircleIndicator;
 
 
 /**
@@ -37,8 +38,8 @@ public class CardsListMainFragment extends Fragment {
     public CardsListActivity mParentActivity = null;
 
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
-    private SpringIndicator mIndicator;
+    private ListCardsPagerAdapter mPagerAdapter;
+    private CircleIndicator mIndicator;
 
     ProgressDialog mDialog;
 
@@ -78,12 +79,14 @@ public class CardsListMainFragment extends Fragment {
         });
 
         mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
-        mPager.setPageTransformer(true, new CubeOutTransformer());
-        mPager.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        mPager.setPageTransformer(true, new RotateDownTransformer());
 
-        mIndicator = (SpringIndicator) mParentActivity.findViewById(R.id.listCardsIndicator);
-        mIndicator.setVisibility(View.GONE);
-        //setListData();
+        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>());
+        mPager.setAdapter(mPagerAdapter);
+
+        mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
+
+        setListData();
     }
 
     @Override
@@ -97,17 +100,33 @@ public class CardsListMainFragment extends Fragment {
     }
 
     public void populateList(final ArrayList<Card> listCards) {
-        mPagerAdapter = new ListCardsPagerAdapter(((CardsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listCards);
+        //mPagerAdapter = new ListCardsPagerAdapter(((CardsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listCards);
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mPager.setAdapter(mPagerAdapter);
+                mPager.setCurrentItem(0);
+                mPagerAdapter.setListCards(listCards);
                 mPagerAdapter.notifyDataSetChanged();
-                mIndicator.removeAllViews();
-                if (listCards.size() > 0) {
+                if(listCards.size() > 0) {
                     mIndicator.setViewPager(mPager);
-                    mIndicator.setVisibility(View.VISIBLE);
+                    mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                        }
+
+                        @Override
+                        public void onPageSelected(int position) {
+
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+
+                        }
+                    });
                 }
+
                 mDialog.dismiss();
             }
         });
@@ -138,6 +157,5 @@ public class CardsListMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setListData();
     }
 }

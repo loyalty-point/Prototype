@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_weight="0.5"
             android:background="@color/MaterialGrey"
-            android:text="Cancel"
+            android:text="CANCEL"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@color/AccentColor"
-            android:text="Create"
+            android:text="CREATE"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 
@@ -48,26 +48,9 @@
         android:layout_above="@id/btnLayout"
         android:layout_alignParentTop="true">
 
-        <ImageView
-            android:id="@+id/cardBackground"
-            android:layout_width="948px"
-            android:layout_height="610px"
-            android:background="@color/LightGrey"
-            android:layout_below="@+id/cardNameIcon"
-            android:layout_marginBottom="@dimen/activity_createshop_marginBottom"/>
-
-        <ImageView
-            android:id="@+id/cardNameIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shop_name_icon"
-            android:layout_alignBottom="@+id/cardNameFloat"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
-
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/cardNameFloat"
             android:layout_width="match_parent"
-            android:layout_toRightOf="@id/cardNameIcon"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -79,11 +62,24 @@
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/shop_name_maxLength"
                 android:focusable="true"
-                android:hint="card name"
+                android:hint="Card Name"
                 android:singleLine="true"
-                android:textStyle="italic"
+                android:drawableLeft="@drawable/ic_card"
+                android:drawablePadding="@dimen/_10sdp"
+                android:textStyle="normal"
                 android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+            android:id="@+id/cardBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/LightGrey"
+            android:layout_below="@+id/cardNameFloat"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_3sdp"
+            app:siBorderColor="@color/MaterialGrey"/>
 
     </RelativeLayout>
 
