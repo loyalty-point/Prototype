@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * Created by 11120_000 on 18/03/15.
  */
 public class Award implements Parcelable {
+    private String shopName;
     String id;
     String name;
     int point;
@@ -88,6 +89,7 @@ public class Award implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getShopName());
         dest.writeString(id);
         dest.writeString(name);
         dest.writeInt(point);
@@ -109,6 +111,7 @@ public class Award implements Parcelable {
     };
 
     private Award(Parcel in) {
+        setShopName(in.readString());
         id = in.readString();
         name = in.readString();
         point = in.readInt();
@@ -116,5 +119,13 @@ public class Award implements Parcelable {
         description = in.readString();
         image = in.readString();
         shopID = in.readString();
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }
