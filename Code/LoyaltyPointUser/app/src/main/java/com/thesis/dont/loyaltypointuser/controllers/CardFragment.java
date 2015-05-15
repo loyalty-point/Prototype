@@ -1,7 +1,5 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +13,7 @@ import android.widget.Toast;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
+import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.views.MyCard;
 import com.thesis.dont.loyaltypointuser.views.MyCardHeader;
 
@@ -28,11 +27,15 @@ public class CardFragment extends Fragment {
     View mView;
 
     Shop mShop;
+    User mUser;
+    boolean mIsPendingCard;
 
-    public static CardFragment newInstance(Shop shop) {
+    public static CardFragment newInstance(Shop shop, User user, boolean isPendingCard) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
         args.putParcelable(Global.SHOP_OBJECT, shop);
+        args.putParcelable(Global.USER_OBJECT, user);
+        args.putBoolean(Global.IS_PENDING_CARD, isPendingCard);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,6 +54,8 @@ public class CardFragment extends Fragment {
 
         if (getArguments() != null) {
             mShop = (Shop) getArguments().get(Global.SHOP_OBJECT);
+            mUser = (User) getArguments().get(Global.USER_OBJECT);
+            mIsPendingCard = (boolean) getArguments().get(Global.IS_PENDING_CARD);
         }
     }
 
@@ -71,7 +76,7 @@ public class CardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //Create a CardHeader
-        MyCardHeader header = new MyCardHeader(getActivity(), mShop);
+        MyCardHeader header = new MyCardHeader(getActivity(), mUser, mIsPendingCard);
 
         //Add a popup menu. This method sets OverFlow button to visibile
         header.setPopupMenu(R.menu.card_popup_menu, new CardHeader.OnClickCardHeaderPopupMenuListener(){
@@ -82,7 +87,7 @@ public class CardFragment extends Fragment {
         });
 
         //Create a Card
-        Card card = new MyCard(getActivity(), mShop);
+        Card card = new MyCard(getActivity(), mShop, mIsPendingCard);
         card.addCardHeader(header);
 
         //Set card in the cardView

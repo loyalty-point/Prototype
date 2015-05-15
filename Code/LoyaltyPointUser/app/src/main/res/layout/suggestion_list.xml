@@ -21,7 +21,10 @@
         android:background="@color/AccentColor"
         android:textStyle="bold"
         android:textColor="@color/TextIcons"
-        android:text="REGISTER" />
+        android:paddingLeft="@dimen/_3sdp"
+        android:paddingRight="@dimen/_3sdp"
+        android:singleLine="true"
+        android:text="ADD" />
 
     <TextView
         android:id="@+id/shopName"

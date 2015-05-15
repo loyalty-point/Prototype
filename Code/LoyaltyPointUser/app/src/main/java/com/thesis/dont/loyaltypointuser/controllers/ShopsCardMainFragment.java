@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointuser.controllers;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
+import com.thesis.dont.loyaltypointuser.models.User;
+import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 import java.util.ArrayList;
 
@@ -69,12 +73,30 @@ public class ShopsCardMainFragment extends Fragment {
             @Override
             public void onSuccess(final ArrayList<Shop> listShops) {
 
-                mListCards = new ArrayList<Shop>();
-                for (Shop shop : listShops) {
-                    if (shop.isAccepted() == 1)
-                        mListCards.add(shop);
-                }
-                populateList(mListCards);
+                // Get user info
+                UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
+                    @Override
+                    public void onSuccess(User user) {
+                        mPagerAdapter.setUser(user);
+
+                        mListCards = new ArrayList<Shop>();
+                        for (Shop shop : listShops) {
+                            if (shop.isAccepted() == 1)
+                                mListCards.add(shop);
+                        }
+                        populateList(mListCards);
+                    }
+
+                    @Override
+                    public void onError(final String e) {
+                        mParentActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mParentActivity, e, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
@@ -114,9 +136,9 @@ public class ShopsCardMainFragment extends Fragment {
         mListCards = new ArrayList<Shop>();
 
         mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
-        mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
+        mPager.setPageTransformer(true, new RotateDownTransformer());
 
-        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Shop>());
+        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Shop>(), false);
         mPager.setAdapter(mPagerAdapter);
 
         mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);

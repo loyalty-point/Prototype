@@ -269,10 +269,10 @@ public class Helper {
         return hash.substring(0, 10);
     }
 
-    public static Bitmap generateBarCodeImage(String barcode) {
+    public static Bitmap generateQRCodeImage(String barcode, int width, int height) {
         Bitmap bitmap = null;
         try {
-            bitmap = encodeAsBitmap(barcode, BarcodeFormat.CODE_128, 800, 500);
+            bitmap = encodeAsBitmap(barcode, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -287,12 +287,14 @@ public class Helper {
         if (contentsToEncode == null) {
             return null;
         }
+
         Map<EncodeHintType, Object> hints = null;
         String encoding = guessAppropriateEncoding(contentsToEncode);
-        if (encoding != null) {
+        //if (encoding != null) {
             hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
-            hints.put(EncodeHintType.CHARACTER_SET, encoding);
-        }
+            //hints.put(EncodeHintType.CHARACTER_SET, encoding);
+            hints.put(EncodeHintType.MARGIN, 1); /* default = 4 */
+        //}
         MultiFormatWriter writer = new MultiFormatWriter();
         BitMatrix result;
         try {

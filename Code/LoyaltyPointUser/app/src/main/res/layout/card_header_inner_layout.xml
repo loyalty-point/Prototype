@@ -5,36 +5,35 @@
     android:layout_height="wrap_content">
 
     <com.github.siyamed.shapeimageview.RoundedImageView
-        android:id="@+id/shopLogo"
+        android:id="@+id/qrCode"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/ic_store"
+        android:background="@drawable/ic_clock"
         app:siRadius="@dimen/_3sdp"
         app:siBorderWidth="@dimen/_2sdp"
         app:siBorderColor="@color/DarkPrimaryColor"/>
 
     <TextView
-        android:id="@+id/shopName"
+        android:id="@+id/cardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/shopLogo"
-        android:layout_alignTop="@id/shopLogo"
+        android:layout_toRightOf="@id/qrCode"
+        android:layout_alignTop="@id/qrCode"
         android:layout_marginLeft="@dimen/_10sdp"
         android:textColor="@color/DarkPrimaryColor"
         android:textSize="@dimen/_10sdp"
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/shopAddress"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/shopLogo"
+        android:layout_toRightOf="@id/qrCode"
+        android:layout_alignBottom="@id/qrCode"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:layout_below="@id/shopName"
+        android:singleLine="true"
         android:textColor="@color/PrimaryColor"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:textSize="@dimen/_8sdp"/>
+        android:textSize="@dimen/_15sdp"/>
 
 </RelativeLayout>
