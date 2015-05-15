@@ -32,26 +32,21 @@ $query = "select * from admin_card where admin_username='".$username."'";
 $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
-if($rows == 0) {//have no shop in database
-    echo '{"error":"have no card in database","listCards":[]}';;
-}
-else  {
-    $result = '{"error":"", "listCards":[';
-    while($row = mysqli_fetch_array($query_exec)){
-        $query_search = "select * from card where id='".$row['card_id']."'";
+$result = '{"error":"", "listCards":[';
+while($row = mysqli_fetch_array($query_exec)){
+    $query_search = "select * from card where id='".$row['card_id']."'";
 
-        $query_exec1 = mysqli_query($localhost,$query_search);   
+    $query_exec1 = mysqli_query($localhost,$query_search);   
 
-        while($row1 = mysqli_fetch_array($query_exec1)){
-            $result = $result . '{' 
-                    . '"id":"' . $row1['id'] . '",'
-                    . '"name":"' . $row1['name'] . '",'
-                    . '"image":"' . $row1['image'] . '"},';
-        }
+    while($row1 = mysqli_fetch_array($query_exec1)){
+        $result = $result . '{' 
+                . '"id":"' . $row1['id'] . '",'
+                . '"name":"' . $row1['name'] . '",'
+                . '"image":"' . $row1['image'] . '"},';
     }
-    $result = $result . ']}';
-    echo $result;
 }
+$result = $result . ']}';
+echo $result;
 
 mysqli_close($localhost);
 ?>

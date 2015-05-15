@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="3dp"
+    android:minHeight="60dp">
+
+    <ImageView
+        android:id="@+id/awardImg"
+        android:layout_width="@dimen/_75sdp"
+        android:layout_height="@dimen/_75sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"/>
+
+    <TextView
+        android:id="@+id/awardShopName"
+        android:textColor="@color/DarkPrimaryColor"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardImg" />
+
+    <TextView
+        android:id="@+id/awardName"
+        android:textColor="@color/DarkPrimaryColor"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:singleLine="true"
+        android:textSize="@dimen/font_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardShopName" />
+
+    <TextView
+        android:id="@+id/awardQuantity"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardName" />
+
+    <TextView
+        android:id="@+id/awardPoint"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardQuantity"
+        android:textStyle="bold"
+        android:textColor="@color/AccentColor"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>

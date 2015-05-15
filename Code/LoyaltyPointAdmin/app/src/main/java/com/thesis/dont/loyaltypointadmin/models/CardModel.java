@@ -35,6 +35,60 @@ public class CardModel {
     public static native String getCreateCard();
     public static native String getGetListShop();
     public static native String getGetListEvents();
+    public static native String getGetListAwards();
+
+    public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListAwards();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler d= new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
+                    if(result.error.equals("")) {
+                        // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
+                        ArrayList<Award> listAwards = new ArrayList<Award>();
+                        for(int i=0; i<result.listAwards.length-1; i++) {
+                            listAwards.add(result.listAwards[i]);
+                        }
+
+                        mOnGetListAwardsResult.onSuccess(listAwards);
+                    }
+                    else
+                        mOnGetListAwardsResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetListAwardsResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetListAwardsResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetListAwardsResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 
     public static void getListEvents(final String cardID, final OnGetListEventResult mOnGetListEventResult){
         Thread t = new Thread() {
@@ -273,5 +327,15 @@ public class CardModel {
     public class GetListEvents {
         public String error;
         public Event[] listEvents;
+    }
+
+    public class GetListAwards {
+        public String error;
+        public Award[] listAwards;
+    }
+
+    public interface OnGetListAwardsResult{
+        public void onSuccess(ArrayList<Award> listAwards);
+        public void onError(String error);
     }
 }

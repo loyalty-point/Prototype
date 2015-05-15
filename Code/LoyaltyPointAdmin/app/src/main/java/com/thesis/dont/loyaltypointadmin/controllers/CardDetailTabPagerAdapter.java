@@ -39,7 +39,7 @@ public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
         else if (position == 1)
             return new CardEventsFragment(position, cardId);
         else if (position == 2)
-            return new CardAwardsFragment();
+            return new CardAwardsFragment(position, cardId);
         else if (position == 3)
             return new CardUsersFragment();
         else

@@ -20,3 +20,8 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_CardModel_getGetListEvents
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/card/get_list_event.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_CardModel_getGetListAwards(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/card/get_list_award.php");
+}

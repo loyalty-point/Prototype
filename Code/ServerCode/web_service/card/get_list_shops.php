@@ -33,31 +33,26 @@ $query = "select * from card_shop where card_id='".$card_id."'";
 $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
-if($rows == 0) {//have no shop in database
-    echo '{"error":"have no shop in this card","listShops":[]}';;
-}
-else  {
-    $result = '{"error":"", "listShops":[';
-    while($row = mysqli_fetch_array($query_exec)){
-        $query_search = "select * from shop where id='".$row['shop_id']."'";
+$result = '{"error":"", "listShops":[';
+while($row = mysqli_fetch_array($query_exec)){
+    $query_search = "select * from shop where id='".$row['shop_id']."'";
 
-        $query_exec1 = mysqli_query($localhost,$query_search);   
+    $query_exec1 = mysqli_query($localhost,$query_search);   
 
-        while($row1 = mysqli_fetch_array($query_exec1)){
-            $result = $result . '{' 
-                    . '"id":"' . $row1['id'] . '",'
-                    . '"name":"' . $row1['name'] . '",'
-                    . '"address":"' . $row1['address'] . '",'
-                    . '"phone_number":"' . $row1['phone_number'] . '",'
-                    . '"category":"' . $row1['category'] . '",'
-                    . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
-                    . '"image":"' . $row1['image'] . '",'
-                    . '"cardImg":"' . $row1['background'] . '"},';
-        }
+    while($row1 = mysqli_fetch_array($query_exec1)){
+        $result = $result . '{' 
+                . '"id":"' . $row1['id'] . '",'
+                . '"name":"' . $row1['name'] . '",'
+                . '"address":"' . $row1['address'] . '",'
+                . '"phone_number":"' . $row1['phone_number'] . '",'
+                . '"category":"' . $row1['category'] . '",'
+                . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
+                . '"image":"' . $row1['image'] . '",'
+                . '"cardImg":"' . $row1['background'] . '"},';
     }
-    $result = $result . ']}';
-    echo $result;
 }
+$result = $result . ']}';
+echo $result;
 
 mysqli_close($localhost);
 ?>

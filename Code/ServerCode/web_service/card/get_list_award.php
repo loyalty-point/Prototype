@@ -10,7 +10,7 @@ $token = $_POST['token'];
 $cardID = $_POST['cardID'];
 
 if(strlen($token)!=64){
-    echo '{"error":"token not found", "listEvents":[]}';
+    echo '{"error":"token not found", "listAwards":[]}';
     die();
 }
 
@@ -22,8 +22,8 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-    echo '{"error":"wrong token", "listEvents":[]}';
-	die();
+    echo '{"error":"wrong token", "listAwards":[]}';
+    die();
 }
 /**/
 
@@ -33,7 +33,7 @@ $query = "select * from card_shop where card_id='".$cardID."'";
 $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
-$result = '{"error":"", "listEvents":[';
+$result = '{"error":"", "listAwards":[';
 while($row1 = mysqli_fetch_array($query_exec)){
     // mọi thông tin cung cấp đều đúng
     // lấy danh sách awards rồi trả về cho người dùng
@@ -42,7 +42,7 @@ while($row1 = mysqli_fetch_array($query_exec)){
     $row = mysqli_fetch_array($query_exec1);
     $shopname = $row['name'];
 
-    $query = "select * from event where shop_id = '" . $row1['shop_id'] . "' ORDER BY id DESC";
+    $query = "select * from award where shopID = '" . $row1['shop_id'] . "' ORDER BY id DESC";
     
     $query_exec2 = mysqli_query($localhost, $query);   
 
@@ -50,17 +50,12 @@ while($row1 = mysqli_fetch_array($query_exec)){
             $result = $result . '{' 
                     . '"shopName":"' . $shopname . '",'
                     . '"id":"' . $row['id'] . '",'
-                    . '"type":"' . $row['type'] . '",'
                     . '"name":"' . $row['name'] . '",'
-                    . '"time_start":"' . $row['time_start'] . '",'
-                    . '"time_end":"' . $row['time_end'] . '",'
-                    . '"description":"' . $row['description'] . '",'
-                    . '"barcode":"' . $row['barcode'] . '",'
-                    . '"goods_name":"' . $row['goods_name'] . '",'
-                    . '"ratio":"' . $row['ratio'] . '",'
-                    . '"number":"' . $row['number'] . '",'
                     . '"point":"' . $row['point'] . '",'
-                    . '"image":"' . $row['image'] . '"},';
+                    . '"quantity":"' . $row['quantity'] . '",'
+                    . '"description":"' . $row['description'] . '",'
+                    . '"image":"' . $row['image'] . '",'
+                    . '"shopID":"' . $row['shopID'] . '"},';
     }
 }
 $result = $result . ']}';
