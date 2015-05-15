@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/Background">
 
-    <com.gc.materialdesign.views.ButtonRectangle
-        android:id="@+id/addCardBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/padding"
-        materialdesign:rippleSpeed="70"
-        android:background="@color/AccentColor"
-        android:text="ADD NEW CARD"
-        android:textSize="@dimen/_15sdp"/>
-
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/custom_indicator"
         android:layout_width="match_parent"
@@ -28,8 +17,9 @@
         app:ci_animator="@animator/indicator_animator"
         app:ci_animator_reverse="@animator/indicator_animator_reverse"
         app:ci_drawable="@drawable/black_radius_square"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/addCardBtn"/>
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,18 +30,5 @@
         android:layout_marginRight="@dimen/padding"
         android:layout_marginTop="@dimen/padding"
         android:layout_above="@+id/custom_indicator" />
-
-    <!--<com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/createShopBtn"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        materialdesign:iconDrawable="@drawable/ic_action_new"
-        android:background="@color/AccentColor"
-        app:cb_color="#99CC00"
-        materialdesign:animate="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"/>-->
 
 </RelativeLayout>

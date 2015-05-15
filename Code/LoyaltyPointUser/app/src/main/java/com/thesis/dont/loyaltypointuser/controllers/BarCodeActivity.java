@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+/*import android.app.FragmentManager;
+import android.app.FragmentTransaction;*/
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
@@ -21,9 +23,9 @@ public class BarCodeActivity extends BaseNavigationActivity {
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        /*FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(new AccountFragment(), "AccountFragment");
+        fragmentTransaction.add(new AccountFragment(), "AccountFragment");*/
 
         setDefaultSectionLoaded(1);
     }

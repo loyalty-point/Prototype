@@ -12,8 +12,11 @@ import android.view.MenuItem;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
 
-public class CardsListActivity extends BaseNavigationActivity implements AccountFragment.OnFragmentInteractionListener
-        , CardFragment.OnFragmentInteractionListener {
+public class CardsListActivity extends BaseNavigationActivity
+        implements AccountFragment.OnFragmentInteractionListener
+        , CardFragment.OnFragmentInteractionListener
+        , PendingCardsFragment.OnFragmentInteractionListener
+        , ShopsCardMainFragment.OnFragmentInteractionListener {
 
     @Override
     public void init(Bundle savedInstanceState) {

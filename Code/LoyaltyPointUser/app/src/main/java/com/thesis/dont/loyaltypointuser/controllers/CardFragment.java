@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.views.MyCard;
 import com.thesis.dont.loyaltypointuser.views.MyCardHeader;
@@ -28,17 +29,29 @@ public class CardFragment extends Fragment {
 
     Shop mShop;
 
+    public static CardFragment newInstance(Shop shop) {
+        CardFragment fragment = new CardFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Global.SHOP_OBJECT, shop);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public CardFragment() {
-
     }
 
-    public CardFragment(Shop shop) {
+
+    /*public CardFragment(Shop shop) {
         mShop = shop;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mShop = (Shop) getArguments().get(Global.SHOP_OBJECT);
+        }
     }
 
 

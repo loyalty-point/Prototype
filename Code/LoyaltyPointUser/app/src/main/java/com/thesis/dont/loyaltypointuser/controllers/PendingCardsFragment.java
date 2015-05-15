@@ -32,7 +32,7 @@ import me.relex.circleindicator.CircleIndicator;
  * Use the {@link PendingCardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopsCardMainFragment extends Fragment {
+public class PendingCardsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,14 +47,14 @@ public class ShopsCardMainFragment extends Fragment {
     ProgressDialog mDialog;
 
 
-    public static ShopsCardMainFragment newInstance() {
-        ShopsCardMainFragment fragment = new ShopsCardMainFragment();
+    public static PendingCardsFragment newInstance() {
+        PendingCardsFragment fragment = new PendingCardsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public ShopsCardMainFragment() {
+    public PendingCardsFragment() {
         // Required empty public constructor
     }
 
@@ -71,7 +71,7 @@ public class ShopsCardMainFragment extends Fragment {
 
                 mListCards = new ArrayList<Shop>();
                 for (Shop shop : listShops) {
-                    if (shop.isAccepted() == 1)
+                    if (shop.isAccepted() == 0)
                         mListCards.add(shop);
                 }
                 populateList(mListCards);
@@ -102,15 +102,6 @@ public class ShopsCardMainFragment extends Fragment {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
-        ButtonRectangle addCardBtn = (ButtonRectangle) mParentActivity.findViewById(R.id.addCardBtn);
-        addCardBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mParentActivity, SearchShopActivity.class);
-                startActivity(i);
-            }
-        });
-
         mListCards = new ArrayList<Shop>();
 
         mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
@@ -126,7 +117,7 @@ public class ShopsCardMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shops_card_main, container, false);
+        return inflater.inflate(R.layout.fragment_pending_cards, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -173,6 +164,7 @@ public class ShopsCardMainFragment extends Fragment {
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
                 mPagerAdapter.setListShops(listShops);
                 mPagerAdapter.notifyDataSetChanged();
                 if(listShops.size() > 0) {
@@ -194,7 +186,6 @@ public class ShopsCardMainFragment extends Fragment {
                         }
                     });
                 }
-
                 mDialog.dismiss();
             }
         });
