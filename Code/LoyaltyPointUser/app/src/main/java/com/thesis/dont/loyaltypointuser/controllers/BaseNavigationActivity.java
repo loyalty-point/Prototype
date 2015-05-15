@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointuser.controllers;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,12 +28,14 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         this.addAccount(account);
 
         // add section to the top list
-        MaterialSection sectionTop1 = newSection("My Cards", R.drawable.ic_store, new ShopsCardMainFragment());
-        MaterialSection sectionTop2 = newSection("My Account", R.drawable.account_circle_ic, new AccountFragment());
-        MaterialSection sectionTop3 = newSection("My Awards", R.drawable.ic_award, new MyAwardsFragment());
+        MaterialSection sectionTop1 = newSection("My Cards", R.drawable.ic_card, ShopsCardMainFragment.newInstance());
+        MaterialSection sectionTop2 = newSection("My Pending Cards", R.drawable.ic_pending_card, PendingCardsFragment.newInstance());
+        MaterialSection sectionTop3 = newSection("My Account", R.drawable.account_circle_ic, new AccountFragment());
+        MaterialSection sectionTop4 = newSection("My Awards", R.drawable.ic_award, new MyAwardsFragment());
         sectionTop1.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         sectionTop2.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         sectionTop3.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
+        sectionTop4.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         //sectionTop1.setNotifications(4);
 
         /*MaterialSection sectionTop2 = newSection("Section 2", R.drawable.ic_user, new Intent(this, RegisterActivity.class));*/
@@ -41,6 +44,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         addSection(sectionTop1);
         addSection(sectionTop2);
         addSection(sectionTop3);
+        addSection(sectionTop4);
 
         // add section to the bottom list
         MaterialSection sectionBottom1 = newSection("Settings", R.drawable.ic_settings, new Intent(this, SettingsActivity.class));

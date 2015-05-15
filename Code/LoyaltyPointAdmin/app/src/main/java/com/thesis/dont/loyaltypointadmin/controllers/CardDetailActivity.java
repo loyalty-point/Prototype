@@ -56,9 +56,10 @@ public class CardDetailActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                /*Intent upIntent = NavUtils.getParentActivityIntent(this);
                 upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                NavUtils.navigateUpFromSameTask(this);
+                NavUtils.navigateUpFromSameTask(this);*/
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
