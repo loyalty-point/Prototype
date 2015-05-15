@@ -134,14 +134,15 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
-//                i.putExtra(Global.USER_NAME, cursor.getString(4));
-//                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
-//                i.putExtra(Global.SHOP_ID, shopId);
-//                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
-//                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
-//                i.putExtra(Global.SHOP_OBJECT, shop);
-//                startActivity(i);
+                Intent i = new Intent(mParentActivity, ShopDetailActivity.class);
+                Shop currentShop = null;
+                for(int j = 0; j<listShop.size();j++){
+                    if(listShop.get(j).getId().equals(cursor.getString(4)))
+                        currentShop = listShop.get(j);
+                }
+
+                i.putExtra(Global.SHOP_OBJECT, currentShop);
+                startActivity(i);
 
             }
         });

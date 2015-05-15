@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.CardModel;
@@ -66,7 +67,7 @@ public class CardsListMainFragment extends Fragment {
 
         //mListView = (ListView) mParentActivity.findViewById(R.id.shop_list);
 
-        ButtonFloat createShopBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createShopBtn);
+        ButtonRectangle createShopBtn = (ButtonRectangle) mParentActivity.findViewById(R.id.createShopBtn);
         createShopBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createShopBtn.setOnClickListener(new View.OnClickListener() {
             @Override

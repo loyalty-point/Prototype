@@ -34,6 +34,57 @@ public class CardModel {
     public static native String getGetListCards();
     public static native String getCreateCard();
     public static native String getGetListShop();
+    public static native String getGetListEvents();
+
+    public static void getListEvents(final String cardID, final OnGetListEventResult mOnGetListEventResult){
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListEvents();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(1);
+
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+
+                    GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
+                    if(result.error.equals("")) {
+                        ArrayList<Event> listEvents = new ArrayList<Event>();
+                        for(int i=0; i<result.listEvents.length-1; i++) {
+                            listEvents.add(result.listEvents[i]);
+                        }
+                        mOnGetListEventResult.onSuccess(listEvents);
+                    }
+                    else
+                        mOnGetListEventResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetListEventResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetListEventResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetListEventResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 
     public static void createCard(final String userToken, Card card, final OnCreateCardResult mOnCreateCardResult){
         final String json = Helper.objectToJson(card);
@@ -211,5 +262,16 @@ public class CardModel {
     public class GetListShops {
         public String error;
         public Shop[] listShops;
+    }
+
+    public interface OnGetListEventResult{
+        public void onSuccess(ArrayList<Event> listEvents);
+
+        public void onError(String error);
+    }
+
+    public class GetListEvents {
+        public String error;
+        public Event[] listEvents;
     }
 }
