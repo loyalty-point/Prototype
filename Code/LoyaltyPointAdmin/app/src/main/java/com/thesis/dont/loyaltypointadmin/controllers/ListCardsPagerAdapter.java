@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 
 import java.util.ArrayList;
@@ -12,22 +13,22 @@ import java.util.ArrayList;
 /**
  * Created by 11120_000 on 22/04/15.
  */
-public class ListShopsPagerAdapter extends FragmentStatePagerAdapter {
+public class ListCardsPagerAdapter extends FragmentStatePagerAdapter {
 
     Context mContext;
-    ArrayList<Shop> mShops;
+    ArrayList<Card> mCards;
 
-    public ListShopsPagerAdapter(FragmentManager fm, Context context, ArrayList<Shop> shops) {
+    public ListCardsPagerAdapter(FragmentManager fm, Context context, ArrayList<Card> cards) {
         super(fm);
         mContext = context;
-        mShops = shops;
+        mCards = cards;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if(mShops.size() > position) {
-            Shop shop = mShops.get(position);
-            return new CardFragment(mContext, shop);
+        if(mCards.size() > position) {
+            Card card = mCards.get(position);
+            return new CardFragment(mContext, card);
         }
 
         return null;
@@ -35,7 +36,7 @@ public class ListShopsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mShops.size();
+        return mCards.size();
     }
 
     public java.lang.CharSequence getPageTitle(int position) {

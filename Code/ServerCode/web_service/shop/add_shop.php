@@ -7,6 +7,7 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $shop = $_POST['shop'];
 $token = $_POST['token'];
+$card_id = $_POST['card_id'];
 $shop = json_decode($shop); //chuyển từ string sang json.
 
 /* check token and return username */
@@ -29,7 +30,8 @@ if($username == ""){
 $id = uniqid();
 $bucketName = "loyalty-point-photos";
 $path = "shops/" . $id;
-$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopLogo";
+$fileName = $path . "/shopLogo";
+$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
 $backgroundLink = "http://storage.googleapis.com/" . $bucketName . "/" . $path . "/shopBackground";
 
 $query = "insert into shop values ('"
@@ -46,8 +48,8 @@ $query_exec = mysqli_query($localhost, $query);
 echo mysqli_error($localhost);
 if($query_exec){
 	
-	$query = "insert into admin_shop values ('"
-								.$username."','"
+	$query = "insert into card_shop values ('"
+								.$card_id."','"
 								.$id."')";  //insert vào database
 	$query_exec = mysqli_query($localhost, $query);
 	if($query_exec)

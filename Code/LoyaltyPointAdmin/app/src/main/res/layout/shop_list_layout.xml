@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_50sdp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/customborder">
+
+        <ImageView
+            android:id="@+id/shopImg"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/shopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/shopImg"
+            android:layout_toRightOf="@id/shopImg"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/shopAddress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shopName"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@id/shopImg"
+            android:textSize="@dimen/font_size" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Card;
+import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
@@ -29,11 +31,9 @@ import github.chenupt.springindicator.SpringIndicator;
 /**
  * Created by 11120_000 on 10/03/15.
  */
-public class ShopsListMainFragment extends Fragment {
+public class CardsListMainFragment extends Fragment {
 
-    ListView mListView;
-    ShopsListAdapter mAdapter;
-    public ShopsListActivity mParentActivity = null;
+    public CardsListActivity mParentActivity = null;
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -41,12 +41,12 @@ public class ShopsListMainFragment extends Fragment {
 
     ProgressDialog mDialog;
 
-    public ShopsListMainFragment() {}
+    public CardsListMainFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.shops_list_main_fragment, container, false);
+        View view =  inflater.inflate(R.layout.cards_list_main_fragment, container, false);
 
         return view;
     }
@@ -56,7 +56,7 @@ public class ShopsListMainFragment extends Fragment {
         Log.e("resume", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        mParentActivity = (ShopsListActivity) getActivity();
+        mParentActivity = (CardsListActivity) getActivity();
 
         // init dialog
         mDialog = new ProgressDialog(mParentActivity);
@@ -76,11 +76,11 @@ public class ShopsListMainFragment extends Fragment {
             }
         });
 
-        mPager = (ViewPager) mParentActivity.findViewById(R.id.listShopsPager);
+        mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
         mPager.setPageTransformer(true, new CubeOutTransformer());
         mPager.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-        mIndicator = (SpringIndicator) mParentActivity.findViewById(R.id.listShopsIndicator);
+        mIndicator = (SpringIndicator) mParentActivity.findViewById(R.id.listCardsIndicator);
         mIndicator.setVisibility(View.GONE);
         //setListData();
     }
@@ -95,15 +95,15 @@ public class ShopsListMainFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void populateList(final ArrayList<Shop> listShops) {
-        mPagerAdapter = new ListShopsPagerAdapter(((ShopsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listShops);
+    public void populateList(final ArrayList<Card> listCards) {
+        mPagerAdapter = new ListCardsPagerAdapter(((CardsListActivity)mParentActivity).getSupportFragmentManager(), mParentActivity, listCards);
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mPager.setAdapter(mPagerAdapter);
                 mPagerAdapter.notifyDataSetChanged();
                 mIndicator.removeAllViews();
-                if (listShops.size() > 0) {
+                if (listCards.size() > 0) {
                     mIndicator.setViewPager(mPager);
                     mIndicator.setVisibility(View.VISIBLE);
                 }
@@ -115,23 +115,10 @@ public class ShopsListMainFragment extends Fragment {
     public void setListData()
     {
         mDialog.show();
-        ShopModel.setOnSelectListShopResult(new ShopModel.OnSelectListShopResult() {
+        CardModel.getListCards(Global.userToken, new CardModel.OnGetListResult() {
             @Override
-            public void onSuccess(ArrayList<Shop> listShops) {
-
-                /*mAdapter = new ShopsListAdapter(mParentActivity, listShops);
-
-                mParentActivity.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mDialog.dismiss();
-                        mListView.setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });*/
-
-                populateList(listShops);
+            public void onSuccess(ArrayList<Card> listCards) {
+                populateList(listCards);
             }
 
             @Override
@@ -145,7 +132,6 @@ public class ShopsListMainFragment extends Fragment {
                 });
             }
         });
-        ShopModel.getListShop(Global.userToken);
     }
 
     @Override

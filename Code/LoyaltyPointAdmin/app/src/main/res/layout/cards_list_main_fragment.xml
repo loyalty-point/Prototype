@@ -14,17 +14,17 @@
         app:siSelectedTextColor="@color/TextIcons"
         app:siIndicatorColor="@color/PrimaryColor"
         android:layout_marginTop="@dimen/_10sdp"
-        android:id="@+id/listShopsIndicator"
+        android:id="@+id/listCardsIndicator"
         android:layout_width="match_parent"
         android:layout_height="56dp"/>
 
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listShopsPager"
+        android:id="@+id/listCardsPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding"
-        android:layout_below="@id/listShopsIndicator"/>
+        android:layout_below="@id/listCardsIndicator"/>
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/createShopBtn"

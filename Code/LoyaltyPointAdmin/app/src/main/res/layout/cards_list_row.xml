@@ -44,37 +44,15 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true">
 
-        <com.github.siyamed.shapeimageview.RoundedImageView
-            android:id="@+id/shopLogo"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:background="@drawable/ic_store"
-            app:siRadius="@dimen/_3sdp"
-            app:siBorderWidth="@dimen/_2sdp"
-            app:siBorderColor="@color/MaterialGrey"/>
-
         <TextView
-            android:id="@+id/shopName"
+            android:id="@+id/cardName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/shopLogo"
             android:textColor="@color/TextIcons"
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             android:padding="@dimen/_3sdp"
             android:background="@color/DarkPrimaryColorBlur"/>
-
-        <TextView
-            android:id="@+id/shopAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/shopName"
-            android:background="@color/DarkPrimaryColorBlur"
-            android:textColor="@color/TextIcons"
-            android:textStyle="bold"
-            android:padding="@dimen/_3sdp"
-            android:textSize="@dimen/_8sdp"/>
 
         </RelativeLayout>
 

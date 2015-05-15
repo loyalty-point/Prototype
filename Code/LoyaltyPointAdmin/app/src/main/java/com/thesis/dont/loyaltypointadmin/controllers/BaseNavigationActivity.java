@@ -1,21 +1,11 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toolbar;
 
 import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.models.Global;
-import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
@@ -43,7 +33,7 @@ public class BaseNavigationActivity extends MaterialNavigationDrawer {
         this.addAccount(account);
 
         // add section to the top list
-        MaterialSection sectionTop1 = newSection("My Shops", R.drawable.ic_store, new ShopsListMainFragment());
+        MaterialSection sectionTop1 = newSection("My Shops", R.drawable.ic_store, new CardsListMainFragment());
         sectionTop1.setSectionColor(getResources().getColor(R.color.DarkPrimaryColor), getResources().getColor(R.color.DarkPrimaryColor));
         //sectionTop1.setNotifications(4);
 

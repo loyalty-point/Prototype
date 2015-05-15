@@ -11,7 +11,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -19,7 +18,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.controllers.LoginActivity;
 import com.thesis.dont.loyaltypointadmin.controllers.ShopDetailActivity;
-import com.thesis.dont.loyaltypointadmin.controllers.ShopsListActivity;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;

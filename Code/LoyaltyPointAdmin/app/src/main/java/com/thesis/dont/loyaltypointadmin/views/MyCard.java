@@ -23,20 +23,20 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MyCard extends Card {
 
-    Shop mShop;
+    com.thesis.dont.loyaltypointadmin.models.Card mCard;
 
     Picasso mPicasso;
 
     Context mContext;
 
-    public MyCard(Context context, Shop shop) {
-        this(context, R.layout.my_card_inner_layout, shop);
+    public MyCard(Context context, com.thesis.dont.loyaltypointadmin.models.Card card) {
+        this(context, R.layout.my_card_inner_layout, card);
     }
 
-    public MyCard(Context context, int innerLayout, Shop shop) {
+    public MyCard(Context context, int innerLayout, com.thesis.dont.loyaltypointadmin.models.Card card) {
         super(context, innerLayout);
         mContext = context;
-        mShop = shop;
+        mCard = card;
         mPicasso = Picasso.with(context);
         init();
     }
@@ -58,8 +58,8 @@ public class MyCard extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
         MyRoundedImageView cardImage = (MyRoundedImageView) view.findViewById(R.id.cardImg);
-        if(mShop.getCardImg() == null || mShop.getCardImg().equals(""))
-            mShop.setCardImg(null);
+        if(mCard.getImage() == null || mCard.getImage().equals(""))
+            mCard.setImage(null);
 
         cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +67,7 @@ public class MyCard extends Card {
 //                Intent i = new Intent((Activity)mContext, ShopDetailActivity.class);
 //                i.putExtra(Global.SHOP_OBJECT, mShop);
                 Intent i = new Intent((Activity)mContext, CardDetailActivity.class);
+                i.putExtra(Global.CARD_ID, mCard.getId());
                 mContext.startActivity(i);
             }
         });
@@ -75,6 +76,6 @@ public class MyCard extends Card {
         ZDepthShadowLayout zdepth = (ZDepthShadowLayout) cardImage.getParent();
         zdepth.setPadding(0, 0, 0, 0);
 
-        mPicasso.load(mShop.getCardImg()).placeholder(R.drawable.card_img2).into(cardImage);
+        mPicasso.load(mCard.getImage()).placeholder(R.drawable.card_img2).into(cardImage);
     }
 }
