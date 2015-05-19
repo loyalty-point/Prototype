@@ -16,6 +16,7 @@ import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.controllers.Helper;
+import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.User;
 
@@ -27,12 +28,14 @@ import it.gmariotti.cardslib.library.internal.CardHeader;
 public class MyCardHeader extends CardHeader {
 
     User mUser;
+    Card mCard;
     Picasso mPicasso;
     boolean mIsPendingCard;
 
-    public MyCardHeader(Context context, User user, boolean isPending) {
+    public MyCardHeader(Context context, Card card, User user, boolean isPending) {
         super(context, R.layout.card_header_inner_layout);
         mUser = user;
+        mCard = card;
         mIsPendingCard = isPending;
 
         mPicasso = Picasso.with(context);
@@ -88,7 +91,7 @@ public class MyCardHeader extends CardHeader {
             }
 
             TextView cardName = (TextView) view.findViewById(R.id.cardName);
-            cardName.setText("Card Name");
+            cardName.setText(mCard.getName());
 
             TextView userName = (TextView) view.findViewById(R.id.userName);
             userName.setText(mUser.getFullname());

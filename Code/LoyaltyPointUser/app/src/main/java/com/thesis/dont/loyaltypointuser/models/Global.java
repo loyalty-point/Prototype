@@ -7,6 +7,7 @@ public class Global {
     public static final String SHOP_ADDRESS = "shop_address";
     public static final String QR_CODE = "qr_code";
     public static final String USER_OBJECT = "user_object";
+    public static final String CARD_OBJECT = "card_object";
     public static final String IS_PENDING_CARD = "is_pending_card";
     public static String userToken = "";
     public static String regID = null;

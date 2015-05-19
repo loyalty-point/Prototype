@@ -33,7 +33,7 @@ import it.gmariotti.cardslib.library.view.CardGridView;
 
 public class CardAwardsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
-    public static final String CARD_ID = "shop_ID";
+    public static final String CARD_ID = "card_ID";
 
     //    @InjectView(R.id.textView)
     TextView textView;

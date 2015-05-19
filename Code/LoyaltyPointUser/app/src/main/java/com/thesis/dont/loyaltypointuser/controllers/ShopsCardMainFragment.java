@@ -18,6 +18,8 @@ import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Card;
+import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
@@ -46,7 +48,7 @@ public class ShopsCardMainFragment extends Fragment {
     private ListCardsPagerAdapter mPagerAdapter;
     private CircleIndicator mIndicator;
 
-    ArrayList<Shop> mListCards;
+    ArrayList<Card> mListCards;
 
     ProgressDialog mDialog;
 
@@ -69,20 +71,19 @@ public class ShopsCardMainFragment extends Fragment {
 
     public void setListData() {
         mDialog.show();
-        ShopModel.getFollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
+        CardModel.getFollowedCards(Global.userToken, new CardModel.OnGetListResult() {
             @Override
-            public void onSuccess(final ArrayList<Shop> listShops) {
-
-                // Get user info
+            public void onSuccess(final ArrayList<Card> listCards) {
+                //Get user info
                 UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
                     @Override
                     public void onSuccess(User user) {
                         mPagerAdapter.setUser(user);
 
-                        mListCards = new ArrayList<Shop>();
-                        for (Shop shop : listShops) {
-                            if (shop.isAccepted() == 1)
-                                mListCards.add(shop);
+                        mListCards = new ArrayList<Card>();
+                        for (Card card : listCards) {
+                            if (card.getIsAccepted() == 1)
+                                mListCards.add(card);
                         }
                         populateList(mListCards);
                     }
@@ -110,6 +111,47 @@ public class ShopsCardMainFragment extends Fragment {
                 });
             }
         });
+//        ShopModel.getFollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
+//            @Override
+//            public void onSuccess(final ArrayList<Shop> listShops) {
+//
+//                // Get user info
+//                UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
+//                    @Override
+//                    public void onSuccess(User user) {
+//                        mPagerAdapter.setUser(user);
+//
+//                        mListCards = new ArrayList<Shop>();
+//                        for (Shop shop : listShops) {
+//                            if (shop.isAccepted() == 1)
+//                                mListCards.add(shop);
+//                        }
+//                        populateList(mListCards);
+//                    }
+//
+//                    @Override
+//                    public void onError(final String e) {
+//                        mParentActivity.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Toast.makeText(mParentActivity, e, Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onError(final String error) {
+//                mParentActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mDialog.dismiss();
+//                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override
@@ -133,12 +175,12 @@ public class ShopsCardMainFragment extends Fragment {
             }
         });
 
-        mListCards = new ArrayList<Shop>();
+        mListCards = new ArrayList<Card>();
 
         mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
         mPager.setPageTransformer(true, new RotateDownTransformer());
 
-        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Shop>(), false);
+        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>(), false);
         mPager.setAdapter(mPagerAdapter);
 
         mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
@@ -190,14 +232,14 @@ public class ShopsCardMainFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void populateList(final ArrayList<Shop> listShops) {
+    public void populateList(final ArrayList<Card> listCards) {
 
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mPagerAdapter.setListShops(listShops);
+                mPagerAdapter.setListCards(listCards);
                 mPagerAdapter.notifyDataSetChanged();
-                if(listShops.size() > 0) {
+                if(listCards.size() > 0) {
                     mIndicator.setViewPager(mPager);
                     mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
