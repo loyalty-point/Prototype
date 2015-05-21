@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.User;
@@ -20,35 +21,35 @@ import java.util.List;
 public class ListCardsPagerAdapter extends FragmentPagerAdapter {
 
     Context mContext;
-    ArrayList<Shop> mShops;
+    ArrayList<Card> mCards;
     private User mUser = null;
     boolean mIsPendingCards;
 
-    public ListCardsPagerAdapter(FragmentManager fm, Context context, ArrayList<Shop> shops, boolean isPending) {
+    public ListCardsPagerAdapter(FragmentManager fm, Context context, ArrayList<Card> cards, boolean isPending) {
         super(fm);
         mContext = context;
-        mShops = shops;
+        mCards = cards;
         mIsPendingCards = isPending;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if(mShops.size() > position) {
-            Shop shop = mShops.get(position);
+        if(mCards.size() > position) {
+            Card card = mCards.get(position);
 
-            return CardFragment.newInstance(shop, mUser, mIsPendingCards);
+            return CardFragment.newInstance(card, mUser, mIsPendingCards);
         }
 
         return null;
     }
 
-    public void setListShops(ArrayList<Shop> listShops) {
-        mShops = listShops;
+    public void setListCards(ArrayList<Card> listCards) {
+        mCards = listCards;
     }
 
     @Override
     public int getCount() {
-        return mShops.size();
+        return mCards.size();
     }
 
     public java.lang.CharSequence getPageTitle(int position) {

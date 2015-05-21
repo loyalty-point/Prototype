@@ -1,6 +1,6 @@
-package com.thesis.dont.loyaltypointadmin.models;
+package com.thesis.dont.loyaltypointuser.models;
 
-import com.thesis.dont.loyaltypointadmin.controllers.Helper;
+import com.thesis.dont.loyaltypointuser.controllers.Helper;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tinntt on 5/14/2015.
+ * Created by tinntt on 5/16/2015.
  */
 public class CardModel {
 
@@ -32,11 +32,9 @@ public class CardModel {
     }
 
     public static native String getGetListCards();
-    public static native String getCreateCard();
     public static native String getGetListShop();
     public static native String getGetListEvents();
     public static native String getGetListAwards();
-    public static native String getGetFollowingUsers();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -141,52 +139,7 @@ public class CardModel {
         t.start();
     }
 
-    public static void createCard(final String userToken, Card card, final OnCreateCardResult mOnCreateCardResult){
-        final String json = Helper.objectToJson(card);
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getCreateCard();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("card", json));
-                nameValuePairs.add(new BasicNameValuePair("token", userToken));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    CreateCardResult result = (CreateCardResult) Helper.jsonToObject(response, CreateCardResult.class);
-                    if(result.error.equals(""))
-                        mOnCreateCardResult.onSuccess(result);
-                    else
-                        mOnCreateCardResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnCreateCardResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnCreateCardResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnCreateCardResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public static void getListCards(final String userToken, final OnGetListResult mOnGetListResult){
+    public static void getFollowedCards(final String userToken, final OnGetListResult mOnGetListResult){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -286,59 +239,6 @@ public class CardModel {
         t.start();
     }
 
-    public static void getFollowingUsers(final String token, String shopId, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
-        final String token_string = token;
-        final String shopId_string = shopId;
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetFollowingUsers();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("card_id", shopId_string));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    GetListFollowingUsers result = (GetListFollowingUsers) Helper.jsonToObject(response, GetListFollowingUsers.class);
-
-                    if(result.error.equals("")){
-
-                        ArrayList<Customer> listUsers = new ArrayList<Customer>();
-                        for(int i=0; i<result.listUsers.length-1; i++) {
-                            listUsers.add(result.listUsers[i]);
-                        }
-                        mOnSelectFollowingUsersResult.onSuccess(listUsers);
-                    }
-                    else
-                        mOnSelectFollowingUsersResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnSelectFollowingUsersResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnSelectFollowingUsersResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnSelectFollowingUsersResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
     public class CreateCardResult {
         public String error;
         public String cardId;
@@ -393,13 +293,4 @@ public class CardModel {
         public void onError(String error);
     }
 
-    public interface OnSelectFollowingUsersResult{
-        public void onSuccess(ArrayList<Customer> listUsers);
-        public void onError(String error);
-    }
-
-    public class GetListFollowingUsers{
-        public String error;
-        public Customer[] listUsers;
-    }
 }

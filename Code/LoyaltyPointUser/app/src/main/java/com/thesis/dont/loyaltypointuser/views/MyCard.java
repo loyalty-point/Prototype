@@ -34,7 +34,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MyCard extends Card {
 
 
-    Shop mShop;
+    com.thesis.dont.loyaltypointuser.models.Card mCard;
     boolean mIsPendingCard;
 
     Picasso mPicasso;
@@ -43,14 +43,14 @@ public class MyCard extends Card {
 
     Typeface customFont1;
 
-    public MyCard(Context context, Shop shop, boolean isPending) {
-        this(context, R.layout.my_card_inner_layout, shop, isPending);
+    public MyCard(Context context, com.thesis.dont.loyaltypointuser.models.Card card, boolean isPending) {
+        this(context, R.layout.my_card_inner_layout, card, isPending);
     }
 
-    public MyCard(Context context, int innerLayout, Shop shop, boolean isPending) {
+    public MyCard(Context context, int innerLayout, com.thesis.dont.loyaltypointuser.models.Card card, boolean isPending) {
         super(context, innerLayout);
         mContext = context;
-        mShop = shop;
+        mCard = card;
         mIsPendingCard = isPending;
 
         mPicasso = Picasso.with(context);
@@ -76,8 +76,8 @@ public class MyCard extends Card {
     public void setupInnerViewElements(ViewGroup parent, final View view) {
 
         MyRoundedImageView cardImage = (MyRoundedImageView) view.findViewById(R.id.cardImg);
-        if(mShop.getCardImg() == null || mShop.getCardImg().equals(""))
-            mShop.setCardImg(null);
+        if(mCard.getImage() == null || mCard.getImage().equals(""))
+            mCard.setImage(null);
 
         cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,13 +93,13 @@ public class MyCard extends Card {
         ZDepthShadowLayout zdepth = (ZDepthShadowLayout) cardImage.getParent();
         zdepth.setPadding(0, 0, 0, 0);
 
-        mPicasso.load(mShop.getCardImg()).placeholder(R.drawable.card_img2).into(cardImage);
+        mPicasso.load(mCard.getImage()).placeholder(R.drawable.card_img2).into(cardImage);
 
         TextView point = (TextView) view.findViewById(R.id.point);
         if(mIsPendingCard)
             point.setText("...");
         else
-            point.setText(String.valueOf(mShop.getPoint()));
+            point.setText(String.valueOf(mCard.getPoint()));
 
         point.setTypeface(customFont1);
     }

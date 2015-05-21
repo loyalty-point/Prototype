@@ -26,6 +26,19 @@ if($username == ""){
 
 $isAccepted = 0;
 
+$query = "select * from card_shop where shop_id='".$shop_id."'";
+$query_exec = mysqli_query($localhost, $query);
+$row = mysqli_fetch_array($query_exec);
+$card_id = $row['card_id'];
+
+$query = "insert into customer_card values ('"
+							.$username."','"
+							.$card_id ."','"
+							.$point ."','"
+							.$isAccepted ."')";  //insert vào database
+
+$query_exec = mysqli_query($localhost, $query);
+
 $query = "insert into customer_shop values ('"
 							.$username."','"
 							.$shop_id ."','"

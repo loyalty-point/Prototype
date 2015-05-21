@@ -39,6 +39,15 @@ if($shopID == ""){
 	die();
 }
 
+$query = "select * from card_shop where shop_id='".$shopID."'";
+$query_exec = mysqli_query($localhost, $query);
+$row = mysqli_fetch_array($query_exec);
+$card_id = $row['card_id'];
+
+// Vào bảng card_shop, tìm dòng thỏa shop_id == $shopID && username == $customerName
+$query = "update customer_card set isAccepted = '1' where card_id='".$card_id."' and username='".$customerName."'";
+$query_exec = mysqli_query($localhost, $query);
+
 // Vào bảng customer_shop, tìm dòng thỏa shop_id == $shopID && username == $customerName
 $query = "update customer_shop set isAccepted = '1' where shop_id='".$shopID."' and username='".$customerName."'";
 $query_exec = mysqli_query($localhost, $query);
