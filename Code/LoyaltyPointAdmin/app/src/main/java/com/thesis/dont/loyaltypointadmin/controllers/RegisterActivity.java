@@ -103,7 +103,7 @@ public class RegisterActivity extends ActionBarActivity {
                                 GCMHelper.GCMregistration(RegisterActivity.this);
 
                                 // Lưu token vào trong shared preferences
-                                SharedPreferences preferences = getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_PRIVATE);
+                                SharedPreferences preferences = getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_WORLD_READABLE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString(LoginActivity.TOKEN, token);
 

@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -35,21 +36,26 @@ public class LoginActivity extends ActionBarActivity {
     ShimmerTextView loyal;
     TextView bag;
 
+    int from = 0;
+
     @Override
     protected void onResume() {
         super.onResume();
         //checkPlayServices();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SharedPreferences preference = (SharedPreferences) getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
+        Intent intent = getIntent();
+        from = intent.getIntExtra(Global.FROM, 0);
+
+        SharedPreferences preference = getSharedPreferences(LOGIN_STATE, MODE_WORLD_READABLE);
         Global.userToken = preference.getString(TOKEN, "");
-        if(!Global.userToken.equals("")) {
+
+        if(from == 0 && !Global.userToken.equals("")) {
             // Đã lưu trạng thái đăng nhập
             Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
             startActivity(i);
@@ -112,15 +118,23 @@ public class LoginActivity extends ActionBarActivity {
 
                         if(mRememberMe.isChecked()) {
                             // Lưu token vào trong shared preferences
-                            SharedPreferences preferences = getSharedPreferences(LOGIN_STATE, MODE_PRIVATE);
+                            SharedPreferences preferences = getSharedPreferences(LOGIN_STATE, Context.MODE_WORLD_READABLE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(TOKEN, token);
 
                             editor.commit();
                         }
 
-                        Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
-                        startActivity(i);
+                        if(from == 0) {
+                            // Khởi chạy từ launcher
+                            Intent i = new Intent(LoginActivity.this, CardsListActivity.class);
+                            startActivity(i);
+                        }else {
+                            // Khởi chạy từ ứng dụng khác (được gọi từ API)
+                            Intent result = new Intent();
+                            result.putExtra(Global.TOKEN, token);
+                            setResult(RESULT_OK, result);
+                        }
                         finish();
                     }
 
