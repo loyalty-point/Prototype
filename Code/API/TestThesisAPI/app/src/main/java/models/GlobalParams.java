@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import java.util.HashMap;
 
+import apis.LoyaltyPointAPI;
 import apis.LoyaltyPointAPI.*;
 
 /**
@@ -19,4 +20,15 @@ public class GlobalParams {
     public static String appPackageName = "com.thesis.dont.loyaltypointadmin";
 
     public static HashMap<Integer, OnGetTokenResult> mapCallbacks = new HashMap<Integer, OnGetTokenResult>();
+
+    public static String calculatePointLink = "http://104.155.233.34/apis/calculate_point.php";
+    public static String updatePointLink = "http://104.155.233.34/apis/update_point.php";
+
+    public static void removeCallbackItem(OnGetTokenResult item) {
+        mapCallbacks.remove(item);
+    }
+
+    public static void addCallbackItem(int key, OnGetTokenResult onGetTokenResult) {
+        mapCallbacks.put(key, onGetTokenResult);
+    }
 }

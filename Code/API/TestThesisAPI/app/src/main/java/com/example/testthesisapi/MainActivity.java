@@ -8,12 +8,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 import apis.LoyaltyPointAPI;
+import models.AchievedEvent;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -21,35 +25,80 @@ public class MainActivity extends ActionBarActivity {
     public static final String LOGIN_STATE = "login_state";
     public static final String TOKEN = "token";
 
+    TextView calculatePointResult, updatePointResult;
+    Button calculatePointBtn, updatePointBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tokenTv = (TextView) findViewById(R.id.token);
+        calculatePointResult = (TextView) findViewById(R.id.calculatePointResult);
+        updatePointResult = (TextView) findViewById(R.id.updatePointResult);
 
-        LoyaltyPointAPI request = new LoyaltyPointAPI();
-        request.calculatePoint(this, null, null, 0, new LoyaltyPointAPI.OnCalculatePointResult() {
+        calculatePointBtn = (Button) findViewById(R.id.calculatePointBtn);
+        calculatePointBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(final String token) {
-                runOnUiThread(new Runnable() {
+            public void onClick(View v) {
+                LoyaltyPointAPI request = new LoyaltyPointAPI();
+                request.calculatePoint(MainActivity.this, null, null, 0, new LoyaltyPointAPI.OnCalculatePointResult() {
                     @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
+                    public void onSuccess(ArrayList<AchievedEvent> result, float totalPoint) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
+                                calculatePointResult.setText("Calculate Point Successfully");
+                            }
+                        });
                     }
-                });
-            }
 
-            @Override
-            public void onError(final String error) {
-                runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+                    public void onError(final String error) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+                                calculatePointResult.setText("Calculate Point Failed: " + error);
+                            }
+                        });
                     }
                 });
             }
         });
+
+
+        updatePointBtn = (Button) findViewById(R.id.updatePointBtn);
+        updatePointBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoyaltyPointAPI request = new LoyaltyPointAPI();
+                request.updatePoint(MainActivity.this, null, null, 0, new LoyaltyPointAPI.OnUpdatePointResult() {
+                    @Override
+                    public void onSuccess(ArrayList<AchievedEvent> result, float totalPoint) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
+                                updatePointResult.setText("Update Point Successfully");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(final String error) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+                                updatePointResult.setText("Update Point Failed: " + error);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
