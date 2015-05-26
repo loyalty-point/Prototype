@@ -18,12 +18,15 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.controllers.BuyAwardDetailActivity;
+import com.thesis.dont.loyaltypointuser.controllers.CardDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.LoginActivity;
 import com.thesis.dont.loyaltypointuser.controllers.ShopDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.UpdatePointDetailActivity;
 import com.thesis.dont.loyaltypointuser.models.Award;
+import com.thesis.dont.loyaltypointuser.models.Card;
+import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.History;
 import com.thesis.dont.loyaltypointuser.models.Shop;
@@ -39,6 +42,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
 
     Shop mShop;
+    Card mCard;
     History mHistory;
 
     public static final String TAG = "GcmIntentService";
@@ -76,43 +80,62 @@ public class GcmIntentService extends IntentService {
                 // Get shop info
                 SharedPreferences preference = (SharedPreferences) getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_PRIVATE);
                 Global.userToken = preference.getString(LoginActivity.TOKEN, "");
-                if(Global.userToken.equals("")) {
+                if (Global.userToken.equals("")) {
                     GcmBroadcastReceiver.completeWakefulIntent(intent);
                     return;
                 }
-                final String message = extras.getString("message");
-                String shopID = extras.getString("shopID");
-
-                ShopModel.getShopInfo(Global.userToken, shopID, new ShopModel.OnGetShopInfoResult() {
-                    @Override
-                    public void onSuccess(Shop shop) {
-                        mShop = shop;
-                        if(message.equals("trade successfully") || message.equals("add point")){
-                            String historyId = extras.getString("historyID");
-
-                            UserModel.getHistory(Global.userToken, historyId, new UserModel.OnGetHistoryResult() {
-                                @Override
-                                public void onSuccess(History history) {
-                                    mHistory = history;
-                                    sendNotification(extras, true);
-                                }
-
-                                @Override
-                                public void onError(String error) {
-
-                                }
-                            });
-                        }else{
+                final String type = extras.getString("type");
+                if(type.equals("card")){
+                    String cardId = extras.getString("cardID");
+                    CardModel.getCardInfo(Global.userToken, cardId, new CardModel.OnGetCardInfoResult() {
+                        @Override
+                        public void onSuccess(Card card) {
+                            mCard = card;
+                            Log.e("get card info", "success");
                             sendNotification(extras, true);
                         }
 
-                    }
+                        @Override
+                        public void onError(String error) {
+                            Log.e("get card info", error.toString());
+                        }
+                    });
+                }else {
+                    final String message = extras.getString("message");
+                    String shopID = extras.getString("shopID");
 
-                    @Override
-                    public void onError(String error) {
-                        // do nothing
-                    }
-                });
+                    ShopModel.getShopInfo(Global.userToken, shopID, new ShopModel.OnGetShopInfoResult() {
+                        @Override
+                        public void onSuccess(Shop shop) {
+                            mShop = shop;
+                            if (message.equals("trade successfully") || message.equals("add point")) {
+                                String historyId = extras.getString("historyID");
+
+                                UserModel.getHistory(Global.userToken, historyId, new UserModel.OnGetHistoryResult() {
+                                    @Override
+                                    public void onSuccess(History history) {
+                                        mHistory = history;
+                                        sendNotification(extras, true);
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+
+                                    }
+                                });
+                            } else {
+                                sendNotification(extras, true);
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            // do nothing
+                        }
+                    });
+                }
+
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -127,27 +150,27 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder mBuilder = null;
-        if(!isComplete) {
+        if (!isComplete) {
             mBuilder = new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.ic_bag)
-                            .setContentTitle("Error!")
-                            .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText(data.toString()))
-                            .setContentText(data.toString());
-        }else {
+                    .setSmallIcon(R.drawable.ic_bag)
+                    .setContentTitle("Error!")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(data.toString()))
+                    .setContentText(data.toString());
+        } else {
             String message = data.getString("message");
 
-            if(message.equals("add point")) {
+            if (message.equals("add point")) {
 
                 String point = data.getString("point");
                 String newPoint = data.getString("newPoint");
 
                 mBuilder = new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.ic_bag)
-                                .setContentTitle(mShop.getName())
-                                .setStyle(new NotificationCompat.BigTextStyle()
-                                        .bigText(data.toString()))
-                                .setContentText("Added " + point + " point");
+                        .setSmallIcon(R.drawable.ic_bag)
+                        .setContentTitle(mShop.getName())
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(data.toString()))
+                        .setContentText("Added " + point + " point");
 
                 Intent i = new Intent(this, UpdatePointDetailActivity.class);
                 i.putExtra(Global.HISTORY_OBJECT, mHistory);
@@ -157,20 +180,20 @@ public class GcmIntentService extends IntentService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
 
-            }else if(message.equals("request accepted")) {
+            } else if (message.equals("request accepted")) {
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Congratulations")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(data.toString()))
-                        .setContentText(mShop.getName() + " has accepted your register request");
+                        .setContentText(mCard.getName() + " has accepted your register request");
 
-                Intent i = new Intent(this, ShopDetailActivity.class);
-                i.putExtra(Global.SHOP_OBJECT, mShop);
+                Intent i = new Intent(this, CardDetailActivity.class);
+                i.putExtra(Global.CARD_ID, mCard.getId());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
-            }else if(message.equals("trade successfully")) {
+            } else if (message.equals("trade successfully")) {
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Congratulations")
@@ -185,7 +208,7 @@ public class GcmIntentService extends IntentService {
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
-            }else if(message.equals("cancel successfully")) {
+            } else if (message.equals("cancel successfully")) {
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Cancel")

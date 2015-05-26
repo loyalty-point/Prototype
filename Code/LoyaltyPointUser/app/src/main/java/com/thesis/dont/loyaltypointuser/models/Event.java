@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * Created by tinntt on 3/24/2015.
  */
 public class Event implements Parcelable {
+    private String shopName;
     private String id;
     private int type;
     private String name;
@@ -139,6 +140,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getShopName());
         dest.writeString(id);
         dest.writeInt(type);
         dest.writeString(name);
@@ -165,6 +167,7 @@ public class Event implements Parcelable {
     };
 
     private Event(Parcel in) {
+        setShopName(in.readString());
         id = in.readString();
         type = in.readInt();
         name = in.readString();
@@ -177,5 +180,13 @@ public class Event implements Parcelable {
         number = in.readInt();
         point = in.readInt();
         image = in.readString();
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

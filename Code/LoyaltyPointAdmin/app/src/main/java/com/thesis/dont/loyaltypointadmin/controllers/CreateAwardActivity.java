@@ -36,6 +36,7 @@ public class CreateAwardActivity extends ActionBarActivity {
     Bitmap awardLogo = null;
 
     String shopID;
+    String cardID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class CreateAwardActivity extends ActionBarActivity {
 
         Intent i = getIntent();
         shopID = i.getStringExtra(ShopAwardsFragment.SHOP_ID);
+        cardID = i.getStringExtra(Global.CARD_ID);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -100,7 +102,7 @@ public class CreateAwardActivity extends ActionBarActivity {
 
                 // Create award
                 Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, shopID);
-                AwardModel.createAward(Global.userToken, award, new AwardModel.OnCreateAwardResult() {
+                AwardModel.createAward(Global.userToken, shopID, cardID, award, new AwardModel.OnCreateAwardResult() {
                     @Override
                     public void onSuccess(AwardModel.CreateAwardResult result) {
                         // Tạo award thành công

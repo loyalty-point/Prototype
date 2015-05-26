@@ -42,6 +42,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
     // data from previous activity
     ArrayList<User> listUsers;
     Shop mShop;
+    String cardId;
 
     @Override
     public void onCreate(Bundle state) {
@@ -51,6 +52,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         Intent i = getIntent();
         listUsers = i.getParcelableArrayListExtra(Global.USER_LIST);
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        cardId = i.getStringExtra(Global.CARD_ID);
 
         if(state != null) {
             mFlash = state.getBoolean(FLASH_STATE, false);
@@ -174,7 +176,7 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
                     dialog.dismiss();
 
                     Intent i = new Intent(ScannerActivity.this, CalculatePointActivity.class);
-
+                    i.putExtra(Global.CARD_ID, cardId);
                     // put username into intent
                     i.putExtra(Global.USER_NAME, finalFoundUser.getUsername());
 

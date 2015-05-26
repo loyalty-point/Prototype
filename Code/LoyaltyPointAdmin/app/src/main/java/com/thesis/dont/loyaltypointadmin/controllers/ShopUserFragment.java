@@ -55,6 +55,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     Activity mParentActivity;
 
     private String shopId;
+    private String cardId;
 
     private ArrayList<Customer> listUser;
     private ListView listView;
@@ -66,10 +67,9 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
 
     public ShopUserFragment() {}
 
-    public ShopUserFragment(int position, String shopId) {
+    public ShopUserFragment(int position) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -77,8 +77,6 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
-
     }
 
     @Override
@@ -92,7 +90,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     }
 
     private void getListUsers() {
-        ShopModel.getFollowingUsers(Global.userToken, shopId, new ShopModel.OnSelectFollowingUsersResult() {
+        ShopModel.getFollowingUsers(Global.userToken, shopId, cardId, new ShopModel.OnSelectFollowingUsersResult() {
             @Override
             public void onSuccess(ArrayList<Customer> listUsers) {
                 listUser = listUsers;
@@ -119,7 +117,8 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         mParentActivity = getActivity();
         mPicaso = Picasso.with(mParentActivity);
         // add expandable button
@@ -133,6 +132,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 // Start Scan Barcode Activity
 
                 Intent i = new Intent(mParentActivity, ScannerActivity.class);
+                i.putExtra(Global.CARD_ID, cardId);
                 i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
 
                 // put shop into intent
@@ -163,6 +163,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
                 i.putExtra(Global.SHOP_ID, shopId);
                 i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
+                i.putExtra(Global.CARD_ID, cardId);
                 Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
                 i.putExtra(Global.SHOP_OBJECT, shop);
                 startActivity(i);
@@ -273,7 +274,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
-
+                    i.putExtra(Global.CARD_ID, cardId);
                     // put username into intent
                     i.putExtra(Global.USER_NAME, username);
 

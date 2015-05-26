@@ -83,7 +83,7 @@ public class EventModel {
         t.start();
     }
 
-    public static void getListEvents(final String userToken, final String shopID, final OnGetListResult onGetListResult){
+    public static void getListEvents(final String userToken, final String shopID, final String cardID, final OnGetListResult onGetListResult){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -98,6 +98,7 @@ public class EventModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", userToken));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

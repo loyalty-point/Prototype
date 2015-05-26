@@ -7,8 +7,9 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $award = $_POST['award'];
 $token = $_POST['token'];
+$shopID = $_POST['shop_id'];
+$cardID = $_POST['card_id'];
 $award = json_decode($award); //chuyển từ string sang json.
-$shopID = $award->shopID;
 
 /* check token and return username */
 if(strlen($token)!=64){
@@ -39,16 +40,24 @@ $query = "insert into award values ('"
 							.$award->point."','"
 							.$award->quantity."','"
 							.$award->description."','"
-							.$imageLink."','"
-							.$shopID."')";  //insert vào database
+							.$imageLink."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec){
-	echo '{"error":"", "bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
+	$query = "insert into award_card_shop values ('"
+											.$id."','"
+											.$cardID."','"
+											.$shopID."')";
+	$query_exec = mysqli_query($localhost, $query);
+	if($query_exec){
+		echo '{"error":"", "bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
+	}else{
+		echo '{"error":"create award unsuccessfully", bucketName":"", "fileName":""}'; //insert không thành công vì đã có username
+	}
 }
 else {
-	echo '{"error":"create shop unsuccessfully", bucketName":"", "fileName":""}'; //insert không thành công vì đã có username
+	echo '{"error":"create award unsuccessfully", bucketName":"", "fileName":""}'; //insert không thành công vì đã có username
 }
 
 mysqli_close($localhost);

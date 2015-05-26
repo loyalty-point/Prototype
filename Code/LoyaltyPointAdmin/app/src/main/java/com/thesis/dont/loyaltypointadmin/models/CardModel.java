@@ -37,6 +37,7 @@ public class CardModel {
     public static native String getGetListEvents();
     public static native String getGetListAwards();
     public static native String getGetFollowingUsers();
+    public static native String getGetCardInfo();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -337,6 +338,58 @@ public class CardModel {
             }
         };
         t.start();
+    }
+
+    public static void getCardInfo(final String token, final String cardID, final OnGetCardInfoResult mOnGetCardInfoResult){
+        /*final String token_string = token;
+        final String json = Helper.objectToJson(shop);*/
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetCardInfo();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
+                        mOnGetCardInfoResult.onError(response);
+                    else {
+                        Card card = (Card) Helper.jsonToObject(response, Card.class);
+                        mOnGetCardInfoResult.onSuccess(card);
+                    }
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetCardInfoResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetCardInfoResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetCardInfoResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnGetCardInfoResult{
+        public void onSuccess(Card card);
+        public void onError(String error);
     }
 
     public class CreateCardResult {

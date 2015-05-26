@@ -7,34 +7,35 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 
 $token = $_POST['token'];
+$card_id = $_POST['card_id'];
 
 if(strlen($token)!=64){
-    echo '{"error":"token not found","listCards":[]}';
+    echo '{"error":"token not found","listShops":[]}';
     die();
 }
 
 /* check token and return username */
-$query = "select username from admin_users where token='".$token."'";
+$query = "select username from customer_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-    echo '{"error":"wrong token","listCards":[]}';
+    echo '{"error":"wrong token","listShops":[]}';
     die();
 }
 /**/
 
-/* check exist card id in "admin_card" table*/
-$query = "select * from admin_card where admin_username='".$username."'";
+/* check exist card id in "card_shop" table*/
+$query = "select * from card_shop where card_id='".$card_id."'";
 
 $query_exec = mysqli_query($localhost, $query);
 $rows = mysqli_num_rows($query_exec);
 
-$result = '{"error":"", "listCards":[';
+$result = '{"error":"", "listShops":[';
 while($row = mysqli_fetch_array($query_exec)){
-    $query_search = "select * from card where id='".$row['card_id']."'";
+    $query_search = "select * from shop where id='".$row['shop_id']."'";
 
     $query_exec1 = mysqli_query($localhost,$query_search);   
 
@@ -42,7 +43,12 @@ while($row = mysqli_fetch_array($query_exec)){
         $result = $result . '{' 
                 . '"id":"' . $row1['id'] . '",'
                 . '"name":"' . $row1['name'] . '",'
-                . '"image":"' . $row1['image'] . '"},';
+                . '"address":"' . $row1['address'] . '",'
+                . '"phone_number":"' . $row1['phone_number'] . '",'
+                . '"category":"' . $row1['category'] . '",'
+                . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
+                . '"image":"' . $row1['image'] . '",'
+                . '"cardImg":"' . $row1['background'] . '"},';
     }
 }
 $result = $result . ']}';

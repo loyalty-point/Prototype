@@ -16,8 +16,11 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.controllers.CardDetailActivity;
 import com.thesis.dont.loyaltypointadmin.controllers.LoginActivity;
 import com.thesis.dont.loyaltypointadmin.controllers.ShopDetailActivity;
+import com.thesis.dont.loyaltypointadmin.models.Card;
+import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
@@ -31,6 +34,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
 
     Shop mShop;
+    Card mCard;
 
     public static final String TAG = "GcmIntentService";
 
@@ -72,22 +76,39 @@ public class GcmIntentService extends IntentService {
                     GcmBroadcastReceiver.completeWakefulIntent(intent);
                     return;
                 }
+                final String type = extras.getString("type");
+                if(type.equals("card")){
+                    String cardId = extras.getString("cardID");
+                    CardModel.getCardInfo(Global.userToken, cardId, new CardModel.OnGetCardInfoResult() {
+                        @Override
+                        public void onSuccess(Card card) {
+                            mCard = card;
+                            Log.e("get card info", "success");
+                            sendNotification(extras.getString("message"), true);
+                        }
 
-                String shopID = extras.getString("shopID");
+                        @Override
+                        public void onError(String error) {
+                            Log.e("get card info", error.toString());
+                        }
+                    });
+                }else {
+                    String shopID = extras.getString("shopID");
+                    String cardID = extras.getString("carID");
+                    ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
+                        @Override
+                        public void onSuccess(Shop shop) {
+                            mShop = shop;
+                            sendNotification(extras.getString("message"), true);
+                        }
 
-                ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
-                    @Override
-                    public void onSuccess(Shop shop) {
-                        mShop = shop;
-                        sendNotification(extras.getString("message"), true);
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        //sendNotification(error);
-                    }
-                });
-                ShopModel.getShopInfo(Global.userToken, shopID);
+                        @Override
+                        public void onError(String error) {
+                            //sendNotification(error);
+                        }
+                    });
+                    ShopModel.getShopInfo(Global.userToken, shopID, cardID);
+                }
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -101,23 +122,40 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+        NotificationCompat.Builder mBuilder = null;
+        if(!isComplete){
+            mBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.ic_bag)
+                    .setContentTitle("Error!")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(msg.toString()))
+                    .setContentText(msg.toString());
+        }else{
+            if (msg.equals("You've received a register request")) {
+
+                mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
-                        .setContentTitle(mShop.getName())
+                        .setContentTitle(mCard.getName())
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
+                                .bigText(msg.toString()))
                         .setContentText(msg);
 
-        if(isComplete) {
-            Intent i = new Intent(this, ShopDetailActivity.class);
-            i.putExtra(Global.TAB_INDEX, 4);
-            i.putExtra(Global.SHOP_OBJECT, mShop);
-            Log.e("send notification", mShop.getName());
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
+                Intent i = new Intent(this, CardDetailActivity.class);
+                i.putExtra(Global.CARD_ID, mCard.getId());
+                i.putExtra(Global.TAB_INDEX, Global.CARD_DETAIL_REGISTER_TAB);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
+                mBuilder.setContentIntent(contentIntent);
+            }else{
+                Intent i = new Intent(this, ShopDetailActivity.class);
+                i.putExtra(Global.TAB_INDEX, 4);
+                i.putExtra(Global.SHOP_OBJECT, mShop);
+                Log.e("send notification", mShop.getName());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
 
-            mBuilder.setContentIntent(contentIntent);
+                mBuilder.setContentIntent(contentIntent);
+            }
         }
 
         Notification notification = mBuilder.build();

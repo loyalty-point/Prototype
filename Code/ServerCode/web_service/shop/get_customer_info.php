@@ -7,7 +7,7 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'");
 
 $token = $_POST['token'];
-$shop_id = $_POST['shop_id'];
+$card_id = $_POST['card_id'];
 $customerName = $_POST['username'];
 
 if(strlen($token)!=64){
@@ -28,7 +28,7 @@ if($username == ""){
 }
 
 // Lấy tất cả các user thuộc shop có user.username == $customerName
-$query = "select * from customer_shop where shop_id = '".$shop_id."' AND username = '" . $customerName . "'";
+$query = "select * from customer_card where card_id = '".$card_id."' AND username = '" . $customerName . "'";
 $query_exec = mysqli_query($localhost,$query);
 $num_row = mysqli_num_rows($query_exec);
 

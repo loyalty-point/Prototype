@@ -7,7 +7,8 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $event = $_POST['event'];
 $token = $_POST['token'];
-$shopid = $_POST['shop_id'];
+$shopID = $_POST['shop_id'];
+$cardID = $_POST['card_id'];
 $event = json_decode($event); //chuyển từ string sang json.
 /* check token and return username */
 if(strlen($token)!=64){
@@ -29,7 +30,7 @@ if($username == ""){
 /**/
 
 $bucketName = "loyalty-point-photos";
-$fileName = "shops/" . $shopid . "/events/" . $event->id;
+$fileName = "shops/" . $shopID . "/events/" . $event->id;
 $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
 
 $query = "update event " 
@@ -44,8 +45,7 @@ $query = "update event "
     		  . "', number = '" . $event->number
     		  . "', point = '" . $event->point
     		  . "', image = '" . $imageLink
-              . "' where id = '" . $event->id 
-              . "' and shop_id = '".$shopid."'";
+              . "' where id = '" . $event->id."'";
 
 $query_exec = mysqli_query($localhost, $query);
 

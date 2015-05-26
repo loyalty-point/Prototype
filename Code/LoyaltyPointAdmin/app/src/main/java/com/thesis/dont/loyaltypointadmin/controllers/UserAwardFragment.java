@@ -65,17 +65,19 @@ public class UserAwardFragment extends Fragment {
 
     String shopID;
     String userID;
+    String cardID;
 
     Activity mParentActivity;
 
     public UserAwardFragment() {
     }
 
-    public UserAwardFragment(int position, String userId, String shopId) {
+    public UserAwardFragment(int position, String userId, String shopId, String cardId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putString(SHOP_ID, shopId);
         b.putString(USER_ID, userId);
+        b.putString(Global.CARD_ID, cardId);
         this.setArguments(b);
     }
 
@@ -86,6 +88,7 @@ public class UserAwardFragment extends Fragment {
         position = getArguments().getInt(ARG_POSITION);
         shopID = getArguments().getString(SHOP_ID);
         userID = getArguments().getString(USER_ID);
+        cardID = getArguments().getString(Global.CARD_ID);
     }
 
     @Override
@@ -130,7 +133,7 @@ public class UserAwardFragment extends Fragment {
     }
 
     public void getListAwards() {
-        AwardModel.getListAwards(Global.userToken, shopID, new AwardModel.OnGetListAwardsResult() {
+        AwardModel.getListAwards(Global.userToken, shopID, cardID, new AwardModel.OnGetListAwardsResult() {
             @Override
             public void onSuccess(final ArrayList<Award> listAwards) {
                 // Get listAwards thành công

@@ -36,6 +36,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
     User mUser;
     String mUserName;
     Shop mShop;
+    String cardId;
     int totalMoney;
     int mTotalPoint;
     ArrayList<Product> mProducts;
@@ -81,6 +82,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         Intent i = getIntent();
         mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
         totalMoney = i.getIntExtra(Global.TOTAL_MONEY, 0);
+        cardId = i.getStringExtra(Global.CARD_ID);
         mProducts = i.getParcelableArrayListExtra(Global.PRODUCT_LIST);
 
         // set user info to layout
@@ -105,7 +107,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         mListView.setAdapter(mAdapter);
 
         // get user info
-        ShopModel.getCustomerInfo(Global.userToken, mShop.getId(), mUserName, new ShopModel.OnGetCustomerInfoResult() {
+        ShopModel.getCustomerInfo(Global.userToken, cardId, mUserName, new ShopModel.OnGetCustomerInfoResult() {
             @Override
             public void onSuccess(User user) {
                 mUser = user;
@@ -160,7 +162,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
                 // Gọi API để cập nhật điểm
                 mUpdatePointDialog.show();
                 ShopModel.updatePoint(Global.userToken, achivedEventList, mShop.getId(), mUser.getUsername(), mUser.getFullname(), mUser.getPhone(),
-                        mTotalPoint, billcode, time, new ShopModel.OnUpdatePointResult() {
+                        mTotalPoint, billcode, time, cardId, new ShopModel.OnUpdatePointResult() {
                     @Override
                     public void onSuccess(ShopModel.UpdatePointResult result) {
                         // Nếu bucketName == "", nghĩa là chủ shop không nhập hóa đơn vào
@@ -170,6 +172,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
                             Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
                             i.putExtra(Global.SHOP_OBJECT, mShop);
+                            i.putExtra(Global.CARD_ID, cardId);
                             i.putExtra(Global.TAB_INDEX, 3);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
@@ -187,6 +190,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
                                         Intent i = new Intent(ConfirmUpdatePointActivity.this, ShopDetailActivity.class);
                                         i.putExtra(Global.SHOP_OBJECT, mShop);
                                         i.putExtra(Global.TAB_INDEX, 3);
+                                        i.putExtra(Global.CARD_ID, cardId);
                                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(i);
                                         finish();
@@ -231,7 +235,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
 
         // call calculate point API
         mCalculatePointDialog.show();
-        EventModel.calculatePoint(Global.userToken, mShop.getId(), totalMoney, mProducts, new EventModel.OnCalculatePointResult() {
+        EventModel.calculatePoint(Global.userToken, mShop.getId(), cardId, totalMoney, mProducts, new EventModel.OnCalculatePointResult() {
             @Override
             public void onSuccess(final ArrayList<AchievedEvent> result, final int pointFromMoney, final int totalPoint) {
                 achivedEventList = result;

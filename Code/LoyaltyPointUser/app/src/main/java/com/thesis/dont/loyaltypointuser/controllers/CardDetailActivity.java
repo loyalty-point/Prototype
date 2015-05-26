@@ -14,6 +14,8 @@ import com.thesis.dont.loyaltypointuser.models.Global;
 public class CardDetailActivity extends ActionBarActivity {
 
     int tabIndex = 0;
+    String cardId;
+    int userPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +25,14 @@ public class CardDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-
+        cardId = i.getStringExtra(Global.CARD_ID);
+        userPoint = i.getIntExtra(Global.USER_POINT, 0);
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle("card name");
-        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(),"cardIdSample"));
+        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(),cardId, userPoint));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

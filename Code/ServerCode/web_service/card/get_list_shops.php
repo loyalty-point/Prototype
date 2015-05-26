@@ -27,7 +27,7 @@ if($username == ""){
 }
 /**/
 
-/* check exist shop id in "admin_shop" table*/
+/* check exist card id in "card_shop" table*/
 $query = "select * from card_shop where card_id='".$card_id."'";
 
 $query_exec = mysqli_query($localhost, $query);

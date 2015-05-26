@@ -58,12 +58,12 @@ public class ShopAwardsFragment extends Fragment {
 
     private int position;
 
-    String shopID;
+    String shopID, cardID;
     private int userPoint;
 
     public ShopAwardsFragment() {}
 
-    public ShopAwardsFragment(int position, String shopId, int userPoint){
+    public ShopAwardsFragment(int position, int userPoint){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putInt(USER_POINT, userPoint);
@@ -99,8 +99,8 @@ public class ShopAwardsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        shopID = ((ShopDetailActivity)getActivity()).shop.getId();
-
+        shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardID = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
         mParentActivity = getActivity();
@@ -270,7 +270,7 @@ public class ShopAwardsFragment extends Fragment {
     }
 
     public void getListAwards() {
-        AwardModel.getListAwards(Global.userToken, shopID, new AwardModel.OnGetListAwardsResult() {
+        AwardModel.getListAwards(Global.userToken, shopID, cardID, new AwardModel.OnGetListAwardsResult() {
             @Override
             public void onSuccess(final ArrayList<Award> listAwards) {
                 // Get listAwards thành công

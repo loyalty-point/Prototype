@@ -8,6 +8,7 @@ mysqli_query($localhost,"SET NAMES 'UTF8'");
 
 $token = $_POST['token'];
 $shopID = $_POST['shopID'];
+$cardID = $_POST['cardID'];
 
 if(strlen($token)!=64){
     echo '{"error":"token not found", "listEvents":[]}';
@@ -29,8 +30,7 @@ if($username == ""){
 
 // mọi thông tin cung cấp đều đúng
 // lấy danh sách awards rồi trả về cho người dùng
-$query = "select * from event where shop_id = '" . $shopID . "'";
-
+$query = "select * from event where id in (select event_id from event_card_shop where shop_id = '".$shopID."' and card_id = '".$cardID."')";
 $query_exec = mysqli_query($localhost, $query);
 
 $result = '{"error":"", "listEvents":[';

@@ -51,9 +51,9 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
 
     Activity mParentActivity;
 
-    private String shopId;
+    private String shopId, cardId;
 
-    private ArrayList<User> listUser;
+    private ArrayList<User> listUser = new ArrayList<User>();
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
@@ -65,10 +65,9 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
 
     public ShopRegistersFragment() {}
 
-    public ShopRegistersFragment(int position, String shopId){
+    public ShopRegistersFragment(int position){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -76,8 +75,6 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
-
     }
 
     @Override
@@ -91,7 +88,7 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
     }
 
     private void getListRegisters(){
-        ShopModel.getListRegisters(Global.userToken, shopId, new ShopModel.OnGetListRegistersResult() {
+        ShopModel.getListRegisters(Global.userToken, cardId, new ShopModel.OnGetListRegistersResult() {
             @Override
             public void onSuccess(ArrayList<User> listRegisters) {
                 listUser = listRegisters;
@@ -118,7 +115,8 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         mParentActivity = getActivity();
         mPicaso = Picasso.with(mParentActivity);
         // add expandable button
@@ -253,7 +251,7 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
                                     mDialog.show();
 
                                     // Gọi API để cập nhật lại là user này đã được chủ shop chấp nhận làm thành viên
-                                    ShopModel.acceptRegisterRequest(Global.userToken, shopId, username, new ShopModel.OnAcceptRegisterRequestResult() {
+                                    ShopModel.acceptRegisterRequest(Global.userToken, cardId, username, new ShopModel.OnAcceptRegisterRequestResult() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {

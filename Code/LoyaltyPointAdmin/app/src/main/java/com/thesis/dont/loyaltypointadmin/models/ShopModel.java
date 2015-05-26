@@ -95,7 +95,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void editShop(final String token, final String shopID, Shop shop){
+    public static void editShop(final String token, final String shopID, final String cardID, Shop shop){
 
         final String json = Helper.objectToJson(shop);
 
@@ -113,6 +113,7 @@ public class ShopModel {
 
                 nameValuePairs.add(new BasicNameValuePair("shop", json));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardID));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
@@ -213,7 +214,7 @@ public class ShopModel {
         public String fileName;
     }
 
-    public static void getShopInfo(final String token, final String shopID){
+    public static void getShopInfo(final String token, final String shopID, final String cardID){
         /*final String token_string = token;
         final String json = Helper.objectToJson(shop);*/
         Thread t = new Thread() {
@@ -228,7 +229,8 @@ public class ShopModel {
 
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
 
                 try {
@@ -260,58 +262,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getListShop(String token){
-        final String token_string = token;
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetListShop();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(1);
-
-                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    GetListShops result = (GetListShops) Helper.jsonToObject(response, GetListShops.class);
-
-                    if(result.error.equals("")){
-
-                        ArrayList<Shop> listShops = new ArrayList<Shop>();
-                        for(int i=0; i<result.listShops.length-1; i++) {
-                            listShops.add(result.listShops[i]);
-                        }
-                        mOnSelectListShopResult.onSuccess(listShops);
-                    }
-                    else
-                        mOnSelectListShopResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnSelectListShopResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnSelectListShopResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnSelectListShopResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public static void getFollowingUsers(String token, String shopId, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
+    public static void getFollowingUsers(String token, String shopId, final String cardId, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
         final String token_string = token;
         final String shopId_string = shopId;
         Thread t = new Thread() {
@@ -328,6 +279,7 @@ public class ShopModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId_string));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -364,7 +316,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getListRegisters(final String token, final String shopId, final OnGetListRegistersResult mOnGetListRegistersResult){
+    public static void getListRegisters(final String token, final String cardId, final OnGetListRegistersResult mOnGetListRegistersResult){
 
         Thread t = new Thread() {
             @Override
@@ -379,7 +331,7 @@ public class ShopModel {
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -415,7 +367,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void acceptRegisterRequest(final String token, final String shopID, final String username, final OnAcceptRegisterRequestResult mOnAcceptRegisterRequestResult){
+    public static void acceptRegisterRequest(final String token, final String cardID, final String username, final OnAcceptRegisterRequestResult mOnAcceptRegisterRequestResult){
 
         Thread t = new Thread() {
             @Override
@@ -430,7 +382,7 @@ public class ShopModel {
                 nameValuePairs = new ArrayList<NameValuePair>(3);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
                 nameValuePairs.add(new BasicNameValuePair("username", username));
 
                 try {
@@ -464,7 +416,7 @@ public class ShopModel {
     }
 
 
-    public static void getCustomerInfo(final String token, final String shopId, final String username, final OnGetCustomerInfoResult mOnGetCustomerInfoResult){
+    public static void getCustomerInfo(final String token, final String cardId, final String username, final OnGetCustomerInfoResult mOnGetCustomerInfoResult){
 
         Thread t = new Thread() {
             @Override
@@ -479,7 +431,7 @@ public class ShopModel {
                 nameValuePairs = new ArrayList<NameValuePair>(3);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
                 nameValuePairs.add(new BasicNameValuePair("username", username));
 
                 try {
@@ -511,7 +463,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getNumUserEventAward(final String token, final String shopId, final OnGetNumUserAwardEventResult mOnGetNumUserAwardEventResult){
+    public static void getNumUserEventAward(final String token, final String shopId, final String cardId, final OnGetNumUserAwardEventResult mOnGetNumUserAwardEventResult){
 
         Thread t = new Thread() {
             @Override
@@ -527,6 +479,7 @@ public class ShopModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -557,7 +510,7 @@ public class ShopModel {
         t.start();
     }
 
-    public static void getNewestUserEventAward(final String token, final String shopId, final OnGetNewestUserAwardEventResult mOnGetNumUserAwardEventResult){
+    public static void getNewestUserEventAward(final String token, final String shopId, final String cardId, final OnGetNewestUserAwardEventResult mOnGetNumUserAwardEventResult){
 
         Thread t = new Thread() {
             @Override
@@ -573,6 +526,7 @@ public class ShopModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -618,7 +572,7 @@ public class ShopModel {
 
     public static void updatePoint(final String token, final ArrayList<AchievedEvent> achivedEventList, final String shopId, final String username,
                                    final String fullname, final String phone,
-                                   final int point, final String billCode, final String time,
+                                   final int point, final String billCode, final String time, final String cardId,
                                    final OnUpdatePointResult mOnUpdatePointResult){
 
         Thread t = new Thread() {
@@ -635,6 +589,7 @@ public class ShopModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
                 nameValuePairs.add(new BasicNameValuePair("username", username));
                 nameValuePairs.add(new BasicNameValuePair("fullname", fullname));
                 nameValuePairs.add(new BasicNameValuePair("phone", phone));

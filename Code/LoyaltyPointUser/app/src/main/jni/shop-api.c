@@ -8,12 +8,7 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getGetUnfollowedS
 
 jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getFollowShop(JNIEnv* env, jobject thiz)
 {
-    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_shop/add_customer_shop.php");
-}
-
-jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getGetFollowedShop(JNIEnv* env, jobject thiz)
-{
-    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_shop/select_followed_shop.php");
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_card/add_customer_card.php");
 }
 
 jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getCustomerGetShopInfo(JNIEnv* env, jobject thiz)

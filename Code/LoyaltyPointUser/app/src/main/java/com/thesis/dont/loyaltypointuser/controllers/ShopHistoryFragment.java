@@ -50,7 +50,7 @@ public class ShopHistoryFragment extends Fragment {
     public static final String AWARD_OBJECT = "award_object";
 
     private int position;
-    private String shopId;
+    private String shopId,cardId;
     private String shopName;
     private String shopAddress;
 
@@ -72,10 +72,9 @@ public class ShopHistoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public ShopHistoryFragment(int position, String shopId, String shopName, String shopAddress){
+    public ShopHistoryFragment(int position, String shopName, String shopAddress){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         b.putString(ARG_SHOPNAME, shopName);
         b.putString(ARG_SHOPADDRESS, shopAddress);
         this.setArguments(b);
@@ -85,7 +84,6 @@ public class ShopHistoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
         shopName = getArguments().getString(ARG_SHOPNAME);
         shopAddress = getArguments().getString(ARG_SHOPADDRESS);
     }
@@ -110,7 +108,8 @@ public class ShopHistoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         // init dialog
         mDialog = new ProgressDialog(mParentActivity);
         mDialog.setTitle("Reloading list histories");

@@ -9,6 +9,7 @@ mysqli_query($localhost,"SET NAMES 'UTF8'");
 $token = $_POST['token'];
 $clientTime = $_POST['time'];
 $shopID = $_POST['shop_id'];
+$cardID = $_POST['card_id'];
 $awardID = $_POST['award_id'];
 $quantity = $_POST['quantity'];
 
@@ -62,10 +63,10 @@ if($shopID == "") {
 $shopName = $shopRow['name'];
 $shopImage = $shopRow['image'];
 
-// Trừ điểm tích lũy của user trong bảng customer_shop
+// Trừ điểm tích lũy của user trong bảng customer_card
 $point = $quantity * $awardPoint;
 
-$query = "select * from customer_shop where username='".$username."' and shop_id = '" . $shopID . "'";
+$query = "select * from customer_card where username='".$username."' and card_id = '" . $cardID . "'";
 $query_exec = mysqli_query($localhost, $query);
 $folllowRow = mysqli_fetch_array($query_exec);
 $currentPoint = $folllowRow['point'];
@@ -99,7 +100,7 @@ if($newPoint>=0){
         $query = "update award set quantity = '" . $newQuantity . "' where id = '" . $awardID . "'";
         $query_exec = mysqli_query($localhost, $query);
 
-        $query = "update customer_shop set point = '".$newPoint."' where username='".$username."' and shop_id ='".$shopID."'";
+        $query = "update customer_card set point = '".$newPoint."' where username='".$username."' and card_id ='".$cardID."'";
         $query_exec = mysqli_query($localhost, $query);
     }
     else 

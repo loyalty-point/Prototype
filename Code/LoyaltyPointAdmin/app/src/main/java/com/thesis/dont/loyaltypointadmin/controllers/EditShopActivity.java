@@ -21,6 +21,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
+import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
@@ -40,7 +41,7 @@ public class EditShopActivity extends ActionBarActivity {
 
     private static final int SELECT_PHOTO = 100;
 
-    Shop mOldShop;
+    Card mOldCard;
 
     static Picasso mPicasso;
 
@@ -54,7 +55,7 @@ public class EditShopActivity extends ActionBarActivity {
         mPicasso = Picasso.with(this);
 
         Intent i = getIntent();
-        mOldShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
+        mOldCard = (Card) i.getParcelableExtra(Global.SHOP_OBJECT);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -93,12 +94,12 @@ public class EditShopActivity extends ActionBarActivity {
 
         // Load thông tin hiện tại của shop
         
-        mShopName.setText(mOldShop.getName());
-        mPhone.setText(mOldShop.getPhone_number());
-        mExchangeRatio.setText(String.valueOf(mOldShop.getExchange_ratio()));
-        mAddress.setText(mOldShop.getAddress());
-        mCategory.setSelection(mCategoryAdapter.getPosition(mOldShop.getCategory()));
-        mPicasso.load(mOldShop.getImage()).placeholder(R.drawable.ic_store).into(shopLogoImgView);
+//        mShopName.setText(mOldCard.getName());
+//        mPhone.setText(mOldCard.getPhone_number());
+//        mExchangeRatio.setText(String.valueOf(mOldCard.getExchange_ratio()));
+//        mAddress.setText(mOldCard.getAddress());
+//        mCategory.setSelection(mCategoryAdapter.getPosition(mOldCard.getCategory()));
+//        mPicasso.load(mOldCard.getImage()).placeholder(R.drawable.ic_store).into(shopLogoImgView);
 
         // cancel Button
         ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
@@ -139,7 +140,7 @@ public class EditShopActivity extends ActionBarActivity {
                 mDialog.show();
 
                 
-                final Shop shop = new Shop(mOldShop.getId(), shopname, address, phone, category, Float.valueOf(exchangeRatio), null, null);
+                final Shop shop = new Shop(mOldCard.getId(), shopname, address, phone, category, Float.valueOf(exchangeRatio), null, null);
                 ShopModel.setOnEditShopInfoResult(new ShopModel.OnEditShopInfoResult() {
                     @Override
                     public void onSuccess(final ShopModel.EditShopResult result) {
@@ -215,7 +216,7 @@ public class EditShopActivity extends ActionBarActivity {
                     }
                 });
                 
-                ShopModel.editShop(Global.userToken, mOldShop.getId(), shop);
+                ShopModel.editShop(Global.userToken, mOldCard.getId(), mOldCard.getId(), shop);
             }
         });
 

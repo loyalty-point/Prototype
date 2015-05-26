@@ -86,7 +86,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
     }
 
     private void getListShops() {
-        CardModel.getListShop(Global.userToken,cardId,new CardModel.OnSelectListShopResult() {
+        CardModel.getListShop(Global.userToken, cardId, new CardModel.OnSelectListShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
                 listShop = listShops;
@@ -142,6 +142,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
                 }
 
                 i.putExtra(Global.SHOP_OBJECT, currentShop);
+                i.putExtra(Global.CARD_ID, cardId);
                 startActivity(i);
 
             }

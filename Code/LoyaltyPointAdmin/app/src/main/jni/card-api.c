@@ -30,3 +30,8 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_CardModel_getGetFollowingU
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_card/get_followed_users.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointadmin_models_CardModel_getGetCardInfo(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/card/get_card_info.php");
+}

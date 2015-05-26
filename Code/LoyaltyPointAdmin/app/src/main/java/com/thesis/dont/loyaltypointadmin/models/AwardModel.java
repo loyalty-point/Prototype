@@ -34,7 +34,7 @@ public class AwardModel {
     public static native String getGetListAwards();
     public static native String getSellAward();
 
-    public static void createAward(final String token, final Award award,
+    public static void createAward(final String token,final String shopID, final String cardID, final Award award,
                                    final OnCreateAwardResult mOnCreateAwardResult){
 
         Thread t = new Thread() {
@@ -49,10 +49,12 @@ public class AwardModel {
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
 
-                nameValuePairs = new ArrayList<NameValuePair>(2);
+                nameValuePairs = new ArrayList<NameValuePair>(4);
 
                 nameValuePairs.add(new BasicNameValuePair("award", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -185,7 +187,7 @@ public class AwardModel {
         t.start();
     }
 
-    public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult){
+    public static void getListAwards(final String token, final String shopID, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
         Thread t = new Thread() {
             @Override
@@ -201,6 +203,7 @@ public class AwardModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

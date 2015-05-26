@@ -84,7 +84,7 @@ public class AwardModel {
         t.start();
     }
 
-    public static void getListAwards(final String token, final String shopID, final OnGetListAwardsResult mOnGetListAwardsResult) {
+    public static void getListAwards(final String token, final String shopID, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult) {
 
         Thread t = new Thread() {
             @Override
@@ -100,6 +100,7 @@ public class AwardModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

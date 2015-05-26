@@ -85,6 +85,8 @@ public class MyCard extends Card {
 //                Intent i = new Intent((Activity)mContext, ShopDetailActivity.class);
 //                i.putExtra(Global.SHOP_OBJECT, mShop);
                 Intent i = new Intent((Activity) mContext, CardDetailActivity.class);
+                i.putExtra(Global.CARD_ID, mCard.getId());
+                i.putExtra(Global.USER_POINT, mCard.getPoint());
                 mContext.startActivity(i);
             }
         });

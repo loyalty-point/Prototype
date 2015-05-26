@@ -27,7 +27,7 @@ if($username == ""){
 }
 /**/
 
-/* check exist shop id in "admin_shop" table*/
+/* check exist card id in "admin_card" table*/
 $query = "select * from card_shop where card_id='".$cardID."'";
 
 $query_exec = mysqli_query($localhost, $query);
@@ -41,9 +41,8 @@ while($row1 = mysqli_fetch_array($query_exec)){
     $query_exec1 = mysqli_query($localhost, $query);
     $row = mysqli_fetch_array($query_exec1);
     $shopname = $row['name'];
-
-    $query = "select * from award where shopID = '" . $row1['shop_id'] . "' ORDER BY id DESC";
     
+    $query = "select * from award where id in (select award_id from award_card_shop where shop_id = '".$row1['shop_id']."' and card_id = '".$cardID."')";
     $query_exec2 = mysqli_query($localhost, $query);   
 
     while($row = mysqli_fetch_array($query_exec2)){

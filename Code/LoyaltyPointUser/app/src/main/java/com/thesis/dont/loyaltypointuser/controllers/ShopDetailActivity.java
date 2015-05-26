@@ -16,6 +16,7 @@ import com.thesis.dont.loyaltypointuser.models.Shop;
 public class ShopDetailActivity extends ActionBarActivity {
 
     public Shop shop;
+    public String mCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class ShopDetailActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         Intent i = getIntent();
         shop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        mCard = i.getStringExtra(Global.CARD_ID);
         int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         setTitle(shop.getName());
@@ -44,6 +46,14 @@ public class ShopDetailActivity extends ActionBarActivity {
 
         pager.setCurrentItem(tabIndex);
         tabs.setViewPager(pager);
+    }
+
+    public Shop getCurrentShop(){
+        return shop;
+    }
+
+    public String getCurrentCardId(){
+        return mCard;
     }
 
     @Override
