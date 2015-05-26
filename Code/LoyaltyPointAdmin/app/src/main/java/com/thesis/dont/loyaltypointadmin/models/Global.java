@@ -4,6 +4,8 @@ package com.thesis.dont.loyaltypointadmin.models;
  * Created by 11120_000 on 07/03/15.
  */
 public class Global {
+    public static final String FROM = "from";
+    public static final String TOKEN = "token";
     public static String AWARD_OBJECT ="award_object";
     public static String userToken = null;
     public static String regID = null;

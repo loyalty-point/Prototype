@@ -109,5 +109,6 @@
     <string name="title_activity_card_detail">CardDetailActivity</string>
     <string name="title_activity_search_card">Choose Card</string>
     <string name="title_activity_create_card">Create New Card</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
