@@ -1,15 +1,18 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
@@ -18,43 +21,35 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
-import com.thesis.dont.loyaltypointadmin.models.CardModel;
-import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
-import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
+import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
-public class CardUsersFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class CardRegisterFragment extends Fragment implements SearchView.OnQueryTextListener{
     private static final String ARG_POSITION = "position";
-    private static final String CARD_ID = "cardId";
+    private static final String ARG_CARDID = "cardId";
     private static final String USER_ID = "userId";
     private static final String USER_NAME = "userName";
     private static final String USER_IMG = "userImg";
     private static final String USER_PHONENUMBER = "userPhoneNumber";
-    private static final String USER_POINT = "user_point";
-    public static final String USER_OBJECT = "userObject";
-
-    ButtonFloat barcodeBtn;
 
     Activity mParentActivity;
 
     private String cardId;
 
-    private ArrayList<Customer> listUser;
+    private ArrayList<User> listUser = new ArrayList<User>();
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
@@ -62,12 +57,14 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
     private int position;
 
-    public CardUsersFragment() {}
+    ProgressDialog mDialog;
 
-    public CardUsersFragment(int position, String cardId) {
+    public CardRegisterFragment() {}
+
+    public CardRegisterFragment(int position, String cardId){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(CARD_ID, cardId);
+        b.putString(ARG_CARDID, cardId);
         this.setArguments(b);
     }
 
@@ -75,13 +72,12 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cardId = getArguments().getString(CARD_ID);
-
+        cardId = getArguments().getString(ARG_CARDID);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_user, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_card_register,container,false);
 
         ButterKnife.inject(this, rootView);
 
@@ -89,12 +85,12 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
         return rootView;
     }
 
-    private void getListUsers() {
-        CardModel.getFollowingUsers(Global.userToken, cardId, new CardModel.OnSelectFollowingUsersResult() {
+    private void getListRegisters(){
+        ShopModel.getListRegisters(Global.userToken, cardId, new ShopModel.OnGetListRegistersResult() {
             @Override
-            public void onSuccess(ArrayList<Customer> listUsers) {
-                listUser = listUsers;
-                mParentActivity.runOnUiThread(new Runnable() {
+            public void onSuccess(ArrayList<User> listRegisters) {
+                listUser = listRegisters;
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateAdapter("");
@@ -104,10 +100,10 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
             @Override
             public void onError(final String error) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mParentActivity, "error: " + error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -117,59 +113,38 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mParentActivity = getActivity();
         mPicaso = Picasso.with(mParentActivity);
         // add expandable button
         //addExpandableButton();
 
-        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
-        barcodeBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
-        barcodeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start Scan Barcode Activity
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Accepting register request");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
 
-                Intent i = new Intent(mParentActivity, ScannerActivity.class);
-                i.putExtra(Global.CARD_ID, cardId);
-                i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
-
-                // put shop into intent
-                Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
-                i.putExtra(Global.SHOP_OBJECT, shop);
-
-                startActivity(i);
-            }
-        });
         //create list user and search adapter.
         final String[] from = new String[]{USER_NAME};
         final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
         //create adapter and add it to list
-        mAdapter = new CustomSimpleCursorAdapter(mParentActivity,
-                R.layout.search_user_layout,
+        mAdapter = new CustomSimpleCursorAdapter(getActivity(),
+                R.layout.search_registers_layout,
                 cursor,
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-
-        listView = (ListView) mParentActivity.findViewById(R.id.usersList);
+        listView = (ListView) getActivity().findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
-//                i.putExtra(Global.USER_NAME, cursor.getString(4));
-//                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
-//                i.putExtra(Global.SHOP_ID, cardId);
-//                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
-//                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
-//                i.putExtra(Global.SHOP_OBJECT, shop);
-//                startActivity(i);
-
-            }
-        });
-        //getListUsers();
+        //getListRegisters();
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getListRegisters();
     }
 
     @Override
@@ -205,20 +180,13 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
     // search logic
     private void populateAdapter(String query) {
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
         for (int i = 0; i < listUser.size(); i++) {
             if (listUser.get(i).getFullname().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername(), listUser.get(i).getPoint()});
+                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername()});
         }
         mAdapter.changeCursor(cursor);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getListUsers();
     }
 
     @Override
@@ -245,7 +213,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.search_user_layout, parent, false);
+            View view = inflater.inflate(R.layout.search_registers_layout, parent, false);
 
             return view;
         }
@@ -263,27 +231,79 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
             userName.setText(fullname);
             userPhone.setText(phone);
-            if (image.equals(""))
+            if(image.equals(""))
                 image = null;
-            mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
+            mPicaso.load(image).placeholder(R.drawable.ic_user).into(userImg);
 
-            Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
-            addBtn.setOnClickListener(new View.OnClickListener() {
+            Button acceptBtn = (Button) view.findViewById(R.id.acceptBtn);
+            acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
-                    i.putExtra(Global.CARD_ID, cardId);
-                    // put username into intent
-                    i.putExtra(Global.USER_NAME, username);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Do you want to add this user?").
+                            setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mDialog.show();
 
-                    // put shop into intent
-                    Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
-                    i.putExtra(Global.SHOP_OBJECT, shop);
+                                    // Gọi API để cập nhật lại là user này đã được chủ shop chấp nhận làm thành viên
+                                    ShopModel.acceptRegisterRequest(Global.userToken, cardId, username, new ShopModel.OnAcceptRegisterRequestResult() {
+                                        @Override
+                                        public void onSuccess() {
+                                            mParentActivity.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mDialog.dismiss();
 
-                    startActivity(i);
+                                                    // Hiện dialog thông báo
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+                                                    builder.setTitle("Congratulations!")
+                                                            .setMessage("You've added a member to your card")
+                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                                }
+                                                            }).show();
+
+                                                    // Cập nhật lại danh sách registers và users
+                                                    for(User user : listUser) {
+                                                        if(user.getUsername().equals(username))
+                                                            listUser.remove(user);
+                                                    }
+
+                                                    mParentActivity.runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            populateAdapter("");
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(final String error) {
+                                            mParentActivity.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            }).show();
                 }
             });
         }
     }
+
 
 }

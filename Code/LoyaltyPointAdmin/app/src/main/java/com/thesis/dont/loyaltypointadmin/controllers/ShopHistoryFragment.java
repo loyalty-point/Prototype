@@ -35,7 +35,7 @@ public class ShopHistoryFragment extends Fragment {
 
     public static final String SHOP_ID = "shop_ID";
 
-    String shopID;
+    String shopID, cardID;
 
     Activity mParentActivity;
 
@@ -56,16 +56,14 @@ public class ShopHistoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public ShopHistoryFragment(int position, String shopId){
+    public ShopHistoryFragment(int position){
         Bundle b = new Bundle();
-        b.putString(SHOP_ID, shopId);
         this.setArguments(b);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        shopID = getArguments().getString(SHOP_ID);
     }
 
     @Override
@@ -98,7 +96,8 @@ public class ShopHistoryFragment extends Fragment {
 
         mOriginalList = new ArrayList<History>();
 
-        shopID = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+        cardID = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
 
         // init list histories
         mListView = (ListView) mParentActivity.findViewById(R.id.listHistories);
@@ -212,7 +211,7 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void getListHistory() {
-        UserModel.getListHistory(Global.userToken, shopID, new UserModel.OnGetListHistoryResult() {
+        UserModel.getListHistory(Global.userToken, shopID, cardID, new UserModel.OnGetListHistoryResult() {
             @Override
             public void onSuccess(ArrayList<History> listHistories) {
                 mOriginalList = listHistories;
@@ -284,12 +283,12 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void reloadListHistories() {
-        mParentActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDialog.show();
-            }
-        });
+//        mParentActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mDialog.show();
+//            }
+//        });
 
         ArrayList<History> listHistories = new ArrayList<History>();
 
@@ -304,7 +303,7 @@ public class ShopHistoryFragment extends Fragment {
             @Override
             public void run() {
                 mAdapter.notifyDataSetChanged();
-                mDialog.hide();
+//                mDialog.hide();
             }
         });
     }

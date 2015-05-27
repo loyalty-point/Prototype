@@ -47,7 +47,7 @@ public class ShopDetailFragment extends Fragment {
     private static final String ARG_SHOPID = "shopId";
 
     private int position;
-    private String shopId;
+    private String shopId, cardId;
     View rootView;
 
     private CardGridView mListViewNewestUser;
@@ -62,10 +62,9 @@ public class ShopDetailFragment extends Fragment {
     public ShopDetailFragment() {
     }
 
-    public ShopDetailFragment(int position, String shopId) {
+    public ShopDetailFragment(int position) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -73,7 +72,6 @@ public class ShopDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
     }
 
     @Override
@@ -100,7 +98,8 @@ public class ShopDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         final TextView shopName = (TextView) mParentActivity.findViewById(R.id.shopName);
         final TextView shopAddress = (TextView) mParentActivity.findViewById(R.id.shopAddress);
         final ImageView shopBackground = (ImageView) mParentActivity.findViewById(R.id.shopBackground);
@@ -124,10 +123,10 @@ public class ShopDetailFragment extends Fragment {
         ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
             @Override
             public void onSuccess(final Shop shop) {
-                ShopModel.getNumUserEventAward(Global.userToken, shop.getId(), new ShopModel.OnGetNumUserAwardEventResult() {
+                ShopModel.getNumUserEventAward(Global.userToken, shop.getId(), cardId, new ShopModel.OnGetNumUserAwardEventResult() {
                     @Override
                     public void onSuccess(final ShopModel.GetNumUserAwardEventResult mGetNumUserAwardEventResult) {
-                        ShopModel.getNewestUserEventAward(Global.userToken, shop.getId(), new ShopModel.OnGetNewestUserAwardEventResult() {
+                        ShopModel.getNewestUserEventAward(Global.userToken, shop.getId(), cardId, new ShopModel.OnGetNewestUserAwardEventResult() {
                             @Override
                             public void onSuccess(final ArrayList<Customer> listUsers, final ArrayList<Event> listEvents, final ArrayList<Award> listAwards) {
                                 mParentActivity.runOnUiThread(new Runnable() {
@@ -212,7 +211,7 @@ public class ShopDetailFragment extends Fragment {
                 });
             }
         });
-        ShopModel.getShopInfo(Global.userToken, this.shopId);
+        ShopModel.getShopInfo(Global.userToken, this.shopId, cardId);
     }
 
     //card for list grid newest user, event, award

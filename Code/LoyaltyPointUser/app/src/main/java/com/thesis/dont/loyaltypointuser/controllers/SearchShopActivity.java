@@ -46,6 +46,8 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     public static final String SHOP_ADDRESS = "shopAddress";
     public static final String SHOP_IMAGE = "shopImg";
     public static final String SHOP_ID = "shopId";
+    public static final String CARD_NAME = "cardName";
+    public static final String CARD_ID = "cardId";
 
     private ArrayList<Shop> listShop = new ArrayList<Shop>();
     private ListView listView;
@@ -71,9 +73,9 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mPicaso = Picasso.with(this);
-        final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID};
+        final String[] from = new String[]{SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, CARD_NAME, SHOP_ID, CARD_ID};
         final int[] to = new int[]{R.id.shopImg, R.id.shopName, R.id.shopAddress};
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, CARD_NAME, SHOP_ID, CARD_ID});
         //create adapter and add it to list
         mAdapter = new CustomSimpleCursorAdapter(this,
                 R.layout.suggestion_list,
@@ -137,10 +139,10 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
     // search logic
     private void populateAdapter(String query) {
-        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, SHOP_ID});
+        cursor = new MatrixCursor(new String[]{BaseColumns._ID, SHOP_IMAGE, SHOP_NAME, SHOP_ADDRESS, CARD_NAME, SHOP_ID, CARD_ID});
         for (int i = 0; i < listShop.size(); i++) {
             if (listShop.get(i).getName().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listShop.get(i).getImage(), listShop.get(i).getName(), listShop.get(i).getAddress(), listShop.get(i).getId()});
+                cursor.addRow(new Object[]{i, listShop.get(i).getImage(), listShop.get(i).getName(), listShop.get(i).getAddress(), listShop.get(i).getCardName(), listShop.get(i).getId(), listShop.get(i).getCardId()});
         }
         mAdapter.changeCursor(cursor);
 
@@ -161,6 +163,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     public static class ViewHolder {
         public ImageView shopImg;
         public TextView shopName;
+        public TextView cardName;
         public TextView shopAddress;
     }
 
@@ -181,6 +184,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             ViewHolder holder = new ViewHolder();
             holder.shopName = (TextView) view.findViewById(R.id.shopName);
             holder.shopAddress = (TextView) view.findViewById(R.id.shopAddress);
+            holder.cardName = (TextView) view.findViewById(R.id.cardName);
             holder.shopImg = (ImageView) view.findViewById(R.id.shopImg);
 
             view.setTag(holder);
@@ -194,11 +198,14 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
             String name = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_NAME));
             String address = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ADDRESS));
+            String cardName = cursor.getString(cursor.getColumnIndex(SearchShopActivity.CARD_NAME));
             String image = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_IMAGE));
             final String id = cursor.getString(cursor.getColumnIndex(SearchShopActivity.SHOP_ID));
+            final String cardId = cursor.getString(cursor.getColumnIndex(SearchShopActivity.CARD_ID));
 
             holder.shopName.setText(name);
             holder.shopAddress.setText(address);
+            holder.cardName.setText(cardName);
             SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(holder.shopImg);
 
             Button followBtn = (Button) view.findViewById(R.id.addFollowShop);
@@ -211,14 +218,14 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE: {
-                                    ShopModel.followShop(Global.userToken, id, 0, new ShopModel.OnFollowShopResult() {
+                                    ShopModel.followShop(Global.userToken, cardId, 0, new ShopModel.OnFollowShopResult() {
                                         @Override
                                         public void onSuccess() {
                                             Log.e("result", "success");
                                             for (int i = 0; i < listShop.size(); i++) {
-                                                if (listShop.get(i).getId().equals(id)) {
+                                                if (listShop.get(i).getCardId().equals(cardId)) {
                                                     listShop.remove(i);
-                                                    break;
+                                                    i--;
                                                 }
                                             }
                                             runOnUiThread(new Runnable() {

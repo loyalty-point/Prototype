@@ -49,6 +49,7 @@ public class ShopEventsFragment extends Fragment {
 
     private int position;
     private String shopId;
+    private String cardId;
 
     Activity mParentActivity;
 
@@ -57,10 +58,9 @@ public class ShopEventsFragment extends Fragment {
 
     }
 
-    public ShopEventsFragment(int position, String shopId) {
+    public ShopEventsFragment(int position) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -68,7 +68,6 @@ public class ShopEventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
     }
 
     @Override
@@ -84,6 +83,8 @@ public class ShopEventsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
         mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
@@ -102,7 +103,7 @@ public class ShopEventsFragment extends Fragment {
     }
 
     public void getListEvents() {
-        EventModel.getListEvents(Global.userToken, shopId, new EventModel.OnGetListResult() {
+        EventModel.getListEvents(Global.userToken, shopId, cardId, new EventModel.OnGetListResult() {
 
             @Override
             public void onSuccess(final ArrayList<Event> listEvents) {

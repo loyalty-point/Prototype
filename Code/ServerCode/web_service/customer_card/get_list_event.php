@@ -7,7 +7,6 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 
 $token = $_POST['token'];
-$shopID = $_POST['shopID'];
 $cardID = $_POST['cardID'];
 
 if(strlen($token)!=64){
@@ -16,7 +15,7 @@ if(strlen($token)!=64){
 }
 
 /* check token and return username */
-$query = "select username from admin_users where token='".$token."'";
+$query = "select username from customer_users where token='".$token."'";
 
 $query_exec = mysqli_query($localhost, $query);
 $row = mysqli_fetch_array($query_exec);
@@ -27,31 +26,29 @@ if($username == ""){
 	die();
 }
 /**/
-/* check exist card id in "admin_card" table*/
-$query = "select * from admin_card where admin_username='".$username."' and card_id = '" . $cardID . "'";
+
+/* check exist card id in "card_shop" table*/
+$query = "select * from card_shop where card_id='".$cardID."'";
 
 $query_exec = mysqli_query($localhost, $query);
-$card_rows = mysqli_num_rows($query_exec);
+$rows = mysqli_num_rows($query_exec);
 
-$query = "select * from card_shop where card_id='".$cardID."' and shop_id = '" . $shopID . "'";
-
-$query_exec = mysqli_query($localhost, $query);
-$shop_rows = mysqli_num_rows($query_exec);
-
-if($card_rows == 0) {//have no shop in database
-    echo '{"error":"It' . "'" . 's not your card", "listEvents":[]}';
-}else if($shop_rows == 0){
-    echo '{"error":"It' . "'" . 's not your shop", "listEvents":[]}';
-}else  {
+$result = '{"error":"", "listEvents":[';
+while($row1 = mysqli_fetch_array($query_exec)){
     // mọi thông tin cung cấp đều đúng
-    // lấy danh sách awards rồi trả về cho người dùng  
-    $query = "select * from event where id in (select event_id from event_card_shop where shop_id = '".$shopID."' and card_id = '".$cardID."')";
-    $query_exec = mysqli_query($localhost, $query);
+    // lấy danh sách awards rồi trả về cho người dùng
+    $query = "select * from shop where id = '" . $row1['shop_id'] . "'";
+    $query_exec1 = mysqli_query($localhost, $query);
+    $row = mysqli_fetch_array($query_exec1);
+    $shopname = $row['name'];
 
-    $result = '{"error":"", "listEvents":[';
+    //$query = "select * from event where shop_id = '" . $row1['shop_id'] . "' ORDER BY id DESC";
+    $query = "select * from event where id in (select event_id from event_card_shop where shop_id = '".$row1['shop_id']."' and card_id = '".$cardID."')";
+    $query_exec2 = mysqli_query($localhost, $query);   
 
-    while($row = mysqli_fetch_array($query_exec)){
+    while($row = mysqli_fetch_array($query_exec2)){
             $result = $result . '{' 
+                    . '"shopName":"' . $shopname . '",'
                     . '"id":"' . $row['id'] . '",'
                     . '"type":"' . $row['type'] . '",'
                     . '"name":"' . $row['name'] . '",'
@@ -65,10 +62,9 @@ if($card_rows == 0) {//have no shop in database
                     . '"point":"' . $row['point'] . '",'
                     . '"image":"' . $row['image'] . '"},';
     }
-
-    $result = $result . ']}';
-    echo $result;
 }
+$result = $result . ']}';
+echo $result;
 
 mysqli_close($localhost);
 ?>

@@ -41,6 +41,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
     Spinner category;
     EditText eventName, description;
     private String shopId;
+    private String cardId;
     boolean isStartDatePicker = true;
     ProgressDialog mDialog;
 
@@ -51,6 +52,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         shopId = getIntent().getStringExtra(ARG_SHOPID);
+        cardId = getIntent().getStringExtra(Global.CARD_ID);
 
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Creating event");
@@ -135,7 +137,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
-                    EventModel.addEvent(event, shopId, new EventModel.OnAddEventResult() {
+                    EventModel.addEvent(event, shopId, cardId, new EventModel.OnAddEventResult() {
                         @Override
                         public void onSuccess(EventModel.CreateEventResult createEventResult) {
                             if(eventLogo != null) {

@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by tinntt on 5/13/2015.
  */
 public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"List Shop", "Events", "Awards", "Users", "History"};
+    private final String[] TITLES = {"List Shop", "Events", "Awards", "Users", "Register", "History"};
     private String cardId = null;
 
     public CardDetailTabPagerAdapter(FragmentManager fm) {
@@ -42,6 +42,8 @@ public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
             return new CardAwardsFragment(position, cardId);
         else if (position == 3)
             return new CardUsersFragment(position, cardId);
+        else if (position ==4)
+            return new CardRegisterFragment(position, cardId);
         else
             return new CardHistoriesFragment();
 

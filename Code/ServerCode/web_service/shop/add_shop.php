@@ -52,19 +52,11 @@ if($query_exec){
 								.$card_id."','"
 								.$id."')";  //insert vào database
 	$query_exec = mysqli_query($localhost, $query);
-	if($query_exec){
-		$query = "insert into admin_shop values ('"
-								.$username."','"
-								.$id."')";  //insert vào database
-		$query_exec = mysqli_query($localhost, $query);
-		if($query_exec)
-			echo '{"error":"","shopID":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
-		else
-			echo '{"error":"create shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}';
-	}
+	if($query_exec)
+		echo '{"error":"","shopID":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
 	else
 		echo '{"error":"create shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}';
-}
+}	
 else {
 	echo '{"error":"create shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}'; //insert không thành công vì đã có username
 }

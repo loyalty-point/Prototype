@@ -7,6 +7,7 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 
 $token = $_POST['token'];
+$cardID = $_POST['cardID'];
 $shopID = $_POST['shopID'];
 
 if(strlen($token)!=64){
@@ -27,21 +28,26 @@ if($username == ""){
 }
 /**/
 
-/* check exist shop id in "admin_shop" table*/
-$query = "select * from admin_shop where admin_username='".$username."' and shop_id = '" . $shopID . "'";
+/* check exist card id in "admin_card" table*/
+$query = "select * from admin_card where admin_username='".$username."' and card_id = '" . $cardID . "'";
 
 $query_exec = mysqli_query($localhost, $query);
-$rows = mysqli_num_rows($query_exec);
+$card_rows = mysqli_num_rows($query_exec);
 
-if($rows == 0) {//have no shop in database
+$query = "select * from card_shop where card_id='".$cardID."' and shop_id = '" . $shopID . "'";
+
+$query_exec = mysqli_query($localhost, $query);
+$shop_rows = mysqli_num_rows($query_exec);
+
+if($card_rows == 0) {//have no shop in database
+    echo '{"error":"It' . "'" . 's not your card", "listAwards":[]}';
+}else if($shop_rows == 0){
     echo '{"error":"It' . "'" . 's not your shop", "listAwards":[]}';
-}
-else  {
+}else {
 
     // mọi thông tin cung cấp đều đúng
     // lấy danh sách awards rồi trả về cho người dùng
-    $query = "select * from award where shopID = '" . $shopID . "' ORDER BY id DESC";
-    
+    $query = "select * from award where id in (select award_id from award_card_shop where shop_id = '".$shopID."' and card_id = '".$cardID."')";
     $query_exec = mysqli_query($localhost, $query);
 
     $result = '{"error":"", "listAwards":[';

@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 
 import java.util.ArrayList;
 
@@ -46,14 +47,14 @@ public class ShopEventsFragment extends Fragment {
 
     private int position;
     private String shopId;
+    private String cardId;
 
     public ShopEventsFragment() {
     }
 
-    public ShopEventsFragment(int position, String shopId) {
+    public ShopEventsFragment(int position) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -61,7 +62,6 @@ public class ShopEventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
     }
 
     @Override
@@ -75,6 +75,8 @@ public class ShopEventsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         createEventBtn = (ButtonFloat) getActivity().findViewById(R.id.createEventBtn);
         createEventBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createEventBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,7 @@ public class ShopEventsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), CreateEventActivity.class);
                 Bundle b = new Bundle();
                 i.putExtra(ARG_SHOPID, shopId);
+                i.putExtra(Global.CARD_ID, cardId);
                 startActivity(i);
             }
         });
@@ -135,7 +138,7 @@ public class ShopEventsFragment extends Fragment {
 
 
     public void getListEvents() {
-        EventModel.getListEvents(shopId, new EventModel.OnGetListResult() {
+        EventModel.getListEvents(shopId, cardId, new EventModel.OnGetListResult() {
 
             @Override
             public void onSuccess(final ArrayList<Event> listEvents) {
@@ -158,6 +161,7 @@ public class ShopEventsFragment extends Fragment {
                                 public void onClick(Card card, View view) {
                                     Intent i = new Intent(getActivity(), EditEventActivity.class);
                                     i.putExtra(EVENT_OBJECT, ((EventCard)card).event);
+                                    i.putExtra(Global.CARD_ID, cardId);
                                     i.putExtra(SHOP_ID, shopId);
                                     startActivity(i);
                                 }

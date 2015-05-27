@@ -54,6 +54,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
     CreateEvent2Fragment createEvent2Fragment;
     static Picasso mPicasso;
     String shopId;
+    private String cardId;
     Bitmap eventLogo = null;
     boolean isChangeAwardImage = false;
 
@@ -71,7 +72,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
         Intent i = getIntent();
         oldEvent = (Event) i.getParcelableExtra(ShopEventsFragment.EVENT_OBJECT);
         shopId = i.getStringExtra(ShopEventsFragment.SHOP_ID);
-
+        cardId = i.getStringExtra(Global.CARD_ID);
         Calendar c = Calendar.getInstance();
         /** create value to list and add event change frangment**/
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -150,7 +151,7 @@ public class EditEventActivity extends FragmentActivity implements DatePickerDia
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
-                    EventModel.editEvent(Global.userToken,shopId , event, new EventModel.OnEditEventResult() {
+                    EventModel.editEvent(Global.userToken, shopId, cardId, event, new EventModel.OnEditEventResult() {
 
                         @Override
                         public void onSuccess(final EventModel.EditEventResult result) {

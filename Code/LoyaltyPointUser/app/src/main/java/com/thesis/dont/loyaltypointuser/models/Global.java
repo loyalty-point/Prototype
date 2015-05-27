@@ -4,11 +4,13 @@ package com.thesis.dont.loyaltypointuser.models;
  * Created by 11120_000 on 07/03/15.
  */
 public class Global {
+    public static final String CARD_ID = "shop_address";
     public static final String SHOP_ADDRESS = "shop_address";
     public static final String QR_CODE = "qr_code";
     public static final String USER_OBJECT = "user_object";
     public static final String CARD_OBJECT = "card_object";
     public static final String IS_PENDING_CARD = "is_pending_card";
+    public static final String USER_POINT = "user_point";
     public static String userToken = "";
     public static String regID = null;
 

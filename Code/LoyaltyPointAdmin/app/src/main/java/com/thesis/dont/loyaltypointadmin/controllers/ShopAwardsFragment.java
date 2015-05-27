@@ -48,10 +48,11 @@ public class ShopAwardsFragment extends Fragment {
     private int position;
 
     String shopID;
+    String cardID;
 
     public ShopAwardsFragment() {}
 
-    public ShopAwardsFragment(int position, String shopId){
+    public ShopAwardsFragment(int position){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         this.setArguments(b);
@@ -83,6 +84,7 @@ public class ShopAwardsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardID = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         mParentActivity = getActivity();
         // set listener for createAward button
         ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
@@ -92,6 +94,7 @@ public class ShopAwardsFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CreateAwardActivity.class);
                 i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).getCurrentShop().getId());
+                i.putExtra(Global.CARD_ID, cardID);
                 startActivity(i);
             }
         });
@@ -145,7 +148,7 @@ public class ShopAwardsFragment extends Fragment {
     }
 
     public void getListAwards() {
-        AwardModel.getListAwards(Global.userToken, shopID, new AwardModel.OnGetListAwardsResult() {
+        AwardModel.getListAwards(Global.userToken, shopID, cardID, new AwardModel.OnGetListAwardsResult() {
             @Override
             public void onSuccess(final ArrayList<Award> listAwards) {
                 // Get listAwards thành công

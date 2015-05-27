@@ -7,6 +7,8 @@ import android.os.Parcelable;
  * Created by tinntt on 3/5/2015.
  */
 public class Shop implements Parcelable{
+    private String cardName;
+    private String cardId;
     String id;
     String name;
     String address;
@@ -117,6 +119,8 @@ public class Shop implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(cardName);
+        dest.writeString(cardId);
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(address);
@@ -140,6 +144,8 @@ public class Shop implements Parcelable{
     };
 
     private Shop(Parcel in) {
+        cardName = in.readString();
+        cardId = in.readString();
         id = in.readString();
         name = in.readString();
         address = in.readString();
@@ -149,5 +155,21 @@ public class Shop implements Parcelable{
         exchange_ratio = in.readFloat();
         point = in.readInt();
         isAccepted = in.readInt();
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 }

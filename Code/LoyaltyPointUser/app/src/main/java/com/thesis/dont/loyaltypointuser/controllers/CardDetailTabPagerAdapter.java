@@ -9,16 +9,18 @@ import android.util.Log;
  * Created by tinntt on 5/13/2015.
  */
 public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"List Shop", "Events", "Awards", "Users", "History"};
+    private final String[] TITLES = {"List Shop", "Events", "Awards", "History"};
     private String cardId = null;
+    private int userPoint = 0;
 
     public CardDetailTabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public CardDetailTabPagerAdapter(FragmentManager fm, String cardId) {
+    public CardDetailTabPagerAdapter(FragmentManager fm, String cardId, int userPoint) {
         super(fm);
         this.cardId = cardId;
+        this.userPoint = userPoint;
     }
 
     @Override
@@ -35,13 +37,11 @@ public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Log.e("position", String.valueOf(position));
         if (position == 0)
-            return new CardDetailFragment();
+            return new CardDetailFragment(position, cardId);
         else if (position == 1)
-            return new CardEventsFragment();
+            return new CardEventsFragment(position, cardId);
         else if (position == 2)
-            return new CardAwardsFragment();
-        else if (position == 3)
-            return new CardUsersFragment();
+            return new CardAwardsFragment(position, cardId, userPoint);
         else
             return new CardHistoriesFragment();
 

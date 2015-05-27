@@ -36,10 +36,21 @@
         android:textSize="25dp" />
 
     <TextView
-        android:id="@+id/shopAddress"
+        android:id="@+id/cardName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/shopName"
+        android:layout_toRightOf="@id/shopImg"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_toLeftOf="@id/addFollowShop"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textSize="@dimen/font_size" />
+
+    <TextView
+        android:id="@+id/shopAddress"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardName"
         android:layout_toRightOf="@id/shopImg"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_toLeftOf="@id/addFollowShop"

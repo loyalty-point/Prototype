@@ -30,17 +30,16 @@ public class ShopDetailFragment extends Fragment {
     private static final String ARG_SHOPID = "shopId";
 
     private int position;
-    private String shopId;
+    private String shopId, cardId;
     View rootView;
 
     Activity mParentActivity;
 
     public ShopDetailFragment() {}
 
-    public ShopDetailFragment(int position, String shopId) {
+    public ShopDetailFragment(int position) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_SHOPID, shopId);
         this.setArguments(b);
     }
 
@@ -48,7 +47,6 @@ public class ShopDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        shopId = getArguments().getString(ARG_SHOPID);
     }
 
     @Override
@@ -74,7 +72,8 @@ public class ShopDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         final TextView shopName = (TextView)mParentActivity.findViewById(R.id.shopNameTv);
         final ImageView shopImg = (ImageView)mParentActivity.findViewById(R.id.shopImg);
 

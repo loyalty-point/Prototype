@@ -6,6 +6,7 @@ $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $shop = $_POST['shop_id'];
+$cardID = $_POST['card_id'];
 $token = $_POST['token'];
 $event = $_POST['event'];
 $event = json_decode($event);
@@ -28,48 +29,57 @@ if($username == ""){
 	die();
 }
 /**/
-
-/* check exist shop id in "admin_shop" table*/
-$query = "select * from admin_shop where admin_username='".$username."' and shop_id='".$shop."'";
-
-$query_exec = mysqli_query($localhost, $query);
-$row = mysqli_fetch_array($query_exec);
-$username = $row['admin_username'];
-$shop_id = $row['shop_id'];
-
-if($shop_id == ""){
-	echo '{"error":"not your shop", "bucketName":"", "fileName":""}';
-	die();
-}
-/**/
-
-$id = uniqid();
-$bucketName = "loyalty-point-photos";
-$fileName = "shops/" . $shop . "/events/" . $id;
-$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
-
-$query = "insert into event values ('"
-							.$shop."','"
-							.$id."','"
-							.$event->type."','"
-							.$event->name."','"
-							.$event->time_start."','"
-							.$event->time_end."','"
-							.$event->description."','"
-							.$event->barcode."','"
-							.$event->goods_name."','"
-							.$event->ratio."','"
-							.$event->number."','"
-							.$event->point."','"
-							.$imageLink."')";  //insert vào database
+/* check exist card id in "admin_card" table*/
+$query = "select * from admin_card where admin_username='".$username."' and card_id = '" . $cardID . "'";
 
 $query_exec = mysqli_query($localhost, $query);
+$card_rows = mysqli_num_rows($query_exec);
 
-if($query_exec){
-	echo '{"error":"", "bucketName":"'.$bucketName.'","fileName":"'.$fileName.'"}';
+$query = "select * from card_shop where card_id='".$cardID."' and shop_id = '" . $shop . "'";
+
+$query_exec = mysqli_query($localhost, $query);
+$shop_rows = mysqli_num_rows($query_exec);
+
+if($card_rows == 0) {//have no shop in database
+    echo '{"error":"not your card", "bucketName":"", "fileName":""}';
+}else if($shop_rows == 0){
+    echo '{"error":"not your shop", "bucketName":"", "fileName":""}';
 }else{
-	echo '{"error":"create event unsuccessfully", bucketName":"", "fileName":""}';
-}
+	$id = uniqid();
+	$bucketName = "loyalty-point-photos";
+	$fileName = "shops/" . $shop . "/events/" . $id;
+	$imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
 
+	$query = "insert into event values ('"
+								.$id."','"
+								.$event->type."','"
+								.$event->name."','"
+								.$event->time_start."','"
+								.$event->time_end."','"
+								.$event->description."','"
+								.$event->barcode."','"
+								.$event->goods_name."','"
+								.$event->ratio."','"
+								.$event->number."','"
+								.$event->point."','"
+								.$imageLink."')";  //insert vào database
+	
+	$query_exec = mysqli_query($localhost, $query);
+
+	if($query_exec){
+		$query = "insert into event_card_shop values ('"
+											.$id."','"
+											.$cardID."','"
+											.$shop."')";
+		$query_exec = mysqli_query($localhost, $query);
+		if($query_exec){			
+			echo '{"error":"", "bucketName":"'.$bucketName.'","fileName":"'.$fileName.'"}';
+		}else{
+			echo '{"error":"create event unsuccessfully", bucketName":"", "fileName":""}';
+		}
+	}else{
+		echo '{"error":"create event unsuccessfully", bucketName":"", "fileName":""}';
+	}
+}
 mysqli_close($localhost);
 ?>

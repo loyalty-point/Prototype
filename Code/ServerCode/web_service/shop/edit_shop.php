@@ -6,7 +6,8 @@ $username_localhost ="root";
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
-$shop = $_POST['shop_id'];
+$shop_id = $_POST['shop_id'];
+$card_id = $_POST['card_id'];
 $token = $_POST['token'];
 
 /* check token and return username */
@@ -21,62 +22,65 @@ if($username == ""){
 	die();
 }
 /**/
-
-/* check exist shop id in "admin_shop" table*/
-$query = "select * from admin_shop where admin_username='".$username."' and shop_id='".$shop."'";
+/* check exist card id in "admin_card" table*/
+$query = "select * from admin_card where admin_username='".$username."' and card_id = '" . $card_id . "'";
 
 $query_exec = mysqli_query($localhost, $query);
-$row = mysqli_fetch_array($query_exec);
-$username = $row['admin_username'];
-$shop_id = $row['shop_id'];
+$card_rows = mysqli_num_rows($query_exec);
 
-if($shop_id == ""){
-	echo '{"error":"not your shop", "shopID":"", "bucketName":"", "fileName":""}';
-	die();
-}
-/**/
+$query = "select * from card_shop where card_id='".$card_id."' and shop_id = '" . $shop_id . "'";
 
-$query_search = "select * from shop where id='".$shop_id."'";
+$query_exec = mysqli_query($localhost, $query);
+$shop_rows = mysqli_num_rows($query_exec);
 
-$query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
+if($card_rows == 0) {//have no shop in database
+    echo '{"error":"not your card", "shopID":"", "bucketName":"", "fileName":""}';
+}else if($shop_rows == 0){
+    echo '{"error":"not your shop", "shopID":"", "bucketName":"", "fileName":""}';
+}else{
+  /**/
+  $query_search = "select * from shop where id='".$shop_id."'";
 
-$rows = mysqli_num_rows($query_exec);
+  $query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
 
-if($rows == 0) { //Shop không có
-    echo '{"error":"shop does not exist", "shopID":"", "bucketName":"", "fileName":""}';
-}
-else  {
-	// Edit shop
-    $shop = $_POST['shop'];
-    
-    $shop = json_decode($shop); //chuyển từ string sang json.
+  $rows = mysqli_num_rows($query_exec);
 
-    $id = $shop_id;
-    $bucketName = "loyalty-point-photos";
-    $fileName = "shops/" . $id . "/shopLogo";
-    $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
+  if($rows == 0) { //Shop không có
+      echo '{"error":"shop does not exist", "shopID":"", "bucketName":"", "fileName":""}';
+  }
+  else  {
+  	// Edit shop
+      $shop = $_POST['shop'];
+      
+      $shop = json_decode($shop); //chuyển từ string sang json.
 
-    $query = "update shop " 
-    		  . "set name = '" . $shop->name
-    		  . "', phone_number = '" . $shop->phone_number 
-    		  . "', category = '" . $shop->category 
-    		  . "', exchange_ratio = '" . $shop->exchange_ratio 
-    		  . "', address = '" . $shop->address 
-              . "', image = '" . $imageLink 
-              . "' where id = '" . $id . "'";
+      $id = $shop_id;
+      $bucketName = "loyalty-point-photos";
+      $fileName = "shops/" . $id . "/shopLogo";
+      $imageLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileName;
 
-              /*echo $query;
-              die();*/
-              
-	
-               
-    $query_exec = mysqli_query($localhost, $query);
+      $query = "update shop " 
+      		  . "set name = '" . $shop->name
+      		  . "', phone_number = '" . $shop->phone_number 
+      		  . "', category = '" . $shop->category 
+      		  . "', exchange_ratio = '" . $shop->exchange_ratio 
+      		  . "', address = '" . $shop->address 
+                . "', image = '" . $imageLink 
+                . "' where id = '" . $id . "'";
 
-    if($query_exec)
-		echo '{"error":"","shopID":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
-	else
-		echo '{"error":"edit shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}';
+                /*echo $query;
+                die();*/
+                
+  	
+                 
+      $query_exec = mysqli_query($localhost, $query);
 
+      if($query_exec)
+  		echo '{"error":"","shopID":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
+  	else
+  		echo '{"error":"edit shop unsuccessfully", "shopID":"", "bucketName":"", "fileName":""}';
+
+  }
 }
 mysqli_close($localhost);
 ?>

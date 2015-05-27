@@ -30,6 +30,7 @@ public class UserDetailActivity extends ActionBarActivity {
     String userId;
     String userFullName;
     String shopId;
+    String cardId;
 
     Shop mShop;
 
@@ -44,11 +45,12 @@ public class UserDetailActivity extends ActionBarActivity {
         userId = i.getStringExtra(Global.USER_NAME);
         userFullName = i.getStringExtra(Global.USER_FULLNAME);
         shopId = i.getStringExtra(Global.SHOP_ID);
+        cardId = i.getStringExtra(Global.CARD_ID);
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(userFullName);
-        pager.setAdapter(new UserDetailTabPagerAdapter(getSupportFragmentManager(), userId, shopId));
+        pager.setAdapter(new UserDetailTabPagerAdapter(getSupportFragmentManager(), userId, shopId, cardId));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

@@ -29,6 +29,7 @@ public class CalculatePointActivity extends ActionBarActivity {
 
     String  mUserName;
     Shop mShop;
+    String cardId;
 
     ListView mListView;
     ListProductsAdapter mAdapter;
@@ -41,6 +42,7 @@ public class CalculatePointActivity extends ActionBarActivity {
         setContentView(R.layout.activity_calculate_point);
 
         Intent i = getIntent();
+        cardId = i.getStringExtra(Global.CARD_ID);
         mUserName = i.getStringExtra(Global.USER_NAME);
         mShop = (Shop) i.getParcelableExtra(Global.SHOP_OBJECT);
 
@@ -92,7 +94,7 @@ public class CalculatePointActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CalculatePointActivity.this, ConfirmUpdatePointActivity.class);
-
+                i.putExtra(Global.CARD_ID, cardId);
                 // put username into intent
                 i.putExtra(Global.USER_NAME, mUserName);
 

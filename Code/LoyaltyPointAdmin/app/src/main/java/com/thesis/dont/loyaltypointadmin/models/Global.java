@@ -22,6 +22,7 @@ public class Global {
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";
+    public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";
 
     public static String TOTAL_MONEY = "total_money";

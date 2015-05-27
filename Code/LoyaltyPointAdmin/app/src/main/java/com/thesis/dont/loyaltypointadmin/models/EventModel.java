@@ -38,7 +38,7 @@ public class EventModel {
     public static native String getEditEvent();
     public static native String getCalculatePoint();
 
-    public static void addEvent(Event event, final String shopId, final OnAddEventResult onAddEventResult){
+    public static void addEvent(Event event, final String shopId, final String cardId, final OnAddEventResult onAddEventResult){
         final String json = Helper.objectToJson(event);
         Thread t = new Thread() {
             @Override
@@ -53,6 +53,7 @@ public class EventModel {
                 nameValuePairs = new ArrayList<NameValuePair>(3);
 
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
                 nameValuePairs.add(new BasicNameValuePair("event", json));
                 nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
 
@@ -84,7 +85,7 @@ public class EventModel {
         t.start();
     }
 
-    public static void getListEvents(final String shopID, final OnGetListResult onGetListResult){
+    public static void getListEvents(final String shopID, final String cardID, final OnGetListResult onGetListResult){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -99,6 +100,7 @@ public class EventModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
                 nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -134,7 +136,7 @@ public class EventModel {
         t.start();
     }
 
-    public static void editEvent(final String token, final String shopID, final Event event,
+    public static void editEvent(final String token, final String shopID, final String cardID, final Event event,
                                  final OnEditEventResult mOnEditEventResult){
 
         Thread t = new Thread() {
@@ -154,6 +156,7 @@ public class EventModel {
                 nameValuePairs.add(new BasicNameValuePair("event", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -183,7 +186,7 @@ public class EventModel {
         t.start();
     }
 
-    public static void calculatePoint(final String token, final String shopId, final int totalMoney, final ArrayList<Product> products, final OnCalculatePointResult mOnCalculatePointResult){
+    public static void calculatePoint(final String token, final String shopId, final String cardId, final int totalMoney, final ArrayList<Product> products, final OnCalculatePointResult mOnCalculatePointResult){
         //final String json = Helper.objectToJson(event);
         final String listproducts = Helper.objectToJson(products);
         Thread t = new Thread() {
@@ -200,6 +203,7 @@ public class EventModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
                 nameValuePairs.add(new BasicNameValuePair("total_money", String.valueOf(totalMoney)));
                 nameValuePairs.add(new BasicNameValuePair("list_products", listproducts));
 

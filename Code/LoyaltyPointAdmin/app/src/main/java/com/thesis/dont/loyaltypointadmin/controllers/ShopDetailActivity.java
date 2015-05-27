@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class ShopDetailActivity extends ActionBarActivity {
 
     Shop mShop;
+    String mCard;
     int tabIndex = 0;
 
     @Override
@@ -32,13 +34,14 @@ public class ShopDetailActivity extends ActionBarActivity {
         Intent i = getIntent();
         if(mShop == null)
             mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        mCard = i.getStringExtra(Global.CARD_ID);
         
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(mShop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), mShop.getId()));
+        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager
@@ -63,6 +66,10 @@ public class ShopDetailActivity extends ActionBarActivity {
 
     public Shop getCurrentShop() {
         return mShop;
+    }
+
+    public String getCurrentCardId() {
+        return mCard;
     }
 
     @Override
