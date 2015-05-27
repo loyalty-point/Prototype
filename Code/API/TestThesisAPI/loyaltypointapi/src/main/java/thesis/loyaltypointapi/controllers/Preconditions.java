@@ -1,4 +1,4 @@
-package controllers;
+package thesis.loyaltypointapi.controllers;
 
 import java.util.List;
 

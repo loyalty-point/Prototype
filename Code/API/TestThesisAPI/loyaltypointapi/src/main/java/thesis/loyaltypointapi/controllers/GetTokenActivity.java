@@ -1,15 +1,14 @@
-/*
-package com.example.testthesisapi;
+package thesis.loyaltypointapi.controllers;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import thesis.loyaltypointapi.apis.LoyaltyPointAPI.*;
-import thesis.loyaltypointapi.controllers.Preconditions;
-import thesis.loyaltypointapi.models.GlobalParams;
 
+import thesis.loyaltypointapi.R;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI.*;
+import thesis.loyaltypointapi.models.GlobalParams;
 
 public class GetTokenActivity extends ActionBarActivity {
 
@@ -80,4 +79,3 @@ public class GetTokenActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-*/

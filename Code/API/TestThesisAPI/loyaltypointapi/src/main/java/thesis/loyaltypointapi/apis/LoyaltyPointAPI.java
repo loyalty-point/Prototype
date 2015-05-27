@@ -1,18 +1,12 @@
-package apis;
+package thesis.loyaltypointapi.apis;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.util.Log;
 
-import com.example.testthesisapi.GetTokenActivity;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -27,12 +21,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.Helper;
-import models.AchievedEvent;
-import models.CalculatePointResult;
-import models.GlobalParams;
-import models.Product;
-import models.UpdatePointResult;
+import thesis.loyaltypointapi.controllers.GetTokenActivity;
+import thesis.loyaltypointapi.controllers.Helper;
+import thesis.loyaltypointapi.models.AchievedEvent;
+import thesis.loyaltypointapi.models.CalculatePointResult;
+import thesis.loyaltypointapi.models.GlobalParams;
+import thesis.loyaltypointapi.models.Product;
+import thesis.loyaltypointapi.models.UpdatePointResult;
 
 /**
  * Created by 11120_000 on 22/05/15.

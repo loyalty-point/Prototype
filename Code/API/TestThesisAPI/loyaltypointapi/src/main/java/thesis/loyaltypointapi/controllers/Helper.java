@@ -1,4 +1,4 @@
-package controllers;
+package thesis.loyaltypointapi.controllers;
 
 import com.google.gson.Gson;
 

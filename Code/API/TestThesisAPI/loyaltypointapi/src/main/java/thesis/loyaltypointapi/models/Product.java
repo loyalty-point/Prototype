@@ -1,4 +1,4 @@
-package models;
+package thesis.loyaltypointapi.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
