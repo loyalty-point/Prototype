@@ -80,8 +80,11 @@ public class SearchCard extends ActionBarActivity {
                                 GCSHelper.uploadImage(SearchCard.this, result.bucketName, result.fileName, shopImage, new GCSHelper.OnUploadImageResult() {
                                     @Override
                                     public void onComplete() {
-                                        Intent i = new Intent(SearchCard.this, CardsListActivity.class);
-                                        startActivity(i);
+//                                        Intent i = new Intent(SearchCard.this, CardsListActivity.class);
+//                                        startActivity(i);
+                                        if(!Global.tempActivity.equals(null)){
+                                            Global.tempActivity.finish();
+                                        }
                                         finish();
                                     }
 
@@ -96,8 +99,11 @@ public class SearchCard extends ActionBarActivity {
                                     }
                                 });
                             } else {
-                                Intent i = new Intent(SearchCard.this, CardsListActivity.class);
-                                startActivity(i);
+//                                Intent i = new Intent(SearchCard.this, CardsListActivity.class);
+//                                startActivity(i);
+                                if(!Global.tempActivity.equals(null)){
+                                    Global.tempActivity.finish();
+                                }
                                 finish();
                             }
                         }
@@ -112,6 +118,9 @@ public class SearchCard extends ActionBarActivity {
                                     Toast.makeText(SearchCard.this, e, Toast.LENGTH_LONG).show();
                                 }
                             });
+                            if(!Global.tempActivity.equals(null)){
+                                Global.tempActivity.finish();
+                            }
                             finish();
                         }
                     });

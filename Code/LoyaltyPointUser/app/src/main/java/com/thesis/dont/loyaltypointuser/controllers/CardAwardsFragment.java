@@ -52,16 +52,14 @@ public class CardAwardsFragment extends Fragment {
     Activity mParentActivity;
     private int position;
 
-    String cardID;
-    private int userPoint;
+    com.thesis.dont.loyaltypointuser.models.Card mCard;
 
     public CardAwardsFragment() {}
 
-    public CardAwardsFragment(int position, String cardId, int userPoint){
+    public CardAwardsFragment(int position, com.thesis.dont.loyaltypointuser.models.Card mCard){
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(CARD_ID, cardId);
-        b.putInt(USER_POINT, userPoint);
+        b.putParcelable(Global.CARD_OBJECT, mCard);
         this.setArguments(b);
     }
 
@@ -70,8 +68,7 @@ public class CardAwardsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cardID = getArguments().getString(CARD_ID);
-        userPoint = getArguments().getInt(USER_POINT);
+        mCard = getArguments().getParcelable(Global.CARD_OBJECT);
     }
 
     @Override
@@ -145,7 +142,7 @@ public class CardAwardsFragment extends Fragment {
             Picasso.with(mParentActivity).load(awardImg).placeholder(R.drawable.ic_about).into(awardImgIv);
 
             buyBtn = (ButtonRectangle) view.findViewById(R.id.buyBtn);
-            if(userPoint < award.getPoint() && award.getQuantity() > 0){
+            if(mCard.getPoint() < award.getPoint() && award.getQuantity() > 0){
                 buyBtn.setEnabled(false);
                 buyBtn.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialGrey));
             }else{
@@ -177,65 +174,65 @@ public class CardAwardsFragment extends Fragment {
 
                                 if(quantity > award.getQuantity()) {
                                     Toast.makeText(mParentActivity, "Sorry, we just have " + award.getQuantity() + " remaining items", Toast.LENGTH_LONG).show();
-                                }else if((quantity*award.getPoint()) > userPoint){
-                                    Toast.makeText(mParentActivity, "Sorry, Not enough point, you only have " + String.valueOf(userPoint) + "but you need " + String.valueOf(quantity*award.getPoint()) +" point to buy this award!", Toast.LENGTH_LONG).show();
+                                }else if((quantity*award.getPoint()) > mCard.getPoint()){
+                                    Toast.makeText(mParentActivity, "Sorry, Not enough point, you only have " + String.valueOf(mCard.getPoint()) + "but you need " + String.valueOf(quantity*award.getPoint()) +" point to buy this award!", Toast.LENGTH_LONG).show();
                                 }else {
                                     // Lấy thời gian hiện tại
                                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                                     Date date = new Date();
                                     String time = dateFormat.format(date); //2014/08/06 15:59:48
 
-                                    AwardModel.buyAward(Global.userToken, time, award.getShopID(), award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
-                                        @Override
-                                        public void onSuccess() {
-                                            mParentActivity.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
-
-                                                    // Create content layout for dialog
-                                                    LayoutInflater inflater = mParentActivity.getLayoutInflater();
-                                                    View contentView = inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null);
-
-                                                    TextView quantityTv = (TextView) contentView.findViewById(R.id.quantity);
-                                                    quantityTv.setText(String.valueOf(quantity) + " x " + award.getName());
-
-                                                    ImageView awardImageView = (ImageView) contentView.findViewById(R.id.awardImage);
-                                                    Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageView);
-
-                                                    builder.setTitle("Buy award successfully")
-                                                            .setView(contentView)
-                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    // do nothing
-                                                                }
-                                                            })
-                                                            .setNegativeButton("Go to My Awards", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    Intent i = new Intent(mParentActivity, CardsListActivity.class);
-                                                                    i.putExtra(Global.FRAGMENT_ID, Global.MY_AWARDS);
-                                                                    mParentActivity.startActivity(i);
-                                                                    mParentActivity.finish();
-                                                                }
-                                                            })
-                                                            .show();
-                                                    refresh();
-                                                }
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onError(final String error) {
-                                            mParentActivity.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                        }
-                                    });
+//                                    AwardModel.buyAward(Global.userToken, time, award.getShopID(), award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
+//                                        @Override
+//                                        public void onSuccess() {
+//                                            mParentActivity.runOnUiThread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+//
+//                                                    // Create content layout for dialog
+//                                                    LayoutInflater inflater = mParentActivity.getLayoutInflater();
+//                                                    View contentView = inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null);
+//
+//                                                    TextView quantityTv = (TextView) contentView.findViewById(R.id.quantity);
+//                                                    quantityTv.setText(String.valueOf(quantity) + " x " + award.getName());
+//
+//                                                    ImageView awardImageView = (ImageView) contentView.findViewById(R.id.awardImage);
+//                                                    Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageView);
+//
+//                                                    builder.setTitle("Buy award successfully")
+//                                                            .setView(contentView)
+//                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                                @Override
+//                                                                public void onClick(DialogInterface dialog, int which) {
+//                                                                    // do nothing
+//                                                                }
+//                                                            })
+//                                                            .setNegativeButton("Go to My Awards", new DialogInterface.OnClickListener() {
+//                                                                @Override
+//                                                                public void onClick(DialogInterface dialog, int which) {
+//                                                                    Intent i = new Intent(mParentActivity, CardsListActivity.class);
+//                                                                    i.putExtra(Global.FRAGMENT_ID, Global.MY_AWARDS);
+//                                                                    mParentActivity.startActivity(i);
+//                                                                    mParentActivity.finish();
+//                                                                }
+//                                                            })
+//                                                            .show();
+//                                                    refresh();
+//                                                }
+//                                            });
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(final String error) {
+//                                            mParentActivity.runOnUiThread(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+//                                                }
+//                                            });
+//                                        }
+//                                    });
                                 }
                             }
                         });
@@ -254,7 +251,7 @@ public class CardAwardsFragment extends Fragment {
     }
 
     public void getListAwards() {
-        CardModel.getListAwards(Global.userToken, cardID, new CardModel.OnGetListAwardsResult() {
+        CardModel.getListAwards(Global.userToken, mCard.getId(), new CardModel.OnGetListAwardsResult() {
             @Override
             public void onSuccess(final ArrayList<Award> listAwards) {
                 // Get listAwards thành công

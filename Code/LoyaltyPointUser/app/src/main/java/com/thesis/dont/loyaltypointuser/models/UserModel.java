@@ -224,7 +224,7 @@ public class UserModel {
         t.start();
     }
 
-    public static void getListHistory(final String token, final String shopId,
+    public static void getListHistory(final String token, final String shopId, final String cardId,
                                   final OnGetListHistoryResult mOnGetListHistoryResult){
 
         Thread t = new Thread() {
@@ -241,6 +241,7 @@ public class UserModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

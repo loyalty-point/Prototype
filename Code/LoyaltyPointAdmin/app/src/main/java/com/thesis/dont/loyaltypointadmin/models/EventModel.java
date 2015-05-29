@@ -247,6 +247,12 @@ public class EventModel {
         public void onError(String error);
     }
 
+    public class CreateEventResult {
+        public String error;
+        public String bucketName;
+        public String fileName;
+    }
+
     public interface OnGetListResult{
         public void onSuccess(ArrayList<Event> listEvents);
 
@@ -266,12 +272,6 @@ public class EventModel {
     public interface OnCalculatePointResult{
         public void onSuccess(ArrayList<AchievedEvent> result, int pointFromMoney, int totalPoint);
         public void onError(String error);
-    }
-
-    public class CreateEventResult {
-        public String error;
-        public String bucketName;
-        public String fileName;
     }
 
     public class EditEventResult{

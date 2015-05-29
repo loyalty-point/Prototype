@@ -107,20 +107,7 @@ public class ShopAwardsFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
         mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
-
         // set listener for Item Click
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // start Details Award Activity
-                /*Award award = (Award) mAdapter.getItem(position);
-                Intent i = new Intent(getActivity(), EditAwardActivity.class);
-                //i.putExtra(SHOP_ID, shopID);
-                i.putExtra(AWARD_OBJECT, award);
-                startActivity(i);*/
-            }
-        });
     }
 
     public class AwardCard extends Card {
@@ -201,7 +188,7 @@ public class ShopAwardsFragment extends Fragment {
                                     Date date = new Date();
                                     String time = dateFormat.format(date); //2014/08/06 15:59:48
 
-                                    AwardModel.buyAward(Global.userToken, time, award.getShopID(), award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
+                                    AwardModel.buyAward(Global.userToken, time, shopID, cardID, award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {

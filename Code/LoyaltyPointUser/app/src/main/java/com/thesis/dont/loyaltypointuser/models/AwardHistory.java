@@ -11,6 +11,9 @@ public class AwardHistory {
     String shopID;
     String shopName;
     String shopImage;
+    private String cardID;
+    private String cardName;
+    private String cardImage;
     String awardID;
     String awardName;
     String awardImage;
@@ -114,5 +117,29 @@ public class AwardHistory {
 
     public void setTaken(boolean isTaken) {
         this.isTaken = isTaken;
+    }
+
+    public String getCardID() {
+        return cardID;
+    }
+
+    public void setCardID(String cardID) {
+        this.cardID = cardID;
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
+    public String getCardImage() {
+        return cardImage;
+    }
+
+    public void setCardImage(String cardImage) {
+        this.cardImage = cardImage;
     }
 }

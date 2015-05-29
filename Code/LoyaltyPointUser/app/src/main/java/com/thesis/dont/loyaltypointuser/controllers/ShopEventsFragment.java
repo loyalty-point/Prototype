@@ -88,18 +88,6 @@ public class ShopEventsFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
         mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
-
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //Click iteam to open new activity to show data of event for user.
-//                Event event = (Event) mAdapter.getItem(position);
-//                Intent i = new Intent(getActivity(), EventDetailActivity.class);
-//                i.putExtra(EVENT_OBJECT, event);
-//                i.putExtra(SHOP_ID, shopId);
-//                startActivity(i);
-//            }
-//        });
     }
 
     public void getListEvents() {
@@ -121,6 +109,16 @@ public class ShopEventsFragment extends Fragment {
                             card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
                             card.event = listEvents.get(i);
+                            card.setOnClickListener(new Card.OnCardClickListener() {
+                                @Override
+                                public void onClick(Card card, View view) {
+                                    Event event = ((EventCard)mAdapter.getItem(position)).event;
+                                    Intent i = new Intent(getActivity(), EventDetailActivity.class);
+                                    i.putExtra(EVENT_OBJECT, event);
+                                    i.putExtra(SHOP_ID, shopId);
+                                    startActivity(i);
+                                }
+                            });
 
                             mAdapter.add(card);
                         }
@@ -146,7 +144,7 @@ public class ShopEventsFragment extends Fragment {
 
         protected TextView eventNameTv, eventDateTv, eventPointTv;
         protected ImageView eventImgIv;
-        protected Event event;
+        public Event event;
 
         protected String eventName, eventDate, eventPoint, eventImg;
 

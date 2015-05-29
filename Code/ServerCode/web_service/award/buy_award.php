@@ -34,7 +34,8 @@ $userFullName = $row['name'];
 
 // Tìm trong bảng award thỏa điều kiện
 // award.awardID == $awardID && award.shopID = $shopID
-$query = "select * from award where id='".$awardID."' and shopID = '" . $shopID . "'";
+// $query = "select * from award where id='".$awardID."' and shopID = '" . $shopID . "'";
+$query = "select * from award where id in (select award_id from award_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."')";
 $query_exec = mysqli_query($localhost, $query);
 $awardRow = mysqli_fetch_array($query_exec);
 $awardID = $awardRow['id'];
@@ -47,7 +48,6 @@ if($awardID == "") {
 $awardName = $awardRow['name'];
 $awardImage = $awardRow['image'];
 $awardPoint = $awardRow['point'];
-
 
 // Lấy thông tin của shop
 $query = "select * from shop where id='".$shopID."'";
@@ -63,6 +63,19 @@ if($shopID == "") {
 $shopName = $shopRow['name'];
 $shopImage = $shopRow['image'];
 
+// Lấy thông tin của card
+$query = "select * from card where id='".$cardID."'";
+$query_exec = mysqli_query($localhost, $query);
+$cardRow = mysqli_fetch_array($query_exec);
+$cardID = $cardRow['id'];
+
+if($shopID == "") {
+    echo '{"error":"shop does not exist"}';
+    die();
+}
+
+$cardName = $cardRow['name'];
+$cardImage = $cardRow['image'];
 // Trừ điểm tích lũy của user trong bảng customer_card
 $point = $quantity * $awardPoint;
 
@@ -85,6 +98,9 @@ if($newPoint>=0){
                                 .$shopID."','"
                                 .$shopName."','"
                                 .$shopImage."','"
+                                .$cardID."','"
+                                .$cardName."','"
+                                .$cardImage."','"
                                 .$awardID."','"
                                 .$awardName."','"
                                 .$awardImage."','"

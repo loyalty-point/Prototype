@@ -16,6 +16,7 @@ public class Global {
     public static String regID = null;
 
     public static String SHOP_OBJECT = "shop_object";
+    public static String SHOP_ARRAY_OBJECT = "shop_array_object";
     public static String HISTORY_OBJECT = "shop_object";
     public static String SHOP_NAME = "shop_name";
     public static final String TAB_INDEX = "tab_index";
@@ -24,5 +25,5 @@ public class Global {
 
     public static final int MY_CARDS = 0;
     public static final int MY_ACCOUNT = 1;
-    public static final int MY_AWARDS = 2;
+    public static final int MY_AWARDS = 3;
 }

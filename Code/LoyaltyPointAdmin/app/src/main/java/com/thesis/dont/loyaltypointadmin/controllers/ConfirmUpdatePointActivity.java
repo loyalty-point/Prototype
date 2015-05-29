@@ -101,6 +101,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         mTotalMoney = (TextView) findViewById(R.id.totalMoney);
         mTotalMoney.setText(String.valueOf(totalMoney));
 
+        mBillCode.setEnabled(false);
         // init list achieved events
         mListView = (ListView) findViewById(R.id.listEvents);
         mAdapter = new AchievedEventsAdapter(this, new ArrayList<AchievedEvent>());
@@ -280,6 +281,7 @@ public class ConfirmUpdatePointActivity extends ActionBarActivity {
         switch(requestCode) {
             case Global.CAMERA_REQUEST:
                 if(resultCode == RESULT_OK){
+                    mBillCode.setEnabled(true);
                     mBillImageBitmap = (Bitmap) imageReturnedIntent.getExtras().get("data");
                     mBillImageBitmap = Helper.resizeBitmap(this, mBillImageBitmap);
                     mBillImage.setImageBitmap(mBillImageBitmap);

@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Event;
+import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.Shop;
 
 import java.util.ArrayList;
 
@@ -40,15 +42,15 @@ public class CardEventsFragment extends Fragment {
     Activity mParentActivity;
 
     private int position;
-    private String cardId;
+    private com.thesis.dont.loyaltypointuser.models.Card mCard;
 
     public CardEventsFragment() {
     }
 
-    public CardEventsFragment(int position, String cardId) {
+    public CardEventsFragment(int position, com.thesis.dont.loyaltypointuser.models.Card mCard) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_CARDID, cardId);
+        b.putParcelable(ARG_CARDID, mCard);
         this.setArguments(b);
     }
 
@@ -56,7 +58,7 @@ public class CardEventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cardId = getArguments().getString(ARG_CARDID);
+        mCard = getArguments().getParcelable(ARG_CARDID);
     }
 
     @Override
@@ -82,6 +84,7 @@ public class CardEventsFragment extends Fragment {
         protected TextView eventNameTv, eventDateTv, eventPointTv, eventShopNameTv;
         protected ImageView eventImgIv;
         protected Event event;
+        protected ArrayList<Shop> listShops = new ArrayList<Shop>();
 
         protected String eventName, eventDate, eventPoint, eventImg, eventShopName;
 
@@ -122,9 +125,9 @@ public class CardEventsFragment extends Fragment {
 
 
     public void getListEvents() {
-        CardModel.getListEvents(cardId, new CardModel.OnGetListEventResult() {
+        CardModel.getListEvents(mCard.getId(), new CardModel.OnGetListEventResult() {
             @Override
-            public void onSuccess(final ArrayList<Event> listEvents) {
+            public void onSuccess(final ArrayList<Event> listEvents, final ArrayList<ArrayList<Shop>> listShops) {
                 CardEventsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -139,16 +142,25 @@ public class CardEventsFragment extends Fragment {
                             card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
                             card.event = listEvents.get(i);
-                            card.eventShopName = listEvents.get(i).getShopName();
-//                            card.setOnClickListener(new Card.OnCardClickListener() {
-//                                @Override
-//                                public void onClick(Card card, View view) {
-//                                    Intent i = new Intent(getActivity(), EditEventActivity.class);
-//                                    i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
-//                                    i.putExtra(SHOP_ID, cardId);
-//                                    startActivity(i);
-//                                }
-//                            });
+                            card.listShops = listShops.get(i);
+                            String shopListName = "";
+                            for(int j = 0; j<listShops.get(i).size();j++){
+                                if(j == (listShops.get(i).size() -1)){
+                                    shopListName = shopListName + listShops.get(i).get(j).getName();
+                                }else {
+                                    shopListName = shopListName + listShops.get(i).get(j).getName() + ", ";
+                                }
+                            }
+                            card.eventShopName = shopListName;
+                            card.setOnClickListener(new Card.OnCardClickListener() {
+                                @Override
+                                public void onClick(Card card, View view) {
+                                    Intent i = new Intent(getActivity(), EventDetailActivity.class);
+                                    i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
+                                    i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((EventCard) card).listShops);
+                                    startActivity(i);
+                                }
+                            });
 
                             mAdapter.add(card);
                         }
