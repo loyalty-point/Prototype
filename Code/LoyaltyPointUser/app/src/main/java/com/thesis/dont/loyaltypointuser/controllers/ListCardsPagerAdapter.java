@@ -36,8 +36,9 @@ public class ListCardsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if(mCards.size() > position) {
             Card card = mCards.get(position);
+            String qrCode = card.getId() + mUser.getUsername();
 
-            return CardFragment.newInstance(card, mUser, mIsPendingCards);
+            return CardFragment.newInstance(card, mUser, mIsPendingCards, qrCode);
         }
 
         return null;

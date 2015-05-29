@@ -5,6 +5,7 @@ package thesis.loyaltypointapi.models;
  */
 public class CalculatePointResult{
     public String error;
+    public int pointsFromMoney;
     public AchievedEvent[] achievedEvents;
     public int totalPoints;
 }

@@ -11,6 +11,7 @@ public class Global {
     public static final String CARD_OBJECT = "card_object";
     public static final String IS_PENDING_CARD = "is_pending_card";
     public static final String USER_POINT = "user_point";
+    public static final String CARD_QRCODE = "card_qrcode";
     public static String userToken = "";
     public static String regID = null;
 
