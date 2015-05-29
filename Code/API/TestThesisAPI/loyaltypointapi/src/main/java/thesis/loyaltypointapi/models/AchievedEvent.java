@@ -1,4 +1,4 @@
-package models;
+package thesis.loyaltypointapi.models;
 
 /**
  * Created by 11120_000 on 03/04/15.

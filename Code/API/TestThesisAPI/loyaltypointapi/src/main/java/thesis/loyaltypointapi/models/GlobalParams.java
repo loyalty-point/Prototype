@@ -1,11 +1,9 @@
-package models;
-
-import android.content.Intent;
+package thesis.loyaltypointapi.models;
 
 import java.util.HashMap;
 
-import apis.LoyaltyPointAPI;
-import apis.LoyaltyPointAPI.*;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI.*;
 
 /**
  * Created by 11120_000 on 22/05/15.

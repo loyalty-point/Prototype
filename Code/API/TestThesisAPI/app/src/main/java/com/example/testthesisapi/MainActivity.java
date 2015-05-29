@@ -1,9 +1,5 @@
 package com.example.testthesisapi;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,13 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-import apis.LoyaltyPointAPI;
-import models.AchievedEvent;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI;
+import thesis.loyaltypointapi.models.AchievedEvent;
 
 
 public class MainActivity extends ActionBarActivity {

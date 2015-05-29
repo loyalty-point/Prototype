@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LoyaltyPointAPI</string>
+    <string name="title_activity_get_token">GetTokenActivity</string>
+
+    <string name="hello_world">Waiting...</string>
+    <string name="action_settings">Settings</string>
+</resources>
