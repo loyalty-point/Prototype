@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
@@ -44,7 +45,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
 
     Activity mParentActivity;
 
-    private String cardId;
+    private Card mCard;
 
     private ArrayList<Shop> listShop;
     private ListView listView;
@@ -56,10 +57,10 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
 
     public CardDetailFragment() {}
 
-    public CardDetailFragment(int position, String cardId) {
+    public CardDetailFragment(int position, Card cardId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        b.putString(ARG_CARDID, cardId);
+        b.putParcelable(ARG_CARDID, cardId);
         this.setArguments(b);
     }
 
@@ -67,7 +68,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
-        cardId = getArguments().getString(ARG_CARDID);
+        mCard = getArguments().getParcelable(ARG_CARDID);
 
     }
 
@@ -82,7 +83,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
     }
 
     private void getListShops() {
-        CardModel.getListShop(Global.userToken, cardId, new CardModel.OnSelectListShopResult() {
+        CardModel.getListShop(Global.userToken, mCard.getId(), new CardModel.OnSelectListShopResult() {
             @Override
             public void onSuccess(ArrayList<Shop> listShops) {
                 listShop = listShops;
@@ -136,7 +137,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
                     if(listShop.get(j).getId().equals(cursor.getString(4)))
                         currentShop = listShop.get(j);
                 }
-                i.putExtra(Global.CARD_ID, cardId);
+                i.putExtra(Global.CARD_OBJECT, mCard);
                 i.putExtra(Global.SHOP_OBJECT, currentShop);
                 startActivity(i);
 

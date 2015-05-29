@@ -45,7 +45,7 @@ if($card_rows == 0) {//have no shop in database
     // Lấy tất cả các dòng trong bảng update_point_history, thỏa điều kiện
     // shopID == $shopID
     //$query = "select * from history where shop_id='".$shopID."' order by time desc";
-    $query = "select * from history where id in (select history_id from history_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."')";
+    $query = "select * from history where id in (select history_id from history_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."') order by time desc";
     $query_exec = mysqli_query($localhost, $query);
 
     $result = '{"error":"", "listHistories":[';

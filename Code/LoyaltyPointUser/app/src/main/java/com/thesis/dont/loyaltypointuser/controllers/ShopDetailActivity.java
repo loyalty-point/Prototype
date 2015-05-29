@@ -10,13 +10,14 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 
 public class ShopDetailActivity extends ActionBarActivity {
 
     public Shop shop;
-    public String mCard;
+    public Card mCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,11 @@ public class ShopDetailActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         Intent i = getIntent();
         shop = i.getParcelableExtra(Global.SHOP_OBJECT);
-        mCard = i.getStringExtra(Global.CARD_ID);
+        mCard = i.getParcelableExtra(Global.CARD_OBJECT);
         int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         setTitle(shop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), shop.getPoint(), shop.getName(), shop.getAddress()));
+        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), mCard.getPoint(), shop.getName(), shop.getAddress()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager
@@ -53,7 +54,7 @@ public class ShopDetailActivity extends ActionBarActivity {
     }
 
     public String getCurrentCardId(){
-        return mCard;
+        return mCard.getId();
     }
 
     @Override

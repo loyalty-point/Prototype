@@ -17,7 +17,6 @@ public class Shop implements Parcelable{
     String image;
     float exchange_ratio;
     String cardImg;
-    int point;
     int isAccepted;
 
     public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg, int point){
@@ -29,7 +28,6 @@ public class Shop implements Parcelable{
         this.exchange_ratio = exchange_ratio;
         this.image = image;
         this.cardImg = cardImg;
-        this.point = point;
     }
 
     public int isAccepted() {
@@ -104,14 +102,6 @@ public class Shop implements Parcelable{
         this.exchange_ratio = exchange_ratio;
     }
 
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -128,7 +118,6 @@ public class Shop implements Parcelable{
         dest.writeString(category);
         dest.writeString(image);
         dest.writeFloat(exchange_ratio);
-        dest.writeInt(point);
         dest.writeInt(isAccepted);
     }
 
@@ -153,7 +142,6 @@ public class Shop implements Parcelable{
         category = in.readString();
         image = in.readString();
         exchange_ratio = in.readFloat();
-        point = in.readInt();
         isAccepted = in.readInt();
     }
 

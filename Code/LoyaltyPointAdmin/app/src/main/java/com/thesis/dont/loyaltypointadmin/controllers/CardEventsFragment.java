@@ -21,6 +21,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
 
 import java.util.ArrayList;
 
@@ -78,7 +79,7 @@ public class CardEventsFragment extends Fragment {
         createEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), CreateEventActivity.class);
+                Intent i = new Intent(getActivity(), CardCreateEventActivity.class);
                 Bundle b = new Bundle();
                 i.putExtra(ARG_CARDID, cardId);
                 startActivity(i);
@@ -138,7 +139,7 @@ public class CardEventsFragment extends Fragment {
     public void getListEvents() {
         CardModel.getListEvents(cardId, new CardModel.OnGetListEventResult() {
             @Override
-            public void onSuccess(final ArrayList<Event> listEvents) {
+            public void onSuccess(final ArrayList<Event> listEvents, final ArrayList<ArrayList<Shop>> listShops) {
                 CardEventsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -153,7 +154,15 @@ public class CardEventsFragment extends Fragment {
                             card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
                             card.event = listEvents.get(i);
-                            card.eventShopName = listEvents.get(i).getShopName();
+                            String shopListName = "";
+                            for(int j = 0; j<listShops.get(i).size();j++){
+                                if(j == (listShops.get(i).size() -1)){
+                                    shopListName = shopListName + listShops.get(i).get(j).getName();
+                                }else {
+                                    shopListName = shopListName + listShops.get(i).get(j).getName() + ", ";
+                                }
+                            }
+                            card.eventShopName = shopListName;
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {

@@ -9,6 +9,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -38,6 +39,7 @@ public class CardModel {
     public static native String getGetListAwards();
     public static native String getGetFollowingUsers();
     public static native String getGetCardInfo();
+    public static native String getCreateEvent();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -118,11 +120,17 @@ public class CardModel {
 
                     GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
                     if(result.error.equals("")) {
+                        ArrayList<ArrayList<Shop>> listShops = new ArrayList<ArrayList<Shop>>();
                         ArrayList<Event> listEvents = new ArrayList<Event>();
                         for(int i=0; i<result.listEvents.length-1; i++) {
                             listEvents.add(result.listEvents[i]);
+                            ArrayList<Shop> tmpList = new ArrayList<Shop>();
+                            for(int j = 0;j<result.listShops[i].length-1;j++){
+                                tmpList.add(result.listShops[i][j]);
+                            }
+                            listShops.add(tmpList);
                         }
-                        mOnGetListEventResult.onSuccess(listEvents);
+                        mOnGetListEventResult.onSuccess(listEvents, listShops);
                     }
                     else
                         mOnGetListEventResult.onError(result.error);
@@ -387,6 +395,66 @@ public class CardModel {
         t.start();
     }
 
+    public static void createEvent(Event event, final ArrayList<String> shopsId, final String cardId, final OnAddEventResult onAddEventResult){
+        final String json = Helper.objectToJson(event);
+        final String list_shops_id = Helper.objectToJson(shopsId);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCreateEvent();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shops_id", list_shops_id));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+                nameValuePairs.add(new BasicNameValuePair("event", json));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    /*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*/
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CreateEventResult createEventResult = (CreateEventResult)Helper.jsonToObject(response, CreateEventResult.class);
+
+                    if(createEventResult.error.equals(""))
+                        onAddEventResult.onSuccess(createEventResult);
+                    else
+                        onAddEventResult.onError(createEventResult.error);
+                } catch (UnsupportedEncodingException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnAddEventResult{
+        public void onSuccess(CreateEventResult createEventResult);
+
+        public void onError(String error);
+    }
+
+    public class CreateEventResult {
+        public String error;
+        public String bucketName;
+        public String fileName;
+    }
+
     public interface OnGetCardInfoResult{
         public void onSuccess(Card card);
         public void onError(String error);
@@ -426,7 +494,7 @@ public class CardModel {
     }
 
     public interface OnGetListEventResult{
-        public void onSuccess(ArrayList<Event> listEvents);
+        public void onSuccess(ArrayList<Event> listEvents, ArrayList<ArrayList<Shop>> listShops);
 
         public void onError(String error);
     }
@@ -434,6 +502,7 @@ public class CardModel {
     public class GetListEvents {
         public String error;
         public Event[] listEvents;
+        public Shop[][] listShops;
     }
 
     public class GetListAwards {

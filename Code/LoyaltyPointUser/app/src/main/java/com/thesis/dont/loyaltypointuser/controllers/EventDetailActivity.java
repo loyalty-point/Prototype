@@ -9,11 +9,15 @@ import android.view.MenuItem;
 
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Event;
+import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.Shop;
+
+import java.util.ArrayList;
 
 public class EventDetailActivity extends ActionBarActivity {
 
     Event event;
-    String shopId;
+    ArrayList<Shop> listShops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +26,7 @@ public class EventDetailActivity extends ActionBarActivity {
 
         Intent i = getIntent();
         event = (Event) i.getParcelableExtra(ShopEventsFragment.EVENT_OBJECT);
-        shopId = i.getStringExtra(ShopEventsFragment.SHOP_ID);
-        Log.e(shopId, event.getName());
+        listShops = i.getParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT);
+
     }
 }

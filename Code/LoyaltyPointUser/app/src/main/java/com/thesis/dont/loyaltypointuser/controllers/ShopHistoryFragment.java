@@ -17,10 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.thesis.dont.loyaltypointuser.R;
-import com.thesis.dont.loyaltypointuser.models.Award;
-import com.thesis.dont.loyaltypointuser.models.AwardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
 
 import java.text.ParseException;
@@ -31,10 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import butterknife.ButterKnife;
-
-import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.History;
-import com.thesis.dont.loyaltypointuser.models.ShopModel;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 import butterknife.ButterKnife;
@@ -231,7 +225,7 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void getListHistory() {
-        UserModel.getListHistory(Global.userToken, shopId, new UserModel.OnGetListHistoryResult() {
+        UserModel.getListHistory(Global.userToken, shopId, cardId, new UserModel.OnGetListHistoryResult() {
             @Override
             public void onSuccess(ArrayList<History> listHistories) {
                 mOriginalList = listHistories;

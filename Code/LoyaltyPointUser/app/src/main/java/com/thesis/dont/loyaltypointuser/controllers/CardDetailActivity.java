@@ -9,12 +9,13 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.Global;
 
 public class CardDetailActivity extends ActionBarActivity {
 
     int tabIndex = 0;
-    String cardId;
+    Card cardId;
     int userPoint;
 
     @Override
@@ -25,7 +26,7 @@ public class CardDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        cardId = i.getStringExtra(Global.CARD_ID);
+        cardId = i.getParcelableExtra(Global.CARD_OBJECT);
         userPoint = i.getIntExtra(Global.USER_POINT, 0);
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);

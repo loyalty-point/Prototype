@@ -110,5 +110,7 @@
     <string name="title_activity_search_card">Choose Card</string>
     <string name="title_activity_create_card">Create New Card</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_card_create_event">CardCreateEvent</string>
+    <string name="title_activity_card_shop_list_apply_event">CardShopListApplyEventActivity</string>
 
 </resources>

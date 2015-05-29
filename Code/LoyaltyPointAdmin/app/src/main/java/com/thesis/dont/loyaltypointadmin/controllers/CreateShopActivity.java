@@ -127,73 +127,9 @@ public class CreateShopActivity extends ActionBarActivity {
                 Intent i = new Intent(CreateShopActivity.this,SearchCard.class);
                 i.putExtra(Global.SHOP_OBJECT, shop);
                 i.putExtra(Global.OBJECT, image);
+                Global.tempActivity = CreateShopActivity.this;
                 startActivity(i);
-                // Đến đây thì thông tin người dùng nhập vào đã hoàn toàn hợp lệ
-                // Gọi api để tạo shop
 
-                // Tạo đường dẫn của shopLogo trên Google Cloud Storage
-                // Upload ảnh lên Google Cloud Storage
-
-//                // Show progress dialog
-//                mDialog.show();
-//
-//                // Create shop
-//                Shop shop = new Shop(null, shopname, address, phone, category, Float.valueOf(exchangeRatio), null, null);
-//                ShopModel.setOnCreateShopResult(new ShopModel.OnCreateShopResult() {
-//                    @Override
-//                    public void onSuccess(ShopModel.CreateShopResult result) {
-//                        // Tạo shop thành công
-//
-//                        // Upload ảnh của shop lên server
-//                        if(shopLogo != null) {
-//                            GCSHelper.uploadImage(CreateShopActivity.this, result.bucketName, result.fileName, shopLogo, new GCSHelper.OnUploadImageResult() {
-//                                @Override
-//                                public void onComplete() {
-//
-//                                    // dismiss Progress Dialog
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            mDialog.dismiss();
-//                                        }
-//                                    });
-//
-////                                    Intent i = new Intent(CreateShopActivity.this, ShopsListActivity.class);
-////                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-////                                    startActivity(i);
-//                                    finish();
-//                                }
-//
-//                                @Override
-//                                public void onError(final String error) {
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            mDialog.dismiss();
-//                                            Toast.makeText(CreateShopActivity.this, error, Toast.LENGTH_LONG).show();
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        }else {
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(final String e) {
-//
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                // Tạo shop không thành công
-//                                mDialog.dismiss();
-//                                Toast.makeText(CreateShopActivity.this, e, Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    }
-//                });
-//                ShopModel.createShop(shop, Global.userToken);
             }
         });
 

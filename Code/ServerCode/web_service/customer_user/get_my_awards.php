@@ -40,6 +40,9 @@ while($row = mysqli_fetch_array($query_exec)){
                 . '"quantity":"' . $row['quantity'] . '",'
                 . '"shopImage":"' . $row['shopImage'] . '",'
                 . '"shopName":"' . $row['shopName'] . '",'
+                . '"cardID":"' . $row['cardID'] . '",'
+                . '"cardName":"' . $row['cardpName'] . '",'
+                . '"cardImage":"' . $row['cardImage'] . '",'
                 . '"isTaken":"' . $row['isTaken'] . '"},';
 }
 

@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
+import android.app.Activity;
+
 /**
  * Created by 11120_000 on 07/03/15.
  */
@@ -22,6 +24,7 @@ public class Global {
     public static String PRODUCT_LIST = "prodcut_list";
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";
+    public static String EVENT_OBJECT = "event_object";
     public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";
 
@@ -32,4 +35,6 @@ public class Global {
 
     public static final int SCAN_BARCODE = 49374;
     public static final int CAMERA_REQUEST = 49375;
+
+    public static Activity tempActivity;
 }

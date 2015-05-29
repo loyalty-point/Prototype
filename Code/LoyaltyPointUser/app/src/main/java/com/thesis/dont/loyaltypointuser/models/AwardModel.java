@@ -146,6 +146,7 @@ public class AwardModel {
 
     public static void buyAward(final String token, final String time,
                                 final String shopId,
+                                final String cardId,
                                 final String awardID,
                                 final int quantity,
                                 final OnBuyAwardResult mOnBuyAwardResult){
@@ -165,6 +166,7 @@ public class AwardModel {
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("time", time));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
                 nameValuePairs.add(new BasicNameValuePair("award_id", awardID));
                 nameValuePairs.add(new BasicNameValuePair("quantity", String.valueOf(quantity)));
 
