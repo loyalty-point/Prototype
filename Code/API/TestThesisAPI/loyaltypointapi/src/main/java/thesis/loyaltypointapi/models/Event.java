@@ -7,6 +7,16 @@ import android.os.Parcelable;
  * Created by tinntt on 3/24/2015.
  */
 public class Event implements Parcelable {
+    public static final Parcelable.Creator<Event> CREATOR
+            = new Parcelable.Creator<Event>() {
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
     private String shopName;
     private String id;
     private int type;
@@ -35,6 +45,22 @@ public class Event implements Parcelable {
         this.number = number;
         this.point = point;
         this.image = image;
+    }
+
+    private Event(Parcel in) {
+        shopName = in.readString();
+        id = in.readString();
+        type = in.readInt();
+        name = in.readString();
+        time_start = in.readString();
+        time_end = in.readString();
+        description = in.readString();
+        barcode = in.readString();
+        goods_name = in.readString();
+        ratio = in.readFloat();
+        number = in.readInt();
+        point = in.readInt();
+        image = in.readString();
     }
 
     public String getId() {
@@ -153,33 +179,6 @@ public class Event implements Parcelable {
         dest.writeInt(number);
         dest.writeInt(point);
         dest.writeString(image);
-    }
-
-    public static final Parcelable.Creator<Event> CREATOR
-            = new Parcelable.Creator<Event>() {
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
-
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
-
-    private Event(Parcel in) {
-        shopName = in.readString();
-        id = in.readString();
-        type = in.readInt();
-        name = in.readString();
-        time_start = in.readString();
-        time_end = in.readString();
-        description = in.readString();
-        barcode = in.readString();
-        goods_name = in.readString();
-        ratio = in.readFloat();
-        number = in.readInt();
-        point = in.readInt();
-        image = in.readString();
     }
 
     public String getShopName() {

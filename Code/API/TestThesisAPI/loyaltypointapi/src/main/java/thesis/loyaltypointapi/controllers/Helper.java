@@ -15,12 +15,12 @@ import java.io.IOException;
  * Created by 11120_000 on 22/05/15.
  */
 public class Helper {
-    public static String objectToJson(Object obj){
+    public static String objectToJson(Object obj) {
         Gson gson = new Gson();
         return gson.toJson(obj);
     }
 
-    public static Object jsonToObject(String json, Class myClass){
+    public static Object jsonToObject(String json, Class myClass) {
         Gson gson = new Gson();
         return gson.fromJson(json, myClass);
     }

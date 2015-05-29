@@ -4,6 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Customer implements Parcelable {
+    public static final Creator<Customer> CREATOR
+            = new Creator<Customer>() {
+        public Customer createFromParcel(Parcel in) {
+            return new Customer(in);
+        }
+
+        public Customer[] newArray(int size) {
+            return new Customer[size];
+        }
+    };
     String username;
     String fullname;
     String phone;
@@ -12,7 +22,7 @@ public class Customer implements Parcelable {
     String avatar;
     String barcode;
 
-    public Customer(String username, String fullname, String phone, String email, String address, String barcode, String avatar){
+    public Customer(String username, String fullname, String phone, String email, String address, String barcode, String avatar) {
         this.username = username;
         this.fullname = fullname;
         this.phone = phone;
@@ -20,6 +30,16 @@ public class Customer implements Parcelable {
         this.address = address;
         this.barcode = barcode;
         this.avatar = avatar;
+    }
+
+    private Customer(Parcel in) {
+        username = in.readString();
+        fullname = in.readString();
+        phone = in.readString();
+        email = in.readString();
+        address = in.readString();
+        avatar = in.readString();
+        barcode = in.readString();
     }
 
     public String getBarcode() {
@@ -58,23 +78,23 @@ public class Customer implements Parcelable {
         return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getAddress(){
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getAvatar(){
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar){
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
@@ -92,27 +112,6 @@ public class Customer implements Parcelable {
         dest.writeString(address);
         dest.writeString(avatar);
         dest.writeString(barcode);
-    }
-
-    public static final Creator<Customer> CREATOR
-            = new Creator<Customer>() {
-        public Customer createFromParcel(Parcel in) {
-            return new Customer(in);
-        }
-
-        public Customer[] newArray(int size) {
-            return new Customer[size];
-        }
-    };
-
-    private Customer(Parcel in) {
-        username = in.readString();
-        fullname = in.readString();
-        phone = in.readString();
-        email = in.readString();
-        address = in.readString();
-        avatar = in.readString();
-        barcode = in.readString();
     }
 }
 

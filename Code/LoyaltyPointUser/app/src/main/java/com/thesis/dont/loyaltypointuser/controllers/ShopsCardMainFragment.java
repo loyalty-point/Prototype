@@ -178,7 +178,7 @@ public class ShopsCardMainFragment extends Fragment {
         mListCards = new ArrayList<Card>();
 
         mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
-        mPager.setPageTransformer(true, new RotateDownTransformer());
+        mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
         mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>(), false);
         mPager.setAdapter(mPagerAdapter);

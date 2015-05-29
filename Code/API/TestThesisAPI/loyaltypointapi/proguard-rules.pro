@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontshrink
+-dontoptimize
+-dontpreverify
+
+-keepnames class ** { *; }
+-keep class ** { *; }
+
+

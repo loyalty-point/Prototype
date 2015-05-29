@@ -15,7 +15,7 @@ $listProducts = json_decode($listProducts, true);
 
 // Kiểm tra token
 if(strlen($token)!=64){
-    echo '{"error":"token not found", "pointsFromMoney":"", "achievedEvents":[], "totalPoints":""}';
+    echo '{"error":"token not found", "pointsFromMoney":"0", "achievedEvents":[], "totalPoints":"0"}';
     die();
 }
 
@@ -25,7 +25,7 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-	echo '{"error":"wrong token", "pointsFromMoney":"", "achievedEvents":[], "totalPoints":""}';
+	echo '{"error":"wrong token", "pointsFromMoney":"0", "achievedEvents":[], "totalPoints":"0"}';
 	die();
 }
 // kiểm tra xem shopID có thuộc user có user.token == token hay không
@@ -41,9 +41,9 @@ $query_exec = mysqli_query($localhost, $query);
 $shop_rows = mysqli_num_rows($query_exec);
 
 if($card_rows == 0) {//have no shop in database
-    echo '{"error":"not your card", "pointsFromMoney":"", "achievedEvents":[], "totalPoints":""}';
+    echo '{"error":"not your card", "pointsFromMoney":"0", "achievedEvents":[], "totalPoints":"0"}';
 }else if($shop_rows == 0){
-    echo '{"error":"not your shop", "pointsFromMoney":"", "achievedEvents":[], "totalPoints":""}';
+    echo '{"error":"not your shop", "pointsFromMoney":"0", "achievedEvents":[], "totalPoints":"0"}';
 }else{
     // Lấy danh sách events hiện tại của shop
     $query = "select * from event where id in (select event_id from event_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."')";

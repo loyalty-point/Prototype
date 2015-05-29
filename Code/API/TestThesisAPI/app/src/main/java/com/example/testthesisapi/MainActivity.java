@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import thesis.loyaltypointapi.apis.LoyaltyPointAPI;
 import thesis.loyaltypointapi.models.AchievedEvent;
+import thesis.loyaltypointapi.models.Award;
 import thesis.loyaltypointapi.models.Card;
 import thesis.loyaltypointapi.models.Customer;
 import thesis.loyaltypointapi.models.Event;
@@ -40,53 +41,29 @@ public class MainActivity extends ActionBarActivity {
         calculatePointBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoyaltyPointAPI request = new LoyaltyPointAPI();
-                request.calculatePoint(MainActivity.this, "55660ac566e08", "55660a9a9e028tandouser", null, 1000, new LoyaltyPointAPI.OnCalculatePointResult() {
+                //LoyaltyPointAPI request = new LoyaltyPointAPI();
+                LoyaltyPointAPI.calculatePoint(MainActivity.this, "55660ac566e08", "55660aab43036tandouser", null, 1000, new LoyaltyPointAPI.OnCalculatePointResult() {
                     @Override
                     public void onSuccess(final ArrayList<AchievedEvent> listAchievedEvents, int pointFromMoney, final int totalPoint) {
-                        runOnUiThread(new Runnable() {
+                        Log.e("calculatePoint", "successfully");
+
+                        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+                        LoyaltyPointAPI.updatePoint(MainActivity.this, "55660ac566e08", "55660aab43036tandouser", listAchievedEvents, totalPoint, new LoyaltyPointAPI.OnUpdatePointResult() {
                             @Override
-                            public void run() {
-                                //Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
-                                calculatePointResult.setText("Calculate Point Successfully");
+                            public void onSuccess() {
+                                Log.e("updatePoint", "successfully");
+                            }
 
-                                LoyaltyPointAPI request = new LoyaltyPointAPI();
-                                request.updatePoint(MainActivity.this, "55660ac566e08", "55660a9a9e028tandouser", listAchievedEvents, totalPoint, new LoyaltyPointAPI.OnUpdatePointResult() {
-                                    @Override
-                                    public void onSuccess() {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                //Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
-                                                updatePointResult.setText("Update Point Successfully");
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onError(final String error) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                //Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
-                                                updatePointResult.setText("Update Point Failed: " + error);
-                                            }
-                                        });
-                                    }
-                                });
+                            @Override
+                            public void onError(String error) {
+                                Log.e("updatePoint", error);
                             }
                         });
                     }
 
                     @Override
-                    public void onError(final String error) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
-                                calculatePointResult.setText("Calculate Point Failed: " + error);
-                            }
-                        });
+                    public void onError(String error) {
+                        Log.e("calculatePoint", error);
                     }
                 });
             }
@@ -94,8 +71,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         /*// Test get list shops
-        LoyaltyPointAPI request = new LoyaltyPointAPI();
-        request.getListShops(this, new LoyaltyPointAPI.OnGetListShopsResult() {
+        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+        LoyaltyPointAPI.getListShops(this, new LoyaltyPointAPI.OnGetListShopsResult() {
             @Override
             public void onSuccess(ArrayList<Shop> litShops) {
                 Log.e("getListShops", "successfully");
@@ -105,14 +82,14 @@ public class MainActivity extends ActionBarActivity {
             public void onError(String error) {
                 Log.e("getListShops", error);
             }
-        });*/
+        });
 
 
-        /*// Test get list cards
-        LoyaltyPointAPI request = new LoyaltyPointAPI();
-        request.getListCards(this, new LoyaltyPointAPI.OnGetListCardsResult() {
+        // Test get list cards
+        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+        LoyaltyPointAPI.getListCards(this, new LoyaltyPointAPI.OnGetListCardsResult() {
             @Override
-            public void onSuccess(ArrayList<Card> litCards) {
+            public void onSuccess(ArrayList<Card> listCards) {
                 Log.e("getListCards", "successfully");
             }
 
@@ -120,12 +97,12 @@ public class MainActivity extends ActionBarActivity {
             public void onError(String error) {
                 Log.e("getListCards", error);
             }
-        });*/
+        });
 
 
-        /*// Test get list events
-        LoyaltyPointAPI request = new LoyaltyPointAPI();
-        request.getListEvents(MainActivity.this, "55660ac566e08", new LoyaltyPointAPI.OnGetListEventsResult() {
+        // Test get list events
+        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+        LoyaltyPointAPI.getListEvents(MainActivity.this, "55660ac566e08", new LoyaltyPointAPI.OnGetListEventsResult() {
             @Override
             public void onSuccess(ArrayList<Event> listEvents) {
                 Log.e("getListEvents", "successfully");
@@ -135,12 +112,12 @@ public class MainActivity extends ActionBarActivity {
             public void onError(String error) {
                 Log.e("getListEvents", error);
             }
-        });*/
+        });
 
 
-        /*// Test get list customers
-        LoyaltyPointAPI request = new LoyaltyPointAPI();
-        request.getListCustomers(MainActivity.this, "55660ac566e08", new LoyaltyPointAPI.OnGetListCustomersResult() {
+        // Test get list customers
+        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+        LoyaltyPointAPI.getListCustomers(MainActivity.this, "55660ac566e08", new LoyaltyPointAPI.OnGetListCustomersResult() {
             @Override
             public void onSuccess(ArrayList<Customer> listCustomers) {
                 Log.e("getListCustomers", "successfully");
@@ -150,8 +127,30 @@ public class MainActivity extends ActionBarActivity {
             public void onError(String error) {
                 Log.e("getListCustomers", error);
             }
+        });
+
+
+        // Test get list awards
+        //LoyaltyPointAPI request = new LoyaltyPointAPI();
+        LoyaltyPointAPI.getListAwards(MainActivity.this, "55660ac566e08", new LoyaltyPointAPI.OnGetListAwardsResult() {
+            @Override
+            public void onSuccess(ArrayList<Award> listAwards) {
+                Log.e("getListAwards", "successfully");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("getListAwards", error);
+            }
         });*/
 
+
+        /*// Test parcelable
+        Event event = new Event(null, 0, null, null, null, null, null, null, 1, 2, 3, null);
+        AchievedEvent achievedEvent = new AchievedEvent(2, event);
+        Bundle b = new Bundle();
+        b.putParcelable("AchievedEvent", achievedEvent);
+        AchievedEvent newAchievedEvent = b.getParcelable("AchievedEvent");*/
     }
 
     @Override

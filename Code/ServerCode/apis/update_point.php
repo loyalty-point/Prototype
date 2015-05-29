@@ -1,5 +1,5 @@
 <?php
-include_once '../GCM/GCM.php';
+include_once '../web_service/GCM/GCM.php';
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -120,6 +120,7 @@ if($card_rows == 0) {//have no shop in database
                     echo '{"error":""}';
                 else
                     echo '{"error":""}';
+
                 // Gửi notification cho user
                 // Từ $customerName -> regID (bảng customer_registration)
                 $query = "select * from customer_registration where username='".$customerName."'";
@@ -132,6 +133,7 @@ if($card_rows == 0) {//have no shop in database
 
                     $regID = array($regID);
                     $message = "add point";
+
                     $message = array("message" => $message, "shopID" => $shopID, "point" => $point, "newPoint" => $newPoint, "historyID" => $billCode);
 
                     $gcm = new GCM();
