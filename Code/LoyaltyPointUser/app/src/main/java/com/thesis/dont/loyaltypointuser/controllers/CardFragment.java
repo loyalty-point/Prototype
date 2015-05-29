@@ -29,13 +29,15 @@ public class CardFragment extends Fragment {
     Card mCard;
     User mUser;
     boolean mIsPendingCard;
+    String mQRCOde;
 
-    public static CardFragment newInstance(Card card, User user, boolean isPendingCard) {
+    public static CardFragment newInstance(Card card, User user, boolean isPendingCard, String qrCode) {
         CardFragment fragment = new CardFragment();
         Bundle args = new Bundle();
         args.putParcelable(Global.CARD_OBJECT, card);
         args.putParcelable(Global.USER_OBJECT, user);
         args.putBoolean(Global.IS_PENDING_CARD, isPendingCard);
+        args.putString(Global.CARD_QRCODE, qrCode);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,9 +55,11 @@ public class CardFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCard = (Card) getArguments().get(Global.CARD_OBJECT);
-            mUser = (User) getArguments().get(Global.USER_OBJECT);
-            mIsPendingCard = (boolean) getArguments().get(Global.IS_PENDING_CARD);
+            Bundle bundle = getArguments();
+            mCard = (Card) bundle.get(Global.CARD_OBJECT);
+            mUser = (User) bundle.get(Global.USER_OBJECT);
+            mIsPendingCard = (boolean) bundle.get(Global.IS_PENDING_CARD);
+            mQRCOde = (String) bundle.get(Global.CARD_QRCODE);
         }
     }
 
@@ -76,7 +80,7 @@ public class CardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //Create a CardHeader
-        MyCardHeader header = new MyCardHeader(getActivity(),mCard, mUser, mIsPendingCard);
+        MyCardHeader header = new MyCardHeader(getActivity(),mCard, mUser, mIsPendingCard, mQRCOde);
 
         //Add a popup menu. This method sets OverFlow button to visibile
         header.setPopupMenu(R.menu.card_popup_menu, new CardHeader.OnClickCardHeaderPopupMenuListener(){

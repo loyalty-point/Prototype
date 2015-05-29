@@ -31,12 +31,14 @@ public class MyCardHeader extends CardHeader {
     Card mCard;
     Picasso mPicasso;
     boolean mIsPendingCard;
+    String mQRCode;
 
-    public MyCardHeader(Context context, Card card, User user, boolean isPending) {
+    public MyCardHeader(Context context, Card card, User user, boolean isPending, String qrCode) {
         super(context, R.layout.card_header_inner_layout);
         mUser = user;
         mCard = card;
         mIsPendingCard = isPending;
+        mQRCode = qrCode;
 
         mPicasso = Picasso.with(context);
     }
@@ -47,7 +49,7 @@ public class MyCardHeader extends CardHeader {
         if (view != null){
             RoundedImageView qrCode = (RoundedImageView) view.findViewById(R.id.qrCode);
             if(!mIsPendingCard) {
-                Bitmap qrCodeBitmap = Helper.generateQRCodeImage(mUser.getBarcode(), 100, 100);
+                Bitmap qrCodeBitmap = Helper.generateQRCodeImage(mQRCode, 100, 100);
                 qrCode.setImageBitmap(qrCodeBitmap);
                 qrCode.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -72,7 +74,7 @@ public class MyCardHeader extends CardHeader {
                                 else
                                     width = heigth;
 
-                                Bitmap bigQRCodeBitmap = Helper.generateQRCodeImage(mUser.getBarcode(), width, heigth);
+                                Bitmap bigQRCodeBitmap = Helper.generateQRCodeImage(mQRCode, width, heigth);
                                 qrCodeImageView.setImageBitmap(bigQRCodeBitmap);
                             }
                         });

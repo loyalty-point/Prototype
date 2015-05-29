@@ -21,6 +21,10 @@ public class GlobalParams {
 
     public static String calculatePointLink = "http://104.155.233.34/apis/calculate_point.php";
     public static String updatePointLink = "http://104.155.233.34/apis/update_point.php";
+    public static String getListShops = "http://104.155.233.34/apis/get_list_shops.php";
+    public static String getListCards = "http://104.155.233.34/apis/get_list_cards.php";
+    public static String getListEvents = "http://104.155.233.34/apis/get_list_events.php";
+    public static String getListCustomers = "http://104.155.233.34/apis/get_list_customers.php";
 
     public static void removeCallbackItem(OnGetTokenResult item) {
         mapCallbacks.remove(item);
