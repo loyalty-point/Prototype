@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,47 +7,50 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.thesis.dont.loyaltypointuser.controllers.EventDetailActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/eventName"/>
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.UpdatePointDetailActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/eventImg"
-        android:layout_below="@id/eventName"/>
+        android:id="@+id/eventImage"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_below="@id/date" />
 
     <TextView
+        android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/eventStartDay"
-        android:layout_below="@id/eventImg"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"/>
+        android:layout_below="@id/date"
+        android:layout_toRightOf="@id/eventImage"
+        android:textSize="@dimen/font_size"/>
 
     <TextView
+        android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/eventEndDay"
-        android:layout_below="@id/eventImg"/>
+        android:layout_below="@id/eventName"
+        android:layout_toRightOf="@id/eventImage"
+        android:textSize="@dimen/font_size"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/eventInfo"
-        android:layout_below="@id/eventStartDay"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/eventDescription"
-        android:layout_below="@id/eventInfo"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventDate"
+        android:layout_toRightOf="@id/eventImage"
+        android:textSize="@dimen/font_size"/>
 
+    <TextView
+        android:id="@+id/eventDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventImage"
+        android:text="Applied Shop:"
+        android:textSize="@dimen/font_size"/>
 
+    <ListView
+        android:id="@+id/listEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventDetail"/>
 
 </RelativeLayout>

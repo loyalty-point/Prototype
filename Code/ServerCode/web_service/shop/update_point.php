@@ -126,7 +126,7 @@ if($card_rows == 0) {//have no shop in database
 
                     $regID = array($regID);
                     $message = "add point";
-                    $message = array("message" => $message, "shopID" => $shopID, "point" => $point, "newPoint" => $newPoint, "historyID" => $billCode);
+                    $message = array("message" => $message, "type" => "shop", "shopID" => $shopID, "point" => $point, "newPoint" => $newPoint, "historyID" => $billCode);
 
                     $gcm = new GCM();
 
