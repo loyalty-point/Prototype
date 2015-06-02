@@ -48,11 +48,13 @@ public class CardAwardsFragment extends Fragment {
 
     public CardAwardsFragment() {}
 
-    public CardAwardsFragment(int position, String cardId){
-        Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
-        b.putString(CARD_ID, cardId);
-        this.setArguments(b);
+    public static CardAwardsFragment newInstance(int position, String cardId) {
+        CardAwardsFragment fragment = new CardAwardsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_POSITION, position);
+        args.putString(CARD_ID, cardId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 

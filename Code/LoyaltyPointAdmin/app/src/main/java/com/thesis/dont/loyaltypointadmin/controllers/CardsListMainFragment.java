@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
+import com.bartoszlipinski.flippablestackview.FlippableStackView;
+import com.bartoszlipinski.flippablestackview.StackPageTransformer;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointadmin.R;
@@ -38,7 +40,7 @@ public class CardsListMainFragment extends Fragment {
 
     public CardsListActivity mParentActivity = null;
 
-    private ViewPager mPager;
+    private FlippableStackView mPager;
     private ListCardsPagerAdapter mPagerAdapter;
     private CircleIndicator mIndicator;
 
@@ -79,13 +81,13 @@ public class CardsListMainFragment extends Fragment {
             }
         });
 
-        mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
-        mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
+        mPager = (FlippableStackView) mParentActivity.findViewById(R.id.listCardsPager);
+        /*mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
         mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>());
         mPager.setAdapter(mPagerAdapter);
 
-        mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
+        mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);*/
 
         setListData();
     }
@@ -105,28 +107,10 @@ public class CardsListMainFragment extends Fragment {
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mPager.setCurrentItem(0);
-                mPagerAdapter.setListCards(listCards);
-                mPagerAdapter.notifyDataSetChanged();
-                if(listCards.size() > 0) {
-                    mIndicator.setViewPager(mPager);
-                    mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                        @Override
-                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, listCards);
 
-                        }
-
-                        @Override
-                        public void onPageSelected(int position) {
-
-                        }
-
-                        @Override
-                        public void onPageScrollStateChanged(int state) {
-
-                        }
-                    });
-                }
+                mPager.initStack(2, StackPageTransformer.Orientation.VERTICAL, 0.9f, 0.75f, 1f, StackPageTransformer.Gravity.CENTER);
+                mPager.setAdapter(mPagerAdapter);
 
                 mDialog.dismiss();
             }

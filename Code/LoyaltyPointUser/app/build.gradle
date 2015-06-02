@@ -139,4 +139,7 @@ dependencies {
 
     // circle indicator
     compile 'me.relex:circleindicator:1.1.3@aar'
+
+    // stack view pager
+    compile 'com.bartoszlipinski.flippablestackview:library:1.2.1'
 }

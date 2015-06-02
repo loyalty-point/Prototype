@@ -132,7 +132,6 @@
             android:id="@+id/shopcategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/point"
             android:layout_alignTop="@id/categoryTextview"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_toRightOf="@id/categoryTextview"

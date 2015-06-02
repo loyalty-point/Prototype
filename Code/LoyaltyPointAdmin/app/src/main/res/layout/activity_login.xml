@@ -59,7 +59,6 @@
             android:id="@+id/usernameFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/appNameLayout"
             float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
             float:fletPadding="@dimen/activity_flet_padding">
 
