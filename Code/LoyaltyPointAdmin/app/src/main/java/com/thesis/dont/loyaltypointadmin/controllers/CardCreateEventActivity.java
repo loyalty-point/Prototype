@@ -42,7 +42,6 @@ public class CardCreateEventActivity extends ActionBarActivity implements DatePi
     private String shopId;
     private String cardId;
     boolean isStartDatePicker = true;
-    ProgressDialog mDialog;
 
     Bitmap eventLogo = null;
 
@@ -52,11 +51,6 @@ public class CardCreateEventActivity extends ActionBarActivity implements DatePi
         setContentView(R.layout.activity_card_create_event);
         shopId = getIntent().getStringExtra(ARG_SHOPID);
         cardId = getIntent().getStringExtra(Global.CARD_ID);
-
-        mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Creating event");
-        mDialog.setMessage("Please wait...");
-        mDialog.setCancelable(false);
 
         Calendar c = Calendar.getInstance();
         category = (Spinner) findViewById(R.id.eventcategory);
@@ -131,15 +125,17 @@ public class CardCreateEventActivity extends ActionBarActivity implements DatePi
                 } else if (!fragment.isFilledIn().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), fragment.isFilledIn(), Toast.LENGTH_LONG).show();
                 } else {
-                    mDialog.show();
                     Event event = new Event("", category.getSelectedItemPosition(), eventName.getText().toString(),
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),
                             Integer.parseInt(fragment.getNumber()), Integer.parseInt(fragment.getPoint()), "");
 
                     Intent i = new Intent(CardCreateEventActivity.this, CardShopListApplyEventActivity.class);
+                    Global.tempBitmap = eventLogo;
                     i.putExtra(Global.EVENT_OBJECT, event);
                     i.putExtra(Global.CARD_ID, cardId);
+                    i.putExtra(Global.EVENT_LIST_TYPE, Global.CARD_CREATE_EVENT_LIST);
+                    Global.tempActivity = CardCreateEventActivity.this;
                     startActivity(i);
 
                 }

@@ -1,7 +1,7 @@
 <?php
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
-$username_localhost ="root";
+$username_localhost ="root"; 
 $password_localhost ="matrix123";
 $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
 mysqli_query($localhost,"SET NAMES 'UTF8'");

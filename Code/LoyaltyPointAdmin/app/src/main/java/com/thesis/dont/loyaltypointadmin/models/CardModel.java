@@ -40,6 +40,7 @@ public class CardModel {
     public static native String getGetFollowingUsers();
     public static native String getGetCardInfo();
     public static native String getCreateEvent();
+    public static native String getEditEvent();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -404,6 +405,54 @@ public class CardModel {
                 super.run();
 
                 String link = getCreateEvent();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shops_id", list_shops_id));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+                nameValuePairs.add(new BasicNameValuePair("event", json));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    /*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*/
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CreateEventResult createEventResult = (CreateEventResult)Helper.jsonToObject(response, CreateEventResult.class);
+
+                    if(createEventResult.error.equals(""))
+                        onAddEventResult.onSuccess(createEventResult);
+                    else
+                        onAddEventResult.onError(createEventResult.error);
+                } catch (UnsupportedEncodingException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onAddEventResult.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void editEvent(Event event, final ArrayList<String> shopsId, final String cardId, final OnAddEventResult onAddEventResult){
+        final String json = Helper.objectToJson(event);
+        final String list_shops_id = Helper.objectToJson(shopsId);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getEditEvent();
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
