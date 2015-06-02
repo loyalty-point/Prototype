@@ -1,9 +1,11 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.provider.BaseColumns;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -39,23 +41,33 @@ public class CardShopListApplyEventActivity extends ActionBarActivity {
     private static final String SHOP_ID = "shopId";
     ArrayList<ShopCheckList> shopList = new ArrayList<ShopCheckList>();
 
+    int type;
     Event mEvent;
     String cardId;
     private ListView listView;
+    ArrayList<Shop> listShops = new ArrayList<Shop>();
 
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
     public static Picasso mPicaso;
+    Bitmap eventLogo = null;
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_shop_list_apply_event);
 
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
         Intent i = getIntent();
         mEvent = i.getParcelableExtra(Global.EVENT_OBJECT);
         cardId = i.getStringExtra(Global.CARD_ID);
-
+        listShops = i.getParcelableArrayListExtra(Global.SHOP_LIST_OBJECT);
+        type = i.getIntExtra(Global.EVENT_LIST_TYPE, 0);
+        eventLogo = Global.tempBitmap;
         mPicaso = Picasso.with(this);
 
         final String[] from = new String[]{SHOP_NAME};
@@ -139,31 +151,128 @@ public class CardShopListApplyEventActivity extends ActionBarActivity {
 
         ButtonRectangle cancelBtn = (ButtonRectangle) findViewById(R.id.backBtn);
         ButtonRectangle createBtn = (ButtonRectangle) findViewById(R.id.createEventBtn);
+        if (type == Global.CARD_EDIT_EVENT_LIST)
+            createBtn.setText("EDIT");
         createBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
                 ArrayList<String> listShopsId = new ArrayList<String>();
                 for (int i = 0; i < shopList.size(); i++) {
                     if (shopList.get(i).isSelected()) {
                         listShopsId.add(shopList.get(i).getShop().getId());
                     }
                 }
+                if (type == Global.CARD_EDIT_EVENT_LIST) {
+                    mDialog.setTitle("Updating event");
+                    mDialog.show();
+                    CardModel.editEvent(mEvent, listShopsId, cardId, new CardModel.OnAddEventResult() {
+                        @Override
+                        public void onSuccess(final CardModel.CreateEventResult createEventResult) {
+                            if(eventLogo != null) {
+                                GCSHelper.uploadImage(CardShopListApplyEventActivity.this, createEventResult.bucketName, createEventResult.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
+                                    @Override
+                                    public void onComplete() {
 
-                CardModel.createEvent(mEvent, listShopsId, cardId, new CardModel.OnAddEventResult() {
-                    @Override
-                    public void onSuccess(CardModel.CreateEventResult createEventResult) {
+                                        // dismiss Progress Dialog
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                            }
+                                        });
+                                        String imageLink = "http://storage.googleapis.com/" + createEventResult.bucketName + "/" + createEventResult.fileName;
+                                        mPicaso.invalidate(imageLink);
+                                        Global.tempActivity.finish();
+                                        finish();
+                                    }
 
-                    }
+                                    @Override
+                                    public void onError(final String error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                                Toast.makeText(CardShopListApplyEventActivity.this, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }else{
+                                Global.tempActivity.finish();
+                                finish();
+                            }
+                        }
 
-                    @Override
-                    public void onError(String error) {
+                        @Override
+                        public void onError(final String error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(CardShopListApplyEventActivity.this, error, Toast.LENGTH_LONG);
+                                }
+                            });
+                        }
+                    });
+                }else if(type == Global.CARD_CREATE_EVENT_LIST){
+                    mDialog.setTitle("Creating event");
+                    mDialog.show();
+                    CardModel.createEvent(mEvent, listShopsId, cardId, new CardModel.OnAddEventResult() {
+                        @Override
+                        public void onSuccess(CardModel.CreateEventResult createEventResult) {
+                            if(eventLogo != null) {
+                                GCSHelper.uploadImage(CardShopListApplyEventActivity.this, createEventResult.bucketName, createEventResult.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
+                                    @Override
+                                    public void onComplete() {
 
-                    }
-                });
+                                        // dismiss Progress Dialog
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                            }
+                                        });
+
+                                        Global.tempActivity.finish();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onError(final String error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                                Toast.makeText(CardShopListApplyEventActivity.this, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }else{
+                                Global.tempActivity.finish();
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onError(final String error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(CardShopListApplyEventActivity.this, error, Toast.LENGTH_LONG);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -198,7 +307,15 @@ public class CardShopListApplyEventActivity extends ActionBarActivity {
             TextView shopAddress = (TextView) view.findViewById(R.id.shopAddress);
             ImageView shopImg = (ImageView) view.findViewById(R.id.shopImg);
             final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-
+            if(type == Global.CARD_EDIT_EVENT_LIST) {
+                for (int i = 0; i < listShops.size(); i++) {
+                    if (shopList.get(position).shop.getId().equals(listShops.get(i).getId())) {
+                        shopList.get(position).setSelected(true);
+                        break;
+                    }
+                }
+            }
+            checkBox.setChecked(shopList.get(position).isSelected());
             checkBox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     shopList.get(position).setSelected(checkBox.isChecked());

@@ -1,6 +1,7 @@
 package com.thesis.dont.loyaltypointadmin.models;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 
 /**
  * Created by 11120_000 on 07/03/15.
@@ -16,6 +17,7 @@ public class Global {
     public static String SHOP_NAME = "shop_name";
     public static String SHOP_ID = "shop_id";
     public static String SHOP_OBJECT = "shop_object";
+    public static String SHOP_LIST_OBJECT = "shop_list_object";
     public static String USER_OBJECT = "user_object";
     public static String USER_NAME = "user_name";
     public static String USER_POINT = "user_point";
@@ -25,6 +27,8 @@ public class Global {
     public static String USER_LIST = "user_list";
     public static String BARCODE = "barcode";
     public static String EVENT_OBJECT = "event_object";
+    public static String EVENT_LIST_TYPE = "event_list_type";
+    public static String BITMAP = "bitmap";
     public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";
 
@@ -37,4 +41,8 @@ public class Global {
     public static final int CAMERA_REQUEST = 49375;
 
     public static Activity tempActivity;
+    public static Bitmap tempBitmap;
+
+    public static int CARD_CREATE_EVENT_LIST = 0;
+    public static int CARD_EDIT_EVENT_LIST = 1;
 }

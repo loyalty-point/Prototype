@@ -21,6 +21,7 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Event;
 import com.thesis.dont.loyaltypointadmin.models.EventModel;
+import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 
 import java.util.ArrayList;
@@ -99,6 +100,7 @@ public class CardEventsFragment extends Fragment {
         protected TextView eventNameTv, eventDateTv, eventPointTv, eventShopNameTv;
         protected ImageView eventImgIv;
         protected Event event;
+        protected ArrayList<Shop> listShops;
 
         protected String eventName, eventDate, eventPoint, eventImg, eventShopName;
 
@@ -156,6 +158,7 @@ public class CardEventsFragment extends Fragment {
                             card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
                             card.event = listEvents.get(i);
+                            card.listShops = listShops.get(i);
                             String shopListName = "";
                             for(int j = 0; j<listShops.get(i).size();j++){
                                 if(j == (listShops.get(i).size() -1)){
@@ -168,9 +171,10 @@ public class CardEventsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Intent i = new Intent(getActivity(), EditEventActivity.class);
+                                    Intent i = new Intent(getActivity(), CardEditEventActivity.class);
                                     i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
-                                    i.putExtra(SHOP_ID, cardId);
+                                    i.putParcelableArrayListExtra(Global.SHOP_LIST_OBJECT, ((EventCard) card).listShops);
+                                    i.putExtra(Global.CARD_ID, cardId);
                                     startActivity(i);
                                 }
                             });
