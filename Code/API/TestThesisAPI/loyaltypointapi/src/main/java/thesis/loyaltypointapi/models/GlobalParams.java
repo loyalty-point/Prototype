@@ -2,7 +2,8 @@ package thesis.loyaltypointapi.models;
 
 import java.util.HashMap;
 
-import thesis.loyaltypointapi.apis.LoyaltyPointAPI.OnGetTokenResult;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI.*;
 
 /**
  * Created by 11120_000 on 22/05/15.
@@ -24,7 +25,6 @@ public class GlobalParams {
     public static String getListCards = "http://104.155.233.34/apis/get_list_cards.php";
     public static String getListEvents = "http://104.155.233.34/apis/get_list_events.php";
     public static String getListCustomers = "http://104.155.233.34/apis/get_list_customers.php";
-    public static String getListAwards = "http://104.155.233.34/apis/get_list_awards.php";
 
     public static void removeCallbackItem(OnGetTokenResult item) {
         mapCallbacks.remove(item);

@@ -35,11 +35,11 @@ public class CardDetailTabPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Log.e("position", String.valueOf(position));
         if (position == 0)
-            return CardDetailFragment.newInstance(position, cardId);
+            return new CardDetailFragment(position, cardId);
         else if (position == 1)
-            return CardEventsFragment.newInstance(position, cardId);
+            return new CardEventsFragment(position, cardId);
         else if (position == 2)
-            return CardAwardsFragment.newInstance(position, cardId);
+            return new CardAwardsFragment(position, cardId);
         else if (position == 3)
             return new CardUsersFragment(position, cardId);
         else if (position ==4)

@@ -60,13 +60,11 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
 
     public CardDetailFragment() {}
 
-    public static CardDetailFragment newInstance(int position, String cardId) {
-        CardDetailFragment fragment = new CardDetailFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
-        args.putString(ARG_CARDID, cardId);
-        fragment.setArguments(args);
-        return fragment;
+    public CardDetailFragment(int position, String cardId) {
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        b.putString(ARG_CARDID, cardId);
+        this.setArguments(b);
     }
 
     @Override

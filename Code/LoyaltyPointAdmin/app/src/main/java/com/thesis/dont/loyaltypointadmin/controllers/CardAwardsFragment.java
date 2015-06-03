@@ -48,13 +48,11 @@ public class CardAwardsFragment extends Fragment {
 
     public CardAwardsFragment() {}
 
-    public static CardAwardsFragment newInstance(int position, String cardId) {
-        CardAwardsFragment fragment = new CardAwardsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
-        args.putString(CARD_ID, cardId);
-        fragment.setArguments(args);
-        return fragment;
+    public CardAwardsFragment(int position, String cardId){
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        b.putString(CARD_ID, cardId);
+        this.setArguments(b);
     }
 
 
@@ -84,6 +82,18 @@ public class CardAwardsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
+
+        ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
+        createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        createAwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CardCreateAwardActivity.class);
+                i.putExtra(Global.SHOP_ID, ((ShopDetailActivity)getActivity()).getCurrentShop().getId());
+                i.putExtra(Global.CARD_ID, cardID);
+                startActivity(i);
+            }
+        });
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview

@@ -1,13 +1,13 @@
 package thesis.loyaltypointapi.controllers;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import thesis.loyaltypointapi.R;
-import thesis.loyaltypointapi.apis.LoyaltyPointAPI.OnGetTokenResult;
+import thesis.loyaltypointapi.apis.LoyaltyPointAPI.*;
 import thesis.loyaltypointapi.models.GlobalParams;
 
 public class GetTokenActivity extends ActionBarActivity {
@@ -21,10 +21,10 @@ public class GetTokenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_get_token);
 
         Intent i = getIntent();
-        if (i != null) {
+        if(i != null) {
             mKey = i.getIntExtra(GlobalParams.GET_TOKEN_CALLBACK_KEY, 0);
             mOnGetTokenResult = GlobalParams.mapCallbacks.get(mKey);
-            if (mOnGetTokenResult == null) {
+            if(mOnGetTokenResult == null) {
                 finish();
                 return;
             }
@@ -38,11 +38,11 @@ public class GetTokenActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GlobalParams.GET_TOKEN_REQUEST_CODE) {
+        if(requestCode == GlobalParams.GET_TOKEN_REQUEST_CODE) {
             switch (resultCode) {
                 case RESULT_OK:
                     String token = data.getStringExtra(GlobalParams.TOKEN);
-                    if (!Preconditions.checkNotNull(token))
+                    if(!Preconditions.checkNotNull(token))
                         mOnGetTokenResult.onError("token is null");
                     else
                         mOnGetTokenResult.onSuccess(token);
