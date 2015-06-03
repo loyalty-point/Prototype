@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+        android:id="@+id/cardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/LightGrey"
+        android:layout_below="@+id/cardNameFloat"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:siRadius="@dimen/_1sdp"
+        app:siBorderWidth="@dimen/_3sdp"
+        app:siBorderColor="@color/MaterialGrey"/>
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/cardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/cardBackground"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_alignLeft="@id/cardBackground"
+        android:layout_marginLeft="@dimen/_5sdp"
+        fancy:borderColor="@color/AccentColor"
+        fancy:borderWidth="2dp"
+        fancy:defaultColor="@color/MaterialBackground"
+        fancy:focusColor="@color/AccentColor"
+        fancy:textColor="@color/AccentColor"
+        fancy:text="CARD NAME"/>
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/customerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/cardBackground"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_alignLeft="@id/cardBackground"
+        android:layout_marginLeft="@dimen/_5sdp"
+        fancy:borderColor="@color/AccentColor"
+        fancy:borderWidth="2dp"
+        fancy:defaultColor="@color/MaterialBackground"
+        fancy:focusColor="@color/AccentColor"
+        fancy:textColor="@color/AccentColor"
+        fancy:text="CUSTOMER NAME"/>
+
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/qrCode"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignBottom="@id/cardBackground"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_alignRight="@id/cardBackground"
+        android:layout_marginRight="@dimen/_5sdp"
+        fancy:borderColor="@color/AccentColor"
+        fancy:borderWidth="2dp"
+        fancy:defaultColor="@color/MaterialBackground"
+        fancy:focusColor="@color/AccentColor"
+        fancy:textColor="@color/AccentColor"
+        fancy:text="QRCODE"/>
+
+
+</RelativeLayout>
