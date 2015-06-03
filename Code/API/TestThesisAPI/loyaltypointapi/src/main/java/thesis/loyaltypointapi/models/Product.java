@@ -7,16 +7,6 @@ import android.os.Parcelable;
  * Created by 11120_000 on 02/04/15.
  */
 public class Product implements Parcelable {
-    public static final Parcelable.Creator<Product> CREATOR
-            = new Parcelable.Creator<Product>() {
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
-        }
-
-        public Product[] newArray(int size) {
-            return new Product[size];
-        }
-    };
     private int quantity;
     private String barcode;
     private String name;
@@ -25,12 +15,6 @@ public class Product implements Parcelable {
         this.quantity = quantity;
         this.barcode = barcode;
         this.name = name;
-    }
-
-    private Product(Parcel in) {
-        quantity = in.readInt();
-        barcode = in.readString();
-        name = in.readString();
     }
 
     public int getQuantity() {
@@ -67,5 +51,22 @@ public class Product implements Parcelable {
         dest.writeInt(quantity);
         dest.writeString(barcode);
         dest.writeString(name);
+    }
+
+    public static final Parcelable.Creator<Product> CREATOR
+            = new Parcelable.Creator<Product>() {
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    private Product(Parcel in) {
+        quantity = in.readInt();
+        barcode = in.readString();
+        name = in.readString();
     }
 }

@@ -16,9 +16,6 @@ import android.widget.Toast;
 
 import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
-//import com.bartoszlipinski.flippablestackview.FlippableStackView;
-import com.bartoszlipinski.flippablestackview.FlippableStackView;
-import com.bartoszlipinski.flippablestackview.StackPageTransformer;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Card;
@@ -47,9 +44,9 @@ public class ShopsCardMainFragment extends Fragment {
 
     public Activity mParentActivity = null;
 
-    private FlippableStackView mPager;
+    private ViewPager mPager;
     private ListCardsPagerAdapter mPagerAdapter;
-    //private CircleIndicator mIndicator;
+    private CircleIndicator mIndicator;
 
     ArrayList<Card> mListCards;
 
@@ -81,13 +78,14 @@ public class ShopsCardMainFragment extends Fragment {
                 UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
                     @Override
                     public void onSuccess(User user) {
+                        mPagerAdapter.setUser(user);
 
                         mListCards = new ArrayList<Card>();
                         for (Card card : listCards) {
                             if (card.getIsAccepted() == 1)
                                 mListCards.add(card);
                         }
-                        populateList(mListCards, user);
+                        populateList(mListCards);
                     }
 
                     @Override
@@ -179,14 +177,13 @@ public class ShopsCardMainFragment extends Fragment {
 
         mListCards = new ArrayList<Card>();
 
-        mPager = (FlippableStackView) mParentActivity.findViewById(R.id.listCardsPager);
-        //mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
+        mPager = (ViewPager) mParentActivity.findViewById(R.id.listCardsPager);
+        mPager.setPageTransformer(true, new RotateDownTransformer());
 
-        /*mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>(), false);
-        mPager.initStack(2, StackPageTransformer.Orientation.VERTICAL);
-        mPager.setAdapter(mPagerAdapter);*/
+        mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>(), false);
+        mPager.setAdapter(mPagerAdapter);
 
-        //mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
+        mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
 
         setListData();
     }
@@ -237,16 +234,32 @@ public class ShopsCardMainFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void populateList(final ArrayList<Card> listCards, final User user) {
+    public void populateList(final ArrayList<Card> listCards) {
 
         mParentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, listCards, false);
-                mPagerAdapter.setUser(user);
+                mPagerAdapter.setListCards(listCards);
+                mPagerAdapter.notifyDataSetChanged();
+                if(listCards.size() > 0) {
+                    mIndicator.setViewPager(mPager);
+                    mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                mPager.initStack(2, StackPageTransformer.Orientation.VERTICAL, 0.9f, 0.75f, 1f, StackPageTransformer.Gravity.CENTER);
-                mPager.setAdapter(mPagerAdapter);
+                        }
+
+                        @Override
+                        public void onPageSelected(int position) {
+
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+
+                        }
+                    });
+                }
 
                 mDialog.dismiss();
             }

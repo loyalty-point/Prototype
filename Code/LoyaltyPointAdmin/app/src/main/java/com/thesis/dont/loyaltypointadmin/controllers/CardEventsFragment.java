@@ -50,13 +50,11 @@ public class CardEventsFragment extends Fragment {
     public CardEventsFragment() {
     }
 
-    public static CardEventsFragment newInstance(int position, String cardId) {
-        CardEventsFragment fragment = new CardEventsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, position);
-        args.putString(ARG_CARDID, cardId);
-        fragment.setArguments(args);
-        return fragment;
+    public CardEventsFragment(int position, String cardId) {
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        b.putString(ARG_CARDID, cardId);
+        this.setArguments(b);
     }
 
     @Override

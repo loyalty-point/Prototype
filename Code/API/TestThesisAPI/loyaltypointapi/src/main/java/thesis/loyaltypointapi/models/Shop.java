@@ -7,16 +7,6 @@ import android.os.Parcelable;
  * Created by tinntt on 3/5/2015.
  */
 public class Shop implements Parcelable {
-    public static final Parcelable.Creator<Shop> CREATOR
-            = new Parcelable.Creator<Shop>() {
-        public Shop createFromParcel(Parcel in) {
-            return new Shop(in);
-        }
-
-        public Shop[] newArray(int size) {
-            return new Shop[size];
-        }
-    };
     String id;
     String name;
     String address;
@@ -26,7 +16,7 @@ public class Shop implements Parcelable {
     float exchange_ratio;
     String cardImg;
 
-    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg) {
+    public Shop(String id, String name, String address, String phone_number, String category, float exchange_ratio, String image, String cardImg){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -35,16 +25,6 @@ public class Shop implements Parcelable {
         this.exchange_ratio = exchange_ratio;
         this.image = image;
         this.cardImg = cardImg;
-    }
-
-    private Shop(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-        address = in.readString();
-        phone_number = in.readString();
-        category = in.readString();
-        image = in.readString();
-        exchange_ratio = in.readFloat();
     }
 
     public String getCardImg() {
@@ -125,5 +105,26 @@ public class Shop implements Parcelable {
         dest.writeString(category);
         dest.writeString(image);
         dest.writeFloat(exchange_ratio);
+    }
+
+    public static final Parcelable.Creator<Shop> CREATOR
+            = new Parcelable.Creator<Shop>() {
+        public Shop createFromParcel(Parcel in) {
+            return new Shop(in);
+        }
+
+        public Shop[] newArray(int size) {
+            return new Shop[size];
+        }
+    };
+
+    private Shop(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        address = in.readString();
+        phone_number = in.readString();
+        category = in.readString();
+        image = in.readString();
+        exchange_ratio = in.readFloat();
     }
 }
