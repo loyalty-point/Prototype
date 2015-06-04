@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointadmin.R;
@@ -20,7 +21,8 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class CustomCard extends RelativeLayout {
 
-    protected FancyButton mCardName, mUserName, mQRCode;
+    //protected FancyButton mCardName, mUserName, mQRCode;
+    protected TextView mCardName, mUserName, mQRCode;
     protected MyRoundedImageView mCardBackground;
     protected int mCurrentTouchedView = -1;
 
@@ -34,15 +36,15 @@ public class CustomCard extends RelativeLayout {
 
     boolean isDrag = false;
 
-    public FancyButton getCardName() {
+    public TextView getCardName() {
         return mCardName;
     }
 
-    public FancyButton getUserName() {
+    public TextView getUserName() {
         return mUserName;
     }
 
-    public FancyButton getQRCode() {
+    public TextView getQRCode() {
         return mQRCode;
     }
 
@@ -73,17 +75,15 @@ public class CustomCard extends RelativeLayout {
     }
 
     private void init() {
-        //View rootView = inflate(getContext(), R.layout.custom_card_layout, this);
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.custom_card_layout, this, true);
+
         mCardBackground = (MyRoundedImageView) findViewById(R.id.cardImage);
-        mCardName = (FancyButton) findViewById(R.id.cardName);
-        mUserName = (FancyButton) findViewById(R.id.customerName);
-        mQRCode = (FancyButton) findViewById(R.id.qrCode);
-        /*mCardBackground = (MyRoundedImageView) rootView.findViewById(R.id.cardImage);
-        mCardName = (FancyButton) rootView.findViewById(R.id.cardName);
-        mUserName = (FancyButton) rootView.findViewById(R.id.customerName);
-        mQRCode = (FancyButton) rootView.findViewById(R.id.qrCode);*/
+        mCardName = (TextView) findViewById(R.id.cardName);
+        mUserName = (TextView) findViewById(R.id.customerName);
+        mQRCode = (TextView) findViewById(R.id.qrCode);
+
+        setupDragHandle();
     }
 
     public void setDropListener(DropListener dropListener) {
@@ -166,6 +166,11 @@ public class CustomCard extends RelativeLayout {
         // if we're not already dragging, and the touch position is on the drag handle,
         // then start dragging
         mCurrentTouchedView = findCurrentTouchedView(motionEvent);
+        if(mCurrentTouchedView == -1) {
+            callOnClick();
+            return;
+        }
+
         if(!mIsDragging && mCurrentTouchedView != -1) {
             pointerId = motionEvent.getPointerId(0);
             updateDragPosition(motionEvent);
