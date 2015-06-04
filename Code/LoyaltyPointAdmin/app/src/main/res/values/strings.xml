@@ -114,5 +114,7 @@
     <string name="title_activity_card_shop_list_apply_event">CardShopListApplyEventActivity</string>
     <string name="title_activity_card_edit_event">CardEditEventActivity</string>
     <string name="title_activity_card_create_award">CardCreateAwardActivity</string>
+    <string name="title_activity_card_shop_list_apply_award">CardShopListApplyAwardActivity</string>
+    <string name="title_activity_card_edit_award">CardEditAwardActivity</string>
 
 </resources>

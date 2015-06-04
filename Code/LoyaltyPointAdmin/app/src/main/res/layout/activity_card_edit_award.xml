@@ -28,12 +28,12 @@
 
 
         <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/nextBtn"
+            android:id="@+id/confirmBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@color/AccentColor"
-            android:text="Next"
+            android:text="Confirm"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 
