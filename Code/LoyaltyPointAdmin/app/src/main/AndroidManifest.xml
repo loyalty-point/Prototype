@@ -199,6 +199,14 @@
             android:name=".controllers.CardCreateAwardActivity"
             android:label="@string/title_activity_card_create_award" >
         </activity>
+        <activity
+            android:name=".controllers.CardShopListApplyAwardActivity"
+            android:label="@string/title_activity_card_shop_list_apply_award" >
+        </activity>
+        <activity
+            android:name=".controllers.CardEditAwardActivity"
+            android:label="@string/title_activity_card_edit_award" >
+        </activity>
     </application>
 
 </manifest>

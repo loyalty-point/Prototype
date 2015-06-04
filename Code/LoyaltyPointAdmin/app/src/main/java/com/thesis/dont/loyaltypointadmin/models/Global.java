@@ -28,6 +28,7 @@ public class Global {
     public static String BARCODE = "barcode";
     public static String EVENT_OBJECT = "event_object";
     public static String EVENT_LIST_TYPE = "event_list_type";
+    public static String AWARD_LIST_TYPE = "award_list_type";
     public static String BITMAP = "bitmap";
     public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";
@@ -45,4 +46,7 @@ public class Global {
 
     public static int CARD_CREATE_EVENT_LIST = 0;
     public static int CARD_EDIT_EVENT_LIST = 1;
+
+    public static int CARD_CREATE_AWARD_LIST = 0;
+    public static int CARD_EDIT_AWARD_LIST = 1;
 }

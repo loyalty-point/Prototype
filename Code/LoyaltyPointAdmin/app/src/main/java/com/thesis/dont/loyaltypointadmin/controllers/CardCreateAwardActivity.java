@@ -28,7 +28,6 @@ public class CardCreateAwardActivity extends ActionBarActivity {
 
     Bitmap awardLogo = null;
 
-    String shopID;
     String cardID;
 
     @Override
@@ -37,7 +36,6 @@ public class CardCreateAwardActivity extends ActionBarActivity {
         setContentView(R.layout.activity_card_create_award);
 
         Intent i = getIntent();
-        shopID = i.getStringExtra(ShopAwardsFragment.SHOP_ID);
         cardID = i.getStringExtra(Global.CARD_ID);
 
         // get references to layout components
@@ -59,8 +57,9 @@ public class CardCreateAwardActivity extends ActionBarActivity {
         });
 
         // set click listener for create button
-        ButtonRectangle createAwardBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
-        createAwardBtn.setOnClickListener(new View.OnClickListener() {
+        
+        ButtonRectangle nextAwardBtn = (ButtonRectangle) findViewById(R.id.nextBtn);
+        nextAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -81,61 +80,17 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                     return;
                 }
 
-                // ??n ?ây thì thông tin ng??i dùng nh?p vào ?ã hoàn toàn h?p l?
-                // G?i api ?? t?o award
-
                 // Create award
-                Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, shopID);
-//                AwardModel.createAward(Global.userToken, shopID, cardID, award, new AwardModel.OnCreateAwardResult() {
-//                    @Override
-//                    public void onSuccess(AwardModel.CreateAwardResult result) {
-//                        // T?o award thành công
-//
-//                        // Upload ?nh c?a award lên server
-//                        if (awardLogo != null) {
-//                            GCSHelper.uploadImage(CardCreateAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
-//                                @Override
-//                                public void onComplete() {
-//
-//                                    // dismiss Progress Dialog
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            mDialog.dismiss();
-//                                        }
-//                                    });
-//                                    finish();
-//                                }
-//
-//                                @Override
-//                                public void onError(final String error) {
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            mDialog.dismiss();
-//                                            Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        } else {
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(final String error) {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                // T?o award không thành công
-//                                mDialog.dismiss();
-//                                Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    }
-//                });
+                
+                Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, "");
 
+                Intent i = new Intent(CardCreateAwardActivity.this, CardShopListApplyAwardActivity.class);
+                Global.tempBitmap = awardLogo;
+                i.putExtra(Global.AWARD_OBJECT, award);
+                i.putExtra(Global.CARD_ID, cardID);
+                i.putExtra(Global.AWARD_LIST_TYPE, Global.CARD_CREATE_AWARD_LIST);
+                Global.tempActivity = CardCreateAwardActivity.this;
+                startActivity(i);
             }
         });
 

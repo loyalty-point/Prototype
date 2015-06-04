@@ -41,6 +41,8 @@ public class CardModel {
     public static native String getGetCardInfo();
     public static native String getCreateEvent();
     public static native String getEditEvent();
+    public static native String getCreateAward();
+    public static native String getEditAward();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -70,12 +72,18 @@ public class CardModel {
                     GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
                     if(result.error.equals("")) {
                         // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
+                        ArrayList<ArrayList<Shop>> listShops = new ArrayList<ArrayList<Shop>>();
                         ArrayList<Award> listAwards = new ArrayList<Award>();
                         for(int i=0; i<result.listAwards.length-1; i++) {
                             listAwards.add(result.listAwards[i]);
+                            ArrayList<Shop> tmpList = new ArrayList<Shop>();
+                            for(int j = 0;j<result.listShops[i].length-1;j++){
+                                tmpList.add(result.listShops[i][j]);
+                            }
+                            listShops.add(tmpList);
                         }
 
-                        mOnGetListAwardsResult.onSuccess(listAwards);
+                        mOnGetListAwardsResult.onSuccess(listAwards, listShops);
                     }
                     else
                         mOnGetListAwardsResult.onError(result.error);
@@ -492,6 +500,66 @@ public class CardModel {
         t.start();
     }
 
+    public static void createAward(Award award, final ArrayList<String> shopsId, final String cardId, final OnAddAwardResult onAddAwardResult){
+        final String json = Helper.objectToJson(award);
+        final String list_shops_id = Helper.objectToJson(shopsId);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCreateAward();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shops_id", list_shops_id));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+                nameValuePairs.add(new BasicNameValuePair("award", json));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    /*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*/
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CreateAwardResult createAwardResult = (CreateAwardResult)Helper.jsonToObject(response, CreateAwardResult.class);
+
+                    if(createAwardResult.error.equals(""))
+                        onAddAwardResult.onSuccess(createAwardResult);
+                    else
+                        onAddAwardResult.onError(createAwardResult.error);
+                } catch (UnsupportedEncodingException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnAddAwardResult{
+        public void onSuccess(CreateAwardResult createAwardResult);
+
+        public void onError(String error);
+    }
+
+    public class CreateAwardResult {
+        public String error;
+        public String bucketName;
+        public String fileName;
+    }
+
     public interface OnAddEventResult{
         public void onSuccess(CreateEventResult createEventResult);
 
@@ -557,10 +625,11 @@ public class CardModel {
     public class GetListAwards {
         public String error;
         public Award[] listAwards;
+        public Shop[][] listShops;
     }
 
     public interface OnGetListAwardsResult{
-        public void onSuccess(ArrayList<Award> listAwards);
+        public void onSuccess(ArrayList<Award> listAwards, ArrayList<ArrayList<Shop>> listShops);
         public void onError(String error);
     }
 
