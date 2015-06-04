@@ -69,7 +69,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                 final String quantity = mQuantity.getText().toString();
                 final String description = mDescription.getText().toString();
 
-                // Ki?m tra kh·c null
+                // Ki?m tra kh√°c null
                 if(Helper.checkNotNull(awardName, point, quantity)) {
                     Toast.makeText(CardCreateAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
@@ -81,7 +81,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                     return;
                 }
 
-                // ??n ?‚y thÏ thÙng tin ng??i d˘ng nh?p v‡o ?„ ho‡n to‡n h?p l?
+                // ??n ?√¢y th√¨ th√¥ng tin ng??i d√πng nh?p v√†o ?√£ ho√†n to√†n h?p l?
                 // G?i api ?? t?o award
 
                 // Create award
@@ -89,9 +89,9 @@ public class CardCreateAwardActivity extends ActionBarActivity {
 //                AwardModel.createAward(Global.userToken, shopID, cardID, award, new AwardModel.OnCreateAwardResult() {
 //                    @Override
 //                    public void onSuccess(AwardModel.CreateAwardResult result) {
-//                        // T?o award th‡nh cÙng
+//                        // T?o award th√†nh c√¥ng
 //
-//                        // Upload ?nh c?a award lÍn server
+//                        // Upload ?nh c?a award l√™n server
 //                        if (awardLogo != null) {
 //                            GCSHelper.uploadImage(CardCreateAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
 //                                @Override
@@ -128,7 +128,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
 //                        runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
-//                                // T?o award khÙng th‡nh cÙng
+//                                // T?o award kh√¥ng th√†nh c√¥ng
 //                                mDialog.dismiss();
 //                                Toast.makeText(CreateAwardActivity.this, error, Toast.LENGTH_LONG).show();
 //                            }
@@ -161,7 +161,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                 if(resultCode == RESULT_OK){
                     byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // khÙng nÈn ?nh
+                    // kh√¥ng n√©n ?nh
                     awardLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     awardLogoImgView.setImageBitmap(awardLogo);
                 }

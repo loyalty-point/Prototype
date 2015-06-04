@@ -17,11 +17,13 @@
     <style name="NoActionBar" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="NoActionBarWithNavDrawer" parent="MyNavigationDrawerTheme">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="spinner_style">

@@ -1,3 +1,4 @@
+/*
 package com.thesis.dont.loyaltypointuser.views;
 
 import android.annotation.SuppressLint;
@@ -73,13 +74,15 @@ public class CustomCard extends LinearLayout {
 
 
         try {
-            /*
+            */
+/*
             layoutId = a.getResourceId(R.styleable.ConstrainedDragAndDropView_layoutId, 0);
 
             if (layoutId > 0) {
                 LayoutInflater.from(context).inflate(layoutId, this, true);
             }
-            */
+            *//*
+
         } finally {
             a.recycle();
         }
@@ -163,7 +166,8 @@ public class CustomCard extends LinearLayout {
 
     @SuppressLint("NewApi")
     protected void snapDragHandleToDropTarget(int dropTargetIndex) {
-        /*if(dropTargetIndex > -1) {
+        */
+/*if(dropTargetIndex > -1) {
             View dropTarget = dropTargets.get(dropTargetIndex);
             float xCenter = dropTarget.getX() + dropTarget.getWidth() / 2;
             float yCenter = dropTarget.getY() + dropTarget.getHeight() / 2;
@@ -176,7 +180,8 @@ public class CustomCard extends LinearLayout {
 
             dragHandle.setX(x);
             dragHandle.setY(y);
-        }*/
+        }*//*
+
     }
 
 
@@ -190,7 +195,8 @@ public class CustomCard extends LinearLayout {
     }
 
     protected int findDropTargetIndexUnderDragHandle() {
-        /*int dropTargetIndex = -1;
+        */
+/*int dropTargetIndex = -1;
         for(int i = 0; i < dropTargets.size(); i++) {
             if(isCollision(dragHandle, dropTargets.get(i))) {
                 dropTargetIndex = i;
@@ -198,17 +204,20 @@ public class CustomCard extends LinearLayout {
             }
         }
 
-        return dropTargetIndex;*/
+        return dropTargetIndex;*//*
+
 
         return 0;
     }
 
-    /**
+    */
+/**
      * Determines whether a raw screen coordinate is within the bounds of the specified view
      * @param point - Point containing screen coordinates
      * @param view - View to test
      * @return true if the point is in the view, else false
-     */
+     *//*
+
     protected boolean isPointInView(Point point, View view) {
 
         int[] viewPosition = new int[2];
@@ -253,3 +262,4 @@ public class CustomCard extends LinearLayout {
 
 
 }
+*/
