@@ -6,8 +6,10 @@ import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,7 +21,9 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class CustomCard extends RelativeLayout {
 
     protected FancyButton mCardName, mUserName, mQRCode;
+    protected MyRoundedImageView mCardBackground;
     protected int mCurrentTouchedView = -1;
+
     protected boolean mIsDragging = false;
     protected int pointerId;
 
@@ -29,6 +33,22 @@ public class CustomCard extends RelativeLayout {
     protected DropListener dropListener;
 
     boolean isDrag = false;
+
+    public FancyButton getCardName() {
+        return mCardName;
+    }
+
+    public FancyButton getUserName() {
+        return mUserName;
+    }
+
+    public FancyButton getQRCode() {
+        return mQRCode;
+    }
+
+    public MyRoundedImageView getCardBackground() {
+        return mCardBackground;
+    }
 
     public interface DropListener {
         public void onDrop(final int dropIndex, final View dropTarget);
@@ -53,10 +73,17 @@ public class CustomCard extends RelativeLayout {
     }
 
     private void init() {
-        View rootView = inflate(getContext(), R.layout.custom_card_layout, this);
+        //View rootView = inflate(getContext(), R.layout.custom_card_layout, this);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.custom_card_layout, this, true);
+        mCardBackground = (MyRoundedImageView) findViewById(R.id.cardImage);
+        mCardName = (FancyButton) findViewById(R.id.cardName);
+        mUserName = (FancyButton) findViewById(R.id.customerName);
+        mQRCode = (FancyButton) findViewById(R.id.qrCode);
+        /*mCardBackground = (MyRoundedImageView) rootView.findViewById(R.id.cardImage);
         mCardName = (FancyButton) rootView.findViewById(R.id.cardName);
         mUserName = (FancyButton) rootView.findViewById(R.id.customerName);
-        mQRCode = (FancyButton) rootView.findViewById(R.id.qrCode);
+        mQRCode = (FancyButton) rootView.findViewById(R.id.qrCode);*/
     }
 
     public void setDropListener(DropListener dropListener) {
