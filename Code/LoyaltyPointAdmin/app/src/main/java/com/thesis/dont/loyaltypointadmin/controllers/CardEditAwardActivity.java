@@ -70,7 +70,7 @@ public class CardEditAwardActivity extends ActionBarActivity {
             }
         });
 
-        // load data lên UI components
+        // load data lÃªn UI components
         mAwardName.setText(mOldAward.getName());
         mPoint.setText(String.valueOf(mOldAward.getPoint()));
         mQuantity.setText(String.valueOf(mOldAward.getQuantity()));
@@ -88,19 +88,19 @@ public class CardEditAwardActivity extends ActionBarActivity {
                 final String quantity = mQuantity.getText().toString();
                 final String description = mDescription.getText().toString();
 
-                // Ki?m tra khác null
+                // Kiá»ƒm tra khÃ¡c null
                 if(Helper.checkNotNull(awardName, point, quantity)) {
                     Toast.makeText(CardEditAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                // Ki?m tra award name h?p l?
+                // Kiá»ƒm tra award name há»£p lá»‡
                 if(Helper.checkAwardName(awardName)) {
                     Toast.makeText(CardEditAwardActivity.this, "shop name is not valid", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                // ??n ?ây thì thông tin ng??i dùng nh?p vào ?ã hoàn toàn h?p l?
+                // ??n ?Ã¢y thÃ¬ thÃ´ng tin ng??i dÃ¹ng nh?p vÃ o ?Ã£ hoÃ n toÃ n h?p l?
                 // G?i api ?? edit award
 
                 // Show progress dialog
@@ -111,9 +111,9 @@ public class CardEditAwardActivity extends ActionBarActivity {
                 AwardModel.editAward(Global.userToken, award, new AwardModel.OnEditAwardResult() {
                     @Override
                     public void onSuccess(final AwardModel.EditAwardResult result) {
-                        // S?a award thành công
+                        // S?a award thÃ nh cÃ´ng
 
-                        // N?u ng??i dùng không thay ??i ?nh thì không upload lên server
+                        // N?u ng??i dÃ¹ng khÃ´ng thay ??i ?nh thÃ¬ khÃ´ng upload lÃªn server
                         if (!isChangeAwardImage) {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -125,7 +125,7 @@ public class CardEditAwardActivity extends ActionBarActivity {
                             return;
                         }
 
-                        // Upload ?nh c?a award lên server
+                        // Upload ?nh c?a award lÃªn server
                         GCSHelper.uploadImage(CardEditAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
                             @Override
                             public void onComplete() {
@@ -169,7 +169,7 @@ public class CardEditAwardActivity extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // s?a award không thành công
+                                // s?a award khÃ´ng thÃ nh cÃ´ng
                                 mDialog.dismiss();
                                 Toast.makeText(CardEditAwardActivity.this, error, Toast.LENGTH_LONG).show();
                             }
@@ -201,7 +201,7 @@ public class CardEditAwardActivity extends ActionBarActivity {
                 if(resultCode == RESULT_OK){
                     byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // không nén ?nh
+                    // khÃ´ng nÃ©n ?nh
                     awardLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     awardLogoImgView.setImageBitmap(awardLogo);
 
