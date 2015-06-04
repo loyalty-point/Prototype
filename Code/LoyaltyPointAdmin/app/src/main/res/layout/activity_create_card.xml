@@ -70,7 +70,18 @@
                 android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+        <!--<com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+            android:id="@+id/cardBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/LightGrey"
+            android:layout_below="@+id/cardNameFloat"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_3sdp"
+            app:siBorderColor="@color/MaterialGrey"/>-->
+
+        <com.thesis.dont.loyaltypointadmin.views.CustomCard
             android:id="@+id/cardBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +91,7 @@
             app:siRadius="@dimen/_1sdp"
             app:siBorderWidth="@dimen/_3sdp"
             app:siBorderColor="@color/MaterialGrey"/>
+
 
     </RelativeLayout>
 

@@ -204,7 +204,7 @@ public class CardEditEventActivity extends ActionBarActivity implements DatePick
                 if(resultCode == RESULT_OK){
                     byte[] imageByteArray = data.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // không nén ?nh
+                    // khÃ´ng nÃ©n áº£nh
                     eventLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     iconChooser.setImageBitmap(eventLogo);
 

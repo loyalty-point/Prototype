@@ -1,1 +1,1 @@
-include ':app', ':loyaltypointapi', ':loyaltypointapi'
+include ':app', ':loyaltypointapi', ':mylibrary', ':loyaltypointapi'

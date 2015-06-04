@@ -57,6 +57,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
         });
 
         // set click listener for create button
+        
         ButtonRectangle nextAwardBtn = (ButtonRectangle) findViewById(R.id.nextBtn);
         nextAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +68,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                 final String quantity = mQuantity.getText().toString();
                 final String description = mDescription.getText().toString();
 
-                // Ki?m tra kh·c null
+                // Ki?m tra kh√°c null
                 if(Helper.checkNotNull(awardName, point, quantity)) {
                     Toast.makeText(CardCreateAwardActivity.this, "please enter all the information", Toast.LENGTH_LONG).show();
                     return;
@@ -80,6 +81,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                 }
 
                 // Create award
+                
                 Award award = new Award(null, awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, "");
 
                 Intent i = new Intent(CardCreateAwardActivity.this, CardShopListApplyAwardActivity.class);
@@ -114,7 +116,7 @@ public class CardCreateAwardActivity extends ActionBarActivity {
                 if(resultCode == RESULT_OK){
                     byte[] imageByteArray = imageReturnedIntent.getByteArrayExtra(CropImageActivity.CROPPED_IMAGE);
 
-                    // khÙng nÈn ?nh
+                    // kh√¥ng n√©n ?nh
                     awardLogo = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
                     awardLogoImgView.setImageBitmap(awardLogo);
                 }
