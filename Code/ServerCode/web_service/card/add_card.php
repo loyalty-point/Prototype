@@ -34,11 +34,18 @@ $backgroundLink = "http://storage.googleapis.com/" . $bucketName . "/" . $fileNa
 
 $query = "insert into card values ('"
 							.$id."','"
-							.$card->name."','"						
-							.$backgroundLink."')";  //insert vào database
+							.$card->name."','"
+							.$backgroundLink."','"						
+							.$card->cardnameX."','"
+							.$card->cardnameY."','"
+							.$card->usernameX."','"
+							.$card->usernameY."','"
+							.$card->qrcodeX."','"
+							.$card->qrcodeY."','"
+							.$card->textColor."')";  //insert vào database
 
 $query_exec = mysqli_query($localhost, $query);
-echo mysqli_error($localhost);
+
 if($query_exec){
 	
 	$query = "insert into admin_card values ('"

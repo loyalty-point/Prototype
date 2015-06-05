@@ -42,6 +42,13 @@ while($row = mysqli_fetch_array($query_exec)){
                 . '"id":"' . $row1['id'] . '",'
                 . '"name":"' . $row1['name'] . '",'
                 . '"image":"' . $row1['image'] . '",'
+                . '"cardnameX":"' . $row1['cardnameX'] . '",'
+                . '"cardnameY":"' . $row1['cardnameY'] . '",'
+                . '"usernameX":"' . $row1['usernameX'] . '",'
+                . '"usernameY":"' . $row1['usernameY'] . '",'
+                . '"qrcodeX":"' . $row1['qrcodeX'] . '",'
+                . '"qrcodeY":"' . $row1['qrcodeY'] . '",'
+                . '"textColor":"' . $row1['textColor'] . '",'
                 . '"point":"' . $row['point'] . '",'
                 . '"isAccepted":"' . $row['isAccepted'] . '"},';
     }

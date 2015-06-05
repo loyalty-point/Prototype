@@ -3,6 +3,7 @@ package com.thesis.dont.loyaltypointuser.controllers;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 
 import com.google.gson.Gson;
@@ -276,6 +277,13 @@ public class Helper {
         } catch (WriterException e) {
             e.printStackTrace();
         }
+        return bitmap;
+    }
+
+    public static Bitmap generateWhiteBitmap(int width, int heigth) {
+        Bitmap bitmap = Bitmap.createBitmap(width, heigth, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawARGB(255, 255, 255, 255);
         return bitmap;
     }
 

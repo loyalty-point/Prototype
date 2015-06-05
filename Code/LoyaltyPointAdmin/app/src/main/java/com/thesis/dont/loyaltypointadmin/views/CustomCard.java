@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -259,4 +260,27 @@ public class CustomCard extends RelativeLayout {
     }
 
 
+    public float getUserNameX() {
+        return mUserName.getX() / (float) mCardBackground.getWidth();
+    }
+
+    public float getUserNameY() {
+        return mUserName.getY() / (float) mCardBackground.getHeight();
+    }
+
+    public float getCardNameX() {
+        return mCardName.getX() / (float) mCardBackground.getWidth();
+    }
+
+    public float getCardNameY() {
+        return mCardName.getY() / (float) mCardBackground.getHeight();
+    }
+
+    public float getQRCodeX() {
+        return mQRCode.getX() / (float) mCardBackground.getWidth();
+    }
+
+    public float getQRCodeY() {
+        return mQRCode.getY() / (float) mCardBackground.getHeight();
+    }
 }

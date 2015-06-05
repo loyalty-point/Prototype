@@ -18,7 +18,7 @@
         android:text="ADD NEW CARD"
         android:textSize="@dimen/_15sdp"/>
 
-    <me.relex.circleindicator.CircleIndicator
+    <!--<me.relex.circleindicator.CircleIndicator
         android:id="@+id/custom_indicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -29,7 +29,7 @@
         app:ci_animator_reverse="@animator/indicator_animator_reverse"
         app:ci_drawable="@drawable/black_radius_square"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/addCardBtn"/>
+        android:layout_above="@id/addCardBtn"/>-->
 
     <!--<android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,8 +46,7 @@
         android:id="@+id/listCardsPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_above="@+id/custom_indicator" />
+        android:layout_marginTop="@dimen/padding"/>
 
     <!--<com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/createShopBtn"

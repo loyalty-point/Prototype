@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             fancy:borderColor="@color/AccentColor"
             fancy:borderWidth="2dp"
-            fancy:defaultColor="@color/MaterialBackground"
+            fancy:defaultColor="@color/transparent"
             fancy:focusColor="@color/AccentColor"
             fancy:textColor="@color/AccentColor"
             fancy:text="CREATE NEW CARD"/>

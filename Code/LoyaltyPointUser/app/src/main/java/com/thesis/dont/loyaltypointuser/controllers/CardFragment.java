@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Card;
 import com.thesis.dont.loyaltypointuser.models.Global;
-import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.views.MyCard;
 import com.thesis.dont.loyaltypointuser.views.MyCardHeader;
@@ -29,7 +28,7 @@ public class CardFragment extends Fragment {
     Card mCard;
     User mUser;
     boolean mIsPendingCard;
-    String mQRCOde;
+    String mQRCode;
 
     public static CardFragment newInstance(Card card, User user, boolean isPendingCard, String qrCode) {
         CardFragment fragment = new CardFragment();
@@ -59,7 +58,7 @@ public class CardFragment extends Fragment {
             mCard = (Card) bundle.get(Global.CARD_OBJECT);
             mUser = (User) bundle.get(Global.USER_OBJECT);
             mIsPendingCard = (boolean) bundle.get(Global.IS_PENDING_CARD);
-            mQRCOde = (String) bundle.get(Global.CARD_QRCODE);
+            mQRCode = (String) bundle.get(Global.CARD_QRCODE);
         }
     }
 
@@ -79,8 +78,8 @@ public class CardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //Create a CardHeader
-        MyCardHeader header = new MyCardHeader(getActivity(),mCard, mUser, mIsPendingCard, mQRCOde);
+        /*//Create a CardHeader
+        MyCardHeader header = new MyCardHeader(getActivity(),mCard, mUser, mIsPendingCard, mQRCode);
 
         //Add a popup menu. This method sets OverFlow button to visibile
         header.setPopupMenu(R.menu.card_popup_menu, new CardHeader.OnClickCardHeaderPopupMenuListener(){
@@ -88,11 +87,11 @@ public class CardFragment extends Fragment {
             public void onMenuItemClick(BaseCard card, MenuItem item) {
                 Toast.makeText(getActivity(), "Deregister", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
         //Create a Card
-        MyCard card = new MyCard(getActivity(), mCard, mIsPendingCard);
-        card.addCardHeader(header);
+        MyCard card = new MyCard(getActivity(), mCard, mIsPendingCard, mUser, mQRCode);
+        //card.addCardHeader(header);
 
         //Set card in the cardView
         CardViewNative cardView = (CardViewNative) mView.findViewById(R.id.card);
