@@ -11,6 +11,7 @@ $token = $_POST['token'];
 $ticketId = $_POST['ticketId'];
 $awardId = $_POST['awardId'];
 $shopId = $_POST['shopId'];
+$cardId = $_POST['cardId'];
 $userId = $_POST['userId'];
 $time = $_POST['time'];
 $number = $_POST['number'];
@@ -42,16 +43,6 @@ if($username == ""){
     die();
 }
 
-$query = "select * from award where id='".$awardId."' and shopID = '" . $shopId . "'";
-$query_exec = mysqli_query($localhost, $query);
-$awardRow = mysqli_fetch_array($query_exec);
-$awardID = $awardRow['id'];
-
-if($awardID == "") {
-    echo '{"error":"this shop does not have this award"}';
-    die();
-}
-
 $query = "delete from customer_tickets where id='".$ticketId."'";
 $query_exec = mysqli_query($localhost, $query);
 if($query_exec){
@@ -62,16 +53,19 @@ if($query_exec){
                             .$row['username']."','"
                             .$row['name']."','"
                             .$row['phone_number']."','"
-                            .$shopId."','"
                             .$point."','"
                             .$time."','"
                             .$awardRow['awardImage']."')";
     $query_exec = mysqli_query($localhost, $query);
     $query = "insert into buy_award_history values ('"
                             .$id."','"
-                            .$shopId."','"
                             .$awardId."','"
                             .$number."')";
+    $query_exec = mysqli_query($localhost, $query);
+    $query = "insert into history_card_shop values ('"
+                            .$id."','"
+                            .$cardId."','"
+                            .$shopId."')";
     $query_exec = mysqli_query($localhost, $query);
   
     // Gửi notification cho user
@@ -86,7 +80,7 @@ if($query_exec){
 
         $regID = array($regID);
         $message = "trade successfully";
-        $message = array("message" => $message, "shopID" => $shopId, "historyID" => $id);
+        $message = array("type" => "shop", "message" => $message, "shopID" => $shopId, "historyID" => $id);
         $gcm = new GCM();   
 
         $result = $gcm->send_notification($regID, $message);

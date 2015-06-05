@@ -51,10 +51,11 @@ public class UserTicketsFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     private static final String ARG_USERID = "user_id";
     private static final String ARG_SHOPID = "shop_id";
+    private static final String ARG_CARDID = "card_id";
 
     int position;
     String userId;
-    String shopId;
+    String cardId, shopId;
 
     private CardGridView mListView;
     CardGridArrayAdapter mAdapter;
@@ -73,11 +74,12 @@ public class UserTicketsFragment extends Fragment {
 
     public UserTicketsFragment() {}
 
-    public UserTicketsFragment(int position, String userId, String shopId) {
+    public UserTicketsFragment(int position, String userId, String shopId, String cardId) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putString(ARG_USERID, userId);
         b.putString(ARG_SHOPID, shopId);
+        b.putString(ARG_CARDID, cardId);
         this.setArguments(b);
     }
 
@@ -87,6 +89,7 @@ public class UserTicketsFragment extends Fragment {
         position = getArguments().getInt(ARG_POSITION);
         userId = getArguments().getString(ARG_USERID);
         shopId = getArguments().getString(ARG_SHOPID);
+        cardId = getArguments().getString(ARG_CARDID);
     }
 
     @Override
@@ -215,7 +218,7 @@ public class UserTicketsFragment extends Fragment {
                                     Date date = new Date();
                                     String time = dateFormat.format(date);
                                     //delete award ticket when identity number checking was ok.
-                                    TicketModel.deleteUserTicket(Global.userToken, awardHistory.getId(), awardHistory.getAwardID(), shopId, userId, time, awardHistory.getQuantity(), awardHistory.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
+                                    TicketModel.deleteUserTicket(Global.userToken, awardHistory.getId(), cardId, awardHistory.getAwardID(), shopId, userId, time, awardHistory.getQuantity(), awardHistory.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {

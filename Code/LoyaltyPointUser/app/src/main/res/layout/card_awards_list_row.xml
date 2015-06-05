@@ -74,16 +74,5 @@
         android:layout_marginRight="@dimen/_5sdp"
         android:textColor="@color/AccentColor" />
 
-    <com.gc.materialdesign.views.ButtonRectangle
-        android:id="@+id/buyBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardPoint"
-        android:background="@color/MaterialGreen"
-        android:text="BUY"
-        android:textSize="@dimen/_15sdp"
-        materialdesign:rippleSpeed="70" />
-
-
 </RelativeLayout>
 

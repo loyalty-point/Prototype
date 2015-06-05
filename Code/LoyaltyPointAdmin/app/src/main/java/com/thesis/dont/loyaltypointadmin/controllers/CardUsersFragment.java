@@ -160,10 +160,8 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 //                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
 //                i.putExtra(Global.USER_NAME, cursor.getString(4));
 //                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
-//                i.putExtra(Global.SHOP_ID, cardId);
+//                i.putExtra(Global.CARD_ID, cardId);
 //                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
-//                Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
-//                i.putExtra(Global.SHOP_OBJECT, shop);
 //                startActivity(i);
 
             }
