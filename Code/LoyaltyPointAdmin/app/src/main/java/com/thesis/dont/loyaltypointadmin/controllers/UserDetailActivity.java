@@ -29,8 +29,8 @@ public class UserDetailActivity extends ActionBarActivity {
 
     String userId;
     String userFullName;
-    String shopId;
-    String cardId;
+    String cardId, shopId;
+    int userPoint;
 
     Shop mShop;
 
@@ -44,9 +44,10 @@ public class UserDetailActivity extends ActionBarActivity {
         Intent i = getIntent();
         userId = i.getStringExtra(Global.USER_NAME);
         userFullName = i.getStringExtra(Global.USER_FULLNAME);
-        shopId = i.getStringExtra(Global.SHOP_ID);
         cardId = i.getStringExtra(Global.CARD_ID);
+        shopId = i.getStringExtra(Global.SHOP_ID);
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
+        userPoint = i.getIntExtra(Global.USER_POINT, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         setTitle(userFullName);

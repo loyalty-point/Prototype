@@ -55,9 +55,10 @@ public class CardAwardsFragment extends Fragment {
 
     com.thesis.dont.loyaltypointuser.models.Card mCard;
 
-    public CardAwardsFragment() {}
+    public CardAwardsFragment() {
+    }
 
-    public CardAwardsFragment(int position, com.thesis.dont.loyaltypointuser.models.Card mCard){
+    public CardAwardsFragment(int position, com.thesis.dont.loyaltypointuser.models.Card mCard) {
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         b.putParcelable(Global.CARD_OBJECT, mCard);
@@ -74,7 +75,7 @@ public class CardAwardsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_awards,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_shop_awards, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -110,7 +111,6 @@ public class CardAwardsFragment extends Fragment {
         protected ImageView awardImgIv;
         protected Award award;
         protected ArrayList<Shop> listShops;
-        protected ButtonRectangle buyBtn;
 
         protected String awardName, awardQuantity, awardPoint, awardImg, awardShopName;
 
@@ -142,114 +142,7 @@ public class CardAwardsFragment extends Fragment {
             if (awardImg.equals(""))
                 awardImg = "null";
             Picasso.with(mParentActivity).load(awardImg).placeholder(R.drawable.ic_about).into(awardImgIv);
-
-            buyBtn = (ButtonRectangle) view.findViewById(R.id.buyBtn);
-            if(mCard.getPoint() < award.getPoint() && award.getQuantity() > 0){
-                buyBtn.setEnabled(false);
-                buyBtn.setBackgroundColor(mParentActivity.getResources().getColor(R.color.MaterialGrey));
-            }else{
-                buyBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Dialog
-                        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(mParentActivity);
-                        mDialogBuilder.setTitle("How many?");
-                        mDialogBuilder.setCancelable(false);
-
-                        // Set up the input
-                        final EditText quantityEditText = new EditText(mParentActivity);
-
-                        // set properties for quantityEditText
-                        quantityEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        quantityEditText.setGravity(Gravity.CENTER);
-                        quantityEditText.setText("1");
-                        quantityEditText.setHint("Quantity?");
-
-                        mDialogBuilder.setView(quantityEditText);
-
-                        //initDialog();
-                        // Set listeners for dialog's buttons
-                        mDialogBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final int quantity = Integer.valueOf(quantityEditText.getText().toString());
-
-                                if(quantity > award.getQuantity()) {
-                                    Toast.makeText(mParentActivity, "Sorry, we just have " + award.getQuantity() + " remaining items", Toast.LENGTH_LONG).show();
-                                }else if((quantity*award.getPoint()) > mCard.getPoint()){
-                                    Toast.makeText(mParentActivity, "Sorry, Not enough point, you only have " + String.valueOf(mCard.getPoint()) + "but you need " + String.valueOf(quantity*award.getPoint()) +" point to buy this award!", Toast.LENGTH_LONG).show();
-                                }else {
-                                    // Lấy thời gian hiện tại
-                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                                    Date date = new Date();
-                                    String time = dateFormat.format(date); //2014/08/06 15:59:48
-
-//                                    AwardModel.buyAward(Global.userToken, time, award.getShopID(), award.getID(), quantity, new AwardModel.OnBuyAwardResult() {
-//                                        @Override
-//                                        public void onSuccess() {
-//                                            mParentActivity.runOnUiThread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
-//
-//                                                    // Create content layout for dialog
-//                                                    LayoutInflater inflater = mParentActivity.getLayoutInflater();
-//                                                    View contentView = inflater.inflate(R.layout.buy_award_succecssfully_dialog_layout, null);
-//
-//                                                    TextView quantityTv = (TextView) contentView.findViewById(R.id.quantity);
-//                                                    quantityTv.setText(String.valueOf(quantity) + " x " + award.getName());
-//
-//                                                    ImageView awardImageView = (ImageView) contentView.findViewById(R.id.awardImage);
-//                                                    Picasso.with(mParentActivity).load(award.getImage()).placeholder(R.drawable.ic_award).into(awardImageView);
-//
-//                                                    builder.setTitle("Buy award successfully")
-//                                                            .setView(contentView)
-//                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                                                @Override
-//                                                                public void onClick(DialogInterface dialog, int which) {
-//                                                                    // do nothing
-//                                                                }
-//                                                            })
-//                                                            .setNegativeButton("Go to My Awards", new DialogInterface.OnClickListener() {
-//                                                                @Override
-//                                                                public void onClick(DialogInterface dialog, int which) {
-//                                                                    Intent i = new Intent(mParentActivity, CardsListActivity.class);
-//                                                                    i.putExtra(Global.FRAGMENT_ID, Global.MY_AWARDS);
-//                                                                    mParentActivity.startActivity(i);
-//                                                                    mParentActivity.finish();
-//                                                                }
-//                                                            })
-//                                                            .show();
-//                                                    refresh();
-//                                                }
-//                                            });
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(final String error) {
-//                                            mParentActivity.runOnUiThread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
-//                                                }
-//                                            });
-//                                        }
-//                                    });
-                                }
-                            }
-                        });
-                        mDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        mDialogBuilder.show();
-                    }
-                });
-            }
         }
-
     }
 
     public void getListAwards() {
@@ -275,10 +168,10 @@ public class CardAwardsFragment extends Fragment {
                             card.listShops = listShops.get(i);
 
                             String shopListName = "";
-                            for(int j = 0; j<listShops.get(i).size();j++){
-                                if(j == (listShops.get(i).size() -1)){
+                            for (int j = 0; j < listShops.get(i).size(); j++) {
+                                if (j == (listShops.get(i).size() - 1)) {
                                     shopListName = shopListName + listShops.get(i).get(j).getName();
-                                }else {
+                                } else {
                                     shopListName = shopListName + listShops.get(i).get(j).getName() + ", ";
                                 }
                             }

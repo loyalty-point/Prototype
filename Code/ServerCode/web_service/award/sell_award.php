@@ -11,9 +11,10 @@ $token = $_POST['token'];
 $customer_username = $_POST['customer_username'];
 $clientTime = $_POST['time'];
 $shopID = $_POST['shop_id'];
-$awardID = $_POST['award_id'];
+$cardID = $_POST['card_id'];
+$award = $_POST['award'];
 $quantity = $_POST['quantity'];
-
+$award = json_decode($award);
 
 // Kiểm tra token
 if(strlen($token)!=64){
@@ -34,20 +35,6 @@ if($username == ""){
 $userFullName = $row['name'];
 
 // Tìm trong bảng award thỏa điều kiện
-// award.awardID == $awardID && award.shopID = $shopID
-$query = "select * from award where id='".$awardID."' and shopID = '" . $shopID . "'";
-$query_exec = mysqli_query($localhost, $query);
-$awardRow = mysqli_fetch_array($query_exec);
-$awardID = $awardRow['id'];
-
-if($awardID == "") {
-    echo '{"error":"this shop does not have this award"}';
-    die();
-}
-
-$awardName = $awardRow['name'];
-$awardImage = $awardRow['image'];
-$awardPoint = $awardRow['point'];
 
 
 // Lấy thông tin của shop
@@ -77,7 +64,7 @@ if($customer_username == "") {
 // Trừ điểm tích lũy của user trong bảng customer_shop
 $point = $quantity * $awardPoint;
 
-$query = "select * from customer_shop where username='".$customer_username."' and shop_id = '" . $shopID . "'";
+$query = "select * from customer_card where username='".$customer_username."' and card_id = '" . $cardID . "'";
 $query_exec = mysqli_query($localhost, $query);
 $folllowRow = mysqli_fetch_array($query_exec);
 $currentPoint = $folllowRow['point'];
@@ -86,30 +73,35 @@ $newPoint = $currentPoint - $point;
 if($folllowRow){
     if($newPoint >= 0){
         // update lại award quantity
-        $newQuantity = $awardRow['quantity'] - $quantity;
-        $query = "update award set quantity = '" . $newQuantity . "' where id = '" . $awardID . "'";
+        $newQuantity = $award->quantity - $quantity;
+        $query = "update award set quantity = '" . $newQuantity . "' where id = '" . $award->id . "'";
         $query_exec = mysqli_query($localhost, $query);
 
-        $query = "update customer_shop set point = '".$newPoint."' where username='".$customer_username."' and shop_id ='".$shopID."'";
+        $query = "update customer_card set point = '".$newPoint."' where username='".$customer_username."' and card_id ='".$cardID."'";
         $query_exec = mysqli_query($localhost, $query);
         $id = uniqid();
 
         $query = "insert into history values ('"
-                                .$id."','0','"
-                                .$customer_username."','"
-                                .$customer_fullname."','"
-                                .$customer['phone_number']."','"
-                                .$shopID."','"
-                                .$point."','"
-                                .$clientTime."','"
-                                .$awardImage."')";
+                            .$id."','0','"
+                            .$customer_username."','"
+                            .$customer_fullname."','"
+                            .$customer['phone_number']."','"
+                            .$point."','"
+                            .$clientTime."','"
+                            .$award->image."')";
         $query_exec = mysqli_query($localhost, $query);
         $query = "insert into buy_award_history values ('"
                                 .$id."','"
-                                .$shopID."','"
-                                .$awardID."','"
+                                .$award->id."','"
                                 .$quantity."')";
         $query_exec = mysqli_query($localhost, $query);
+        $query = "insert into history_card_shop values ('"
+                                .$id."','"
+                                .$cardID."','"
+                                .$shopID."')";
+        $query_exec = mysqli_query($localhost, $query);
+
+        
 
         echo '{"error":""}';
 
@@ -125,7 +117,7 @@ if($folllowRow){
 
             $regID = array($regID);
             $message = "trade successfully";
-            $message = array("message" => $message, "shopID" => $shopID, "historyID" => $id);
+            $message = array("type" => "shop", "message" => $message, "shopID" => $shopID, "historyID" => $id);
 
             $gcm = new GCM();
 

@@ -44,7 +44,7 @@ public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
         else if (position == 1)
             return new UserAwardFragment(position,this.userId, this.shopId, this.cardId);
         else
-            return new UserTicketsFragment(position, this.userId, this.shopId);
+            return new UserTicketsFragment(position, this.userId, this.shopId, this.cardId);
 
     }
 }

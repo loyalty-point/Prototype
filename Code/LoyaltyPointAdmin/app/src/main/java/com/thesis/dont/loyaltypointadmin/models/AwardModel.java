@@ -136,7 +136,8 @@ public class AwardModel {
 
     public static void sellAward(final String token, final String customer_username, final String time,
                                 final String shopId,
-                                final String awardID,
+                                final String cardId,
+                                final Award award,
                                 final int quantity,
                                 final OnSellAwardResult mOnSellAwardResult){
 
@@ -144,7 +145,7 @@ public class AwardModel {
             @Override
             public void run() {
                 super.run();
-
+                String award_json = Helper.objectToJson(award);
                 String link = getSellAward();
 
                 httpclient = new DefaultHttpClient();
@@ -156,7 +157,8 @@ public class AwardModel {
                 nameValuePairs.add(new BasicNameValuePair("customer_username", customer_username));
                 nameValuePairs.add(new BasicNameValuePair("time", time));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
-                nameValuePairs.add(new BasicNameValuePair("award_id", awardID));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+                nameValuePairs.add(new BasicNameValuePair("award", award_json));
                 nameValuePairs.add(new BasicNameValuePair("quantity", String.valueOf(quantity)));
 
                 try {
