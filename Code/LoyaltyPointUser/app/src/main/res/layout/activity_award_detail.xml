@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.UpdatePointDetailActivity">
+
+    <ImageView
+        android:id="@+id/awardImage"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp" />
+
+    <TextView
+        android:id="@+id/awardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_toRightOf="@id/awardImage"
+        android:textSize="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/awardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardName"
+        android:layout_toRightOf="@id/awardImage"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:textSize="@dimen/font_size"/>
+
+    <TextView
+        android:id="@+id/awardDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardNumber"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_toRightOf="@id/awardImage"
+        android:textSize="@dimen/font_size"/>
+
+    <TextView
+        android:id="@+id/awardDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardImage"
+        android:text="Applied Shop:"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/font_size"/>
+
+    <ListView
+        android:id="@+id/listShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardDetail"/>
+
+</RelativeLayout>
