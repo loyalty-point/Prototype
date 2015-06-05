@@ -116,5 +116,6 @@
     <string name="title_activity_card_create_award">CardCreateAwardActivity</string>
     <string name="title_activity_card_shop_list_apply_award">CardShopListApplyAwardActivity</string>
     <string name="title_activity_card_edit_award">CardEditAwardActivity</string>
+    <string name="createCardNote">You can change the position of <b>Card Name</b>, <b>Customer Name</b>, or <b>QR Code</b> to fit your style!</string>
 
 </resources>
