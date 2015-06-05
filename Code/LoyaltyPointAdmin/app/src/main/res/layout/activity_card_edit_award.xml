@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@color/AccentColor"
-            android:text="Confirm"
+            android:text="Next"
             materialdesign:rippleSpeed="70"
             android:textSize="@dimen/font_size"/>
 

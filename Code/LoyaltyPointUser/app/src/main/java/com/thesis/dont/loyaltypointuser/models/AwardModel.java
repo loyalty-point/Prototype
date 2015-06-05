@@ -113,19 +113,18 @@ public class AwardModel {
                     GetListAwards result = (GetListAwards) Helper.jsonToObject(response, GetListAwards.class);
                     if (result.error.equals("")) {
                         // chuyển từ result.listAwards (dạng json) sang ArrayList<Award>
-                        /*String[] datas = result.listAwards.split("&"); //slit data to json struture
-                        ArrayList<Award> listAwards = new ArrayList<Award>();
-
-                        for (int i = 0; i < datas.length; i++) {
-                            Award award = (Award) Helper.jsonToObject(datas[i], Award.class);
-                            listAwards.add(award); //add award object to array
-                        }*/
+                        ArrayList<ArrayList<Shop>> listShops = new ArrayList<ArrayList<Shop>>();
                         ArrayList<Award> listAwards = new ArrayList<Award>();
                         for (int i = 0; i < result.listAwards.length - 1; i++) {
                             listAwards.add(result.listAwards[i]);
+                            ArrayList<Shop> tmpList = new ArrayList<Shop>();
+                            for(int j = 0;j<result.listShops[i].length-1;j++){
+                                tmpList.add(result.listShops[i][j]);
+                            }
+                            listShops.add(tmpList);
                         }
 
-                        mOnGetListAwardsResult.onSuccess(listAwards);
+                        mOnGetListAwardsResult.onSuccess(listAwards, listShops);
                     } else
                         mOnGetListAwardsResult.onError(result.error);
 
@@ -216,7 +215,7 @@ public class AwardModel {
 
 
     public interface OnGetListAwardsResult {
-        public void onSuccess(ArrayList<Award> listAwards);
+        public void onSuccess(ArrayList<Award> listAwards, ArrayList<ArrayList<Shop>> listShops);
 
         public void onError(String error);
     }
@@ -235,6 +234,7 @@ public class AwardModel {
     public class GetListAwards {
         public String error;
         public Award[] listAwards;
+        public Shop[][] listShops;
     }
 
     public interface OnBuyAwardResult{

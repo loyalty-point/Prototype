@@ -25,6 +25,7 @@ import com.thesis.dont.loyaltypointuser.models.AwardModel;
 import com.thesis.dont.loyaltypointuser.models.Event;
 import com.thesis.dont.loyaltypointuser.models.EventModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class ShopEventsFragment extends Fragment {
         EventModel.getListEvents(Global.userToken, shopId, cardId, new EventModel.OnGetListResult() {
 
             @Override
-            public void onSuccess(final ArrayList<Event> listEvents) {
+            public void onSuccess(final ArrayList<Event> listEvents, final ArrayList<ArrayList<Shop>> listShops) {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -109,13 +110,14 @@ public class ShopEventsFragment extends Fragment {
                             card.eventPoint = String.valueOf(listEvents.get(i).getPoint()) + " points";
                             card.eventImg = listEvents.get(i).getImage();
                             card.event = listEvents.get(i);
+                            card.listShops = listShops.get(i);
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
                                     Event event = ((EventCard)mAdapter.getItem(position)).event;
                                     Intent i = new Intent(getActivity(), EventDetailActivity.class);
-                                    i.putExtra(EVENT_OBJECT, event);
-                                    i.putExtra(SHOP_ID, shopId);
+                                    i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
+                                    i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((EventCard) card).listShops);
                                     startActivity(i);
                                 }
                             });
@@ -145,6 +147,7 @@ public class ShopEventsFragment extends Fragment {
         protected TextView eventNameTv, eventDateTv, eventPointTv;
         protected ImageView eventImgIv;
         public Event event;
+        public ArrayList<Shop> listShops;
 
         protected String eventName, eventDate, eventPoint, eventImg;
 

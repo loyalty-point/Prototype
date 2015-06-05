@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ *******************************************************************************
+  ~   Copyright (c) 2013-2014 Gabriele Mariotti.
+  ~
+  ~   Licensed under the Apache License, Version 2.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~   Unless required by applicable law or agreed to in writing, software
+  ~   distributed under the License is distributed on an "AS IS" BASIS,
+  ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~   See the License for the specific language governing permissions and
+  ~   limitations under the License.
+  ~  *****************************************************************************
+  -->
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,52 +28,51 @@
 
     <ImageView
         android:id="@+id/awardImg"
-        android:layout_width="@dimen/_75sdp"
-        android:layout_height="@dimen/_75sdp"
+        android:layout_width="@dimen/_113sdp"
+        android:layout_height="@dimen/_113sdp"
         android:layout_marginLeft="@dimen/_7sdp"
-        android:layout_marginTop="@dimen/_7sdp"
-        android:layout_marginRight="@dimen/_7sdp"/>
+        android:layout_marginTop="@dimen/_7sdp" />
 
     <TextView
         android:id="@+id/awardShopName"
-        android:textColor="@color/DarkPrimaryColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/awardImg"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginRight="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:singleLine="true"
-        android:textSize="@dimen/font_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/awardImg" />
+        android:textColor="@color/DarkPrimaryColor"
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/awardName"
-        android:textColor="@color/DarkPrimaryColor"
-        android:layout_marginLeft="@dimen/_7sdp"
-        android:singleLine="true"
-        android:textSize="@dimen/font_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/awardShopName" />
+        android:layout_below="@id/awardShopName"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:singleLine="true"
+        android:textColor="@color/DarkPrimaryColor"
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/awardQuantity"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="@dimen/_7sdp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/awardName" />
+        android:layout_below="@id/awardName"
+        android:layout_marginLeft="@dimen/_7sdp" />
 
     <TextView
         android:id="@+id/awardPoint"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="@dimen/_7sdp"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/awardQuantity"
-        android:textStyle="bold"
-        android:textColor="@color/AccentColor"
-        android:layout_marginRight="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_alignParentRight="true"/>
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:textColor="@color/AccentColor" />
 
     <com.gc.materialdesign.views.ButtonRectangle
         android:id="@+id/buyBtn"
@@ -62,9 +80,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/awardPoint"
         android:background="@color/MaterialGreen"
-        materialdesign:rippleSpeed="70"
         android:text="BUY"
-        android:textSize="@dimen/_15sdp"/>
+        android:textSize="@dimen/_15sdp"
+        materialdesign:rippleSpeed="70" />
 
 
 </RelativeLayout>
+

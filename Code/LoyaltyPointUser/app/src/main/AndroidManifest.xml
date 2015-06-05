@@ -128,6 +128,10 @@
             android:name=".controllers.CardDetailActivity"
             android:label="@string/title_activity_card_detail" >
         </activity>
+        <activity
+            android:name=".controllers.AwardDetailActivity"
+            android:label="@string/title_activity_award_detail" >
+        </activity>
     </application>
 
 </manifest>

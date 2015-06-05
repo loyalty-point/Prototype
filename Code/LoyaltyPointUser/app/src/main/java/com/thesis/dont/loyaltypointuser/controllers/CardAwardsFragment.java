@@ -27,6 +27,7 @@ import com.thesis.dont.loyaltypointuser.models.Award;
 import com.thesis.dont.loyaltypointuser.models.AwardModel;
 import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.Shop;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -108,6 +109,7 @@ public class CardAwardsFragment extends Fragment {
         protected TextView awardNameTv, awardQuantityTv, awardPointTv, awardShopNameTv;
         protected ImageView awardImgIv;
         protected Award award;
+        protected ArrayList<Shop> listShops;
         protected ButtonRectangle buyBtn;
 
         protected String awardName, awardQuantity, awardPoint, awardImg, awardShopName;
@@ -253,7 +255,7 @@ public class CardAwardsFragment extends Fragment {
     public void getListAwards() {
         CardModel.getListAwards(Global.userToken, mCard.getId(), new CardModel.OnGetListAwardsResult() {
             @Override
-            public void onSuccess(final ArrayList<Award> listAwards) {
+            public void onSuccess(final ArrayList<Award> listAwards, final ArrayList<ArrayList<Shop>> listShops) {
                 // Get listAwards thành công
                 // Cập nhật dữ liệu lên mAdapter
                 CardAwardsFragment.this.getActivity().runOnUiThread(new Runnable() {
@@ -269,8 +271,28 @@ public class CardAwardsFragment extends Fragment {
                             card.awardQuantity = "Quantity: " + String.valueOf(listAwards.get(i).getQuantity());
                             card.awardPoint = String.valueOf(listAwards.get(i).getPoint()) + " points";
                             card.awardImg = listAwards.get(i).getImage();
-                            card.awardShopName = listAwards.get(i).getShopName();
                             card.award = listAwards.get(i);
+                            card.listShops = listShops.get(i);
+
+                            String shopListName = "";
+                            for(int j = 0; j<listShops.get(i).size();j++){
+                                if(j == (listShops.get(i).size() -1)){
+                                    shopListName = shopListName + listShops.get(i).get(j).getName();
+                                }else {
+                                    shopListName = shopListName + listShops.get(i).get(j).getName() + ", ";
+                                }
+                            }
+                            card.awardShopName = shopListName;
+
+                            card.setOnClickListener(new Card.OnCardClickListener() {
+                                @Override
+                                public void onClick(Card card, View view) {
+                                    Intent i = new Intent(getActivity(), AwardDetailActivity.class);
+                                    i.putExtra(Global.AWARD_OBJECT, ((AwardCard) card).award);
+                                    i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((AwardCard) card).listShops);
+                                    startActivity(i);
+                                }
+                            });
 
                             mAdapter.add(card);
                         }

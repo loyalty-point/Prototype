@@ -19,6 +19,9 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Award;
 import com.thesis.dont.loyaltypointadmin.models.AwardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
+import com.thesis.dont.loyaltypointadmin.models.Shop;
+
+import java.util.ArrayList;
 
 public class CardEditAwardActivity extends ActionBarActivity {
 
@@ -33,18 +36,21 @@ public class CardEditAwardActivity extends ActionBarActivity {
     Award mOldAward;
 
     static Picasso mPicasso;
-
+    private String cardId;
     boolean isChangeAwardImage = false;
+    ArrayList<Shop> listShop = new ArrayList<Shop>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_award);
+        setContentView(R.layout.activity_card_edit_award);
 
         mPicasso = Picasso.with(this);
 
         Intent i = getIntent();
         mOldAward = (Award) i.getParcelableExtra(ShopAwardsFragment.AWARD_OBJECT);
+        listShop = i.getParcelableArrayListExtra(Global.SHOP_LIST_OBJECT);
+        cardId = i.getStringExtra(Global.CARD_ID);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -108,75 +114,16 @@ public class CardEditAwardActivity extends ActionBarActivity {
 
                 // Edit award
                 Award award = new Award(mOldAward.getID(), awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, mOldAward.getShopID());
-                AwardModel.editAward(Global.userToken, award, new AwardModel.OnEditAwardResult() {
-                    @Override
-                    public void onSuccess(final AwardModel.EditAwardResult result) {
-                        // S?a award thành công
-
-                        // N?u ng??i dùng không thay ??i ?nh thì không upload lên server
-                        if (!isChangeAwardImage) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mDialog.dismiss();
-                                }
-                            });
-                            finish();
-                            return;
-                        }
-
-                        // Upload ?nh c?a award lên server
-                        GCSHelper.uploadImage(CardEditAwardActivity.this, result.bucketName, result.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
-                            @Override
-                            public void onComplete() {
-                                isChangeAwardImage = false;
-
-                                // dismiss Progress Dialog
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                    }
-                                });
-
-                                // clear cache on shopLogo
-                                String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
-                                mPicasso.invalidate(imageLink);
-
-                                /*Intent i = new Intent(EditAwardActivity.this, ShopDetailActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);*/
-                                finish();
-                            }
-
-                            @Override
-                            public void onError(final String error) {
-                                isChangeAwardImage = false;
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mDialog.dismiss();
-                                        Toast.makeText(CardEditAwardActivity.this, error, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(final String error) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // s?a award không thành công
-                                mDialog.dismiss();
-                                Toast.makeText(CardEditAwardActivity.this, error, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                });
-
+                Intent i = new Intent(CardEditAwardActivity.this, CardShopListApplyAwardActivity.class);
+                i.putExtra(Global.AWARD_OBJECT, award);
+                i.putExtra(Global.CARD_ID, cardId);
+                i.putParcelableArrayListExtra(Global.SHOP_LIST_OBJECT, listShop);
+                i.putExtra(Global.AWARD_LIST_TYPE, Global.CARD_EDIT_AWARD_LIST);
+                Global.tempActivity = CardEditAwardActivity.this;
+                if(isChangeAwardImage){
+                    Global.tempBitmap = awardLogo;
+                }
+                startActivity(i);
             }
         });
 

@@ -84,7 +84,7 @@ public class AwardModel {
         t.start();
     }
 
-    public static void editAward(final String token, final Award award,
+    public static void editAward(final String token, final String shopId, final String cardId, final Award award,
                                    final OnEditAwardResult mOnEditAwardResult){
 
         Thread t = new Thread() {
@@ -103,6 +103,8 @@ public class AwardModel {
 
                 nameValuePairs.add(new BasicNameValuePair("award", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

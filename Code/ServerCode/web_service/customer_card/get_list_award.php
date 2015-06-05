@@ -27,39 +27,37 @@ if($username == ""){
 }
 /**/
 
-/* check exist card id in "card_shop" table*/
-$query = "select * from card_shop where card_id='".$cardID."'";
+/* check exist card id in "admin_card" table*/
 
-$query_exec = mysqli_query($localhost, $query);
-$rows = mysqli_num_rows($query_exec);
-
-$result = '{"error":"", "listAwards":[';
-while($row1 = mysqli_fetch_array($query_exec)){
-    // mọi thông tin cung cấp đều đúng
-    // lấy danh sách awards rồi trả về cho người dùng
-    $query = "select * from shop where id = '" . $row1['shop_id'] . "'";
-    $query_exec1 = mysqli_query($localhost, $query);
-    $row = mysqli_fetch_array($query_exec1);
-    $shopname = $row['name'];
-
-    $query = "select * from award where id in (select award_id from award_card_shop where shop_id = '".$row1['shop_id']."' and card_id = '".$cardID."')";
-    
-    $query_exec2 = mysqli_query($localhost, $query);   
-
-    while($row = mysqli_fetch_array($query_exec2)){
-            $result = $result . '{' 
-                    . '"shopName":"' . $shopname . '",'
-                    . '"id":"' . $row['id'] . '",'
-                    . '"name":"' . $row['name'] . '",'
-                    . '"point":"' . $row['point'] . '",'
-                    . '"quantity":"' . $row['quantity'] . '",'
-                    . '"description":"' . $row['description'] . '",'
-                    . '"image":"' . $row['image'] . '",'
-                    . '"shopID":"' . $row['shopID'] . '"},';
+$query = "select * from award where id in (select distinct award_id from award_card_shop where card_id = '".$cardID."')";
+$query_exec2 = mysqli_query($localhost, $query);   
+$listAwards = "";
+$listShops = "";
+while($row = mysqli_fetch_array($query_exec2)){
+    $query = "select * from shop where id in (select shop_id from award_card_shop where card_id = '".$cardID."' and award_id = '".$row['id']."')";
+    $query_exec = mysqli_query($localhost, $query);   
+    $listShops = $listShops . "[";
+    while($row1 = mysqli_fetch_array($query_exec)){
+        $listShops = $listShops . '{' 
+                . '"id":"' . $row1['id'] . '",'
+                . '"name":"' . $row1['name'] . '",'
+                . '"address":"' . $row1['address'] . '",'
+                . '"phone_number":"' . $row1['phone_number'] . '",'
+                . '"category":"' . $row1['category'] . '",'
+                . '"exchange_ratio":"' . $row1['exchange_ratio'] . '",'
+                . '"image":"' . $row1['image'] . '",'
+                . '"cardImg":"' . $row1['background'] . '"},';
     }
+    $listShops = $listShops . "],";
+    $listAwards = $listAwards . '{' 
+                . '"id":"' . $row['id'] . '",'
+                . '"name":"' . $row['name'] . '",'
+                . '"point":"' . $row['point'] . '",'
+                . '"quantity":"' . $row['quantity'] . '",'
+                . '"description":"' . $row['description'] . '",'
+                . '"image":"' . $row['image'] .'"},';
 }
-$result = $result . ']}';
-echo $result;
+echo '{"error":"", "listAwards":['.$listAwards.'], "listShops":['.$listShops.']}';
 
 mysqli_close($localhost);
 ?>

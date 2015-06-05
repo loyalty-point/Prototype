@@ -15,6 +15,7 @@ public class Global {
     public static String userToken = "";
     public static String regID = null;
 
+    public static String AWARD_OBJECT = "award_object";
     public static String SHOP_OBJECT = "shop_object";
     public static String SHOP_ARRAY_OBJECT = "shop_array_object";
     public static String HISTORY_OBJECT = "shop_object";

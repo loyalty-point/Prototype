@@ -164,56 +164,56 @@ public class CardShopListApplyAwardActivity extends ActionBarActivity {
                     }
                 }
                 if (type == Global.CARD_EDIT_AWARD_LIST) {
-//                    mDialog.setTitle("Updating event");
-//                    mDialog.show();
-//                    CardModel.editEvent(mEvent, listShopsId, cardId, new CardModel.OnAddEventResult() {
-//                        @Override
-//                        public void onSuccess(final CardModel.CreateEventResult createEventResult) {
-//                            if(eventLogo != null) {
-//                                GCSHelper.uploadImage(CardShopListApplyAwardActivity.this, createEventResult.bucketName, createEventResult.fileName, eventLogo, new GCSHelper.OnUploadImageResult() {
-//                                    @Override
-//                                    public void onComplete() {
-//
-//                                        // dismiss Progress Dialog
-//                                        runOnUiThread(new Runnable() {
-//                                            @Override
-//                                            public void run() {
-//                                                mDialog.dismiss();
-//                                            }
-//                                        });
-//                                        String imageLink = "http://storage.googleapis.com/" + createEventResult.bucketName + "/" + createEventResult.fileName;
-//                                        mPicaso.invalidate(imageLink);
-//                                        Global.tempActivity.finish();
-//                                        finish();
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(final String error) {
-//                                        runOnUiThread(new Runnable() {
-//                                            @Override
-//                                            public void run() {
-//                                                mDialog.dismiss();
-//                                                Toast.makeText(CardShopListApplyAwardActivity.this, error, Toast.LENGTH_LONG).show();
-//                                            }
-//                                        });
-//                                    }
-//                                });
-//                            }else{
-//                                Global.tempActivity.finish();
-//                                finish();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(final String error) {
-//                            runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    Toast.makeText(CardShopListApplyAwardActivity.this, error, Toast.LENGTH_LONG);
-//                                }
-//                            });
-//                        }
-//                    });
+                    mDialog.setTitle("Updating event");
+                    mDialog.show();
+                    CardModel.editAward(mAward, listShopsId, cardId, new CardModel.OnAddAwardResult() {
+                        @Override
+                        public void onSuccess(final CardModel.CreateAwardResult createAwardResult) {
+                            if(awardLogo != null) {
+                                GCSHelper.uploadImage(CardShopListApplyAwardActivity.this, createAwardResult.bucketName, createAwardResult.fileName, awardLogo, new GCSHelper.OnUploadImageResult() {
+                                    @Override
+                                    public void onComplete() {
+
+                                        // dismiss Progress Dialog
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                            }
+                                        });
+                                        String imageLink = "http://storage.googleapis.com/" + createAwardResult.bucketName + "/" + createAwardResult.fileName;
+                                        mPicaso.invalidate(imageLink);
+                                        Global.tempActivity.finish();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onError(final String error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mDialog.dismiss();
+                                                Toast.makeText(CardShopListApplyAwardActivity.this, error, Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }else{
+                                Global.tempActivity.finish();
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onError(final String error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(CardShopListApplyAwardActivity.this, error, Toast.LENGTH_LONG);
+                                }
+                            });
+                        }
+                    });
                 }else if(type == Global.CARD_CREATE_AWARD_LIST){
                     mDialog.setTitle("Creating award");
                     mDialog.show();

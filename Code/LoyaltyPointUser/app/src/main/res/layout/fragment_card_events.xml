@@ -19,13 +19,13 @@
     <it.gmariotti.cardslib.library.view.CardGridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="@dimen/_75sdp"
+        android:columnWidth="@dimen/_100sdp"
         android:numColumns="auto_fit"
-        android:verticalSpacing="@dimen/_2sdp"
-        android:stretchMode="columnWidth"
+        android:paddingTop="@dimen/_7sdp"
         android:paddingLeft="@dimen/_5sdp"
         android:paddingRight="@dimen/_5sdp"
-        android:paddingTop="@dimen/_7sdp"
+        android:horizontalSpacing="2dp"
+        android:stretchMode="columnWidth"
         android:gravity="center"
         android:id="@+id/listEvents"/>
 

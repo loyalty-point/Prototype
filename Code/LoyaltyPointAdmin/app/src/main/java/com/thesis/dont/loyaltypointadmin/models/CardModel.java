@@ -548,6 +548,54 @@ public class CardModel {
         t.start();
     }
 
+    public static void editAward(Award award, final ArrayList<String> shopsId, final String cardId, final OnAddAwardResult onAddAwardResult){
+        final String json = Helper.objectToJson(award);
+        final String list_shops_id = Helper.objectToJson(shopsId);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getEditAward();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("shops_id", list_shops_id));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+                nameValuePairs.add(new BasicNameValuePair("award", json));
+                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    /*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*/
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    CreateAwardResult createAwardResult = (CreateAwardResult)Helper.jsonToObject(response, CreateAwardResult.class);
+
+                    if(createAwardResult.error.equals(""))
+                        onAddAwardResult.onSuccess(createAwardResult);
+                    else
+                        onAddAwardResult.onError(createAwardResult.error);
+                } catch (UnsupportedEncodingException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    onAddAwardResult.onError(e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnAddAwardResult{
         public void onSuccess(CreateAwardResult createAwardResult);
 

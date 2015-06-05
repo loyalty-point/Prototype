@@ -111,11 +111,17 @@ public class EventModel {
 
                     GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
                     if(result.error.equals("")) {
-                        ArrayList<Event> listEvents = new ArrayList<Event>();
-                        for(int i=0; i<result.listEvents.length-1; i++) {
-                            listEvents.add(result.listEvents[i]);
-                        }
-                        onGetListResult.onSuccess(listEvents);
+                            ArrayList<ArrayList<Shop>> listShops = new ArrayList<ArrayList<Shop>>();
+                            ArrayList<Event> listEvents = new ArrayList<Event>();
+                            for(int i=0; i<result.listEvents.length-1; i++) {
+                                listEvents.add(result.listEvents[i]);
+                                ArrayList<Shop> tmpList = new ArrayList<Shop>();
+                                for(int j = 0;j<result.listShops[i].length-1;j++){
+                                    tmpList.add(result.listShops[i][j]);
+                                }
+                                listShops.add(tmpList);
+                            }
+                        onGetListResult.onSuccess(listEvents, listShops);
                     }
                     else
                         onGetListResult.onError(result.error);
@@ -191,7 +197,7 @@ public class EventModel {
     }
 
     public interface OnGetListResult{
-        public void onSuccess(ArrayList<Event> listEvents);
+        public void onSuccess(ArrayList<Event> listEvents, ArrayList<ArrayList<Shop>> listShops);
 
         public void onError(String error);
     }
@@ -210,6 +216,7 @@ public class EventModel {
     public class GetListEvents {
         public String error;
         public Event[] listEvents;
+        public Shop[][] listShops;
     }
 
     public class EditEventResult{

@@ -174,6 +174,8 @@ public class ShopAwardsFragment extends Fragment {
                                     Intent i = new Intent(getActivity(), EditAwardActivity.class);
                                     //i.putExtra(SHOP_ID, shopID);
                                     i.putExtra(AWARD_OBJECT, ((AwardCard)card).award);
+                                    i.putExtra(Global.CARD_ID, cardID);
+                                    i.putExtra(Global.SHOP_ID, shopID);
                                     startActivity(i);
                                 }
                             });
