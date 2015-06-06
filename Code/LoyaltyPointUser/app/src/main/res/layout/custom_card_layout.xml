@@ -24,8 +24,9 @@
         android:layout_alignLeft="@id/cardImage"
         android:layout_marginLeft="@dimen/_10sdp"
         android:text="CARD NAME"
-        android:textColor="@color/MaterialRed"
-        android:textStyle="bold"/>
+        android:textColor="@color/DarkPrimaryColor"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
 
     <TextView
         android:id="@+id/customerName"
@@ -36,8 +37,9 @@
         android:layout_alignLeft="@id/cardImage"
         android:layout_marginLeft="@dimen/_10sdp"
         android:text="CUSTOMER NAME"
-        android:textColor="@color/MaterialRed"
-        android:textStyle="bold"/>
+        android:textColor="@color/DarkPrimaryColor"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15sdp"/>
 
 
     <com.github.siyamed.shapeimageview.RoundedImageView

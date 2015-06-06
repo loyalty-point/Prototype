@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,10 @@ public class CustomCard extends RelativeLayout {
         mCardName = (TextView) findViewById(R.id.cardName);
         mUserName = (TextView) findViewById(R.id.customerName);
         mQRCode = (TextView) findViewById(R.id.qrCode);
+
+        Typeface influenceFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/influence.ttf");
+        mCardName.setTypeface(influenceFont);
+        mUserName.setTypeface(influenceFont);
 
         setupDragHandle();
     }

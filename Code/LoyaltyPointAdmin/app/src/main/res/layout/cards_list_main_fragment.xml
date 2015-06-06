@@ -18,26 +18,13 @@
         materialdesign:rippleSpeed="70"
         android:textSize="@dimen/font_size"/>
 
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/custom_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:ci_width="10dp"
-        app:ci_height="4dp"
-        app:ci_margin="6dp"
-        app:ci_animator="@animator/indicator_animator"
-        app:ci_animator_reverse="@animator/indicator_animator_reverse"
-        app:ci_drawable="@drawable/black_radius_square"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/createShopBtn"/>
-
     <com.bartoszlipinski.flippablestackview.FlippableStackView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listCardsPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding"
-        android:layout_above="@+id/custom_indicator"/>
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/createShopBtn" />
 
 </RelativeLayout>

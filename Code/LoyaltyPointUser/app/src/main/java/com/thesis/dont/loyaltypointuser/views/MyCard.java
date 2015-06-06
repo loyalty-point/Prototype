@@ -65,17 +65,6 @@ public class MyCard extends it.gmariotti.cardslib.library.internal.Card {
     }
 
     private void init(){
-
-        //No Header
-
-        //Set a OnClickListener listener
-        /*setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                Toast.makeText(getContext(), "Click Listener card=", Toast.LENGTH_LONG).show();
-            }
-        });*/
-
         customFont1 = Typeface.createFromAsset(mContext.getAssets(), "fonts/orange_juice.ttf");
     }
 
