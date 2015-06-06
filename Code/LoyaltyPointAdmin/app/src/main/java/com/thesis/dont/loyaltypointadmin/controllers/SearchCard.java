@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class SearchCard extends ActionBarActivity {
     private static final String CARD_NAME = "card_name";
     public static final String CARD_IMG = "card_image";
 
-    private ArrayList<Card> listCard;
+    private ArrayList<CardCheckList> listCard = new ArrayList<CardCheckList>();
     ListView listCards;
     private CardsListAdapter mAdapter;
     MatrixCursor cursor;
@@ -124,7 +125,7 @@ public class SearchCard extends ActionBarActivity {
                             finish();
                         }
                     });
-                    ShopModel.createShop(shop, listCard.get(chosenCardPosition).getId(), Global.userToken);
+                    ShopModel.createShop(shop, listCard.get(chosenCardPosition).getCard().getId(), Global.userToken);
                 }
             }
         });
@@ -155,14 +156,23 @@ public class SearchCard extends ActionBarActivity {
         listCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(chosenCardPosition != -1) {
-                    int firstPosition = listCards.getFirstVisiblePosition() - listCards.getHeaderViewsCount();
-                    View v = listCards.getChildAt(chosenCardPosition - firstPosition);
-                    v.setBackgroundColor(Color.WHITE);
-                }
-                chosenCardPosition = position;
-                view.setBackgroundColor(Color.GRAY);
+                //new checkbox
+                View v = getViewByPosition(position, listCards);
 
+                CheckBox checkBox = (CheckBox) ((ViewGroup)v).getChildAt(0);//get checkbox view
+                checkBox.setChecked(!checkBox.isChecked());
+                listCard.get(position).setSelected(checkBox.isChecked());
+
+                //old checkbox
+                if(chosenCardPosition!= -1) {
+                    v = getViewByPosition(chosenCardPosition, listCards);
+
+                    checkBox = (CheckBox) ((ViewGroup) v).getChildAt(0);//get checkbox view
+                    checkBox.setChecked(!checkBox.isChecked());
+                    listCard.get(chosenCardPosition).setSelected(checkBox.isChecked());
+                }
+
+                chosenCardPosition = position;
             }
         });
         //getListUsers();
@@ -179,7 +189,11 @@ public class SearchCard extends ActionBarActivity {
         CardModel.getListCards(Global.userToken, new CardModel.OnGetListResult() {
             @Override
             public void onSuccess(ArrayList<Card> listCards) {
-                listCard = listCards;
+                listCard.clear();
+                for (int i = 0; i < listCards.size(); i++) {
+                    CardCheckList card = new CardCheckList(listCards.get(i), false);
+                    listCard.add(card);
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -203,8 +217,8 @@ public class SearchCard extends ActionBarActivity {
     private void populateAdapter(String query) {
         cursor = new MatrixCursor(new String[]{BaseColumns._ID, CARD_NAME, CARD_IMG});
         for (int i = 0; i < listCard.size(); i++) {
-            if (listCard.get(i).getName().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listCard.get(i).getName(), listCard.get(i).getImage()});
+            if (listCard.get(i).getCard().getName().toLowerCase().startsWith(query.toLowerCase()))
+                cursor.addRow(new Object[]{i, listCard.get(i).getCard().getName(), listCard.get(i).getCard().getImage()});
         }
         mAdapter.changeCursor(cursor);
 
@@ -231,9 +245,33 @@ public class SearchCard extends ActionBarActivity {
         public void bindView(View view, final Context context, final Cursor cursor) {
             String cardname = cursor.getString(cursor.getColumnIndex(CARD_NAME));
             String image = cursor.getString(cursor.getColumnIndex(CARD_IMG));
+            final int position = cursor.getPosition();
 
             TextView cardName = (TextView) view.findViewById(R.id.cardName);
             ImageView cardImg = (ImageView) view.findViewById(R.id.cardImg);
+
+            final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+
+            checkBox.setChecked(listCard.get(position).isSelected());
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    //new checkbox
+                    listCard.get(position).setSelected(checkBox.isChecked());
+
+                    //old checkbox
+                    if(chosenCardPosition!= -1) {
+                        v = getViewByPosition(chosenCardPosition, listCards);
+
+                        CheckBox checkBox = (CheckBox) ((ViewGroup) v).getChildAt(0);//get checkbox view
+                        checkBox.setChecked(!checkBox.isChecked());
+                        listCard.get(chosenCardPosition).setSelected(checkBox.isChecked());
+                    }
+
+                    chosenCardPosition = position;
+                }
+            });
+
+
 
             cardName.setText(cardname);
 
@@ -242,6 +280,45 @@ public class SearchCard extends ActionBarActivity {
 
             mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(cardImg);
 
+        }
+    }
+
+    public class CardCheckList {
+
+        private Card card;
+        private boolean selected = false;
+
+        public CardCheckList(Card card, boolean isSelected) {
+            this.setSelected(isSelected);
+            this.setCard(card);
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+
+        public Card getCard() {
+            return card;
+        }
+
+        public void setCard(Card card) {
+            this.card = card;
+        }
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
         }
     }
 
