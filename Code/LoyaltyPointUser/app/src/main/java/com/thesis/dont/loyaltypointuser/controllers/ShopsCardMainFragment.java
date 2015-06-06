@@ -31,7 +31,6 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 
 import java.util.ArrayList;
 
-import me.relex.circleindicator.CircleIndicator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +48,6 @@ public class ShopsCardMainFragment extends Fragment {
 
     private FlippableStackView mPager;
     private ListCardsPagerAdapter mPagerAdapter;
-    //private CircleIndicator mIndicator;
 
     ArrayList<Card> mListCards;
 
@@ -113,47 +111,6 @@ public class ShopsCardMainFragment extends Fragment {
                 });
             }
         });
-//        ShopModel.getFollowedShop(Global.userToken, new ShopModel.OnSelectAllShopResult() {
-//            @Override
-//            public void onSuccess(final ArrayList<Shop> listShops) {
-//
-//                // Get user info
-//                UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
-//                    @Override
-//                    public void onSuccess(User user) {
-//                        mPagerAdapter.setUser(user);
-//
-//                        mListCards = new ArrayList<Shop>();
-//                        for (Shop shop : listShops) {
-//                            if (shop.isAccepted() == 1)
-//                                mListCards.add(shop);
-//                        }
-//                        populateList(mListCards);
-//                    }
-//
-//                    @Override
-//                    public void onError(final String e) {
-//                        mParentActivity.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(mParentActivity, e, Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onError(final String error) {
-//                mParentActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mDialog.dismiss();
-//                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG);
-//                    }
-//                });
-//            }
-//        });
     }
 
     @Override
@@ -251,13 +208,6 @@ public class ShopsCardMainFragment extends Fragment {
                 mDialog.dismiss();
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //setListData();
     }
 
 }

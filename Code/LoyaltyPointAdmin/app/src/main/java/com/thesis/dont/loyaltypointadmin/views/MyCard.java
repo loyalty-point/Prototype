@@ -42,16 +42,6 @@ public class MyCard extends Card {
     }
 
     private void init(){
-
-        //No Header
-
-        //Set a OnClickListener listener
-        /*setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                Toast.makeText(getContext(), "Click Listener card=", Toast.LENGTH_LONG).show();
-            }
-        });*/
     }
 
     @Override

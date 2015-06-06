@@ -189,7 +189,8 @@ public class GcmIntentService extends IntentService {
                         .setContentText(mCard.getName() + " has accepted your register request");
 
                 Intent i = new Intent(this, CardDetailActivity.class);
-                i.putExtra(Global.CARD_ID, mCard.getId());
+                //i.putExtra(Global.CARD_ID, mCard.getId());
+                i.putExtra(Global.CARD_OBJECT, mCard);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);

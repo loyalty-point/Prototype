@@ -86,6 +86,10 @@ public class SearchCard extends ActionBarActivity {
                                         if(!Global.tempActivity.equals(null)){
                                             Global.tempActivity.finish();
                                         }
+
+                                        Intent i = new Intent(SearchCard.this, CardsListActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(i);
                                         finish();
                                     }
 
@@ -105,6 +109,9 @@ public class SearchCard extends ActionBarActivity {
                                 if(!Global.tempActivity.equals(null)){
                                     Global.tempActivity.finish();
                                 }
+                                Intent i = new Intent(SearchCard.this, CardsListActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
                                 finish();
                             }
                         }
@@ -122,6 +129,9 @@ public class SearchCard extends ActionBarActivity {
                             if(!Global.tempActivity.equals(null)){
                                 Global.tempActivity.finish();
                             }
+                            Intent i = new Intent(SearchCard.this, CardsListActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
                             finish();
                         }
                     });

@@ -47,12 +47,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
+        <Button
+            android:id="@+id/colorPicker"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/ic_palette"
+            android:layout_alignBottom="@+id/cardNameFloat"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/cardNameFloat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toLeftOf="@id/colorPicker"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
@@ -87,8 +97,7 @@
             android:layout_below="@+id/cardNameFloat"
             android:layout_marginTop="@dimen/_10sdp"
             app:siRadius="@dimen/_1sdp"
-            app:siBorderWidth="@dimen/_3sdp"
-            app:siBorderColor="@color/MaterialGrey"/>
+            app:siBorderWidth="@dimen/_3sdp"/>
 
 
     </RelativeLayout>

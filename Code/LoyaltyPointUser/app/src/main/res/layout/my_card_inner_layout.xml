@@ -9,7 +9,7 @@
 
     <!-- Use same ID to use built-in features -->
 
-    <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+    <!--<app.mosn.zdepthshadowlayout.ZDepthShadowLayout
         android:id="@+id/cardImgLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,13 +27,21 @@
             app:siBorderWidth="@dimen/_1sdp"
             app:siBorderColor="@color/MaterialGrey"/>
 
-    </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+    </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>-->
+
+    <com.thesis.dont.loyaltypointuser.views.CustomCard
+        android:id="@+id/customCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:siRadius="@dimen/_1sdp"
+        app:siBorderWidth="@dimen/_3sdp"
+        app:siBorderColor="@color/MaterialGrey"/>
 
     <TextView
         android:id="@+id/point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cardImgLayout"
+        android:layout_below="@id/customCard"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/big_font_size"
         android:textStyle="bold"

@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,19 +21,38 @@ import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.views.CustomCard;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class CreateCardActivity extends ActionBarActivity {
 
     CustomCard mCustomCard;
     Bitmap cardBackgroud = null;
     EditText cardName;
-    ProgressDialog mDialog;
+    ProgressDialog mDialog, mCreatingDialog;
     ButtonRectangle cancelBtn, createBtn;
+    Button mColorPickerBtn;
     static Picasso mPicasso;
+    AmbilWarnaDialog mColorPickerDialog;
+    int mColor = R.color.MaterialRed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_card);
+
+        mColorPickerDialog = new AmbilWarnaDialog(this, R.color.MaterialRed, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog ambilWarnaDialog) {
+                // do nothing
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog ambilWarnaDialog, int color) {
+                mColor = color;
+                mCustomCard.getCardName().setTextColor(mColor);
+                mCustomCard.getUserName().setTextColor(mColor);
+            }
+        });
 
         mPicasso = Picasso.with(this);
         mDialog = new ProgressDialog(this);
@@ -40,8 +60,20 @@ public class CreateCardActivity extends ActionBarActivity {
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
 
+        mCreatingDialog = new ProgressDialog(this);
+        mCreatingDialog.setTitle("Creating Card");
+        mCreatingDialog.setMessage("Please wait...");
+        mCreatingDialog.setCancelable(false);
+
         mCustomCard = (CustomCard) findViewById(R.id.cardBackground);
         cardName = (EditText) findViewById(R.id.cardName);
+        mColorPickerBtn = (Button) findViewById(R.id.colorPicker);
+        mColorPickerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mColorPickerDialog.show();
+            }
+        });
         cancelBtn = (ButtonRectangle) findViewById(R.id.cancelBtn);
         createBtn = (ButtonRectangle) findViewById(R.id.confirmBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,17 +91,24 @@ public class CreateCardActivity extends ActionBarActivity {
                 } else {
                     if(mCustomCard.getCardBackground().getDrawable()!= null)
                         cardBackgroud = ((BitmapDrawable) mCustomCard.getCardBackground().getDrawable()).getBitmap();
-                    Card card = new Card(cardName.getText().toString(), "");
+
+                    Card card = new Card(cardName.getText().toString(), "", mCustomCard.getCardNameX(), mCustomCard.getCardNameY(),
+                            mCustomCard.getUserNameX(), mCustomCard.getUserNameY(),
+                            mCustomCard.getQRCodeX(), mCustomCard.getQRCodeY(),
+                            mColor);
+
+                    mCreatingDialog.show();
                     CardModel.createCard(Global.userToken, card, new CardModel.OnCreateCardResult() {
                         @Override
                         public void onSuccess(final CardModel.CreateCardResult result) {
                             //update anh background card
-                            if(!cardBackgroud.equals(null)) {
+                            if(cardBackgroud != null) {
                                 GCSHelper.uploadImage(CreateCardActivity.this, result.bucketName, result.fileName, cardBackgroud, new GCSHelper.OnUploadImageResult() {
                                     @Override
                                     public void onComplete() {
                                         String imageLink = "http://storage.googleapis.com/" + result.bucketName + "/" + result.fileName;
                                         mPicasso.invalidate(imageLink);
+                                        mCreatingDialog.dismiss();
                                         finish();
                                     }
 
@@ -78,11 +117,15 @@ public class CreateCardActivity extends ActionBarActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                mCreatingDialog.dismiss();
                                                 Toast.makeText(CreateCardActivity.this, error, Toast.LENGTH_LONG).show();
                                             }
                                         });
                                     }
                                 });
+                            } else {
+                                mCreatingDialog.dismiss();
+                                finish();
                             }
                         }
 
@@ -91,6 +134,7 @@ public class CreateCardActivity extends ActionBarActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    mCreatingDialog.dismiss();
                                     Toast.makeText(CreateCardActivity.this, error, Toast.LENGTH_LONG).show();
                                 }
                             });
