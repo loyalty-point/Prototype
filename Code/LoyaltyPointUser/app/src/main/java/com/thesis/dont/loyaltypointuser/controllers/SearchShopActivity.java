@@ -24,7 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,7 +39,9 @@ import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.models.CardModel;
 import com.thesis.dont.loyaltypointuser.models.Global;
+import com.thesis.dont.loyaltypointuser.models.RequiredCustomerInfo;
 import com.thesis.dont.loyaltypointuser.models.Shop;
 import com.thesis.dont.loyaltypointuser.models.ShopModel;
 
@@ -55,6 +60,8 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     private CustomSimpleCursorAdapter mAdapter;
 
     MatrixCursor cursor;
+    String[] requiredInfoArray = new String[]{"Phone", "Email", "Full name", "Address", "Identity Number"};
+    RequiredCustomerInfo requiredCustomerInfo = new RequiredCustomerInfo(0, 0, 0, 0, 0);
 
     ProgressDialog mDialog;
 
@@ -62,7 +69,6 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shop);
 
         // init dialog
@@ -213,69 +219,142 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             followBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    CardModel.getRequiredCustomerInfo(Global.userToken, cardId, new CardModel.OnGetRequiredCustomerInfoResult() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case DialogInterface.BUTTON_POSITIVE: {
-                                    ShopModel.followShop(Global.userToken, cardId, 0, new ShopModel.OnFollowShopResult() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Log.e("result", "success");
-                                            for (int i = 0; i < listShop.size(); i++) {
-                                                if (listShop.get(i).getCardId().equals(cardId)) {
-                                                    listShop.remove(i);
-                                                    i--;
-                                                }
-                                            }
-                                            runOnUiThread(new Runnable() {
+                        public void onSuccess(RequiredCustomerInfo requiredCustomerInfo) {
+                            SearchShopActivity.this.requiredCustomerInfo = requiredCustomerInfo;
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case DialogInterface.BUTTON_POSITIVE: {
+                                            ShopModel.followShop(Global.userToken, cardId, 0, new ShopModel.OnFollowShopResult() {
                                                 @Override
-                                                public void run() {
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                                    builder.setTitle("Your request has been sent successfully")
-                                                            .setMessage("Please wait for the acceptance!")
-                                                            .setNegativeButton("My Pending Cards", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    Intent i = new Intent(SearchShopActivity.this, CardsListActivity.class);
-                                                                    i.putExtra(Global.FRAGMENT_ID, 1);
-                                                                    startActivity(i);
-                                                                    SearchShopActivity.this.finish();
-                                                                }
-                                                            })
-                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
+                                                public void onSuccess() {
+                                                    Log.e("result", "success");
+                                                    for (int i = 0; i < listShop.size(); i++) {
+                                                        if (listShop.get(i).getCardId().equals(cardId)) {
+                                                            listShop.remove(i);
+                                                            i--;
+                                                        }
+                                                    }
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                                            builder.setTitle("Your request has been sent successfully")
+                                                                    .setMessage("Please wait for the acceptance!")
+                                                                    .setNegativeButton("My Pending Cards", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            Intent i = new Intent(SearchShopActivity.this, CardsListActivity.class);
+                                                                            i.putExtra(Global.FRAGMENT_ID, 1);
+                                                                            startActivity(i);
+                                                                            SearchShopActivity.this.finish();
+                                                                        }
+                                                                    })
+                                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
 
-                                                                }
-                                                            }).show();
-                                                    populateAdapter("");
+                                                                        }
+                                                                    }).show();
+                                                            populateAdapter("");
+                                                        }
+                                                    });
+                                                    //SimpleDialogFragment.createBuilder(SearchShopActivity.this, getSupportFragmentManager()).setMessage("You've just register as a member of this shop\nPlease waiting for the acceptance").show();
+                                                }
+
+                                                @Override
+                                                public void onError(String error) {
+                                                    Log.e("error", error);
                                                 }
                                             });
-                                            //SimpleDialogFragment.createBuilder(SearchShopActivity.this, getSupportFragmentManager()).setMessage("You've just register as a member of this shop\nPlease waiting for the acceptance").show();
+                                            break;
                                         }
 
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            //No button clicked
+                                            break;
+                                    }
+                                }
+                            };
+
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                    builder.setMessage("Do you want to be a member of this shop?").setPositiveButton("Yes", dialogClickListener)
+//                            .setNegativeButton("No", dialogClickListener).show();
+
+                            final AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+                                    context);
+                            builderSingle.setTitle("Do you want to be a member of this shop?");
+
+                            //setup list
+                            ArrayList<String> requiredInfo = new ArrayList<String>();
+                            for(int i = 0; i < requiredInfoArray.length; i++){
+                                if(requiredCustomerInfo.getStateAtPosition(i) != 0) {
+                                    requiredInfo.add(requiredInfoArray[i]);
+                                }
+                            }
+
+                            final RequiredUserInfoAdapter adapter = new RequiredUserInfoAdapter(SearchShopActivity.this , requiredInfo);
+                            builderSingle.setAdapter(adapter,
+                                    new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onError(String error) {
-                                            Log.e("error", error);
+                                        public void onClick(DialogInterface dialog, int which) {
                                         }
                                     });
-                                    break;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builderSingle.show();
                                 }
+                            });
 
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    //No button clicked
-                                    break;
-                            }
                         }
-                    };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Do you want to be a member of this shop?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                        @Override
+                        public void onError(String error) {
+                            Log.e("error", error);
+                        }
+                    });
+
                 }
             });
+        }
+    }
+
+    private class RequiredUserInfoAdapter extends ArrayAdapter<String> {
+        private final Context context;
+        private final ArrayList<String> userRequiredInfo;
+
+        public RequiredUserInfoAdapter(Context context, ArrayList<String> values) {
+            super(context, -1, values);
+            this.context = context;
+            this.userRequiredInfo = values;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.user_required_info_row, parent, false);
+
+            TextView userInfo = (TextView) rowView.findViewById(R.id.userInfo);
+            userInfo.setText(userRequiredInfo.get(position));
+
+            return rowView;
+        }
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
         }
     }
 }

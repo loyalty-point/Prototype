@@ -43,6 +43,7 @@
 
     <RelativeLayout
         android:id="@+id/infoLayout"
+        android:layout_above="@id/btnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
@@ -79,17 +80,6 @@
                 android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <!--<com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
-            android:id="@+id/cardBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/LightGrey"
-            android:layout_below="@+id/cardNameFloat"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:siRadius="@dimen/_1sdp"
-            app:siBorderWidth="@dimen/_3sdp"
-            app:siBorderColor="@color/MaterialGrey"/>-->
-
         <com.thesis.dont.loyaltypointadmin.views.CustomCard
             android:id="@+id/cardBackground"
             android:layout_width="match_parent"
@@ -99,24 +89,39 @@
             app:siRadius="@dimen/_1sdp"
             app:siBorderWidth="@dimen/_3sdp"/>
 
+        <ImageView
+            android:id="@+id/noteImgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/description_event"
+            android:layout_below="@id/cardBackground"
+            android:layout_marginTop="@dimen/_10sdp"/>
+
+        <TextView
+            android:id="@+id/additionalInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardBackground"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@id/noteImgView"
+            android:text="@string/createCardNote"/>
+        <TextView
+            android:id="@+id/userInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoTextView"
+            android:textStyle="bold"
+            android:text="Required user infomation:"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_below="@id/userInfoTextView"
+            android:id="@+id/requiredUserInfoList">
+        </ListView>
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/noteImgView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/description_event"
-        android:layout_below="@id/infoLayout"
-        android:layout_marginTop="@dimen/_10sdp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/infoLayout"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_toRightOf="@id/noteImgView"
-        android:text="@string/createCardNote"/>
 
 </RelativeLayout>

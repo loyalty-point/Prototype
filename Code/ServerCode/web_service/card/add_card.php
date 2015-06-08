@@ -7,6 +7,8 @@ $localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_lo
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 
 $card = $_POST['card'];
 $token = $_POST['token'];
+$required_info = $_POST['requiredInfo'];
+$required_info = json_decode($required_info);
 $card = json_decode($card); //chuyển từ string sang json.
 
 /* check token and return username */
@@ -48,14 +50,28 @@ $query_exec = mysqli_query($localhost, $query);
 
 if($query_exec){
 	
-	$query = "insert into admin_card values ('"
-								.$username."','"
-								.$id."')";  //insert vào database
+	$query = "insert into card_required_customer_info values ('"
+								.$id."','"
+								.$required_info->customerPhone."','"						
+								.$required_info->customerEmail."','"
+								.$required_info->customerFullname."','"
+								.$required_info->customerAddress."','"
+								.$required_info->customerIdentityNumber."')";  //insert vào database
+
 	$query_exec = mysqli_query($localhost, $query);
-	if($query_exec)
-		echo '{"error":"","cardId":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
-	else
+	if($query_exec){
+
+		$query = "insert into admin_card values ('"
+									.$username."','"
+									.$id."')";  //insert vào database
+		$query_exec = mysqli_query($localhost, $query);
+		if($query_exec)
+			echo '{"error":"","cardId":"' . $id . '","bucketName":"' . $bucketName . '","fileName":"' . $fileName . '"}';
+		else
+			echo '{"error":"create shop unsuccessfully", "cardId":"", "bucketName":"", "fileName":""}';
+	}else{
 		echo '{"error":"create shop unsuccessfully", "cardId":"", "bucketName":"", "fileName":""}';
+	}
 }
 else {
 	echo '{"error":"create shop unsuccessfully", "cardId":"", "bucketName":"", "fileName":""}'; //insert không thành công vì đã có username

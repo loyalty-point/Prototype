@@ -159,8 +159,9 @@ public class CardModel {
         t.start();
     }
 
-    public static void createCard(final String userToken, Card card, final OnCreateCardResult mOnCreateCardResult){
+    public static void createCard(final String userToken, Card card, RequiredCustomerInfo checkedRequiredUserInfo, final OnCreateCardResult mOnCreateCardResult){
         final String json = Helper.objectToJson(card);
+        final String checkedRequiredUserInfoJson = Helper.objectToJson(checkedRequiredUserInfo);
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -174,6 +175,7 @@ public class CardModel {
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("card", json));
+                nameValuePairs.add(new BasicNameValuePair("requiredInfo", checkedRequiredUserInfoJson));
                 nameValuePairs.add(new BasicNameValuePair("token", userToken));
 
                 try {
