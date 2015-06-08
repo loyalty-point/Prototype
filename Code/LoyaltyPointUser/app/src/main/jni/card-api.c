@@ -25,3 +25,8 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_CardModel_getGetCardInfo(JN
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_card/get_card_info.php");
 }
+
+jstring Java_com_thesis_dont_loyaltypointuser_models_CardModel_getGetRequiredCustomerInfo(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_card/get_required_customer_info.php");
+}

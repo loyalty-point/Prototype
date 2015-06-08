@@ -21,16 +21,6 @@ if($username == ""){
 	die();
 }
 /**/
-/* check exist card id in "admin_card" table*/
-$query = "select * from customer_card where username='".$username."' and card_id = '" . $cardID . "' and isAccepted = '1'";
-
-$query_exec = mysqli_query($localhost, $query);
-$card_rows = mysqli_num_rows($query_exec);
-
-if($card_rows == 0) {//have no card in database
-    echo "not your card";
-    die();
-}
 
 $query_search = "select * from card where id='".$cardID."'";
 mysqli_query($localhost,"SET NAMES 'UTF8'"); 

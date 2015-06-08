@@ -36,6 +36,7 @@ public class CardModel {
     public static native String getGetListEvents();
     public static native String getGetListAwards();
     public static native String getGetCardInfo();
+    public static native String getGetRequiredCustomerInfo();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -277,7 +278,7 @@ public class CardModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
-                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
+                    if(response.equals("wrong token") || response.equals("") || response.equals("not your card"))
                         mOnGetCardInfoResult.onError(response);
                     else {
                         Card card = (Card) Helper.jsonToObject(response, Card.class);
@@ -299,8 +300,60 @@ public class CardModel {
         t.start();
     }
 
+    public static void getRequiredCustomerInfo(final String token, final String cardID, final OnGetRequiredCustomerInfoResult mOnGetRequiredCustomerInfoResult){
+        /*final String token_string = token;
+        final String json = Helper.objectToJson(shop);*/
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetRequiredCustomerInfo();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    if(response.equals("wrong token") || response.equals("") || response.equals("not your card"))
+                        mOnGetRequiredCustomerInfoResult.onError(response);
+                    else {
+                        RequiredCustomerInfo requiredCustomerInfo = (RequiredCustomerInfo) Helper.jsonToObject(response, RequiredCustomerInfo.class);
+                        mOnGetRequiredCustomerInfoResult.onSuccess(requiredCustomerInfo);
+                    }
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetRequiredCustomerInfoResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetRequiredCustomerInfoResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetRequiredCustomerInfoResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
     public interface OnGetCardInfoResult{
         public void onSuccess(Card card);
+        public void onError(String error);
+    }
+
+    public interface OnGetRequiredCustomerInfoResult{
+        public void onSuccess(RequiredCustomerInfo requiredCustomerInfo);
         public void onError(String error);
     }
 
