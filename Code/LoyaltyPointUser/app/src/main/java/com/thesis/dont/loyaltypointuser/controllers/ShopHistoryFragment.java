@@ -102,8 +102,8 @@ public class ShopHistoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
-        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
         // init dialog
         mDialog = new ProgressDialog(mParentActivity);
         mDialog.setTitle("Reloading list histories");
@@ -244,7 +244,7 @@ public class ShopHistoryFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công

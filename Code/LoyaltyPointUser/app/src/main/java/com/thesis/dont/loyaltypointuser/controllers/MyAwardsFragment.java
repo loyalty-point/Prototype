@@ -81,8 +81,8 @@ public class MyAwardsFragment extends Fragment {
         mParentActivity = getActivity();
 
         // init list histories
-        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
+        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
     }
 
@@ -96,7 +96,7 @@ public class MyAwardsFragment extends Fragment {
                         mAdapter.clear();
                         for (int i = 0; i < awards.size(); i++) {
 
-                            AwardCard card = new AwardCard(getActivity());
+                            AwardCard card = new AwardCard(mParentActivity);
 
                             //Only for test, use different titles and ratings
                             card.awardName = awards.get(i).getAwardName();

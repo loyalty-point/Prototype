@@ -98,8 +98,8 @@ public class ShopDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
-        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
+        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
         final TextView shopName = (TextView) mParentActivity.findViewById(R.id.shopName);
         final TextView shopAddress = (TextView) mParentActivity.findViewById(R.id.shopAddress);
         final ImageView shopBackground = (ImageView) mParentActivity.findViewById(R.id.shopBackground);
@@ -108,16 +108,16 @@ public class ShopDetailFragment extends Fragment {
         final TextView eventNumber = (TextView) mParentActivity.findViewById(R.id.eventNumber);
         final TextView awardNumber = (TextView) mParentActivity.findViewById(R.id.awardNumber);
         //list newest user
-        mAdapterNewestUser = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListViewNewestUser = (CardGridView) getActivity().findViewById(R.id.listNewUsers);
+        mAdapterNewestUser = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListViewNewestUser = (CardGridView) mParentActivity.findViewById(R.id.listNewUsers);
         mListViewNewestUser.setAdapter(mAdapterNewestUser);
         //list newest event
-        mAdapterNewestEvent = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListViewNewestEvent = (CardGridView) getActivity().findViewById(R.id.listNewEvents);
+        mAdapterNewestEvent = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListViewNewestEvent = (CardGridView) mParentActivity.findViewById(R.id.listNewEvents);
         mListViewNewestEvent.setAdapter(mAdapterNewestEvent);
         //list newest award
-        mAdapterNewestAward = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListViewNewestAward = (CardGridView) getActivity().findViewById(R.id.listNewAwards);
+        mAdapterNewestAward = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListViewNewestAward = (CardGridView) mParentActivity.findViewById(R.id.listNewAwards);
         mListViewNewestAward.setAdapter(mAdapterNewestAward);
 
         ShopModel.setOnGetShopInfoResult(new ShopModel.OnGetShopInfoResult() {
@@ -147,7 +147,7 @@ public class ShopDetailFragment extends Fragment {
                                         //load layout for newest user list
                                         mAdapterNewestUser.clear();
                                         for (int i = 0; i < listUsers.size(); i++) {
-                                            EventCard card = new EventCard(getActivity());
+                                            EventCard card = new EventCard(mParentActivity);
 
                                             card.name = listUsers.get(i).getFullname();
                                             card.detail1 = listUsers.get(i).getUsername();
@@ -159,7 +159,7 @@ public class ShopDetailFragment extends Fragment {
                                         //load layout for newest event list
                                         mAdapterNewestEvent.clear();
                                         for (int i = 0; i < listEvents.size(); i++) {
-                                            EventCard card = new EventCard(getActivity());
+                                            EventCard card = new EventCard(mParentActivity);
 
                                             card.name = listEvents.get(i).getName();
                                             card.detail1 = listEvents.get(i).getTime_start() + " - " + listEvents.get(i).getTime_end();
@@ -171,7 +171,7 @@ public class ShopDetailFragment extends Fragment {
                                         //load layout for newest award list
                                         mAdapterNewestAward.clear();
                                         for (int i = 0; i < listAwards.size(); i++) {
-                                            EventCard card = new EventCard(getActivity());
+                                            EventCard card = new EventCard(mParentActivity);
 
                                             card.name = listAwards.get(i).getName();
                                             card.detail1 = "Quantity: " + String.valueOf(listAwards.get(i).getQuantity());

@@ -3,6 +3,11 @@
     android:layout_height="match_parent"
     tools:context="com.thesis.dont.loyaltypointuser.controllers.MyAwardsFragment">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/toolbar_dropshadow" />
+
     <it.gmariotti.cardslib.library.view.CardGridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

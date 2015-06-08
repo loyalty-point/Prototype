@@ -90,7 +90,7 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
             @Override
             public void onSuccess(ArrayList<User> listRegisters) {
                 listUser = listRegisters;
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateAdapter("");
@@ -100,10 +100,10 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "error: " + error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -129,12 +129,12 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
         final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
         cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
         //create adapter and add it to list
-        mAdapter = new CustomSimpleCursorAdapter(getActivity(),
+        mAdapter = new CustomSimpleCursorAdapter(mParentActivity,
                 R.layout.search_registers_layout,
                 cursor,
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        listView = (ListView) getActivity().findViewById(R.id.listRegisters);
+        listView = (ListView) mParentActivity.findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
         //getListRegisters();
         setHasOptionsMenu(true);

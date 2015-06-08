@@ -1,5 +1,6 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,8 @@ public class CardFragment extends Fragment {
     User mUser;
     boolean mIsPendingCard;
     String mQRCode;
+
+    Activity mParentActivity;
 
     public static CardFragment newInstance(Card card, User user, boolean isPendingCard, String qrCode) {
         CardFragment fragment = new CardFragment();
@@ -78,6 +81,8 @@ public class CardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mParentActivity = getActivity();
+
         /*//Create a CardHeader
         MyCardHeader header = new MyCardHeader(getActivity(),mCard, mUser, mIsPendingCard, mQRCode);
 
@@ -90,7 +95,7 @@ public class CardFragment extends Fragment {
         });*/
 
         //Create a Card
-        MyCard card = new MyCard(getActivity(), mCard, mIsPendingCard, mUser, mQRCode);
+        MyCard card = new MyCard(mParentActivity, mCard, mIsPendingCard, mUser, mQRCode);
         //card.addCardHeader(header);
 
         //Set card in the cardView

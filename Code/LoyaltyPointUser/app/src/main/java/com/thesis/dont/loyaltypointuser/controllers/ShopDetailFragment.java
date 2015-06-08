@@ -72,8 +72,8 @@ public class ShopDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
-        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
         final TextView shopName = (TextView)mParentActivity.findViewById(R.id.shopNameTv);
         final ImageView shopImg = (ImageView)mParentActivity.findViewById(R.id.shopImg);
 

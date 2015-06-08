@@ -98,8 +98,8 @@ public class UserTicketsFragment extends Fragment {
 
         mParentActivity = getActivity();
 
-        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListView = (CardGridView) getActivity().findViewById(R.id.listTickets);
+        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListView = (CardGridView) mParentActivity.findViewById(R.id.listTickets);
         mListView.setAdapter(mAdapter);
     }
 
@@ -120,7 +120,7 @@ public class UserTicketsFragment extends Fragment {
                         mAdapter.clear();
                         for (int i = 0; i < listTickets.size(); i++) {
 
-                            AwardCard card = new AwardCard(getActivity());
+                            AwardCard card = new AwardCard(mParentActivity);
 
                             //Only for test, use different titles and ratings
                             card.awardName = listTickets.get(i).getAwardName();

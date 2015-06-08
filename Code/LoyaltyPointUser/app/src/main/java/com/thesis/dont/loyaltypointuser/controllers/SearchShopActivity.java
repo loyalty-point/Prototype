@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.Global;
@@ -208,7 +209,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             holder.cardName.setText(cardName);
             SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(holder.shopImg);
 
-            Button followBtn = (Button) view.findViewById(R.id.addFollowShop);
+            ButtonRectangle followBtn = (ButtonRectangle) view.findViewById(R.id.addFollowShop);
             followBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

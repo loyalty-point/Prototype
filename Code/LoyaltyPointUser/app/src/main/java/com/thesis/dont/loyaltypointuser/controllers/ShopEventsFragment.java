@@ -84,10 +84,10 @@ public class ShopEventsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
-        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
-        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
+        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+        cardId = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
+        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListView = (CardGridView) mParentActivity.findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
     }
 
@@ -102,7 +102,7 @@ public class ShopEventsFragment extends Fragment {
                         mAdapter.clear();
                         for (int i = 0; i < listEvents.size(); i++) {
 
-                            EventCard card = new EventCard(getActivity());
+                            EventCard card = new EventCard(mParentActivity);
 
                             //Only for test, use different titles and ratings
                             card.eventName = listEvents.get(i).getName();
@@ -115,7 +115,7 @@ public class ShopEventsFragment extends Fragment {
                                 @Override
                                 public void onClick(Card card, View view) {
                                     Event event = ((EventCard)mAdapter.getItem(position)).event;
-                                    Intent i = new Intent(getActivity(), EventDetailActivity.class);
+                                    Intent i = new Intent(mParentActivity, EventDetailActivity.class);
                                     i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
                                     i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((EventCard) card).listShops);
                                     startActivity(i);
