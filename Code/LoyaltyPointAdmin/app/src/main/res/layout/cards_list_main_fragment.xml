@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     android:background="@color/Background">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height"
+        android:background="@drawable/toolbar_dropshadow" />
+
     <com.gc.materialdesign.views.ButtonRectangle
         android:id="@+id/createShopBtn"
         android:layout_width="match_parent"
