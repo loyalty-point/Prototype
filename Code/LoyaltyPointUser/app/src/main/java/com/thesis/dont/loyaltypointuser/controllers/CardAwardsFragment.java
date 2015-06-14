@@ -95,8 +95,8 @@ public class CardAwardsFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
+        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 //        getListAwards();
     }
@@ -151,13 +151,13 @@ public class CardAwardsFragment extends Fragment {
             public void onSuccess(final ArrayList<Award> listAwards, final ArrayList<ArrayList<Shop>> listShops) {
                 // Get listAwards thành công
                 // Cập nhật dữ liệu lên mAdapter
-                CardAwardsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.clear();
                         for (int i = 0; i < listAwards.size(); i++) {
 
-                            AwardCard card = new AwardCard(getActivity());
+                            AwardCard card = new AwardCard(mParentActivity);
 
                             //Only for test, use different titles and ratings
                             card.awardName = listAwards.get(i).getName();
@@ -180,7 +180,7 @@ public class CardAwardsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Intent i = new Intent(getActivity(), AwardDetailActivity.class);
+                                    Intent i = new Intent(mParentActivity, AwardDetailActivity.class);
                                     i.putExtra(Global.AWARD_OBJECT, ((AwardCard) card).award);
                                     i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((AwardCard) card).listShops);
                                     startActivity(i);
@@ -196,11 +196,11 @@ public class CardAwardsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
+                mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(CardAwardsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

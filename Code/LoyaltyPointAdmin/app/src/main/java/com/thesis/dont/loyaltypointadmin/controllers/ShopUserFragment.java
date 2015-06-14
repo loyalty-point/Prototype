@@ -117,9 +117,11 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
-        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         mParentActivity = getActivity();
+
+        cardId = ((ShopDetailActivity) mParentActivity).getCurrentCardId();
+        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+
         mPicaso = Picasso.with(mParentActivity);
         // add expandable button
         //addExpandableButton();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,21 +11,22 @@
         android:layout_height="@dimen/_70sdp"
         android:layout_alignParentLeft="true" />
 
-    <Button
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        materialdesign:rippleSpeed="70"
         android:id="@+id/addFollowShop"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@color/AccentColor"
         android:textStyle="bold"
+        android:textSize="@dimen/_25sdp"
         android:textColor="@color/TextIcons"
         android:paddingLeft="@dimen/_3sdp"
         android:paddingRight="@dimen/_3sdp"
         android:singleLine="true"
-        android:text="ADD" />
+        android:text="APPLY" />
 
     <TextView
         android:id="@+id/shopName"

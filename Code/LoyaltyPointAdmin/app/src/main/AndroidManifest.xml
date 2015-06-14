@@ -58,8 +58,7 @@
         </activity>
         <activity
             android:name=".controllers.CreateShopActivity"
-            android:label="@string/title_activity_create_shop"
-            android:theme="@style/NoActionBar" >
+            android:label="@string/title_activity_create_shop">
         </activity>
         <activity
             android:name=".controllers.ShopDetailActivity"
@@ -98,13 +97,11 @@
         </activity>
         <activity
             android:name=".controllers.CreateAwardActivity"
-            android:label="@string/title_activity_create_award"
-            android:theme="@style/NoActionBar" >
+            android:label="@string/title_activity_create_award">
         </activity>
         <activity
             android:name=".controllers.EditAwardActivity"
-            android:label="@string/title_activity_edit_award"
-            android:theme="@style/NoActionBar" >
+            android:label="@string/title_activity_edit_award">
         </activity>
         <activity
             android:name=".controllers.EditEventActivity"

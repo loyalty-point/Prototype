@@ -32,6 +32,8 @@ public class CardFragment extends android.support.v4.app.Fragment {
 
     Context mContext;
 
+    Activity mParentActivity;
+
     public CardFragment() {
 
     }
@@ -62,8 +64,10 @@ public class CardFragment extends android.support.v4.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mParentActivity = getActivity();
+
         //Create a CardHeader
-        MyCardHeader header = new MyCardHeader(getActivity(), mCard);
+        MyCardHeader header = new MyCardHeader(mParentActivity, mCard);
 
         //Add a popup menu. This method sets OverFlow button to visibile
         header.setPopupMenu(R.menu.card_popup_menu, new CardHeader.OnClickCardHeaderPopupMenuListener() {
@@ -91,7 +95,7 @@ public class CardFragment extends android.support.v4.app.Fragment {
         });
 
         //Create a Card
-        Card card = new MyCard(getActivity(), mCard);
+        Card card = new MyCard(mParentActivity, mCard);
         card.addCardHeader(header);
 
         //Set card in the cardView

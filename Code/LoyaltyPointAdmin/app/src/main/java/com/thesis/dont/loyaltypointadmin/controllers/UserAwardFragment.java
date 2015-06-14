@@ -126,8 +126,8 @@ public class UserAwardFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
-        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
+        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
+        mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 
     }
@@ -144,7 +144,7 @@ public class UserAwardFragment extends Fragment {
                         mAdapter.clear();
                         for (int i = 0; i < listAwards.size(); i++) {
 
-                            AwardCard card = new AwardCard(getActivity());
+                            AwardCard card = new AwardCard(mParentActivity);
 
                             //Only for test, use different titles and ratings
                             card.awardName = listAwards.get(i).getName();

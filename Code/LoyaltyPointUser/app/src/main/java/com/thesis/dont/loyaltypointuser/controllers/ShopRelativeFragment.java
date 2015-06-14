@@ -23,6 +23,8 @@ public class ShopRelativeFragment extends Fragment {
 
     private int position;
 
+    Activity mParentActivity;
+
     public ShopRelativeFragment() {}
 
     public ShopRelativeFragment(int position, String shopId){
@@ -56,6 +58,9 @@ public class ShopRelativeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mParentActivity = getActivity();
+
         textView = (TextView)getActivity().findViewById(R.id.textView4);
         textView.setText("CARD " + position);
 
