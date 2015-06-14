@@ -42,6 +42,7 @@ public class UserModel {
     public static native String getGetEventHistory();
     public static native String getGetAwardHistory();
     public static native String getGetHistory();
+    public static native String getGetUpdateUserInfo();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -419,6 +420,63 @@ public class UserModel {
             }
         };
         t.start();
+    }
+
+    public static void updateUserInfo(final String token, final User user,
+                                  final OnUpdateUserInfo mOnUpdateUserInfo){
+        final String json = Helper.objectToJson(user);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetUpdateUserInfo();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("user", json));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    UpdateUserResult result = (UpdateUserResult) Helper.jsonToObject(response, UpdateUserResult.class);
+
+                    if(result.error.equals("")) {
+                        mOnUpdateUserInfo.onSuccess();
+                    }
+                    else
+                        mOnUpdateUserInfo.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnUpdateUserInfo.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnUpdateUserInfo.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnUpdateUserInfo.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnUpdateUserInfo{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public class UpdateUserResult{
+        public String error;
     }
 
     public interface OnGetHistoryResult{

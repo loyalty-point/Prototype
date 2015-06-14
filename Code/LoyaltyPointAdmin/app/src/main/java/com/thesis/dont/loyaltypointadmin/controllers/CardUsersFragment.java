@@ -157,12 +157,11 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(mParentActivity, UserDetailActivity.class);
-//                i.putExtra(Global.USER_NAME, cursor.getString(4));
-//                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
-//                i.putExtra(Global.CARD_ID, cardId);
-//                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
-//                startActivity(i);
+                Intent i = new Intent(mParentActivity, UserInfoActivity.class);
+                i.putExtra(Global.USER_OBJECT, listUser.get(position));
+                i.putExtra(Global.USER_INFO_TYPE, Global.USER_INFO);
+                i.putExtra(Global.CARD_ID, cardId);
+                startActivity(i);
 
             }
         });

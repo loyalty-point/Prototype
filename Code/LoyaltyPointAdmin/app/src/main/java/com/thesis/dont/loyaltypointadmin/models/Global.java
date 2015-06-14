@@ -29,6 +29,9 @@ public class Global {
     public static String EVENT_OBJECT = "event_object";
     public static String EVENT_LIST_TYPE = "event_list_type";
     public static String AWARD_LIST_TYPE = "award_list_type";
+    public static String USER_INFO_TYPE = "user_info_type";
+    public static String USER_INFO_REGISTER = "user_info_register";
+    public static String USER_INFO = "user_info";
     public static String BITMAP = "bitmap";
     public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";

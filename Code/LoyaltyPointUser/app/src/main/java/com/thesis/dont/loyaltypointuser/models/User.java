@@ -16,6 +16,7 @@ public class User implements Parcelable{
     String avatar;
     String token;
     String barcode;
+    private String identity_number;
 
     public User(String username, String password, String fullname, String phone, String email, String address, String barcode, String avatar, String token){
         this.username = username;
@@ -119,6 +120,7 @@ public class User implements Parcelable{
         dest.writeString(avatar);
         dest.writeString(token);
         dest.writeString(barcode);
+        dest.writeString(identity_number);
     }
 
     public static final Creator<User> CREATOR
@@ -142,5 +144,14 @@ public class User implements Parcelable{
         avatar = in.readString();
         token = in.readString();
         barcode = in.readString();
+        identity_number = in.readString();
+    }
+
+    public String getIdentityNumber() {
+        return identity_number;
+    }
+
+    public void setIdentityNumber(String identityNumber) {
+        identityNumber = identityNumber;
     }
 }
