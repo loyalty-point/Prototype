@@ -204,6 +204,10 @@
             android:name=".controllers.CardEditAwardActivity"
             android:label="@string/title_activity_card_edit_award" >
         </activity>
+        <activity
+            android:name=".controllers.UserInfoActivity"
+            android:label="@string/title_activity_user_info" >
+        </activity>
     </application>
 
 </manifest>

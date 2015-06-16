@@ -52,6 +52,7 @@ public class ShopsCardMainFragment extends Fragment {
     ArrayList<Card> mListCards;
 
     ProgressDialog mDialog;
+    User mUser;
 
 
     public static ShopsCardMainFragment newInstance() {
@@ -85,6 +86,7 @@ public class ShopsCardMainFragment extends Fragment {
                             if (card.getIsAccepted() == 1)
                                 mListCards.add(card);
                         }
+                        mUser = user;
                         populateList(mListCards, user);
                     }
 
@@ -130,6 +132,7 @@ public class ShopsCardMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mParentActivity, SearchShopActivity.class);
+                i.putExtra(Global.USER_OBJECT, mUser);
                 startActivity(i);
             }
         });
