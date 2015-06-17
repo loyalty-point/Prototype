@@ -101,7 +101,14 @@
 
         <activity
             android:name=".controllers.EventDetailActivity"
-            android:label="@string/title_activity_event_detail" >
+            android:label="@string/title_activity_event_detail"
+            android:parentActivityName=".controllers.CardDetailActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.CardDetailActivity" />
+
         </activity>
         <activity
             android:name=".controllers.UpdatePointDetailActivity"
@@ -130,7 +137,14 @@
         </activity>
         <activity
             android:name=".controllers.AwardDetailActivity"
-            android:label="@string/title_activity_award_detail" >
+            android:label="@string/title_activity_award_detail"
+            android:parentActivityName=".controllers.CardDetailActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.CardDetailActivity" />
+
         </activity>
     </application>
 

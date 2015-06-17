@@ -80,25 +80,25 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_edit_shop">EditShopActivity</string>
-    <string name="title_activity_create_event">CreateEventActivity</string>
-    <string name="title_activity_create_event1_fragment">CreateEvent1Fragment</string>
-    <string name="title_activity_create_award">CreateAwardActivity</string>
-    <string name="title_activity_edit_award">EditAwardActivity</string>
-    <string name="title_activity_edit_event">EditEventActivity</string>
-    <string name="title_activity_crop_image">CropImageActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_cards_list">CardsListActivity</string>
+    <string name="title_activity_edit_shop">Edit Shop Info</string>
+    <string name="title_activity_create_event">Create Event</string>
+    <string name="title_activity_create_event1_fragment">Create Event1</string>
+    <string name="title_activity_create_award">Create Award</string>
+    <string name="title_activity_edit_award">Edit Award</string>
+    <string name="title_activity_edit_event">Edit Event</string>
+    <string name="title_activity_crop_image">Crop Image</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_cards_list">List Cards</string>
     <string name="title_activity_base_navigation">BaseNavigationActivity</string>
-    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_setting">Settings</string>
     <string name="title_activity_search_shop">Search Shop</string>
-    <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_bar_code">BarCodeActivity</string>
-    <string name="title_activity_event_detail">EventDetailActivity</string>
-    <string name="title_activity_my_awards">MyAwardsActivity</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_bar_code">BarCode</string>
+    <string name="title_activity_event_detail">Event Detail Info</string>
+    <string name="title_activity_my_awards">My Awards</string>
     <string name="title_activity_update_point_detail">Update Point Detail</string>
     <string name="title_activity_buy_award_detail">Buy Award Detail</string>
-    <string name="title_activity_card_detail">CardDetailActivity</string>
-    <string name="title_activity_award_detail">AwardDetail</string>
+    <string name="title_activity_card_detail">Card Detail Info</string>
+    <string name="title_activity_award_detail">Award Detail Info</string>
 
 </resources>

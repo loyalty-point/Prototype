@@ -30,33 +30,38 @@
 
     <TextView
         android:id="@+id/shopName"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shopImg"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:textSize="25dp" />
+        android:layout_alignTop="@id/addFollowShop"
+        android:textColor="@color/DarkPrimaryColor"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/cardName"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/shopName"
         android:layout_toRightOf="@id/shopImg"
-        android:layout_marginRight="@dimen/_10sdp"
         android:layout_toLeftOf="@id/addFollowShop"
+        android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp"
+        android:textColor="@color/SecondaryText"
         android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/shopAddress"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cardName"
         android:layout_toRightOf="@id/shopImg"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_toLeftOf="@id/addFollowShop"
         android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_alignBottom="@id/addFollowShop"
+        android:textColor="@color/PrimaryText"
+        android:textStyle="italic"
         android:textSize="@dimen/font_size" />
 
 </RelativeLayout>

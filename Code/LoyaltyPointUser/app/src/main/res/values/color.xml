@@ -198,6 +198,7 @@
     <color name="AccentColor">#ff4bae4f</color>
     <color name="PrimaryText">#ff202020</color>
     <color name="SecondaryText">#ff717171</color>
+    <color name="SubSecondaryText">@color/MaterialGrey</color>
     <color name="DividerColor">#ffb5b5b5</color>
     <!--<color name="Background">#ffeeeeee</color>-->
     <color name="Background">#ffdcdee3</color>
@@ -235,4 +236,8 @@
     <!-- Used by sectioned list -->
     <color name="card_section_container_color">#10000000</color>
     <color name="card_section_title_color">@android:color/black</color>
+
+
+    <color name="textColorLevel1">@color/black</color>
+    <color name="textColorLevel2">@color/PrimaryText</color>
 </resources>

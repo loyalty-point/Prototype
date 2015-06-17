@@ -77,6 +77,8 @@ public class CardEventsFragment extends Fragment {
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
 
+        getListEvents();
+
     }
 
     public class EventCard extends Card {
@@ -105,7 +107,8 @@ public class CardEventsFragment extends Fragment {
             eventNameTv.setText(eventName);
 
             eventDateTv = (TextView) view.findViewById(R.id.eventDate);
-            eventDateTv.setText(eventDate);
+            //eventDateTv.setText(eventDate);
+            eventDateTv.setText(Helper.setTextStyleItalic(eventDate));
 
             eventPointTv = (TextView) view.findViewById(R.id.eventPoint);
             eventPointTv.setText(eventPoint);
@@ -181,11 +184,4 @@ public class CardEventsFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getListEvents();
-    }
-
 }

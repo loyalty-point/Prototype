@@ -213,7 +213,8 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             final String cardId = cursor.getString(cursor.getColumnIndex(SearchShopActivity.CARD_ID));
 
             holder.shopName.setText(name);
-            holder.shopAddress.setText(address);
+            //holder.shopAddress.setText(address);
+            holder.shopAddress.setText(Helper.setTextStyleItalic(name));
             holder.cardName.setText(cardName);
             SearchShopActivity.mPicaso.load(image).placeholder(R.drawable.ic_store).into(holder.shopImg);
 
