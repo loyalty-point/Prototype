@@ -39,6 +39,8 @@ public class AwardDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_award_detail);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent i = getIntent();
         award = (Award) i.getParcelableExtra(ShopAwardsFragment.AWARD_OBJECT);
         listShops = i.getParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT);
@@ -136,5 +138,16 @@ public class AwardDetailActivity extends ActionBarActivity {
             public TextView shopAddressTv;
             public ImageView shopImage;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

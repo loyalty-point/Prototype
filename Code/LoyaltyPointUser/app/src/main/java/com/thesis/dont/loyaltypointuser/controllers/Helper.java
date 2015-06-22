@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
@@ -335,5 +338,12 @@ public class Helper {
             }
         }
         return null;
+    }
+
+    public static CharSequence setTextStyleItalic(CharSequence text) {
+        final StyleSpan style = new StyleSpan(Typeface.ITALIC);
+        final SpannableString str = new SpannableString(text);
+        str.setSpan(style, 0, text.length(), 0);
+        return str;
     }
 }

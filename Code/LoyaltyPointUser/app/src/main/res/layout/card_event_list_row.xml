@@ -32,7 +32,7 @@
         android:layout_marginTop="@dimen/_7sdp" />
 
     <TextView
-        android:id="@+id/eventShopName"
+        android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventImg"
@@ -44,22 +44,23 @@
         android:textSize="@dimen/font_size" />
 
     <TextView
-        android:id="@+id/eventName"
+        android:id="@+id/eventShopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventShopName"
+        android:layout_below="@id/eventName"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginRight="@dimen/_5sdp"
         android:singleLine="true"
-        android:textColor="@color/MaterialRed"
-        android:textSize="@dimen/font_size" />
+        android:textColor="@color/SecondaryText"
+        android:textSize="@dimen/_10sdp" />
 
     <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventName"
+        android:layout_below="@id/eventShopName"
         android:layout_marginLeft="@dimen/_7sdp"
+        android:textColor="@color/SecondaryText"
         android:textSize="@dimen/_10sdp" />
 
     <TextView

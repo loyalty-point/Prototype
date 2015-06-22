@@ -82,12 +82,6 @@ public class CardAwardsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getListAwards();
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -98,7 +92,8 @@ public class CardAwardsFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
-//        getListAwards();
+
+        getListAwards();
     }
 
     public void refresh() {
