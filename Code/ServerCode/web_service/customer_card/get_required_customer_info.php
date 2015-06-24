@@ -1,0 +1,44 @@
+<?php
+$hostname_localhost ="localhost";
+$database_localhost ="loyaltypoint";
+$username_localhost ="root";
+$password_localhost ="matrix123";
+$localhost = mysqli_connect($hostname_localhost,$username_localhost,$password_localhost, $database_localhost);
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+
+$cardID = $_POST['cardID'];
+$token = $_POST['token'];
+
+/* check token and return username */
+$query = "select username from customer_users where token='".$token."'";
+
+$query_exec = mysqli_query($localhost, $query);
+$row = mysqli_fetch_array($query_exec);
+$username = $row['username'];
+
+if($username == ""){
+	echo "wrong token";
+	die();
+}
+/**/
+
+$query_search = "select * from card_required_customer_info where card_id='".$cardID."'";
+mysqli_query($localhost,"SET NAMES 'UTF8'"); 
+$query_exec = mysqli_query($localhost,$query_search) or die(mysql_error());
+
+$rows = mysqli_num_rows($query_exec);
+
+if($rows == 0) { //card không có
+    echo "";
+}
+else  {
+    while($row = mysqli_fetch_array($query_exec)){
+        echo '{"customerPhone":"'.$row['customer_phone_required'].
+        	'","customerEmail":"'.$row['customer_email_required'].
+            '","customerFullname":"'.$row['customer_fullname_required'].
+            '","customerAddress":"'.$row['customer_address_required'].
+        	'","customerIdentityNumber":"'.$row['customer_identitynumber_required'].'"}';
+    }
+}
+mysqli_close($localhost);
+?>
