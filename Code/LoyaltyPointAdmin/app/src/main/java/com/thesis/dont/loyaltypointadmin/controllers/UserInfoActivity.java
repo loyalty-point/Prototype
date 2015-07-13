@@ -73,7 +73,7 @@ public class UserInfoActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 mDialog.show();
 
-                                // G?i API ?? c?p nh?t l?i l‡ user n‡y ?„ ???c ch? shop ch?p nh?n l‡m th‡nh viÍn
+                                // G?i API ?? c?p nh?t l?i l√† user n√†y ?√£ ???c ch? shop ch?p nh?n l√†m th√†nh vi√™n
                                 ShopModel.acceptRegisterRequest(Global.userToken, cardId, mUser.getUsername(), new ShopModel.OnAcceptRegisterRequestResult() {
                                     @Override
                                     public void onSuccess() {
@@ -82,7 +82,7 @@ public class UserInfoActivity extends ActionBarActivity {
                                             public void run() {
                                                 mDialog.dismiss();
 
-                                                // Hi?n dialog thÙng b·o
+                                                // Hi?n dialog th√¥ng b√°o
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoActivity.this);
                                                 builder.setTitle("Congratulations!")
                                                         .setMessage("You've added a member to your card")
