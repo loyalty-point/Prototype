@@ -102,7 +102,7 @@ public class ShopDetailFragment extends Fragment {
         shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
         final TextView shopName = (TextView) mParentActivity.findViewById(R.id.shopName);
         final TextView shopAddress = (TextView) mParentActivity.findViewById(R.id.shopAddress);
-        final ImageView shopBackground = (ImageView) mParentActivity.findViewById(R.id.shopBackground);
+//        final ImageView shopBackground = (ImageView) mParentActivity.findViewById(R.id.shopBackground);
         final ImageView shopImage = (ImageView) mParentActivity.findViewById(R.id.shopImg);
         final TextView userNumber = (TextView) mParentActivity.findViewById(R.id.userNumber);
         final TextView eventNumber = (TextView) mParentActivity.findViewById(R.id.eventNumber);
@@ -136,7 +136,7 @@ public class ShopDetailFragment extends Fragment {
                                         shopAddress.setText(shop.getAddress());
                                         if (shop.getCardImg().equals(""))
                                             shop.setCardImg(null);
-                                        Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img2).into(shopBackground);
+//                                        Picasso.with(mParentActivity).load(shop.getCardImg()).placeholder(R.drawable.card_img2).into(shopBackground);
                                         if (shop.getImage().equals(""))
                                             shop.setImage(null);
                                         Picasso.with(mParentActivity).load(shop.getImage()).placeholder(R.drawable.ic_store).into(shopImage);

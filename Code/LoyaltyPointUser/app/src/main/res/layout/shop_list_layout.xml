@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_50sdp"
+    android:layout_height="@dimen/_70sdp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,6 +14,8 @@
             android:id="@+id/shopImg"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="6dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true" />
 
         <TextView
@@ -22,15 +24,17 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/shopImg"
             android:layout_toRightOf="@id/shopImg"
-            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="6dp"
             android:textColor="@color/DarkPrimaryColor"
-            android:textSize="25dp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/shopAddress"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/shopName"
+            android:layout_marginLeft="6dp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_toRightOf="@id/shopImg"
             android:textSize="@dimen/font_size" />

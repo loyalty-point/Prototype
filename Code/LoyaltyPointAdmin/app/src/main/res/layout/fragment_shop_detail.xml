@@ -22,18 +22,17 @@
 
             </fragment>-->
 
-            <ImageView
-                android:id="@+id/shopBackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_img2"
-                android:scaleType="fitXY" />
+            <!--<ImageView-->
+                <!--android:id="@+id/shopBackground"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/card_img2"-->
+                <!--android:scaleType="fitXY" />-->
 
             <RelativeLayout
                 android:id="@+id/detailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/shopBackground"
                 android:background="@color/white">
 
                 <ImageView

@@ -45,9 +45,7 @@ public class TicketModel {
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
-
                 nameValuePairs = new ArrayList<NameValuePair>(3);
-
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));

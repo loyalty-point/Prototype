@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"Home", "Awards", "Tickets"};
+    private final String[] TITLES = { "Awards", "Tickets"};
     private String userId = null;
     private String shopId = null;
     private String cardId = null;
@@ -39,9 +39,9 @@ public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Log.e("position", String.valueOf(position));
+//        if (position == 0)
+//            return new UserDetailFragment();
         if (position == 0)
-            return new UserDetailFragment();
-        else if (position == 1)
             return new UserAwardFragment(position,this.userId, this.shopId, this.cardId);
         else
             return new UserTicketsFragment(position, this.userId, this.shopId, this.cardId);

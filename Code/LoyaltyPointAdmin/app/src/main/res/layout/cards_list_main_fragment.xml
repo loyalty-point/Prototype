@@ -26,9 +26,10 @@
     <com.bartoszlipinski.flippablestackview.FlippableStackView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listCardsPager"
+        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
+        android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/createShopBtn" />
 

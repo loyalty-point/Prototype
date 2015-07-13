@@ -32,7 +32,7 @@ public class CardDetailActivity extends ActionBarActivity {
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle("card name");
+        setTitle("KFC Fastfood");
         pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(),cardId, userPoint));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 

@@ -83,6 +83,7 @@
                 android:focusable="true"
                 android:hint="event name"
                 android:maxLength="@integer/shop_name_maxLength"
+                android:inputType="textNoSuggestions"
                 android:singleLine="true"
                 android:textSize="@dimen/font_size"
                 android:textStyle="italic" />
@@ -160,6 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
+                android:inputType="textNoSuggestions"
                 android:hint="description"
                 android:maxLength="@integer/shop_name_maxLength"
                 android:singleLine="true"

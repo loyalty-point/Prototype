@@ -43,6 +43,7 @@ public class CardModel {
     public static native String getEditEvent();
     public static native String getCreateAward();
     public static native String getEditAward();
+    public static native String getGetListHistory();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -596,6 +597,68 @@ public class CardModel {
             }
         };
         t.start();
+    }
+
+    public static void getListHistory(final String token, final String cardId,
+                                      final OnGetListHistoryResult mOnGetListHistoryResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListHistory();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetListHistoryResult result = (GetListHistoryResult) Helper.jsonToObject(response, GetListHistoryResult.class);
+
+                    if(result.error.equals("")) {
+                        ArrayList<History> listHistories = new ArrayList<History>();
+                        for(int i=0; i<result.listHistories.length-1; i++) {
+                            listHistories.add(result.listHistories[i]);
+                        }
+                        mOnGetListHistoryResult.onSuccess(listHistories);
+                    }
+                    else
+                        mOnGetListHistoryResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetListHistoryResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetListHistoryResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetListHistoryResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public interface OnGetListHistoryResult{
+        public void onSuccess(ArrayList<History> listHistories);
+        public void onError(String error);
+    }
+
+    public class GetListHistoryResult{
+        public String error;
+        public History[] listHistories;
     }
 
     public interface OnAddAwardResult{

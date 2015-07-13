@@ -54,7 +54,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
     private String cardId;
 
-    private ArrayList<Customer> listUser;
+    private ArrayList<Customer> listUser = new ArrayList<Customer>();
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
