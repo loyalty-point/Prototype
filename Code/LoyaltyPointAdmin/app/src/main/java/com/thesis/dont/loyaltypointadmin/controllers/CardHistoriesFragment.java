@@ -230,7 +230,7 @@ public class CardHistoriesFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // Get listAwards khÙng th‡nh cÙng
+                        // Get listAwards kh√¥ng th√†nh c√¥ng
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
