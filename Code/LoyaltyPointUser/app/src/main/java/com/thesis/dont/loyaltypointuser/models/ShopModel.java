@@ -88,53 +88,51 @@ public class ShopModel {
         public String fileName;
     }
 
-//    public static void getShopInfo(final String token, final String shopID, final String cardID){
-//        /*final String token_string = token;
-//        final String json = Helper.objectToJson(shop);*/
-//        Thread t = new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//
-//                String link = getCustomerGetShopInfo();
-//
-//                httpclient = new DefaultHttpClient();
-//                httppost = new HttpPost(link);
-//
-//                nameValuePairs = new ArrayList<NameValuePair>(2);
-//
-//                nameValuePairs.add(new BasicNameValuePair("shopID", shopID));
-//                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
-//                nameValuePairs.add(new BasicNameValuePair("token", token));
-//
-//                try {
-//                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-//                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-//                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-//                    String response = null;
-//
-//                    response = httpclient.execute(httppost, responseHandler);
-//                    if(response.equals("wrong token") || response.equals("") || response.equals("not your shop"))
-//                        mOnGetShopInfoResult.onError(response);
-//                    else {
-//                        Shop shop = (Shop) Helper.jsonToObject(response, Shop.class);
-//                        mOnGetShopInfoResult.onSuccess(shop);
-//                    }
-//
-//                } catch (UnsupportedEncodingException e) {
-//                    mOnGetShopInfoResult.onError("UnsupportedEncodingException");
-//                    e.printStackTrace();
-//                } catch (ClientProtocolException e) {
-//                    mOnGetShopInfoResult.onError("ClientProtocolException");
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    mOnGetShopInfoResult.onError("IOException");
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        t.start();
-//    }
+    public static void getShopInfo(final String token, final String shopID, final String cardID, final OnGetShopInfoResult mOnGetShopInfoResult){
+        /*final String token_string = token;
+        final String json = Helper.objectToJson(shop);*/
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCustomerGetShopInfo();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("shop_id", shopID));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetShopInfo result = (GetShopInfo) Helper.jsonToObject(response, GetShopInfo.class);
+                    if(result.error.equals("")) {
+                        mOnGetShopInfoResult.onSuccess(result.shop[0]);
+                    }else {
+                        mOnGetShopInfoResult.onError(result.error);
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetShopInfoResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetShopInfoResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetShopInfoResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 
     public static void getUnfollowedShop(final String token, final OnSelectAllShopResult mOnSelectAllShopResult){
         Thread t = new Thread() {

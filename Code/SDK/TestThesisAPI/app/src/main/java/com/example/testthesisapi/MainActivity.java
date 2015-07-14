@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 LoyaltyPointAPI request = new LoyaltyPointAPI();
-                request.calculatePoint(MainActivity.this, "55660ac566e08", "55660a9a9e028tandouser", null, 1000, new LoyaltyPointAPI.OnCalculatePointResult() {
+                request.calculatePoint(MainActivity.this, "55660ac566e08", "5572a6c4e364ftandouser", null, 1000, new LoyaltyPointAPI.OnCalculatePointResult() {
                     @Override
                     public void onSuccess(final ArrayList<AchievedEvent> listAchievedEvents, int pointFromMoney, final int totalPoint) {
                         runOnUiThread(new Runnable() {
@@ -51,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
                                 calculatePointResult.setText("Calculate Point Successfully");
 
                                 LoyaltyPointAPI request = new LoyaltyPointAPI();
-                                request.updatePoint(MainActivity.this, "55660ac566e08", "55660a9a9e028tandouser", listAchievedEvents, totalPoint, new LoyaltyPointAPI.OnUpdatePointResult() {
+                                request.updatePoint(MainActivity.this, "55660ac566e08", "5572a6c4e364ftandouser", listAchievedEvents, totalPoint, new LoyaltyPointAPI.OnUpdatePointResult() {
                                     @Override
                                     public void onSuccess() {
                                         runOnUiThread(new Runnable() {

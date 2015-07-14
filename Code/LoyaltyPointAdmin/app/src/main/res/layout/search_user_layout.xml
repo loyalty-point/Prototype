@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_70sdp"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -36,7 +37,7 @@
             android:layout_toRightOf="@id/userImg"
             android:textSize="@dimen/font_size" />
 
-        <Button
+        <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/addUserPoint"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="match_parent"
@@ -47,6 +48,7 @@
             android:background="@color/AccentColor"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            materialdesign:rippleSpeed="70"
             android:text="+"
             android:textSize="@dimen/_20sdp"
             android:textColor="@color/TextIcons" />

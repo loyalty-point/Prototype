@@ -1,5 +1,5 @@
 <?php
-include_once '../GCM/GCM.php';
+include_once '../web_service/GCM/GCM.php';
 $hostname_localhost ="localhost";
 $database_localhost ="loyaltypoint";
 $username_localhost ="root";
@@ -13,7 +13,7 @@ $cardID = $_POST['card_id'];
 $customerName = $_POST['username'];
 /*$fullname = $_POST['fullname'];
 $phone = $_POST['phone'];*/
-$point = $_POST['total_points'];
+$point = $_POST['total_point'];
 /*$billCode = $_POST['billCode'];*/
 $billCode = NULL;
 $clientTime = $_POST['time'];
@@ -132,7 +132,9 @@ if($card_rows == 0) {//have no shop in database
 
                     $regID = array($regID);
                     $message = "add point";
-                    $message = array("message" => $message, "shopID" => $shopID, "point" => $point, "newPoint" => $newPoint, "historyID" => $billCode);
+                    $type = "shop";
+
+                    $message = array("type" => $type, "message" => $message, "shopID" => $shopID, "cardID" => $cardID, "point" => $point, "newPoint" => $newPoint, "historyID" => $billCode);
 
                     $gcm = new GCM();
 

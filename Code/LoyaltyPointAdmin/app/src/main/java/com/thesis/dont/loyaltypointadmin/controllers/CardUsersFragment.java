@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
@@ -32,7 +31,6 @@ import com.thesis.dont.loyaltypointadmin.models.CardModel;
 import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
-import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.util.ArrayList;
 
@@ -40,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class CardUsersFragment extends Fragment implements SearchView.OnQueryTextListener {
     private static final String ARG_POSITION = "position";
-    private static final String CARD_ID = "cardId";
+    private static final String CARD_ID = "mCardID";
     private static final String USER_ID = "userId";
     private static final String USER_NAME = "userName";
     private static final String USER_IMG = "userImg";
@@ -123,7 +121,8 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
         // add expandable button
         //addExpandableButton();
 
-        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
+        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.qrCodeBtn);
+        barcodeBtn.setVisibility(View.INVISIBLE);
         barcodeBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         barcodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +131,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
                 Intent i = new Intent(mParentActivity, ScannerActivity.class);
                 i.putExtra(Global.CARD_ID, cardId);
-                i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
+                i.putParcelableArrayListExtra(Global.CUSTOMER_LIST, listUser);
 
                 // put shop into intent
                 Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
@@ -265,6 +264,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
             mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
 
             Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
+            addBtn.setVisibility(View.INVISIBLE);
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

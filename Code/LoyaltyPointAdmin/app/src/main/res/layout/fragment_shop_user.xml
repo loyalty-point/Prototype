@@ -21,10 +21,10 @@
             android:divider="#00000000"/>
 
         <com.gc.materialdesign.views.ButtonFloat
-            android:id="@+id/barcodeBtn"
+            android:id="@+id/qrCodeBtn"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            materialdesign:iconDrawable="@drawable/barcode_ic"
+            materialdesign:iconDrawable="@drawable/qrcode"
             android:background="@color/AccentColor"
             app:cb_color="#99CC00"
             materialdesign:animate="false"
