@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -91,7 +90,7 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
             @Override
             public void onSuccess(ArrayList<User> listRegisters) {
                 listUser = listRegisters;
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateAdapter("");
@@ -101,10 +100,10 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
 
             @Override
             public void onError(final String error) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mParentActivity, "error: " + error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -130,23 +129,13 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
         final int[] to = new int[]{R.id.userName, R.id.userPhone, R.id.userImg};
         cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID});
         //create adapter and add it to list
-        mAdapter = new CustomSimpleCursorAdapter(mParentActivity,
+        mAdapter = new CustomSimpleCursorAdapter(getActivity(),
                 R.layout.search_registers_layout,
                 cursor,
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        listView = (ListView) mParentActivity.findViewById(R.id.listRegisters);
+        listView = (ListView) getActivity().findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(mParentActivity, UserInfoActivity.class);
-                i.putExtra(Global.USER_OBJECT, listUser.get(position));
-                i.putExtra(Global.USER_INFO_TYPE, Global.USER_INFO_REGISTER);
-                i.putExtra(Global.CARD_ID, cardId);
-                startActivity(i);
-            }
-        });
         //getListRegisters();
         setHasOptionsMenu(true);
     }

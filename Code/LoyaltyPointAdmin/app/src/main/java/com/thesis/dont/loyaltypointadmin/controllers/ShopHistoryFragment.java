@@ -96,8 +96,8 @@ public class ShopHistoryFragment extends Fragment {
 
         mOriginalList = new ArrayList<History>();
 
-        cardID = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
-        shopID = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
+        cardID = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
 
         // init list histories
         mListView = (ListView) mParentActivity.findViewById(R.id.listHistories);

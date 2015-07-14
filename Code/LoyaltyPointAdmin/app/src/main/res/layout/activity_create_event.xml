@@ -4,19 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateEventActivity">
-
-    <View
-        android:id="@+id/shadow"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/shadow_height"
-        android:background="@drawable/toolbar_dropshadow"/>
 
     <LinearLayout
         android:id="@+id/btnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_alignParentBottom="true">
 
         <com.gc.materialdesign.views.ButtonRectangle
@@ -48,8 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btnLayout"
-        android:layout_below="@id/shadow"
-        android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_alignParentTop="true">
 
         <ImageView
@@ -83,7 +78,6 @@
                 android:focusable="true"
                 android:hint="event name"
                 android:maxLength="@integer/shop_name_maxLength"
-                android:inputType="textNoSuggestions"
                 android:singleLine="true"
                 android:textSize="@dimen/font_size"
                 android:textStyle="italic" />
@@ -161,7 +155,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:inputType="textNoSuggestions"
                 android:hint="description"
                 android:maxLength="@integer/shop_name_maxLength"
                 android:singleLine="true"

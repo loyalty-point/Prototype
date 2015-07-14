@@ -7,8 +7,8 @@
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/barcodeScannerBtn"
@@ -24,14 +24,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toLeftOf="@id/barcodeScannerBtn"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/barcodeEdtText"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:focusable="true"
                 android:hint="bar code"
                 android:textSize="@dimen/font_size"
@@ -40,20 +40,19 @@
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/nameFloat"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_below="@id/barcodeFloat"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/nameEdtText"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:focusable="true"
                 android:hint="goods name"
-                android:inputType="textNoSuggestions"
                 android:textSize="@dimen/font_size"
                 android:textStyle="italic" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -64,13 +63,13 @@
             android:layout_below="@id/nameFloat"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/numberEdtText"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:focusable="true"
                 android:hint="number"
                 android:numeric="integer"
@@ -80,17 +79,17 @@
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/pointFloat"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_below="@id/numberFloat"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/pointEdtText"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:focusable="true"
                 android:hint="point"
                 android:numeric="integer"

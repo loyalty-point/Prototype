@@ -1,139 +1,91 @@
 package com.thesis.dont.loyaltypointadmin.controllers;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Customer;
+import com.thesis.dont.loyaltypointadmin.models.CustomerModel;
 import com.thesis.dont.loyaltypointadmin.models.Global;
-import com.thesis.dont.loyaltypointadmin.models.ShopModel;
-import com.thesis.dont.loyaltypointadmin.models.User;
+import com.thesis.dont.loyaltypointadmin.models.History;
+
+import java.util.ArrayList;
 
 public class UserInfoActivity extends ActionBarActivity {
 
-    TextView userName, userPhone, userAddress, userEmail, userIdentityNumber;
-    ImageView userImage;
-    ButtonRectangle acceptBtn, backBtn, addPointBtn;
-
-    User mUser;
-    String type;
+    private Customer mCustomer;
     String cardId;
-    ProgressDialog mDialog;
+    ImageView mCustomerImageView;
+    TextView mCustomerNameTextView, mCustomerPhoneTextView, mCustomerAddressTextView, mCustomerPointTextView;
+    public static Picasso mPicaso;
+    ListView mHistoryList;
+    ListHistoriesAdapter mAdapter;
+    String shopId;
+
+    ArrayList<History> mHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        mUser = getIntent().getParcelableExtra(Global.USER_OBJECT);
-        cardId = getIntent().getStringExtra(Global.CARD_ID);
-        type = getIntent().getStringExtra(Global.USER_INFO_TYPE);
 
+        Intent i = getIntent();
+        mCustomer = i.getParcelableExtra(Global.USER_OBJECT);
+        cardId = i.getStringExtra(Global.CARD_ID);
 
+        mCustomerImageView = (ImageView) findViewById(R.id.user_image);
+        mCustomerNameTextView = (TextView) findViewById(R.id.customer_name);
+        mCustomerAddressTextView = (TextView) findViewById(R.id.customer_address);
+        mCustomerPhoneTextView = (TextView) findViewById(R.id.customer_phone);
+        mCustomerPointTextView = (TextView) findViewById(R.id.customer_point);
 
-        mDialog = new ProgressDialog(this);
-        mDialog.setTitle("Accepting register request");
-        mDialog.setMessage("Please wait...");
-        mDialog.setCancelable(false);
+        mCustomerNameTextView.setText(mCustomer.getFullname());
+        mCustomerPhoneTextView.setText("Phone number: " + mCustomer.getPhone());
+        mCustomerAddressTextView.setText("Address: " + mCustomer.getAddress());
+        mCustomerPointTextView.setText("Point: " + mCustomer.getPoint());
 
-        userName = (TextView) findViewById(R.id.userName);
-        userPhone = (TextView) findViewById(R.id.userPhone);
-        userAddress = (TextView) findViewById(R.id.userAddress);
-        userEmail = (TextView) findViewById(R.id.userEmail);
-        userIdentityNumber = (TextView) findViewById(R.id.identityNumber);
+        mPicaso = Picasso.with(this);
+        if (mCustomer.getAvatar().equals(""))
+            mCustomer.setAvatar(null);
+        mPicaso.load(mCustomer.getAvatar()).placeholder(R.drawable.ic_user_avatar).into(mCustomerImageView);
 
-        userImage = (ImageView) findViewById(R.id.userImage);
+        mHistoryList = (ListView) findViewById(R.id.history_list);
+        mAdapter = new ListHistoriesAdapter(this, new ArrayList<History>());
+        mHistoryList.setAdapter(mAdapter);
+    }
 
-        acceptBtn = (ButtonRectangle) findViewById(R.id.acceptBtn);
-        addPointBtn = (ButtonRectangle) findViewById(R.id.addPointBtn);
-        backBtn = (ButtonRectangle) findViewById(R.id.backBtn);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getListHistory();
+    }
 
-        if(type.equals(Global.USER_INFO_REGISTER)){
-            acceptBtn.setVisibility(View.VISIBLE);
-        }else{
-            addPointBtn.setVisibility(View.VISIBLE);
-        }
-
-        acceptBtn.setOnClickListener(new View.OnClickListener() {
+    private void getListHistory(){
+        CustomerModel.getListHistoryCard(Global.userToken, cardId, mCustomer.getUsername(), new CustomerModel.OnGetListHistoryResult() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoActivity.this);
-                builder.setMessage("Do you want to add this user?").
-                        setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mDialog.show();
+            public void onSuccess(ArrayList<History> listHistories) {
+                mAdapter.setListHistories(listHistories);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
 
-                                // G?i API ?? c?p nh?t l?i là user này ?ã ???c ch? shop ch?p nh?n làm thành viên
-                                ShopModel.acceptRegisterRequest(Global.userToken, cardId, mUser.getUsername(), new ShopModel.OnAcceptRegisterRequestResult() {
-                                    @Override
-                                    public void onSuccess() {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                mDialog.dismiss();
+            @Override
+            public void onError(String error) {
 
-                                                // Hi?n dialog thông báo
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoActivity.this);
-                                                builder.setTitle("Congratulations!")
-                                                        .setMessage("You've added a member to your card")
-                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                finish();
-                                                            }
-                                                        }).show();
-
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onError(final String error) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(UserInfoActivity.this, error, Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        }).show();
             }
         });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        userName.setText(mUser.getFullname());
-        userPhone.setText(mUser.getPhone());
-        userAddress.setText(mUser.getAddress());
-        userEmail.setText(mUser.getEmail());
-        userIdentityNumber.setText(mUser.getIdentityNumber());
-        String avatar = mUser.getAvatar();
-        if(avatar.equals(""))
-            avatar = null;
-        Picasso.with(UserInfoActivity.this).load(avatar).placeholder(R.drawable.ic_award).into(userImage);
     }
 
 }

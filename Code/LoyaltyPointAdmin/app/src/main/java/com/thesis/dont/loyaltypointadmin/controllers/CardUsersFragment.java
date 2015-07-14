@@ -54,7 +54,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
     private String cardId;
 
-    private ArrayList<Customer> listUser = new ArrayList<Customer>();
+    private ArrayList<Customer> listUser;
     private ListView listView;
     private CustomSimpleCursorAdapter mAdapter;
     MatrixCursor cursor;
@@ -62,7 +62,8 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
 
     private int position;
 
-    public CardUsersFragment() {}
+    public CardUsersFragment() {
+    }
 
     public CardUsersFragment(int position, String cardId) {
         Bundle b = new Bundle();
@@ -158,8 +159,11 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(mParentActivity, UserInfoActivity.class);
-                i.putExtra(Global.USER_OBJECT, listUser.get(position));
-                i.putExtra(Global.USER_INFO_TYPE, Global.USER_INFO);
+                for(int j = 0;j<listUser.size();j++){
+                    if(listUser.get(j).getUsername().equals(cursor.getString(4))){
+                        i.putExtra(Global.USER_OBJECT, listUser.get(j));
+                    }
+                }
                 i.putExtra(Global.CARD_ID, cardId);
                 startActivity(i);
 
@@ -265,21 +269,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
             mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
 
             Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
-            addBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(mParentActivity, CalculatePointActivity.class);
-                    i.putExtra(Global.CARD_ID, cardId);
-                    // put username into intent
-                    i.putExtra(Global.USER_NAME, username);
-
-                    // put shop into intent
-                    Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
-                    i.putExtra(Global.SHOP_OBJECT, shop);
-
-                    startActivity(i);
-                }
-            });
+            addBtn.setVisibility(View.GONE);
         }
     }
 

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
@@ -26,11 +27,9 @@ import com.thesis.dont.loyaltypointadmin.models.User;
 import java.util.List;
 
 public class UserDetailActivity extends ActionBarActivity {
-
-    String userId;
-    String userFullName;
-    String cardId, shopId;
-    int userPoint;
+    String shopId;
+    String cardId;
+    Customer mCustomer;
 
     Shop mShop;
 
@@ -42,16 +41,14 @@ public class UserDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        userId = i.getStringExtra(Global.USER_NAME);
-        userFullName = i.getStringExtra(Global.USER_FULLNAME);
-        cardId = i.getStringExtra(Global.CARD_ID);
+        mCustomer = i.getParcelableExtra(Global.USER_OBJECT);
         shopId = i.getStringExtra(Global.SHOP_ID);
+        cardId = i.getStringExtra(Global.CARD_ID);
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
-        userPoint = i.getIntExtra(Global.USER_POINT, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle(userFullName);
-        pager.setAdapter(new UserDetailTabPagerAdapter(getSupportFragmentManager(), userId, shopId, cardId));
+        setTitle(mCustomer.getFullname());
+        pager.setAdapter(new UserDetailTabPagerAdapter(getSupportFragmentManager(), mCustomer, shopId, cardId));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

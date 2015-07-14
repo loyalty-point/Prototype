@@ -30,6 +30,8 @@
         android:id="@+id/awardImg"
         android:layout_width="@dimen/_75sdp"
         android:layout_height="@dimen/_75sdp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="@dimen/_7sdp"
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_7sdp" />
 
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/awardImg"
         android:layout_marginLeft="@dimen/_7sdp"
+        android:singleLine="true"
         android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/DarkPrimaryColor"
         android:textSize="@dimen/font_size" />

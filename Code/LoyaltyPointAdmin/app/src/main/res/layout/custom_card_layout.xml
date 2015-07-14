@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
@@ -11,52 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/LightGrey"
+        android:layout_below="@+id/cardNameFloat"
+        android:layout_marginTop="@dimen/_10sdp"
         app:siRadius="@dimen/_1sdp"
         app:siBorderWidth="@dimen/_3sdp"
         app:siBorderColor="@color/MaterialGrey"/>
 
-    <TextView
-        android:id="@+id/cardName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/cardImage"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_alignLeft="@id/cardImage"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:text="CARD NAME"
-        android:textColor="@color/DarkPrimaryColor"
-        android:textStyle="bold"
-        android:textSize="@dimen/_15sdp"/>
-
-    <TextView
-        android:id="@+id/customerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cardImage"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_alignLeft="@id/cardImage"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:text="CUSTOMER NAME"
-        android:textColor="@color/DarkPrimaryColor"
-        android:textStyle="bold"
-        android:textSize="@dimen/_15sdp"/>
-
-
-    <TextView
-        android:id="@+id/qrCode"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_alignBottom="@id/cardImage"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_alignRight="@id/cardImage"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:text="QR CODE"
-        android:gravity="center"
-        android:textColor="@color/DarkPrimaryColor"
-        android:textStyle="bold"
-        android:background="@drawable/border_text_view"/>
-
-    <!--<mehdi.sakout.fancybuttons.FancyButton
+    <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/cardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +61,7 @@
         fancy:defaultColor="@color/MaterialBackground"
         fancy:focusColor="@color/AccentColor"
         fancy:textColor="@color/AccentColor"
-        fancy:text="QRCODE"/>-->
+        fancy:text="QRCODE"/>
 
 
-</merge>
+</RelativeLayout>
