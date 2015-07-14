@@ -18,13 +18,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -34,7 +34,6 @@ import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
-import com.thesis.dont.loyaltypointadmin.models.User;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     private static final String USER_POINT = "user_point";
     public static final String USER_OBJECT = "userObject";
 
-    ButtonFloat barcodeBtn;
+    ButtonFloat qrCodeBtn;
 
     Activity mParentActivity;
 
@@ -124,16 +123,16 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         // add expandable button
         //addExpandableButton();
 
-        barcodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.barcodeBtn);
-        barcodeBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
-        barcodeBtn.setOnClickListener(new View.OnClickListener() {
+        qrCodeBtn = (ButtonFloat) mParentActivity.findViewById(R.id.qrCodeBtn);
+        qrCodeBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
+        qrCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Start Scan Barcode Activity
 
                 Intent i = new Intent(mParentActivity, ScannerActivity.class);
                 i.putExtra(Global.CARD_ID, cardId);
-                i.putParcelableArrayListExtra(Global.USER_LIST, listUser);
+                i.putParcelableArrayListExtra(Global.CUSTOMER_LIST, listUser);
 
                 // put shop into intent
                 Shop shop = ((ShopDetailActivity) mParentActivity).getCurrentShop();
@@ -271,7 +270,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
                 image = null;
             mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
 
-            Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
+            ButtonRectangle addBtn = (ButtonRectangle) view.findViewById(R.id.addUserPoint);
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

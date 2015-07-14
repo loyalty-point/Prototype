@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 
 public class CardRegisterFragment extends Fragment implements SearchView.OnQueryTextListener{
     private static final String ARG_POSITION = "position";
-    private static final String ARG_CARDID = "cardId";
+    private static final String ARG_CARDID = "mCardID";
     private static final String USER_ID = "userId";
     private static final String USER_NAME = "userName";
     private static final String USER_IMG = "userImg";

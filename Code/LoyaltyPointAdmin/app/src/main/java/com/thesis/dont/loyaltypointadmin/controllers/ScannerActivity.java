@@ -11,13 +11,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Customer;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.User;
@@ -40,9 +38,9 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
     private ArrayList<Integer> mSelectedIndices;
 
     // data from previous activity
-    ArrayList<User> listUsers;
+    ArrayList<Customer> listCustomers;
     Shop mShop;
-    String cardId;
+    String mCardID;
 
     @Override
     public void onCreate(Bundle state) {
@@ -50,9 +48,9 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
 
         // get data
         Intent i = getIntent();
-        listUsers = i.getParcelableArrayListExtra(Global.USER_LIST);
+        listCustomers = i.getParcelableArrayListExtra(Global.CUSTOMER_LIST);
         mShop = i.getParcelableExtra(Global.SHOP_OBJECT);
-        cardId = i.getStringExtra(Global.CARD_ID);
+        mCardID = i.getStringExtra(Global.CARD_ID);
 
         if(state != null) {
             mFlash = state.getBoolean(FLASH_STATE, false);
@@ -150,13 +148,19 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
         } catch (Exception e) {}
 
         // find user in users
-        User foundUser = null;
-        String barcode = rawResult.getContents();
-        for(int i=0; i<listUsers.size(); i++) {
-            User user = listUsers.get(i);
-            if(user.getBarcode().equals(barcode)) {
-                foundUser = user;
-                break;
+        Customer foundUser = null;
+        String qrCode = rawResult.getContents();
+
+        String cardID = qrCode.substring(0, 13);
+        String username = qrCode.substring(13, qrCode.length());
+
+        if(cardID.equals(mCardID)) {
+            for(int i=0; i< listCustomers.size(); i++) {
+                Customer user = listCustomers.get(i);
+                if(user.getUsername().equals(username)) {
+                    foundUser = user;
+                    break;
+                }
             }
         }
 
@@ -169,16 +173,16 @@ public class ScannerActivity extends ActionBarActivity implements MessageDialogF
             mDialogBuilder.setCancelable(false);
 
             // Set listeners for dialog's buttons
-            final User finalFoundUser = foundUser;
+            final Customer finalFoundCustomer = foundUser;
             mDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
 
                     Intent i = new Intent(ScannerActivity.this, CalculatePointActivity.class);
-                    i.putExtra(Global.CARD_ID, cardId);
+                    i.putExtra(Global.CARD_ID, mCardID);
                     // put username into intent
-                    i.putExtra(Global.USER_NAME, finalFoundUser.getUsername());
+                    i.putExtra(Global.USER_NAME, finalFoundCustomer.getUsername());
 
                     // put shop into intent
                     i.putExtra(Global.SHOP_OBJECT, mShop);

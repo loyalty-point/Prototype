@@ -49,14 +49,21 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         billCodeTv = (TextView) findViewById(R.id.billCode);
         billImageIv = (ImageView) findViewById(R.id.billImage);
         detailLv = (ListView) findViewById(R.id.listEvent);
-        backBtn = (ButtonRectangle) findViewById(R.id.printBtn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
+//        backBtn = (ButtonRectangle) findViewById(R.id.printBtn);
+//        backBtn.setVisibility(View.INVISIBLE);
+//        backBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                UpdatePointDetailActivity.this.finish();
+//            }
+//        });
+        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UpdatePointDetailActivity.this.finish();
             }
         });
-        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());

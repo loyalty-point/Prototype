@@ -103,37 +103,38 @@ public class GcmIntentService extends IntentService {
                 }else {
                     final String message = extras.getString("message");
                     String shopID = extras.getString("shopID");
+                    String cardId = extras.getString("cardID");
 
-//                    ShopModel.getShopInfo(Global.userToken, shopID, new ShopModel.OnGetShopInfoResult() {
-//                        @Override
-//                        public void onSuccess(Shop shop) {
-//                            mShop = shop;
-//                            if (message.equals("trade successfully") || message.equals("add point")) {
-//                                String historyId = extras.getString("historyID");
-//
-//                                UserModel.getHistory(Global.userToken, historyId, new UserModel.OnGetHistoryResult() {
-//                                    @Override
-//                                    public void onSuccess(History history) {
-//                                        mHistory = history;
-//                                        sendNotification(extras, true);
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(String error) {
-//
-//                                    }
-//                                });
-//                            } else {
-//                                sendNotification(extras, true);
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(String error) {
-//                            // do nothing
-//                        }
-//                    });
+                    ShopModel.getShopInfo(Global.userToken, shopID, cardId, new ShopModel.OnGetShopInfoResult() {
+                        @Override
+                        public void onSuccess(Shop shop) {
+                            mShop = shop;
+                            if (message.equals("trade successfully") || message.equals("add point")) {
+                                String historyId = extras.getString("historyID");
+
+                                UserModel.getHistory(Global.userToken, historyId, new UserModel.OnGetHistoryResult() {
+                                    @Override
+                                    public void onSuccess(History history) {
+                                        mHistory = history;
+                                        sendNotification(extras, true);
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+
+                                    }
+                                });
+                            } else {
+                                sendNotification(extras, true);
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            // do nothing
+                        }
+                    });
                 }
 
             }
