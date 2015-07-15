@@ -39,6 +39,12 @@ public class ListHistoriesAdapter extends BaseAdapter {
         this.shopAddress = shopAddress;
     }
 
+    public ListHistoriesAdapter(Context context, ArrayList<History> mHistories) {
+        mInflater = LayoutInflater.from(context);
+        this.mHistories = mHistories;
+        mParentActivity = (Activity) context;
+    }
+
     public void setListHistories(ArrayList<History> listHistories) {
         mHistories = listHistories;
     }
@@ -91,7 +97,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
             history.setBillImage(null);
 
         holder.time.setText(history.getTime());
-        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_bill_dark).into(holder.billImage);
+        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_about).into(holder.billImage);
 
         if (history.getType().equals("0")) { //buy award history
             holder.shopname.setTextColor(mParentActivity.getResources().getColor(R.color.MaterialRed));
@@ -112,14 +118,31 @@ public class ListHistoriesAdapter extends BaseAdapter {
                 if (history.getType().equals("1")) {//got point from buying product
                     Intent i = new Intent(mParentActivity, UpdatePointDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
-                    i.putExtra(Global.SHOP_NAME, shopName);
-                    i.putExtra(Global.SHOP_ADDRESS, shopAddress);
+                    if(shopName == null){
+                        i.putExtra(Global.SHOP_NAME, "");
+                    }else{
+                        i.putExtra(Global.SHOP_NAME, shopName);
+                    }
+                    if(shopAddress == null){
+                        i.putExtra(Global.SHOP_ADDRESS, "");
+                    }else{
+                        i.putExtra(Global.SHOP_ADDRESS, shopAddress);
+                    }
+
                     mParentActivity.startActivity(i);
                 } else if (history.getType().equals("0")) { //buy award
                     Intent i = new Intent(mParentActivity, BuyAwardDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
-                    i.putExtra(Global.SHOP_NAME, shopName);
-                    i.putExtra(Global.SHOP_ADDRESS, shopAddress);
+                    if(shopName == null){
+                        i.putExtra(Global.SHOP_NAME, "");
+                    }else{
+                        i.putExtra(Global.SHOP_NAME, shopName);
+                    }
+                    if(shopAddress == null){
+                        i.putExtra(Global.SHOP_ADDRESS, "");
+                    }else{
+                        i.putExtra(Global.SHOP_ADDRESS, shopAddress);
+                    }
                     mParentActivity.startActivity(i);
                 }
             }

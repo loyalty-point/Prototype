@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -142,6 +143,15 @@ public class ShopRegistersFragment extends Fragment implements SearchView.OnQuer
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) mParentActivity.findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(mParentActivity, CustomerRegisterInfoActivity.class);
+                i.putExtra(Global.CARD_ID, cardId);
+                i.putExtra(Global.USER_OBJECT, listUser.get(position));
+                startActivity(i);
+            }
+        });
         //getListRegisters();
         setHasOptionsMenu(true);
     }

@@ -49,6 +49,11 @@ jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getAcceptRegiste
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/accept_register_request.php");
 }
 
+jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getCancelRegisterRequest(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/cancel_register_request.php");
+}
+
 jstring Java_com_thesis_dont_loyaltypointadmin_models_ShopModel_getGetNumUserEventAward(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/admin_shop/get_sum_user_event_award.php");

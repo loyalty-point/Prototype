@@ -135,7 +135,7 @@ public class TicketModel {
         t.start();
     }
 
-    public static void cancelUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnCancelUserTicket mOnCancelUserTicket){
+    public static void cancelUserTicket(final String token, final String shopId, final String cardID, final String userId, final String ticketId, final OnCancelUserTicket mOnCancelUserTicket){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -152,6 +152,7 @@ public class TicketModel {
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
+                nameValuePairs.add(new BasicNameValuePair("cardId", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_70sdp"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/userImg"
-        android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/userImg"
-        android:textSize="25dp" />
-
-    <TextView
-        android:id="@+id/userPhone"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userName"
-        android:layout_toRightOf="@id/userImg"
-        android:textSize="@dimen/font_size" />
-
-    <Button
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:id="@+id/acceptBtn"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:text="ACCEPT" />
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/customborder">
+
+        <ImageView
+            android:id="@+id/userImg"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/userImg"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@id/userImg"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/userPhone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@id/userImg"
+            android:textSize="@dimen/font_size" />
+
+        <Button
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:id="@+id/acceptBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="ACCEPT" />
+    </RelativeLayout>
 </RelativeLayout>

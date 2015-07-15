@@ -224,7 +224,7 @@ public class UserTicketsFragment extends Fragment {
                                             mParentActivity.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    mAdapter.remove(mAdapter.getItem(position));
+                                                    mAdapter.remove(AwardCard.this);
                                                     mAdapter.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
                                                             .setTitle("Successfully")
@@ -306,13 +306,13 @@ public class UserTicketsFragment extends Fragment {
                                 @Override
                                 public void onSuccess() {
                                     //Cancel the order if the indentity number checking was ok.
-                                    TicketModel.cancelUserTicket(Global.userToken, shopId, userId, awardHistory.getId(), new TicketModel.OnCancelUserTicket() {
+                                    TicketModel.cancelUserTicket(Global.userToken, shopId, cardId, userId, awardHistory.getId(), new TicketModel.OnCancelUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    mAdapter.remove(mAdapter.getItem(position));
+                                                    mAdapter.remove(AwardCard.this);
                                                     mAdapter.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
                                                             .setTitle("Cancel Successfully")

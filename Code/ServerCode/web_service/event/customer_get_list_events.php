@@ -28,7 +28,7 @@ if($username == ""){
 }
 /**/
 
-$query = "select * from event where id in (select distinct event_id from event_card_shop where card_id = '".$cardID."')";
+$query = "select * from event where id in (select distinct event_id from event_card_shop where card_id = '".$cardID."' and shop_id='".$shopID."')";
 $query_exec2 = mysqli_query($localhost, $query);   
 $listEvents = "";
 $listShops = "";

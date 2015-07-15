@@ -16,3 +16,12 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getCustomerGetSho
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/shop/customer_select_shop.php");
 }
 
+jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getGetNumUserEventAward(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_shop/get_sum_user_event_award.php");
+}
+
+jstring Java_com_thesis_dont_loyaltypointuser_models_ShopModel_getGetNewestUserEventAward(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_shop/get_newest_user_event_award.php");
+}

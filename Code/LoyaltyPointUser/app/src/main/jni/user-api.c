@@ -49,4 +49,9 @@ jstring Java_com_thesis_dont_loyaltypointuser_models_UserModel_getGetUpdateUserI
     return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_user/update_info_user.php");
 }
 
+jstring Java_com_thesis_dont_loyaltypointuser_models_UserModel_getGetListHistoryCard(JNIEnv* env, jobject thiz)
+{
+    return (*env)->NewStringUTF(env, "http://104.155.233.34/web_service/customer_card/get_list_history_card.php");
+}
+
 
