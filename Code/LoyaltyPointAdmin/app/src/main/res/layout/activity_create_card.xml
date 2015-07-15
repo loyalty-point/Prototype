@@ -5,18 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateShopActivity">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/shadow_height"
-        android:background="@drawable/toolbar_dropshadow" />
 
     <LinearLayout
         android:id="@+id/btnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_alignParentBottom="true">
 
         <com.gc.materialdesign.views.ButtonRectangle
@@ -45,20 +43,10 @@
 
     <RelativeLayout
         android:id="@+id/infoLayout"
-        android:layout_above="@id/btnLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnLayout"
         android:layout_alignParentTop="true">
-
-        <Button
-            android:id="@+id/colorPicker"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/ic_palette"
-            android:layout_alignBottom="@+id/cardNameFloat"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/cardNameFloat"
@@ -66,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_toLeftOf="@id/colorPicker"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
@@ -83,47 +70,28 @@
                 android:textSize="@dimen/font_size"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <!--<com.thesis.dont.loyaltypointadmin.views.MyRoundedImageView
+            android:id="@+id/cardBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/LightGrey"
+            android:layout_below="@+id/cardNameFloat"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_3sdp"
+            app:siBorderColor="@color/MaterialGrey"/>-->
+
         <com.thesis.dont.loyaltypointadmin.views.CustomCard
             android:id="@+id/cardBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/LightGrey"
             android:layout_below="@+id/cardNameFloat"
             android:layout_marginTop="@dimen/_10sdp"
             app:siRadius="@dimen/_1sdp"
-            app:siBorderWidth="@dimen/_3sdp"/>
+            app:siBorderWidth="@dimen/_3sdp"
+            app:siBorderColor="@color/MaterialGrey"/>
 
-        <ImageView
-            android:id="@+id/noteImgView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/description_event"
-            android:layout_below="@id/cardBackground"
-            android:layout_marginTop="@dimen/_10sdp"/>
-
-        <TextView
-            android:id="@+id/additionalInfoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardBackground"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_toRightOf="@id/noteImgView"
-            android:text="@string/createCardNote"/>
-        <TextView
-            android:id="@+id/userInfoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/additionalInfoTextView"
-            android:textStyle="bold"
-            android:text="User Required Informations:"/>
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_below="@id/userInfoTextView"
-            android:id="@+id/requiredUserInfoList">
-        </ListView>
 
     </RelativeLayout>
 

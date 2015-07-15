@@ -51,7 +51,7 @@ public class CardCreateEventActivity extends ActionBarActivity implements DatePi
         setContentView(R.layout.activity_card_create_event);
         shopId = getIntent().getStringExtra(ARG_SHOPID);
         cardId = getIntent().getStringExtra(Global.CARD_ID);
-
+        setTitle("Create Event");
         Calendar c = Calendar.getInstance();
         category = (Spinner) findViewById(R.id.eventcategory);
         /** create value to list and add event change frangment**/

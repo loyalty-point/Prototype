@@ -82,19 +82,18 @@ public class ShopAwardsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        shopID = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        cardID = ((ShopDetailActivity)getActivity()).getCurrentCardId();
         mParentActivity = getActivity();
-
-        shopID = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
-        cardID = ((ShopDetailActivity) mParentActivity).getCurrentCardId();
-
         // set listener for createAward button
-        ButtonFloat createAwardBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createAwardBtn);
+        ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
         createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mParentActivity, CreateAwardActivity.class);
-                i.putExtra(SHOP_ID, ((ShopDetailActivity)mParentActivity).getCurrentShop().getId());
+                Intent i = new Intent(getActivity(), CreateAwardActivity.class);
+                i.putExtra(SHOP_ID, ((ShopDetailActivity)getActivity()).getCurrentShop().getId());
                 i.putExtra(Global.CARD_ID, cardID);
                 startActivity(i);
             }
@@ -102,8 +101,8 @@ public class ShopAwardsFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
-        mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 //        getListAwards();
     }
@@ -154,13 +153,13 @@ public class ShopAwardsFragment extends Fragment {
             public void onSuccess(final ArrayList<Award> listAwards) {
                 // Get listAwards thành công
                 // Cập nhật dữ liệu lên mAdapter
-                mParentActivity.runOnUiThread(new Runnable() {
+                ShopAwardsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.clear();
                         for (int i = 0; i < listAwards.size(); i++) {
 
-                            AwardCard card = new AwardCard(mParentActivity);
+                            AwardCard card = new AwardCard(getActivity());
 
                             //Only for test, use different titles and ratings
                             card.awardName = listAwards.get(i).getName();
@@ -172,11 +171,9 @@ public class ShopAwardsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Intent i = new Intent(mParentActivity, EditAwardActivity.class);
+                                    Intent i = new Intent(getActivity(), EditAwardActivity.class);
                                     //i.putExtra(SHOP_ID, shopID);
                                     i.putExtra(AWARD_OBJECT, ((AwardCard)card).award);
-                                    i.putExtra(Global.CARD_ID, cardID);
-                                    i.putExtra(Global.SHOP_ID, shopID);
                                     startActivity(i);
                                 }
                             });
@@ -190,11 +187,11 @@ public class ShopAwardsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ShopAwardsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

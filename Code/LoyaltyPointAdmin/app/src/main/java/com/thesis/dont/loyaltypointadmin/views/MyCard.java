@@ -42,6 +42,16 @@ public class MyCard extends Card {
     }
 
     private void init(){
+
+        //No Header
+
+        //Set a OnClickListener listener
+        /*setOnClickListener(new OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                Toast.makeText(getContext(), "Click Listener card=", Toast.LENGTH_LONG).show();
+            }
+        });*/
     }
 
     @Override
@@ -58,6 +68,7 @@ public class MyCard extends Card {
 //                i.putExtra(Global.SHOP_OBJECT, mShop);
                 Intent i = new Intent((Activity)mContext, CardDetailActivity.class);
                 i.putExtra(Global.CARD_ID, mCard.getId());
+                i.putExtra(Global.CARD_NAME, mCard.getName());
                 mContext.startActivity(i);
             }
         });

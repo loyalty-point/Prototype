@@ -11,6 +11,7 @@ $token = $_POST['token'];
 $ticketId = $_POST['ticketId'];
 $shopId = $_POST['shopId'];
 $userId = $_POST['userId'];
+$cardId = $_POST['cardId'];
 // Kiểm tra token
 if(strlen($token)!=64){
     echo '{"error":"token not found"}';
@@ -45,11 +46,11 @@ if($award_row['id'] == ""){
     die();
 }
 
-$query = "select * from customer_shop where username='".$ticket_row['username']."' and shop_id='".$ticket_row['shopID']."'";
+$query = "select * from customer_card where username='".$ticket_row['username']."' and card_id='".$cardId."'";
 $query_exec = mysqli_query($localhost, $query);
-$customer_shop_row = mysqli_fetch_array($query_exec);
+$customer_card_row = mysqli_fetch_array($query_exec);
 
-if($customer_shop_row['username'] == ""){
+if($customer_card_row['username'] == ""){
     echo '{"error":"user not follow this shop"}';
     die();
 }
@@ -62,8 +63,8 @@ if($query_exec){
     $query = "update award set quantity = " . $new_quantity . " where id = '".$award_row['id']."'";
     $query_exec = mysqli_query($localhost, $query);
     //update point after cancel.
-    $new_point = $customer_shop_row['point'] + $ticket_row['total_point'];
-    $query = "update customer_shop set point = " . $new_point . " where username = '".$ticket_row['username']."' and shop_id = '".$ticket_row['shopID']."'";
+    $new_point = $customer_card_row['point'] + $ticket_row['total_point'];
+    $query = "update customer_card set point = " . $new_point . " where username = '".$ticket_row['username']."' and card_id = '".$cardId."'";
     $query_exec = mysqli_query($localhost, $query);
 
     echo '{"error":""}';
@@ -79,7 +80,7 @@ if($query_exec){
 
         $regID = array($regID);
         $message = "cancel successfully";
-        $message = array("message" => $message, "shopID" => $shopId);
+        $message = array("type" => "both", "message" => $message, "shopID" => $shopId, "cardID" => $cardId, "point" => $new_point);
 
         $gcm = new GCM();
 

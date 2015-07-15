@@ -84,7 +84,7 @@ public class AwardModel {
         t.start();
     }
 
-    public static void editAward(final String token, final String shopId, final String cardId, final Award award,
+    public static void editAward(final String token, final Award award,
                                    final OnEditAwardResult mOnEditAwardResult){
 
         Thread t = new Thread() {
@@ -103,8 +103,6 @@ public class AwardModel {
 
                 nameValuePairs.add(new BasicNameValuePair("award", json));
                 nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
-                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -140,12 +138,12 @@ public class AwardModel {
                                 final Award award,
                                 final int quantity,
                                 final OnSellAwardResult mOnSellAwardResult){
-
+        final String json = Helper.objectToJson(award);
         Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
-                String award_json = Helper.objectToJson(award);
+
                 String link = getSellAward();
 
                 httpclient = new DefaultHttpClient();
@@ -158,7 +156,7 @@ public class AwardModel {
                 nameValuePairs.add(new BasicNameValuePair("time", time));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
                 nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
-                nameValuePairs.add(new BasicNameValuePair("award", award_json));
+                nameValuePairs.add(new BasicNameValuePair("award", json));
                 nameValuePairs.add(new BasicNameValuePair("quantity", String.valueOf(quantity)));
 
                 try {

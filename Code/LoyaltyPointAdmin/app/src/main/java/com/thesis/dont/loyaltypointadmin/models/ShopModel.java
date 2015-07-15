@@ -344,7 +344,7 @@ public class ShopModel {
 
                     if(result.error.equals("")){
                         ArrayList<User> listRegisters = new ArrayList<User>();
-                        for(int i=0; i<result.listRegisters.length-1; i++) {
+                            for(int i=0; i<result.listRegisters.length-1; i++) {
                             listRegisters.add(result.listRegisters[i]);
                         }
                         mOnGetListRegistersResult.onSuccess(listRegisters);

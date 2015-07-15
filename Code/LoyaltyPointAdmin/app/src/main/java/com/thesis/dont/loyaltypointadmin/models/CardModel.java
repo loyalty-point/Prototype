@@ -43,7 +43,6 @@ public class CardModel {
     public static native String getEditEvent();
     public static native String getCreateAward();
     public static native String getEditAward();
-    public static native String getGetListHistory();
 
     public static void getListAwards(final String token, final String cardID, final OnGetListAwardsResult mOnGetListAwardsResult){
 
@@ -160,9 +159,8 @@ public class CardModel {
         t.start();
     }
 
-    public static void createCard(final String userToken, Card card, RequiredCustomerInfo checkedRequiredUserInfo, final OnCreateCardResult mOnCreateCardResult){
+    public static void createCard(final String userToken, Card card, final OnCreateCardResult mOnCreateCardResult){
         final String json = Helper.objectToJson(card);
-        final String checkedRequiredUserInfoJson = Helper.objectToJson(checkedRequiredUserInfo);
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -176,7 +174,6 @@ public class CardModel {
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("card", json));
-                nameValuePairs.add(new BasicNameValuePair("requiredInfo", checkedRequiredUserInfoJson));
                 nameValuePairs.add(new BasicNameValuePair("token", userToken));
 
                 try {
@@ -548,116 +545,6 @@ public class CardModel {
             }
         };
         t.start();
-    }
-
-    public static void editAward(Award award, final ArrayList<String> shopsId, final String cardId, final OnAddAwardResult onAddAwardResult){
-        final String json = Helper.objectToJson(award);
-        final String list_shops_id = Helper.objectToJson(shopsId);
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getEditAward();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(3);
-
-                nameValuePairs.add(new BasicNameValuePair("shops_id", list_shops_id));
-                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
-                nameValuePairs.add(new BasicNameValuePair("award", json));
-                nameValuePairs.add(new BasicNameValuePair("token", Global.userToken));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    /*ResponseHandler<String> responseHandler = Helper.getResponseHandler();*/
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    CreateAwardResult createAwardResult = (CreateAwardResult)Helper.jsonToObject(response, CreateAwardResult.class);
-
-                    if(createAwardResult.error.equals(""))
-                        onAddAwardResult.onSuccess(createAwardResult);
-                    else
-                        onAddAwardResult.onError(createAwardResult.error);
-                } catch (UnsupportedEncodingException e) {
-                    onAddAwardResult.onError(e.toString());
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    onAddAwardResult.onError(e.toString());
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    onAddAwardResult.onError(e.toString());
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public static void getListHistory(final String token, final String cardId,
-                                      final OnGetListHistoryResult mOnGetListHistoryResult){
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-
-                String link = getGetListHistory();
-
-                httpclient = new DefaultHttpClient();
-                httppost = new HttpPost(link);
-
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
-
-                try {
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
-                    String response = null;
-
-                    response = httpclient.execute(httppost, responseHandler);
-                    GetListHistoryResult result = (GetListHistoryResult) Helper.jsonToObject(response, GetListHistoryResult.class);
-
-                    if(result.error.equals("")) {
-                        ArrayList<History> listHistories = new ArrayList<History>();
-                        for(int i=0; i<result.listHistories.length-1; i++) {
-                            listHistories.add(result.listHistories[i]);
-                        }
-                        mOnGetListHistoryResult.onSuccess(listHistories);
-                    }
-                    else
-                        mOnGetListHistoryResult.onError(result.error);
-
-                } catch (UnsupportedEncodingException e) {
-                    mOnGetListHistoryResult.onError("UnsupportedEncodingException");
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    mOnGetListHistoryResult.onError("ClientProtocolException");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mOnGetListHistoryResult.onError("IOException");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-    }
-
-    public interface OnGetListHistoryResult{
-        public void onSuccess(ArrayList<History> listHistories);
-        public void onError(String error);
-    }
-
-    public class GetListHistoryResult{
-        public String error;
-        public History[] listHistories;
     }
 
     public interface OnAddAwardResult{

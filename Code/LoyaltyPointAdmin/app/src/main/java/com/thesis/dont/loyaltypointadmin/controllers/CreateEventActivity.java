@@ -58,7 +58,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         mDialog.setTitle("Creating event");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
-
+        setTitle("Create Event");
         Calendar c = Calendar.getInstance();
         category = (Spinner) findViewById(R.id.eventcategory);
         /** create value to list and add event change frangment**/

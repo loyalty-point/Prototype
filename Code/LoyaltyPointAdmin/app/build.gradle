@@ -157,7 +157,4 @@ dependencies {
 
     // stack view pager
     compile 'com.bartoszlipinski.flippablestackview:library:1.2.1'
-
-    // color palette
-    compile 'com.github.yukuku:ambilwarna:2.0'
 }
