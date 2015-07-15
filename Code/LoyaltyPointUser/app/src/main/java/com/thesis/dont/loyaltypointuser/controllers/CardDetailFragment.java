@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,8 +45,11 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
     private static final String SHOP_ID = "shopId";
 
     Activity mParentActivity;
+    SwipeRefreshLayout mSwipeLayout;
 
     private Card mCard;
+
+    View rootView;
 
     private ArrayList<Shop> listShop;
     private ListView listView;
@@ -74,7 +78,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_card_detail, container, false);
+        rootView = inflater.inflate(R.layout.fragment_card_detail, container, false);
 
         ButterKnife.inject(this, rootView);
 
@@ -91,6 +95,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
                     @Override
                     public void run() {
                         populateAdapter("");
+                        mSwipeLayout.setRefreshing(false);
                     }
                 });
             }
@@ -100,6 +105,7 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, "error: " + error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -126,15 +132,15 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
                 from,
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-        listView = (ListView) mParentActivity.findViewById(R.id.listShops);
+        listView = (ListView) rootView.findViewById(R.id.listShops);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(mParentActivity, ShopDetailActivity.class);
                 Shop currentShop = null;
-                for(int j = 0; j<listShop.size();j++){
-                    if(listShop.get(j).getId().equals(cursor.getString(4)))
+                for (int j = 0; j < listShop.size(); j++) {
+                    if (listShop.get(j).getId().equals(cursor.getString(4)))
                         currentShop = listShop.get(j);
                 }
                 i.putExtra(Global.CARD_OBJECT, mCard);
@@ -143,8 +149,33 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
 
             }
         });
-        //getListUsers();
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+
         setHasOptionsMenu(true);
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListShops();
+            }
+        });
     }
 
     @Override
@@ -164,13 +195,6 @@ public class CardDetailFragment extends Fragment implements SearchView.OnQueryTe
         }
         mAdapter.changeCursor(cursor);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getListShops();
     }
 
     @Override

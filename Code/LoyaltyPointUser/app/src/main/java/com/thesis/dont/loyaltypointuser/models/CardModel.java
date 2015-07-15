@@ -1,5 +1,7 @@
 package com.thesis.dont.loyaltypointuser.models;
 
+import android.util.Log;
+
 import com.thesis.dont.loyaltypointuser.controllers.Helper;
 
 import org.apache.http.HttpResponse;
@@ -120,6 +122,7 @@ public class CardModel {
                     String response = null;
 
                     response = httpclient.execute(httppost, responseHandler);
+                    Log.e("CardModel", response);
 
                     GetListEvents result = (GetListEvents) Helper.jsonToObject(response, GetListEvents.class);
                     if(result.error.equals("")) {

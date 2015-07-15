@@ -1,13 +1,9 @@
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.thesis.dont.loyaltypointadmin.controllers.ShopAwardsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="match_parent">
 
     <it.gmariotti.cardslib.library.view.CardGridView
         android:layout_width="match_parent"
@@ -22,4 +18,5 @@
         android:gravity="center"
         android:id="@+id/listEvents"/>
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+

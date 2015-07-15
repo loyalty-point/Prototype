@@ -2,7 +2,6 @@ package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -15,7 +14,7 @@ import com.thesis.dont.loyaltypointuser.models.Global;
 public class CardDetailActivity extends ActionBarActivity {
 
     int tabIndex = 0;
-    Card cardId;
+    Card mCard;
     int userPoint;
 
     @Override
@@ -26,14 +25,14 @@ public class CardDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        cardId = i.getParcelableExtra(Global.CARD_OBJECT);
+        mCard = i.getParcelableExtra(Global.CARD_OBJECT);
         userPoint = i.getIntExtra(Global.USER_POINT, 0);
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle("KFC Fastfood");
-        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(),cardId, userPoint));
+        setTitle(mCard.getName());
+        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(), mCard, userPoint));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

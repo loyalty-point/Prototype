@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.CardModel;
@@ -41,6 +41,9 @@ public class CardEventsFragment extends Fragment {
     CardGridArrayAdapter mAdapter;
     Activity mParentActivity;
 
+    SwipeRefreshLayout mSwipeLayout;
+    View rootView;
+
     private int position;
     private com.thesis.dont.loyaltypointuser.models.Card mCard;
 
@@ -63,7 +66,7 @@ public class CardEventsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_card_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_card_events, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -74,11 +77,33 @@ public class CardEventsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mParentActivity = getActivity();
         mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
-        mListView = (CardGridView) mParentActivity.findViewById(R.id.listEvents);
+        mListView = (CardGridView) rootView.findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
 
-        getListEvents();
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListEvents();
+            }
+        });
     }
 
     public class EventCard extends Card {
@@ -168,6 +193,7 @@ public class CardEventsFragment extends Fragment {
                             mAdapter.add(card);
                         }
                         mAdapter.notifyDataSetChanged();
+                        mSwipeLayout.setRefreshing(false);
                     }
                 });
             }
@@ -178,6 +204,7 @@ public class CardEventsFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listEvents không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });

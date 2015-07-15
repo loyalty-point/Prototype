@@ -10,7 +10,7 @@ $token = $_POST['token'];
 $cardID = $_POST['cardID'];
 
 if(strlen($token)!=64){
-    echo '{"error":"token not found", "listEvents":[]}';
+    echo '{"error":"token not found", "listEvents":[], "listShops":[[]]}';
     die();
 }
 
@@ -22,7 +22,7 @@ $row = mysqli_fetch_array($query_exec);
 $username = $row['username'];
 
 if($username == ""){
-    echo '{"error":"wrong token", "listEvents":[]}';
+    echo '{"error":"wrong token", "listEvents":[], "listShops":[[]]}';
 	die();
 }
 /**/

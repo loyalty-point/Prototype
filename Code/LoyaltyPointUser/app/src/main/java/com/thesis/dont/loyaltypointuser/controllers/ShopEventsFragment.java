@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,9 @@ public class ShopEventsFragment extends Fragment {
     private String shopId;
     private String cardId;
 
+    SwipeRefreshLayout mSwipeLayout;
+    View rootView;
+
     Activity mParentActivity;
 
     public ShopEventsFragment() {
@@ -73,7 +77,7 @@ public class ShopEventsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_shop_events, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -89,6 +93,31 @@ public class ShopEventsFragment extends Fragment {
         mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListEvents();
+            }
+        });
     }
 
     public void getListEvents() {
@@ -114,7 +143,7 @@ public class ShopEventsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Event event = ((EventCard)mAdapter.getItem(position)).event;
+                                    Event event = ((EventCard) mAdapter.getItem(position)).event;
                                     Intent i = new Intent(mParentActivity, EventDetailActivity.class);
                                     i.putExtra(EVENT_OBJECT, ((EventCard) card).event);
                                     i.putParcelableArrayListExtra(Global.SHOP_ARRAY_OBJECT, ((EventCard) card).listShops);
@@ -125,6 +154,7 @@ public class ShopEventsFragment extends Fragment {
                             mAdapter.add(card);
                         }
                         mAdapter.notifyDataSetChanged();
+                        mSwipeLayout.setRefreshing(false);
                     }
                 });
             }
@@ -135,6 +165,7 @@ public class ShopEventsFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -179,11 +210,5 @@ public class ShopEventsFragment extends Fragment {
             Picasso.with(mParentActivity).load(eventImg).placeholder(R.drawable.ic_about).into(eventImgIv);
         }
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getListEvents();
     }
 }

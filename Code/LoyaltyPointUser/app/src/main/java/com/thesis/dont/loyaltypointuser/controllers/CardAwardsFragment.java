@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +54,9 @@ public class CardAwardsFragment extends Fragment {
     Activity mParentActivity;
     private int position;
 
+    SwipeRefreshLayout mSwipeLayout;
+    View rootView;
+
     com.thesis.dont.loyaltypointuser.models.Card mCard;
 
     public CardAwardsFragment() {
@@ -75,7 +79,7 @@ public class CardAwardsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_awards, container, false);
+        rootView = inflater.inflate(R.layout.fragment_shop_awards, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -93,7 +97,30 @@ public class CardAwardsFragment extends Fragment {
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 
-        getListAwards();
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListAwards();
+            }
+        });
     }
 
     public void refresh() {
@@ -185,6 +212,7 @@ public class CardAwardsFragment extends Fragment {
                             mAdapter.add(card);
                         }
                         mAdapter.notifyDataSetChanged();
+                        mSwipeLayout.setRefreshing(false);
                     }
                 });
             }
@@ -195,6 +223,7 @@ public class CardAwardsFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });

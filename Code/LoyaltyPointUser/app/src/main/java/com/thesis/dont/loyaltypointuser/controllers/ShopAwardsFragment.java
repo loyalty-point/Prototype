@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -62,6 +63,9 @@ public class ShopAwardsFragment extends Fragment {
     String shopID, cardID;
     private int userPoint;
 
+    SwipeRefreshLayout mSwipeLayout;
+    View rootView;
+
     public ShopAwardsFragment() {}
 
     public ShopAwardsFragment(int position, int userPoint){
@@ -80,17 +84,10 @@ public class ShopAwardsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_awards,container,false);
+        rootView = inflater.inflate(R.layout.fragment_shop_awards,container,false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getListAwards();
     }
 
     public void refresh() {
@@ -112,6 +109,31 @@ public class ShopAwardsFragment extends Fragment {
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
         // set listener for Item Click
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListAwards();
+            }
+        });
     }
 
     public class AwardCard extends Card {
@@ -295,6 +317,7 @@ public class ShopAwardsFragment extends Fragment {
                             mAdapter.add(card);
                         }
                         mAdapter.notifyDataSetChanged();
+                        mSwipeLayout.setRefreshing(false);
                     }
                 });
             }
@@ -305,6 +328,7 @@ public class ShopAwardsFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
