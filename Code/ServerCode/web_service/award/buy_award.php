@@ -35,7 +35,7 @@ $userFullName = $row['name'];
 // Tìm trong bảng award thỏa điều kiện
 // award.awardID == $awardID && award.shopID = $shopID
 // $query = "select * from award where id='".$awardID."' and shopID = '" . $shopID . "'";
-$query = "select * from award where id in (select award_id from award_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."')";
+$query = "select * from award where id in (select award_id from award_card_shop where card_id = '".$cardID."' and shop_id = '".$shopID."') and id='".$awardID."'";
 $query_exec = mysqli_query($localhost, $query);
 $awardRow = mysqli_fetch_array($query_exec);
 $awardID = $awardRow['id'];

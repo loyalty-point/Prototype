@@ -45,6 +45,7 @@ public class ShopModel {
     public static native String getUpdatePoint();
     public static native String getGetListRegisters();
     public static native String getAcceptRegisterRequest();
+    public static native String getCancelRegisterRequest();
     public static native String getGetNumUserEventAward();
     public static native String getGetNewestUserEventAward();
 
@@ -344,7 +345,7 @@ public class ShopModel {
 
                     if(result.error.equals("")){
                         ArrayList<User> listRegisters = new ArrayList<User>();
-                        for(int i=0; i<result.listRegisters.length-1; i++) {
+                            for(int i=0; i<result.listRegisters.length-1; i++) {
                             listRegisters.add(result.listRegisters[i]);
                         }
                         mOnGetListRegistersResult.onSuccess(listRegisters);
@@ -415,6 +416,53 @@ public class ShopModel {
         t.start();
     }
 
+    public static void cancelRegisterRequest(final String token, final String cardID, final String username, final OnCancelRegisterRequestResult mOnCancelRegisterRequestResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getCancelRegisterRequest();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(3);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
+                nameValuePairs.add(new BasicNameValuePair("cardID", cardID));
+                nameValuePairs.add(new BasicNameValuePair("username", username));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    AcceptRegisterRequestResult result = (AcceptRegisterRequestResult) Helper.jsonToObject(response, AcceptRegisterRequestResult.class);
+
+                    if(result.error.equals("")){
+                        mOnCancelRegisterRequestResult.onSuccess();
+                    }
+                    else
+                        mOnCancelRegisterRequestResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnCancelRegisterRequestResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnCancelRegisterRequestResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnCancelRegisterRequestResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
 
     public static void getCustomerInfo(final String token, final String cardId, final String username, final OnGetCustomerInfoResult mOnGetCustomerInfoResult){
 
@@ -706,6 +754,11 @@ public class ShopModel {
     }
 
     public interface OnAcceptRegisterRequestResult{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public interface OnCancelRegisterRequestResult{
         public void onSuccess();
         public void onError(String error);
     }

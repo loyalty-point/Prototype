@@ -4,17 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thesis.dont.loyaltypointadmin.R;
@@ -23,8 +20,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class CustomCard extends RelativeLayout {
 
-    //protected FancyButton mCardName, mUserName, mQRCode;
-    protected TextView mCardName, mUserName, mQRCode;
+    protected FancyButton mCardName, mUserName, mQRCode;
     protected MyRoundedImageView mCardBackground;
     protected int mCurrentTouchedView = -1;
 
@@ -38,15 +34,15 @@ public class CustomCard extends RelativeLayout {
 
     boolean isDrag = false;
 
-    public TextView getCardName() {
+    public FancyButton getCardName() {
         return mCardName;
     }
 
-    public TextView getUserName() {
+    public FancyButton getUserName() {
         return mUserName;
     }
 
-    public TextView getQRCode() {
+    public FancyButton getQRCode() {
         return mQRCode;
     }
 
@@ -77,19 +73,17 @@ public class CustomCard extends RelativeLayout {
     }
 
     private void init() {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //View rootView = inflate(getContext(), R.layout.custom_card_layout, this);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.custom_card_layout, this, true);
-
         mCardBackground = (MyRoundedImageView) findViewById(R.id.cardImage);
-        mCardName = (TextView) findViewById(R.id.cardName);
-        mUserName = (TextView) findViewById(R.id.customerName);
-        mQRCode = (TextView) findViewById(R.id.qrCode);
-
-        Typeface influenceFont = Typeface.createFromAsset(getContext().getAssets(), "fonts/influence.ttf");
-        mCardName.setTypeface(influenceFont);
-        mUserName.setTypeface(influenceFont);
-
-        setupDragHandle();
+        mCardName = (FancyButton) findViewById(R.id.cardName);
+        mUserName = (FancyButton) findViewById(R.id.customerName);
+        mQRCode = (FancyButton) findViewById(R.id.qrCode);
+        /*mCardBackground = (MyRoundedImageView) rootView.findViewById(R.id.cardImage);
+        mCardName = (FancyButton) rootView.findViewById(R.id.cardName);
+        mUserName = (FancyButton) rootView.findViewById(R.id.customerName);
+        mQRCode = (FancyButton) rootView.findViewById(R.id.qrCode);*/
     }
 
     public void setDropListener(DropListener dropListener) {
@@ -172,11 +166,6 @@ public class CustomCard extends RelativeLayout {
         // if we're not already dragging, and the touch position is on the drag handle,
         // then start dragging
         mCurrentTouchedView = findCurrentTouchedView(motionEvent);
-        if(mCurrentTouchedView == -1) {
-            callOnClick();
-            return;
-        }
-
         if(!mIsDragging && mCurrentTouchedView != -1) {
             pointerId = motionEvent.getPointerId(0);
             updateDragPosition(motionEvent);
@@ -265,27 +254,4 @@ public class CustomCard extends RelativeLayout {
     }
 
 
-    public float getUserNameX() {
-        return mUserName.getX() / (float) mCardBackground.getWidth();
-    }
-
-    public float getUserNameY() {
-        return mUserName.getY() / (float) mCardBackground.getHeight();
-    }
-
-    public float getCardNameX() {
-        return mCardName.getX() / (float) mCardBackground.getWidth();
-    }
-
-    public float getCardNameY() {
-        return mCardName.getY() / (float) mCardBackground.getHeight();
-    }
-
-    public float getQRCodeX() {
-        return mQRCode.getX() / (float) mCardBackground.getWidth();
-    }
-
-    public float getQRCodeY() {
-        return mQRCode.getY() / (float) mCardBackground.getHeight();
-    }
 }

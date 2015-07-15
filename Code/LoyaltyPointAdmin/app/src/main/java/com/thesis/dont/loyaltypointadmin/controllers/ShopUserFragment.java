@@ -116,11 +116,9 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
         mParentActivity = getActivity();
-
-        cardId = ((ShopDetailActivity) mParentActivity).getCurrentCardId();
-        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
-
         mPicaso = Picasso.with(mParentActivity);
         // add expandable button
         //addExpandableButton();
@@ -160,10 +158,12 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(mParentActivity, UserDetailActivity.class);
-                i.putExtra(Global.USER_NAME, cursor.getString(4));
-                i.putExtra(Global.USER_FULLNAME, cursor.getString(1));
+                for(int j = 0;j<listUser.size();j++){
+                    if(listUser.get(j).getUsername().equals(cursor.getString(4))){
+                        i.putExtra(Global.USER_OBJECT, listUser.get(j));
+                    }
+                }
                 i.putExtra(Global.SHOP_ID, shopId);
-                i.putExtra(Global.USER_POINT, Integer.parseInt(cursor.getString(5)));
                 i.putExtra(Global.CARD_ID, cardId);
                 Shop shop = ((ShopDetailActivity)mParentActivity).getCurrentShop();
                 i.putExtra(Global.SHOP_OBJECT, shop);
@@ -211,7 +211,7 @@ public class ShopUserFragment extends Fragment implements SearchView.OnQueryText
         cursor = new MatrixCursor(new String[]{BaseColumns._ID, USER_NAME, USER_PHONENUMBER, USER_IMG, USER_ID, USER_POINT});
         for (int i = 0; i < listUser.size(); i++) {
             if (listUser.get(i).getFullname().toLowerCase().startsWith(query.toLowerCase()))
-                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername(), listUser.get(i).getPoint()});
+                cursor.addRow(new Object[]{i, listUser.get(i).getFullname(), listUser.get(i).getPhone(), listUser.get(i).getAvatar(), listUser.get(i).getUsername(), listUser.get(i)});
         }
         mAdapter.changeCursor(cursor);
 

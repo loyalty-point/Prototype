@@ -7,18 +7,27 @@
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:id="@+id/ratioFloatIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ratioFloat"
+            android:background="@drawable/division" />
+
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/ratioFloat"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/ratioFloatIcon"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/ratioEdtText"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:hint="ratio exchange"

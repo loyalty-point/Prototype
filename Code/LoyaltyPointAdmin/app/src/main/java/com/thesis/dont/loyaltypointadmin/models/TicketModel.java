@@ -45,7 +45,9 @@ public class TicketModel {
 
                 httpclient = new DefaultHttpClient();
                 httppost = new HttpPost(link);
+
                 nameValuePairs = new ArrayList<NameValuePair>(3);
+
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
@@ -100,9 +102,9 @@ public class TicketModel {
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
                 nameValuePairs.add(new BasicNameValuePair("awardId", awardId));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
-                nameValuePairs.add(new BasicNameValuePair("cardId", cardId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
                 nameValuePairs.add(new BasicNameValuePair("time", time));
+                nameValuePairs.add(new BasicNameValuePair("cardId", cardId));
                 nameValuePairs.add(new BasicNameValuePair("number", String.valueOf(quantity)));
                 nameValuePairs.add(new BasicNameValuePair("point", String.valueOf(total_point)));
 
@@ -135,7 +137,7 @@ public class TicketModel {
         t.start();
     }
 
-    public static void cancelUserTicket(final String token, final String shopId, final String userId, final String ticketId, final OnCancelUserTicket mOnCancelUserTicket){
+    public static void cancelUserTicket(final String token, final String shopId, final String cardId, final String userId, final String ticketId, final OnCancelUserTicket mOnCancelUserTicket){
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -152,6 +154,7 @@ public class TicketModel {
                 nameValuePairs.add(new BasicNameValuePair("ticketId", ticketId));
                 nameValuePairs.add(new BasicNameValuePair("shopId", shopId));
                 nameValuePairs.add(new BasicNameValuePair("userId", userId));
+                nameValuePairs.add(new BasicNameValuePair("cardId", cardId));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

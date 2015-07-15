@@ -84,12 +84,12 @@ public class CardAwardsFragment extends Fragment {
 
         mParentActivity = getActivity();
 
-        ButtonFloat createAwardBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createAwardBtn);
+        ButtonFloat createAwardBtn = (ButtonFloat) getActivity().findViewById(R.id.createAwardBtn);
         createAwardBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createAwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mParentActivity, CardCreateAwardActivity.class);
+                Intent i = new Intent(getActivity(), CardCreateAwardActivity.class);
                 i.putExtra(Global.CARD_ID, cardID);
                 startActivity(i);
             }
@@ -97,8 +97,8 @@ public class CardAwardsFragment extends Fragment {
 
         // Lấy danh sách awards của shop về
         // Tạo và set adapter cho listview
-        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
-        mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
 //        getListAwards();
     }
@@ -150,13 +150,13 @@ public class CardAwardsFragment extends Fragment {
             public void onSuccess(final ArrayList<Award> listAwards, final ArrayList<ArrayList<Shop>> listShops) {
                // Get listAwards thành công
                 // Cập nhật dữ liệu lên mAdapter
-                mParentActivity.runOnUiThread(new Runnable() {
+                CardAwardsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.clear();
                         for (int i = 0; i < listAwards.size(); i++) {
 
-                            AwardCard card = new AwardCard(mParentActivity);
+                            AwardCard card = new AwardCard(getActivity());
 
                             //Only for test, use different titles and ratings
                             card.awardName = listAwards.get(i).getName();
@@ -179,7 +179,7 @@ public class CardAwardsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Intent i = new Intent(mParentActivity, CardEditAwardActivity.class);
+                                    Intent i = new Intent(getActivity(), CardEditAwardActivity.class);
                                     //i.putExtra(SHOP_ID, shopID);
                                     i.putExtra(Global.CARD_ID, cardID);
                                     i.putExtra(Global.AWARD_OBJECT, ((AwardCard) card).award);
@@ -197,11 +197,11 @@ public class CardAwardsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(CardAwardsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

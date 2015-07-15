@@ -107,6 +107,7 @@ public class Customer implements Parcelable {
         dest.writeString(identity_number);
         dest.writeString(barcode);
         dest.writeString(avatar);
+        dest.writeInt(point);
     }
 
     public static final Parcelable.Creator<Customer> CREATOR
@@ -129,6 +130,7 @@ public class Customer implements Parcelable {
         identity_number = in.readString();
         barcode = in.readString();
         avatar = in.readString();
+        point = in.readInt();
     }
 
     public int getPoint() {

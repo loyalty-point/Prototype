@@ -85,7 +85,7 @@ public class GcmIntentService extends IntentService {
                     return;
                 }
                 final String type = extras.getString("type");
-                if(type.equals("card")){
+                if (type.equals("card")) {
                     String cardId = extras.getString("cardID");
                     CardModel.getCardInfo(Global.userToken, cardId, new CardModel.OnGetCardInfoResult() {
                         @Override
@@ -100,7 +100,33 @@ public class GcmIntentService extends IntentService {
                             Log.e("get card info", error.toString());
                         }
                     });
-                }else {
+                } else if (type.equals("both")) {
+                    final String shopID = extras.getString("shopID");
+                    final String cardId = extras.getString("cardID");
+                    CardModel.getCardInfo(Global.userToken, cardId, new CardModel.OnGetCardInfoResult() {
+                        @Override
+                        public void onSuccess(Card card) {
+                            mCard = card;
+                            ShopModel.getShopInfo(Global.userToken, shopID, cardId, new ShopModel.OnGetShopInfoResult() {
+                                @Override
+                                public void onSuccess(Shop shop) {
+                                    mShop = shop;
+                                    sendNotification(extras, true);
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    // do nothing
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.e("get card info", error.toString());
+                        }
+                    });
+                } else {
                     final String message = extras.getString("message");
                     String shopID = extras.getString("shopID");
                     String cardId = extras.getString("cardID");
@@ -185,8 +211,6 @@ public class GcmIntentService extends IntentService {
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Congratulations")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(data.toString()))
                         .setContentText(mCard.getName() + " has accepted your register request");
 
                 Intent i = new Intent(this, CardDetailActivity.class);
@@ -211,15 +235,16 @@ public class GcmIntentService extends IntentService {
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);
             } else if (message.equals("cancel successfully")) {
+                String point = data.getString("point");
+                mCard.setPoint(Integer.parseInt(point));
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Cancel")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(data.toString()))
                         .setContentText(mShop.getName() + " just cancel your ticket");
 
                 Intent i = new Intent(this, ShopDetailActivity.class);
                 i.putExtra(Global.SHOP_OBJECT, mShop);
+                i.putExtra(Global.CARD_OBJECT, mCard);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);

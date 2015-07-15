@@ -37,7 +37,7 @@ public class EditAwardActivity extends ActionBarActivity {
     Bitmap awardLogo = null;
 
     Award mOldAward;
-    String shopId, cardId;
+
     static Picasso mPicasso;
 
     boolean isChangeAwardImage = false;
@@ -51,8 +51,6 @@ public class EditAwardActivity extends ActionBarActivity {
 
         Intent i = getIntent();
         mOldAward = (Award) i.getParcelableExtra(ShopAwardsFragment.AWARD_OBJECT);
-        shopId = i.getStringExtra(Global.SHOP_ID);
-        cardId = i.getStringExtra(Global.CARD_ID);
 
         // init dialog
         mDialog = new ProgressDialog(this);
@@ -112,10 +110,11 @@ public class EditAwardActivity extends ActionBarActivity {
                 // Gọi api để edit award
 
                 // Show progress dialog
+                mDialog.show();
 
                 // Edit award
                 Award award = new Award(mOldAward.getID(), awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, mOldAward.getShopID());
-                AwardModel.editAward(Global.userToken, shopId, cardId, award, new AwardModel.OnEditAwardResult() {
+                AwardModel.editAward(Global.userToken, award, new AwardModel.OnEditAwardResult() {
                     @Override
                     public void onSuccess(final AwardModel.EditAwardResult result) {
                         // Sửa award thành công

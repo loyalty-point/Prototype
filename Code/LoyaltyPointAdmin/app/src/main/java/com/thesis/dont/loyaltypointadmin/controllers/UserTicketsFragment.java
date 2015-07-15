@@ -55,7 +55,8 @@ public class UserTicketsFragment extends Fragment {
 
     int position;
     String userId;
-    String cardId, shopId;
+    String shopId;
+    String cardID;
 
     private CardGridView mListView;
     CardGridArrayAdapter mAdapter;
@@ -72,7 +73,8 @@ public class UserTicketsFragment extends Fragment {
         return rootView;
     }
 
-    public UserTicketsFragment() {}
+    public UserTicketsFragment() {
+    }
 
     public UserTicketsFragment(int position, String userId, String shopId, String cardId) {
         Bundle b = new Bundle();
@@ -89,7 +91,7 @@ public class UserTicketsFragment extends Fragment {
         position = getArguments().getInt(ARG_POSITION);
         userId = getArguments().getString(ARG_USERID);
         shopId = getArguments().getString(ARG_SHOPID);
-        cardId = getArguments().getString(ARG_CARDID);
+        cardID = getArguments().getString(ARG_CARDID);
     }
 
     @Override
@@ -98,8 +100,8 @@ public class UserTicketsFragment extends Fragment {
 
         mParentActivity = getActivity();
 
-        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
-        mListView = (CardGridView) mParentActivity.findViewById(R.id.listTickets);
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listTickets);
         mListView.setAdapter(mAdapter);
     }
 
@@ -120,7 +122,7 @@ public class UserTicketsFragment extends Fragment {
                         mAdapter.clear();
                         for (int i = 0; i < listTickets.size(); i++) {
 
-                            AwardCard card = new AwardCard(mParentActivity);
+                            AwardCard card = new AwardCard(getActivity());
 
                             //Only for test, use different titles and ratings
                             card.awardName = listTickets.get(i).getAwardName();
@@ -218,13 +220,13 @@ public class UserTicketsFragment extends Fragment {
                                     Date date = new Date();
                                     String time = dateFormat.format(date);
                                     //delete award ticket when identity number checking was ok.
-                                    TicketModel.deleteUserTicket(Global.userToken, awardHistory.getId(), cardId, awardHistory.getAwardID(), shopId, userId, time, awardHistory.getQuantity(), awardHistory.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
+                                    TicketModel.deleteUserTicket(Global.userToken, awardHistory.getId(), cardID, awardHistory.getAwardID(), shopId, userId, time, awardHistory.getQuantity(), awardHistory.getTotal_point(), new TicketModel.OnDeleteUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    mAdapter.remove(mAdapter.getItem(position));
+                                                    mAdapter.remove(AwardCard.this);
                                                     mAdapter.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
                                                             .setTitle("Successfully")
@@ -306,13 +308,13 @@ public class UserTicketsFragment extends Fragment {
                                 @Override
                                 public void onSuccess() {
                                     //Cancel the order if the indentity number checking was ok.
-                                    TicketModel.cancelUserTicket(Global.userToken, shopId, userId, awardHistory.getId(), new TicketModel.OnCancelUserTicket() {
+                                    TicketModel.cancelUserTicket(Global.userToken, shopId, cardID, userId, awardHistory.getId(), new TicketModel.OnCancelUserTicket() {
                                         @Override
                                         public void onSuccess() {
                                             mParentActivity.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    mAdapter.remove(mAdapter.getItem(position));
+                                                    mAdapter.remove(AwardCard.this);
                                                     mAdapter.notifyDataSetChanged();
                                                     new AlertDialog.Builder(mParentActivity)
                                                             .setTitle("Cancel Successfully")

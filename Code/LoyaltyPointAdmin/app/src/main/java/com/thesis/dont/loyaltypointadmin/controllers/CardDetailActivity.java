@@ -20,6 +20,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
     int tabIndex = 0;
     String cardId = null;
+    String cardName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,12 @@ public class CardDetailActivity extends ActionBarActivity {
 
         Intent i = getIntent();
         cardId = i.getStringExtra(Global.CARD_ID);
+        cardName = i.getStringExtra(Global.CARD_NAME);
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle("KFC Fastfood");
+        setTitle(cardName);
         pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(), cardId));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 

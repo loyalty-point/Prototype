@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_70sdp"
+
+    android:layout_height="@dimen/_60sdp"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -15,7 +16,6 @@
             android:id="@+id/userImg"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true" />
 
         <TextView
@@ -25,6 +25,7 @@
             android:layout_alignTop="@id/userImg"
             android:layout_toRightOf="@id/userImg"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:textColor="@color/DarkPrimaryColor"
             android:textSize="25dp" />
 
@@ -34,12 +35,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/userName"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:layout_toRightOf="@id/userImg"
             android:textSize="@dimen/font_size" />
 
+ 
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/addUserPoint"
-            android:layout_width="@dimen/_50sdp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="match_parent"
             android:layout_marginBottom="2dp"
             android:layout_marginRight="2dp"

@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +32,7 @@ import com.thesis.dont.loyaltypointadmin.models.Global;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 
-public class CreateEventActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
+public class CreateEventActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener {
     private static final String ARG_SHOPID = "shop_id";
     private static final int SELECT_PHOTO = 100;
 
@@ -58,7 +59,7 @@ public class CreateEventActivity extends FragmentActivity implements DatePickerD
         mDialog.setTitle("Creating event");
         mDialog.setMessage("Please wait...");
         mDialog.setCancelable(false);
-
+        setTitle("Create Event");
         Calendar c = Calendar.getInstance();
         category = (Spinner) findViewById(R.id.eventcategory);
         /** create value to list and add event change frangment**/
