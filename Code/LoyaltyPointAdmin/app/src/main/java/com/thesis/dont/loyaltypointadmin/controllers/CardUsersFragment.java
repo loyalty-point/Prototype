@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.CardModel;
@@ -263,7 +264,7 @@ public class CardUsersFragment extends Fragment implements SearchView.OnQueryTex
                 image = null;
             mPicaso.load(image).placeholder(R.drawable.ic_user_avatar).into(userImg);
 
-            Button addBtn = (Button) view.findViewById(R.id.addUserPoint);
+            ButtonRectangle addBtn = (ButtonRectangle) view.findViewById(R.id.addUserPoint);
             addBtn.setVisibility(View.INVISIBLE);
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

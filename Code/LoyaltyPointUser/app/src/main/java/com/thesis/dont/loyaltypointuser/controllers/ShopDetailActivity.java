@@ -33,7 +33,10 @@ public class ShopDetailActivity extends ActionBarActivity {
         int tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         setTitle(shop.getName());
-        pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), mCard.getPoint(), shop.getName(), shop.getAddress()));
+        if(mCard != null)
+            pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), mCard.getPoint(), shop.getName(), shop.getAddress()));
+        else
+            pager.setAdapter(new ShopDetailTabPagerAdapter(getSupportFragmentManager(), shop.getId(), 0, shop.getName(), shop.getAddress()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager
@@ -54,7 +57,10 @@ public class ShopDetailActivity extends ActionBarActivity {
     }
 
     public String getCurrentCardId(){
-        return mCard.getId();
+        if(mCard != null)
+            return mCard.getId();
+        else
+            return null;
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointuser.R;
 import com.thesis.dont.loyaltypointuser.models.CardModel;
@@ -93,6 +95,18 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) findViewById(R.id.shopsList);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Chuy?n ??n trang chi ti?t c?a shop t?i position
+//                Intent i = new Intent(SearchShopActivity.this, ShopDetailActivity.class);
+//                Shop currentShop = listShop.get(position);
+//                i.putExtra(Global.CARD_OBJECT, "");
+//                i.putExtra(Global.SHOP_OBJECT, currentShop);
+//                startActivity(i);
+            }
+        });
+
         getListShops();
     }
 
@@ -170,7 +184,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
     }
 
     public static class ViewHolder {
-        public ImageView shopImg;
+        public RoundedImageView shopImg;
         public TextView shopName;
         public TextView cardName;
         public TextView shopAddress;
@@ -194,7 +208,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
             holder.shopName = (TextView) view.findViewById(R.id.shopName);
             holder.shopAddress = (TextView) view.findViewById(R.id.shopAddress);
             holder.cardName = (TextView) view.findViewById(R.id.cardName);
-            holder.shopImg = (ImageView) view.findViewById(R.id.shopImg);
+            holder.shopImg = (RoundedImageView) view.findViewById(R.id.shopImg);
 
             view.setTag(holder);
             return view;

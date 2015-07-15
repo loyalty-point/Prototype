@@ -307,9 +307,8 @@ public class CardModel {
         t.start();
     }
 
-    public static void getFollowingUsers(final String token, String shopId, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
-        final String token_string = token;
-        final String shopId_string = shopId;
+    public static void getFollowingUsers(final String token, final String cardID, final OnSelectFollowingUsersResult mOnSelectFollowingUsersResult){
+
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -323,7 +322,7 @@ public class CardModel {
                 nameValuePairs = new ArrayList<NameValuePair>(2);
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
-                nameValuePairs.add(new BasicNameValuePair("card_id", shopId_string));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardID));
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
