@@ -75,25 +75,23 @@ public class ShopEventsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mParentActivity = getActivity();
-
-        cardId = ((ShopDetailActivity) mParentActivity).getCurrentCardId();
-        shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
-        createEventBtn = (ButtonFloat) mParentActivity.findViewById(R.id.createEventBtn);
+        cardId = ((ShopDetailActivity)getActivity()).getCurrentCardId();
+        shopId = ((ShopDetailActivity)getActivity()).getCurrentShop().getId();
+        createEventBtn = (ButtonFloat) getActivity().findViewById(R.id.createEventBtn);
         createEventBtn.setBackgroundColor(getResources().getColor(R.color.AccentColor));
         createEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mParentActivity, CreateEventActivity.class);
+                Intent i = new Intent(getActivity(), CreateEventActivity.class);
                 Bundle b = new Bundle();
                 i.putExtra(ARG_SHOPID, shopId);
                 i.putExtra(Global.CARD_ID, cardId);
                 startActivity(i);
             }
         });
-
-        mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
-        mListView = (CardGridView) mParentActivity.findViewById(R.id.listEvents);
+        mParentActivity = getActivity();
+        mAdapter = new CardGridArrayAdapter(getActivity(), new ArrayList<Card>());
+        mListView = (CardGridView) getActivity().findViewById(R.id.listEvents);
         mListView.setAdapter(mAdapter);
 
     }
@@ -144,13 +142,13 @@ public class ShopEventsFragment extends Fragment {
 
             @Override
             public void onSuccess(final ArrayList<Event> listEvents) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                ShopEventsFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.clear();
                         for (int i = 0; i < listEvents.size(); i++) {
 
-                            EventCard card = new EventCard(mParentActivity);
+                            EventCard card = new EventCard(getActivity());
 
                             //Only for test, use different titles and ratings
                             card.eventName = listEvents.get(i).getName();
@@ -161,7 +159,7 @@ public class ShopEventsFragment extends Fragment {
                             card.setOnClickListener(new Card.OnCardClickListener() {
                                 @Override
                                 public void onClick(Card card, View view) {
-                                    Intent i = new Intent(mParentActivity, EditEventActivity.class);
+                                    Intent i = new Intent(getActivity(), EditEventActivity.class);
                                     i.putExtra(EVENT_OBJECT, ((EventCard)card).event);
                                     i.putExtra(Global.CARD_ID, cardId);
                                     i.putExtra(SHOP_ID, shopId);
@@ -178,11 +176,11 @@ public class ShopEventsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                mParentActivity.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
-                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ShopEventsFragment.this.getActivity(), error, Toast.LENGTH_LONG).show();
                     }
                 });
             }

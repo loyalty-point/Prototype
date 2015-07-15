@@ -174,7 +174,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     public void handleResult(final Result rawResult) {
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(mParentActivity.getApplicationContext(), notification);
+            Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {}
 
@@ -243,7 +243,7 @@ public class ScannerFragment extends Fragment implements MessageDialogFragment.M
     }
 
     public void closeDialog(String dialogName) {
-        FragmentManager fragmentManager = mParentActivity.getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         DialogFragment fragment = (DialogFragment) fragmentManager.findFragmentByTag(dialogName);
         if(fragment != null) {
             fragment.dismiss();

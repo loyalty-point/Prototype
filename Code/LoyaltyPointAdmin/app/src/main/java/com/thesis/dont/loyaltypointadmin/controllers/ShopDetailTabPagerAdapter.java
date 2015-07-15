@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"Home", "Events", "Awards", "Users", "Registers", "History"};
+    private final String[] TITLES = {"Home", "Events", "Awards", "Users", "Registers", "History", "Relatives"};
     private String shopId = null;
     private String cardId = null;
 
@@ -47,7 +47,10 @@ public class ShopDetailTabPagerAdapter extends FragmentPagerAdapter {
             return new ShopUserFragment(position);
         else if (position == 4)
             return new ShopRegistersFragment(position);
-        else
+        else if(position == 5)
             return new ShopHistoryFragment(position);
+        else
+            return new ShopRelativeFragment(position, shopId);
+
     }
 }

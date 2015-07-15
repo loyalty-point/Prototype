@@ -13,6 +13,7 @@ public class Global {
     public static String userToken = null;
     public static String regID = null;
     public static String CARD_ID = "card_id";
+    public static String CARD_NAME = "card_name";
     public static String OBJECT = "object";
     public static String SHOP_NAME = "shop_name";
     public static String SHOP_ID = "shop_id";
@@ -29,9 +30,6 @@ public class Global {
     public static String EVENT_OBJECT = "event_object";
     public static String EVENT_LIST_TYPE = "event_list_type";
     public static String AWARD_LIST_TYPE = "award_list_type";
-    public static String USER_INFO_TYPE = "user_info_type";
-    public static String USER_INFO_REGISTER = "user_info_register";
-    public static String USER_INFO = "user_info";
     public static String BITMAP = "bitmap";
     public static int CARD_DETAIL_REGISTER_TAB = 4;
     public static final String TAB_INDEX = "tab_index";

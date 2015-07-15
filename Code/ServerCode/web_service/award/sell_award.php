@@ -62,8 +62,7 @@ if($customer_username == "") {
 
 
 // Trừ điểm tích lũy của user trong bảng customer_shop
-$point = $quantity * $awardPoint;
-
+$point = $quantity * $award->point;
 $query = "select * from customer_card where username='".$customer_username."' and card_id = '" . $cardID . "'";
 $query_exec = mysqli_query($localhost, $query);
 $folllowRow = mysqli_fetch_array($query_exec);

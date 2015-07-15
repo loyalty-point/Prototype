@@ -345,7 +345,7 @@ public class ShopModel {
 
                     if(result.error.equals("")){
                         ArrayList<User> listRegisters = new ArrayList<User>();
-                        for(int i=0; i<result.listRegisters.length-1; i++) {
+                            for(int i=0; i<result.listRegisters.length-1; i++) {
                             listRegisters.add(result.listRegisters[i]);
                         }
                         mOnGetListRegistersResult.onSuccess(listRegisters);
@@ -759,6 +759,11 @@ public class ShopModel {
     }
 
     public interface OnAcceptRegisterRequestResult{
+        public void onSuccess();
+        public void onError(String error);
+    }
+
+    public interface OnCancelRegisterRequestResult{
         public void onSuccess();
         public void onError(String error);
     }
