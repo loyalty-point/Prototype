@@ -7,6 +7,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
+     
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -30,6 +31,8 @@
             android:id="@+id/barcodeFloat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+   
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/barcodeFloatIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toLeftOf="@id/barcodeScannerBtn"
@@ -37,7 +40,7 @@
 
             <EditText
                 android:id="@+id/barcodeEdtText"
-                android:layout_width="fill_parent"
+
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:hint="bar code"
@@ -54,15 +57,19 @@
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/nameFloat"
+
             android:layout_width="fill_parent"
             android:layout_below="@id/barcodeFloat"
             android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/nameFloatIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/nameEdtText"
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -83,12 +90,15 @@
             android:layout_width="fill_parent"
             android:layout_below="@id/nameFloat"
             android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/numberFloatIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/numberEdtText"
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -110,12 +120,15 @@
             android:layout_width="fill_parent"
             android:layout_below="@id/numberFloat"
             android:layout_height="wrap_content"
+       
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/pointFloatIcon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             float:fletPadding="@dimen/activity_flet_padding">
 
             <EditText
                 android:id="@+id/pointEdtText"
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
