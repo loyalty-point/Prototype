@@ -1,0 +1,137 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding"
+    android:background="@color/MaterialBackground"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.CalculatePointActivity">
+
+    <it.gmariotti.cardslib.library.view.CardViewNative
+        android:id="@+id/totalMoneyFloat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    // TOTALS POINT from MONEY
+
+    <!--<TextView
+        android:id="@+id/totalMoneyPoint"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/totalMoneyFloat"
+        android:gravity="right"
+        android:text="0"/>-->
+
+    // PRODUCTS
+    <TextView
+        android:id="@+id/products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalMoneyFloat"
+        android:textStyle="bold"
+        android:textColor="@color/AccentColor"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="PRODUCTS"/>
+
+    // TABLE HEADER
+    <RelativeLayout
+        android:id="@+id/tableHeader"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_below="@id/products">
+
+        <TextView
+            android:id="@+id/quantityHeader"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="QUANTITY"/>
+
+        <TextView
+            android:id="@+id/productNameHeader"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="PRODUCT NAME"/>
+
+        <TextView
+            android:id="@+id/barcodeHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/quantityHeader"
+            android:layout_toLeftOf="@id/productNameHeader"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:textColor="@color/DarkPrimaryColor"
+            android:textStyle="bold"
+            android:text="BARCODE"/>
+
+    </RelativeLayout>
+
+
+    // BUTTON LAYOUT
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="CANCEL"
+            android:background="@color/MaterialGrey"
+            materialdesign:rippleSpeed="70"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/font_size"/>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/nextBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="NEXT"
+            android:background="@color/AccentColor"
+            materialdesign:rippleSpeed="70"
+            android:textColor="@color/White"
+            android:textSize="@dimen/font_size"/>
+
+    </LinearLayout>
+
+    <!--<FrameLayout
+        android:id="@+id/barcodeScannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnLayout"
+        android:layout_below="@id/events"></FrameLayout>-->
+
+    // BARCODE SCANNER
+    <fragment
+        android:name="com.thesis.dont.loyaltypointadmin.controllers.ScannerFragment"
+        android:id="@+id/barcodeScannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_above="@id/btnLayout"></fragment>
+
+    // LIST PRODUCTS
+    <ListView
+        android:id="@+id/listProducts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/barcodeScannerLayout"
+        android:layout_below="@id/tableHeader"></ListView>
+
+
+
+</RelativeLayout>

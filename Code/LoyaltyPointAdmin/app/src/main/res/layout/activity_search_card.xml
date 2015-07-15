@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.SearchCard">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height"
+        android:background="@drawable/toolbar_dropshadow" />
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="0.5"
+            android:background="@color/MaterialGrey"
+            android:text="BACK"
+            android:textSize="@dimen/font_size"
+            materialdesign:rippleSpeed="70" />
+
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/confirmBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/AccentColor"
+            android:text="FINISH"
+            android:textSize="@dimen/font_size"
+            materialdesign:rippleSpeed="70" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnLayout"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_alignParentTop="true">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/createCardBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            fancy:borderColor="@color/AccentColor"
+            fancy:borderWidth="2dp"
+            fancy:defaultColor="@color/transparent"
+            fancy:focusColor="@color/AccentColor"
+            fancy:textColor="@color/AccentColor"
+            fancy:text="CREATE NEW CARD"/>
+
+        <ListView
+            android:id="@+id/listCards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/createCardBtn"
+            android:layout_marginTop="@dimen/_10sdp"></ListView>
+
+        <!--<com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/createCardBtn"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@color/AccentColor"
+            app:cb_color="#99CC00"
+            materialdesign:animate="false"
+            materialdesign:iconDrawable="@drawable/ic_action_new" />-->
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="user_name_maxLength">20</integer>
+    <integer name="password_maxLength">30</integer>
+    <integer name="fullname_maxLength">50</integer>
+    <integer name="phone_maxLength">11</integer>
+
+    <integer name="shop_name_maxLength">40</integer>
+    <integer name="exchange_ratio_maxLength">10</integer>
+    <integer name="shop_address_maxLength">100</integer>
+
+    <integer name="award_name_maxLength">40</integer>
+    <integer name="point_maxLength">10</integer>
+    <integer name="quantity_maxLength">10</integer>
+</resources>

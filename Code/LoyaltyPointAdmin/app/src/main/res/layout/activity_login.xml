@@ -1,0 +1,159 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding"
+    android:layout_height="match_parent"
+    android:background="@color/DarkPrimaryColor"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/appNameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:layout_centerHorizontal="true">
+
+        <com.romainpiel.shimmer.ShimmerTextView
+            android:id="@+id/loyal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_60sdp"
+            android:text="loyal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/TextIcons"
+            app:reflectionColor="#721"/>
+
+        <TextView
+            android:id="@+id/bag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/loyal"
+            android:textSize="@dimen/_50sdp"
+            android:layout_centerVertical="true"
+            android:text="BAG"
+            android:textColor="@color/TextIcons"/>
+
+        <ImageView
+            android:id="@+id/appIcon"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignBottom="@id/bag"
+            android:layout_toRightOf="@id/bag"
+            android:background="@drawable/ic_bag"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/usernameFloat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appNameLayout"
+            float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
+            float:fletPadding="@dimen/activity_flet_padding">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/user_name_maxLength"
+                android:singleLine="true"
+                android:hint="@string/username"
+                android:textStyle="normal"
+                android:textColor="@color/TextIcons"
+                android:backgroundTint="@color/TextIcons"
+                android:textColorHint="@color/TextIcons"
+                android:drawableLeft="@drawable/ic_user_white"
+                android:drawablePadding="@dimen/_10sdp"
+                android:textSize="@dimen/font_size"/>
+            />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/passwordFloat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/usernameFloat"
+            float:fletTextAppearance="@style/FloatLabeledEditTextStyle"
+            float:fletPadding="@dimen/activity_flet_padding">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/password_maxLength"
+
+                android:password="true"
+                android:singleLine="true"
+                android:hint="@string/password"
+                android:textColor="@color/TextIcons"
+                android:backgroundTint="@color/TextIcons"
+                android:textColorHint="@color/TextIcons"
+                android:drawableLeft="@drawable/ic_password_white"
+                android:drawablePadding="@dimen/_10sdp"
+                android:textSize="@dimen/font_size"/>
+            />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <CheckBox
+            android:id="@+id/rememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passwordFloat"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Remember Me"
+            android:textColor="@color/TextIcons"
+            android:buttonTint="@color/TextIcons"
+            android:checked="true"
+            android:textSize="@dimen/font_size"/>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rememberMe"
+            android:background="@color/PrimaryColor"
+            materialdesign:rippleSpeed="70"
+            android:text="LOGIN"
+            android:textSize="@dimen/_15sdp"/>
+
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/forgotPassword"
+            android:textColor="@color/TextIcons"
+            android:textSize="@dimen/font_size"/>
+
+    </RelativeLayout>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/AccentColor"
+        materialdesign:rippleSpeed="70"
+        android:text="REGISTER"
+        android:textSize="@dimen/_15sdp"/>
+
+</RelativeLayout>

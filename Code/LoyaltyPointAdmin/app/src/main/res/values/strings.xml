@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Loyal Bag Manager</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_shops_list">My Shops</string>
+    <string name="title_activity_login">Loyal Bag Manager</string>
+    <string name="title_activity_detail_shop">Shop detail</string>
+
+    <string-array name="nav_drawer_items">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Fifth</item>
+        <item>Sixth</item>
+    </string-array>
+    <string-array name="shopCategory">
+        <item>Food</item>
+        <item>Clothes</item>
+        <item>Car</item>
+        <item>Mobile Phone</item>
+        <item>Laptop</item>
+    </string-array>
+
+    <string-array name="eventCategory">
+        <item>Get points from buying product</item>
+        <item>Get points from total bill</item>
+    </string-array>
+
+    // History: time filter spinner
+    <string-array name="timeFilterArray">
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
+        <item>All</item>
+    </string-array>
+
+
+    // History: type filter spinner
+    <string-array name="typeFilterArray">
+        <item>Buy Award</item>
+        <item>Add Point</item>
+        <item>All</item>
+    </string-array>
+
+    // History: sort type spinner
+    <string-array name="sortTypeArray">
+        <item>Time</item>
+        <item>Name</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+    </array>
+
+    <string name="title_activity_create_shop">CreateShopActivity</string>
+    <!--<string name="username"><i>username</i></string>-->
+    <string name="username">User Name</string>
+    <!--<string name="password"><i>password</i></string>-->
+    <string name="password">Password</string>
+    <string name="forgotPassword"><i><u>Forgot your password?</u></i></string>
+    <!--<string name="confirmpassword"><i>confirm password</i></string>-->
+    <string name="confirmpassword">Confirm Password</string>
+    <!--<string name="fullname"><i>fullname</i></string>-->
+    <string name="fullname">Full Name</string>
+    <!--<string name="phonenumber"><i>phone number</i></string>-->
+    <string name="phonenumber">Phone Number</string>
+
+    <string name="total">TOTAL</string>
+
+    <string name="title_activity_shop_detail">ShopDetailActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_shop">EditShopActivity</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="title_activity_create_event1_fragment">CreateEvent1Fragment</string>
+    <string name="title_activity_create_award">CreateAwardActivity</string>
+    <string name="title_activity_edit_award">EditAwardActivity</string>
+    <string name="title_activity_edit_event">EditEventActivity</string>
+    <string name="title_activity_crop_image">CropImageActivity</string>
+    <string name="title_activity_calculate_point">CalculatePointActivity</string>
+
+    <string name="flash_on">Flash [ON]</string>
+    <string name="flash_off">Flash [OFF]</string>
+    <string name="auto_focus_on">Auto Focus [ON]</string>
+    <string name="auto_focus_off">Auto Focus [OFF]</string>
+    <string name="formats">Formats</string>
+    <string name="choose_formats">Choose Formats</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="title_activity_scanner">ScannerActivity</string>
+    <string name="title_activity_confirm_update_point">ConfirmUpdatePointActivity</string>
+    <string name="title_activity_user_detail">UserDetailActivity</string>
+    <string name="title_activity_user_detail_tab_pager_adapter">UserDetailTabPagerAdapter</string>
+    <string name="title_activity_update_point_detail">UpdatePointDetailActivity</string>
+    <string name="title_activity_buy_award_detail">BuyAwardDetailActivity</string>
+    <string name="title_activity_card_detail">CardDetailActivity</string>
+    <string name="title_activity_search_card">Choose Card</string>
+    <string name="title_activity_create_card">Create New Card</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_card_create_event">CardCreateEvent</string>
+    <string name="title_activity_card_shop_list_apply_event">CardShopListApplyEventActivity</string>
+    <string name="title_activity_card_edit_event">CardEditEventActivity</string>
+    <string name="title_activity_card_create_award">CardCreateAwardActivity</string>
+    <string name="title_activity_card_shop_list_apply_award">CardShopListApplyAwardActivity</string>
+    <string name="title_activity_card_edit_award">CardEditAwardActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_customer_register_info">CustomerRegisterInfoActivity</string>
+
+</resources>

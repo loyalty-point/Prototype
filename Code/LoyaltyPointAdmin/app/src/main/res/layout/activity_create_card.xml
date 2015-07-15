@@ -1,0 +1,130 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.thesis.dont.loyaltypointadmin.controllers.CreateShopActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height"
+        android:background="@drawable/toolbar_dropshadow" />
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_alignParentBottom="true">
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="0.5"
+            android:background="@color/MaterialGrey"
+            android:text="CANCEL"
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
+
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/confirmBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/AccentColor"
+            android:text="CREATE"
+            materialdesign:rippleSpeed="70"
+            android:textSize="@dimen/font_size"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
+        android:layout_above="@id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/colorPicker"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/ic_palette"
+            android:layout_alignBottom="@+id/cardNameFloat"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/cardNameFloat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toLeftOf="@id/colorPicker"
+            float:fletPadding="@dimen/activity_flet_padding">
+
+            <EditText
+                android:id="@+id/cardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/shop_name_maxLength"
+                android:focusable="true"
+                android:hint="Card Name"
+                android:singleLine="true"
+                android:drawableLeft="@drawable/ic_card"
+                android:drawablePadding="@dimen/_10sdp"
+                android:textStyle="normal"
+                android:textSize="@dimen/font_size"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.thesis.dont.loyaltypointadmin.views.CustomCard
+            android:id="@+id/cardBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardNameFloat"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:siRadius="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_3sdp"/>
+
+        <ImageView
+            android:id="@+id/noteImgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/description_event"
+            android:layout_below="@id/cardBackground"
+            android:layout_marginTop="@dimen/_10sdp"/>
+
+        <TextView
+            android:id="@+id/additionalInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardBackground"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_toRightOf="@id/noteImgView"
+           />
+        <TextView
+            android:id="@+id/userInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoTextView"
+            android:textStyle="bold"
+            android:text="User Required Informations:"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_below="@id/userInfoTextView"
+            android:id="@+id/requiredUserInfoList">
+        </ListView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
