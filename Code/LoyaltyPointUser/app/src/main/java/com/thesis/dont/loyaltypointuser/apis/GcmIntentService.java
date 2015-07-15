@@ -22,6 +22,7 @@ import com.thesis.dont.loyaltypointuser.controllers.CardDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.CardsListActivity;
 import com.thesis.dont.loyaltypointuser.controllers.LoginActivity;
+import com.thesis.dont.loyaltypointuser.controllers.SearchShopActivity;
 import com.thesis.dont.loyaltypointuser.controllers.ShopDetailActivity;
 import com.thesis.dont.loyaltypointuser.controllers.UpdatePointDetailActivity;
 import com.thesis.dont.loyaltypointuser.models.Award;
@@ -245,6 +246,16 @@ public class GcmIntentService extends IntentService {
                 Intent i = new Intent(this, ShopDetailActivity.class);
                 i.putExtra(Global.SHOP_OBJECT, mShop);
                 i.putExtra(Global.CARD_OBJECT, mCard);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
+                mBuilder.setContentIntent(contentIntent);
+            }else if(message.equals("cancel accepted")){
+                mBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_bag)
+                        .setContentTitle("Cancel")
+                        .setContentText(mCard.getName() + " just cancel your request");
+
+                Intent i = new Intent(this, CardsListActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);

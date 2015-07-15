@@ -106,12 +106,6 @@ public class CardEditAwardActivity extends ActionBarActivity {
                     return;
                 }
 
-                // ??n ?ây thì thông tin ng??i dùng nh?p vào ?ã hoàn toàn h?p l?
-                // G?i api ?? edit award
-
-                // Show progress dialog
-                mDialog.show();
-
                 // Edit award
                 Award award = new Award(mOldAward.getID(), awardName, Integer.valueOf(point), Integer.valueOf(quantity), description, null, mOldAward.getShopID());
                 Intent i = new Intent(CardEditAwardActivity.this, CardShopListApplyAwardActivity.class);

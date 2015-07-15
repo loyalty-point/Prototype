@@ -91,7 +91,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
             history.setBillImage(null);
 
         holder.time.setText(history.getTime());
-        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_bill_dark).into(holder.billImage);
+        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_about).into(holder.billImage);
 
         if (history.getType().equals("0")) { //buy award history
             holder.shopname.setTextColor(mParentActivity.getResources().getColor(R.color.MaterialRed));
