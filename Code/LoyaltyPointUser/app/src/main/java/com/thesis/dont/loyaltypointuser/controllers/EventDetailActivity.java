@@ -56,7 +56,7 @@ public class EventDetailActivity extends ActionBarActivity {
 
         eventName.setText(event.getName());
         eventDate.setText(event.getTime_start() + " - " + event.getTime_end());
-        eventDescription.setText(event.getDescription());
+        eventDescription.setText("Description: " + event.getDescription());
 
         mAdapter = new ListShopsAdapter(this, listShops);
         listShop.setAdapter(mAdapter);

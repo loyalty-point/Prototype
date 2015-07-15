@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/awardNumber"
-        android:layout_marginLeft="@dimen/padding"
         android:layout_toRightOf="@id/awardImage"
+        android:layout_marginTop="@dimen/padding"
         android:textSize="@dimen/font_size"/>
 
     <TextView

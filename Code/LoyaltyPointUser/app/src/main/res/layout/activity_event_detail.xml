@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventDate"
-        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginTop="@dimen/padding"
         android:layout_toRightOf="@id/eventImage"
         android:textSize="@dimen/font_size"/>
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventImage"
-        android:text="Applied Shop:"
+        android:text="Applied Shops:"
         android:layout_marginTop="@dimen/padding"
         android:layout_marginLeft="@dimen/padding"
         android:textSize="@dimen/font_size"/>

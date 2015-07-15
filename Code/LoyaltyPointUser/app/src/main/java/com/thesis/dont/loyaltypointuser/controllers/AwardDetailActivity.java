@@ -54,7 +54,7 @@ public class AwardDetailActivity extends ActionBarActivity {
 
         awardName.setText(award.getName());
         awardNumber.setText("Quantity: " + award.getQuantity());
-        awardDescription.setText(award.getDescription());
+        awardDescription.setText("Description: " + award.getDescription());
 
         mAdapter = new ListShopsAdapter(this, listShops);
         listShop.setAdapter(mAdapter);
