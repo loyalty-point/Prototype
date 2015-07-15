@@ -28,7 +28,7 @@ if($username == ""){
 }
 /**/
 
-$query = "select * from award where id in (select distinct award_id from award_card_shop where card_id = '".$cardID."')";
+$query = "select * from award where id in (select distinct award_id from award_card_shop where card_id = '".$cardID."' and shop_id='".$shopID."')";
 $query_exec2 = mysqli_query($localhost, $query);   
 $listAwards = "";
 $listShops = "";
