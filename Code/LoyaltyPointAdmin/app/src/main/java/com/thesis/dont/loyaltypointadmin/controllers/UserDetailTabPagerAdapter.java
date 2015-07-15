@@ -9,9 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.thesis.dont.loyaltypointadmin.models.Customer;
+
 public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = { "Awards", "Tickets"};
-    private String userId = null;
+    private final String[] TITLES = {"Home", "Awards", "Tickets"};
+    private Customer mCustomer;
     private String shopId = null;
     private String cardId = null;
 
@@ -19,9 +21,9 @@ public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public UserDetailTabPagerAdapter(FragmentManager fm, String userId, String shopId, String cardId) {
+    public UserDetailTabPagerAdapter(FragmentManager fm, Customer customer, String shopId, String cardId) {
         super(fm);
-        this.userId = userId;
+        this.mCustomer = customer;
         this.shopId = shopId;
         this.cardId = cardId;
     }
@@ -39,12 +41,12 @@ public class UserDetailTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Log.e("position", String.valueOf(position));
-//        if (position == 0)
-//            return new UserDetailFragment();
         if (position == 0)
-            return new UserAwardFragment(position,this.userId, this.shopId, this.cardId);
+            return new UserDetailFragment(mCustomer, this.shopId);
+        else if (position == 1)
+            return new UserAwardFragment(position,mCustomer.getUsername(), this.shopId, this.cardId);
         else
-            return new UserTicketsFragment(position, this.userId, this.shopId, this.cardId);
+            return new UserTicketsFragment(position, mCustomer.getUsername(), this.shopId, this.cardId);
 
     }
 }

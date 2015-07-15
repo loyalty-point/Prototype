@@ -25,8 +25,8 @@
     </string-array>
 
     <string-array name="eventCategory">
-        <item>Type 1</item>
-        <item>Type 2</item>
+        <item>Get points from buying product</item>
+        <item>Get points from total bill</item>
     </string-array>
 
     // History: time filter spinner
@@ -61,7 +61,8 @@
         <item>@drawable/ic_launcher</item>
     </array>
 
-    <string name="title_activity_create_shop">Create Shop</string>
+    <string name="createCardNote"></string>
+    <string name="title_activity_create_shop">CreateShopActivity</string>
     <!--<string name="username"><i>username</i></string>-->
     <string name="username">User Name</string>
     <!--<string name="password"><i>password</i></string>-->
@@ -109,14 +110,14 @@
     <string name="title_activity_card_detail">CardDetailActivity</string>
     <string name="title_activity_search_card">Choose Card</string>
     <string name="title_activity_create_card">Create New Card</string>
-    <string name="title_activity_main">Loyal Bag Manager</string>
-    <string name="title_activity_card_create_event">Create Event</string>
-    <string name="title_activity_card_shop_list_apply_event">Choose Shop To Apply Event</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_card_create_event">CardCreateEvent</string>
+    <string name="title_activity_card_shop_list_apply_event">CardShopListApplyEventActivity</string>
     <string name="title_activity_card_edit_event">CardEditEventActivity</string>
     <string name="title_activity_card_create_award">CardCreateAwardActivity</string>
-    <string name="title_activity_card_shop_list_apply_award">Choose Shop To Apply Award</string>
+    <string name="title_activity_card_shop_list_apply_award">CardShopListApplyAwardActivity</string>
     <string name="title_activity_card_edit_award">CardEditAwardActivity</string>
-    <string name="createCardNote">You can change the position of <b>Card Name</b>, <b>Customer Name</b>, or <b>QR Code</b> to fit your style!</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_customer_register_info">CustomerRegisterInfoActivity</string>
 
 </resources>

@@ -79,7 +79,7 @@ if($query_exec){
 
         $regID = array($regID);
         $message = "cancel successfully";
-        $message = array("message" => $message, "shopID" => $shopId);
+        $message = array("type" => "both", "message" => $message, "shopID" => $shopId, "cardID" => $cardId, "point" => $new_point);
 
         $gcm = new GCM();
 
