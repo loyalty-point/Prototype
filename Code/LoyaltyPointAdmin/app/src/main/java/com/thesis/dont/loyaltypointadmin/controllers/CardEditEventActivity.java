@@ -141,7 +141,7 @@ public class CardEditEventActivity extends ActionBarActivity implements DatePick
                 } else if (!fragment.isFilledIn().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), fragment.isFilledIn(), Toast.LENGTH_LONG).show();
                 } else {
-                    mDialog.show();
+
                     Event event = new Event(oldEvent.getId(), oldEvent.getType(), eventName.getText().toString(),
                             dateStartButton.getText().toString().substring(11), dateEndButton.getText().toString().substring(9),
                             description.getText().toString(), fragment.getBarCode(), fragment.getGoodsName(), Float.parseFloat(fragment.getRatio()),

@@ -211,6 +211,10 @@
             android:name=".controllers.UserInfoActivity"
             android:label="@string/title_activity_user_info" >
         </activity>
+        <activity
+            android:name=".controllers.CustomerRegisterInfoActivity"
+            android:label="@string/title_activity_customer_register_info" >
+        </activity>
     </application>
 
 </manifest>

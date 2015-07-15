@@ -25,8 +25,8 @@
     </string-array>
 
     <string-array name="eventCategory">
-        <item>Type 1</item>
-        <item>Type 2</item>
+        <item>Get points from buying product</item>
+        <item>Get points from total </item>
     </string-array>
 
     // History: time filter spinner
@@ -117,5 +117,6 @@
     <string name="title_activity_card_shop_list_apply_award">CardShopListApplyAwardActivity</string>
     <string name="title_activity_card_edit_award">CardEditAwardActivity</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_customer_register_info">CustomerRegisterInfoActivity</string>
 
 </resources>

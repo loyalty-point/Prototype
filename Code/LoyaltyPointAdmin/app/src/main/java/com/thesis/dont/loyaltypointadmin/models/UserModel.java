@@ -43,6 +43,7 @@ public class UserModel {
     public static native String getGetEventHistory();
     public static native String getGetAwardHistory();
     public static native String getGetListHistory();
+    public static native String getGetListHistoryCard();
 
     public static void addUser(User user) {
         final String json = Helper.objectToJson(user);
@@ -194,6 +195,58 @@ public class UserModel {
 
                 nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("shop_id", shopId));
+                nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
+
+                try {
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                    //ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    ResponseHandler<String> responseHandler = Helper.getResponseHandler();
+                    String response = null;
+
+                    response = httpclient.execute(httppost, responseHandler);
+                    GetListHistoryResult result = (GetListHistoryResult) Helper.jsonToObject(response, GetListHistoryResult.class);
+
+                    if(result.error.equals("")) {
+                        ArrayList<History> listHistories = new ArrayList<History>();
+                        for(int i=0; i<result.listHistories.length-1; i++) {
+                            listHistories.add(result.listHistories[i]);
+                        }
+                        mOnGetListHistoryResult.onSuccess(listHistories);
+                    }
+                    else
+                        mOnGetListHistoryResult.onError(result.error);
+
+                } catch (UnsupportedEncodingException e) {
+                    mOnGetListHistoryResult.onError("UnsupportedEncodingException");
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    mOnGetListHistoryResult.onError("ClientProtocolException");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    mOnGetListHistoryResult.onError("IOException");
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static void getListHistoryCard(final String token, final String cardId,
+                                      final OnGetListHistoryResult mOnGetListHistoryResult){
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                String link = getGetListHistoryCard();
+
+                httpclient = new DefaultHttpClient();
+                httppost = new HttpPost(link);
+
+                nameValuePairs = new ArrayList<NameValuePair>(2);
+
+                nameValuePairs.add(new BasicNameValuePair("token", token));
                 nameValuePairs.add(new BasicNameValuePair("card_id", cardId));
 
                 try {
