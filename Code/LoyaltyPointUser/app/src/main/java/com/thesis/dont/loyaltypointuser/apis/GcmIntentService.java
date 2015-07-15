@@ -211,8 +211,6 @@ public class GcmIntentService extends IntentService {
                 mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_bag)
                         .setContentTitle("Congratulations")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(data.toString()))
                         .setContentText(mCard.getName() + " has accepted your register request");
 
                 Intent i = new Intent(this, CardDetailActivity.class);
