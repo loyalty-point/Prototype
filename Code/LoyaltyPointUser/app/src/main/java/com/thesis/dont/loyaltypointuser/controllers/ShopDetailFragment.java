@@ -138,6 +138,7 @@ public class ShopDetailFragment extends Fragment {
                                         mAdapterNewestUser.clear();
                                         for (int i = 0; i < listUsers.size(); i++) {
                                             EventCard card = new EventCard(mParentActivity);
+                                            card.detail2TvTextSize = 12;
 
                                             card.name = listUsers.get(i).getFullname();
                                             card.detail1 = listUsers.get(i).getUsername();
@@ -150,6 +151,7 @@ public class ShopDetailFragment extends Fragment {
                                         mAdapterNewestEvent.clear();
                                         for (int i = 0; i < listEvents.size(); i++) {
                                             EventCard card = new EventCard(mParentActivity);
+                                            card.detail2TvTextSize = 12;
 
                                             card.name = listEvents.get(i).getName();
                                             card.detail1 = listEvents.get(i).getTime_start() + " - " + listEvents.get(i).getTime_end();
@@ -162,6 +164,7 @@ public class ShopDetailFragment extends Fragment {
                                         mAdapterNewestAward.clear();
                                         for (int i = 0; i < listAwards.size(); i++) {
                                             EventCard card = new EventCard(mParentActivity);
+                                            card.detail2TvTextSize = 12;
 
                                             card.name = listAwards.get(i).getName();
                                             card.detail1 = "Quantity: " + String.valueOf(listAwards.get(i).getQuantity());
@@ -206,11 +209,13 @@ public class ShopDetailFragment extends Fragment {
     //card for list grid newest user, event, award
     public class EventCard extends Card {
 
-        protected TextView nameTv, detail1Tv, detail2Tv;
+        public TextView nameTv, detail1Tv, detail2Tv;
         protected ImageView imageIv;
         protected Object data;
 
         protected String name, detail1, detail2, image;
+
+        public int detail2TvTextSize = 0;
 
         public EventCard(Context context) {
             super(context, R.layout.shop_detail_list_row);
@@ -233,6 +238,8 @@ public class ShopDetailFragment extends Fragment {
 
             detail2Tv = (TextView) view.findViewById(R.id.detail2Tv);
             detail2Tv.setText(detail2);
+            if(detail2TvTextSize != 0)
+                detail2Tv.setTextSize(detail2TvTextSize);
             //eventPointTv.setTextColor(Color.rgb(0, 100, 0));
 
             imageIv = (ImageView) view.findViewById(R.id.imageIv);

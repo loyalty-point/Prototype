@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +55,14 @@ public class ShopHistoryFragment extends Fragment {
 
     ArrayList<History> mOriginalList;
 
+    View rootView;
+    SwipeRefreshLayout mSwipeLayout;
+
     Spinner mTimeFilterSpinner, mTypeFilterSpinner, mSortTypeSpinner;
     int mTimeFilterValue = 0, mTypeFilterValue = 0, mSortTypeValue = 0;
 
     FancyButton mSortOrderBtn;
     int mSortOrderValue = 1; // Decrease
-
-    ProgressDialog mDialog;
 
     public ShopHistoryFragment() {
         // Required empty public constructor
@@ -91,7 +93,7 @@ public class ShopHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shop_history, container, false);
+        rootView = inflater.inflate(R.layout.fragment_shop_history, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -104,11 +106,6 @@ public class ShopHistoryFragment extends Fragment {
         mParentActivity = getActivity();
         shopId = ((ShopDetailActivity)mParentActivity).getCurrentShop().getId();
         cardId = ((ShopDetailActivity)mParentActivity).getCurrentCardId();
-        // init dialog
-        mDialog = new ProgressDialog(mParentActivity);
-        mDialog.setTitle("Reloading list histories");
-        mDialog.setMessage("Please wait...");
-        mDialog.setCancelable(false);
 
         mOriginalList = new ArrayList<History>();
 
@@ -166,7 +163,6 @@ public class ShopHistoryFragment extends Fragment {
 
         // type filter spinner
         mSortTypeSpinner = (Spinner) mParentActivity.findViewById(R.id.sortTypeSpinner);
-        mSortTypeSpinner.setVisibility(View.INVISIBLE);
 
         ArrayAdapter<CharSequence> sortTypeAdapter = ArrayAdapter.createFromResource(mParentActivity,
                 R.array.sortTypeArray, android.R.layout.simple_spinner_item);
@@ -203,13 +199,36 @@ public class ShopHistoryFragment extends Fragment {
                 mSortOrderValue = 1 - mSortOrderValue;
 
                 // change icon
-                if(mSortOrderValue == 1) // decrease
+                if (mSortOrderValue == 1) // decrease
                     mSortOrderBtn.setIconResource(R.drawable.ic_down_light);
                 else
                     mSortOrderBtn.setIconResource(R.drawable.ic_up_light);
 
                 // reverse and reload list
                 reverseAndReloadListHistories();
+            }
+        });
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListHistory();
             }
         });
     }
@@ -232,14 +251,6 @@ public class ShopHistoryFragment extends Fragment {
                 sortListHistories(mOriginalList);
 
                 reloadListHistories();
-
-                /*mAdapter.setListHistories(listHistories);
-                mParentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });*/
             }
 
             @Override
@@ -248,6 +259,7 @@ public class ShopHistoryFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -298,12 +310,6 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void reloadListHistories() {
-        mParentActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDialog.show();
-            }
-        });
 
         ArrayList<History> listHistories = new ArrayList<History>();
 
@@ -318,7 +324,7 @@ public class ShopHistoryFragment extends Fragment {
             @Override
             public void run() {
                 mAdapter.notifyDataSetChanged();
-                mDialog.hide();
+                mSwipeLayout.setRefreshing(false);
             }
         });
     }

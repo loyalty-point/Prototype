@@ -14,6 +14,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.apis.GCMHelper;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
@@ -99,6 +100,8 @@ public class RegisterActivity extends ActionBarActivity {
                             public void onSuccess(String token) {
                                 // Đăng nhập thành công
                                 Global.userToken = token;
+
+                                GCMHelper.GCMregistration(RegisterActivity.this);
 
                                 // Lưu token vào trong shared preferences
                                 SharedPreferences preferences = getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_PRIVATE);

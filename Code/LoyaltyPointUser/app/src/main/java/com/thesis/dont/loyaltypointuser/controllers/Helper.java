@@ -270,7 +270,10 @@ public class Helper {
 
     public static String generateBarCode(String username) {
         String hash = String.valueOf(username.hashCode());
-        return hash.substring(0, 10);
+        if(hash.length() < 11)
+            return hash;
+        else
+            return hash.substring(0, 10);
     }
 
     public static Bitmap generateQRCodeImage(String barcode, int width, int height) {

@@ -3,7 +3,6 @@
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.thesis.dont.loyaltypointuser.controllers.ShopHistoryFragment">
 
     <RelativeLayout
@@ -30,8 +29,8 @@
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/sortOrderBtn"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             fancy:iconResource="@drawable/ic_down_light"
@@ -42,19 +41,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/sortOrderBtn"
-            android:layout_toRightOf="@id/timeFilterSpinner"
-            android:layout_marginRight="@dimen/_5sdp"></Spinner>
+            android:layout_toRightOf="@id/timeFilterSpinner"></Spinner>
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/listHistories"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/filterLayout"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:divider="#00000000"></ListView>
+        android:layout_marginRight="@dimen/_10sdp">
+
+        <ListView
+            android:id="@+id/listHistories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#00000000"></ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

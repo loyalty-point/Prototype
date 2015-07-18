@@ -67,6 +67,10 @@ public class PendingCardsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void refresh() {
+        setListData();
+    }
+
     public void setListData() {
         mDialog.show();
         CardModel.getFollowedCards(Global.userToken, new CardModel.OnGetListResult() {
