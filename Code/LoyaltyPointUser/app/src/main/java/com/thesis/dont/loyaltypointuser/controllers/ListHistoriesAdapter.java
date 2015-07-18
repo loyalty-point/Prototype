@@ -119,12 +119,12 @@ public class ListHistoriesAdapter extends BaseAdapter {
                     Intent i = new Intent(mParentActivity, UpdatePointDetailActivity.class);
                     i.putExtra(Global.HISTORY_OBJECT, history);
                     if(shopName == null){
-                        i.putExtra(Global.SHOP_NAME, "");
+                        i.putExtra(Global.SHOP_NAME, history.getFullname());
                     }else{
                         i.putExtra(Global.SHOP_NAME, shopName);
                     }
                     if(shopAddress == null){
-                        i.putExtra(Global.SHOP_ADDRESS, "");
+                        i.putExtra(Global.SHOP_ADDRESS, history.getPhone());
                     }else{
                         i.putExtra(Global.SHOP_ADDRESS, shopAddress);
                     }

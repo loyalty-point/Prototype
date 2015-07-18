@@ -273,7 +273,7 @@ public class SearchShopActivity extends ActionBarActivity implements SearchView.
                                     if(requiredCustomerInfo.isCustomerIdentityNumber() > 0){
                                         RelativeLayout identityNumberLayout = (RelativeLayout) dialog.findViewById(R.id.identityLayout);
                                         EditText identityEditText = (EditText) dialog.findViewById(R.id.identityEditText);
-                                        identityEditText.setText(mUser.getPhone());
+                                        identityEditText.setText(mUser.getIdentityNumber());
                                         identityNumberLayout.setVisibility(View.VISIBLE);
                                     }
 

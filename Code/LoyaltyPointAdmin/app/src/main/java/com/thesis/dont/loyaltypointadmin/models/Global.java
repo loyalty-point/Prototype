@@ -10,6 +10,7 @@ public class Global {
     public static final String FROM = "from";
     public static final String TOKEN = "token";
     public static String AWARD_OBJECT ="award_object";
+    public static String CARD_OBJECT ="card_object";
     public static String userToken = null;
     public static String regID = null;
     public static String CARD_ID = "card_id";

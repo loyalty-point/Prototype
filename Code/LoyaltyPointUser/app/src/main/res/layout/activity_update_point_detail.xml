@@ -15,18 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <!--<com.gc.materialdesign.views.ButtonRectangle-->
-            <!--android:id="@+id/printBtn"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="@dimen/_20sdp"-->
-            <!--android:layout_weight="0.5"-->
-            <!--android:background="@color/MaterialGrey"-->
-            <!--android:text="BACK"-->
-            <!--android:textSize="@dimen/font_size"-->
-            <!--materialdesign:rippleSpeed="70" />-->
-
-
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/deleteBtn"
             android:layout_width="0dp"
@@ -42,32 +30,38 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/totalPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size"
-        android:id="@+id/totalPoint"
+        android:layout_above="@id/btnLayout"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/btnLayout"/>
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/font_size"
+        android:textStyle="italic" />
 
     <ImageView
         android:id="@+id/billImage"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
-        android:layout_below="@id/date" />
+        android:layout_below="@id/date"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp" />
 
     <TextView
         android:id="@+id/shopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_toRightOf="@id/billImage"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/shopAddress"
@@ -75,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/shopName"
         android:layout_toRightOf="@id/billImage"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/billCode"
@@ -83,21 +77,60 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/shopAddress"
         android:layout_toRightOf="@id/billImage"
-        android:textSize="@dimen/font_size"/>
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/billDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/billImage"
-        android:text="Detail:"
-        android:textSize="@dimen/font_size"/>
+        android:text="Detail: "
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/eventName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billDetail"
+        android:textStyle="bold"
+        android:text="Event name" />
+
+    <TextView
+        android:id="@+id/eventNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billDetail"
+        android:layout_marginLeft="@dimen/_75sdp"
+        android:layout_toRightOf="@id/eventName"
+        android:textStyle="bold"
+        android:text="Number" />
+
+    <TextView
+        android:id="@+id/pointPerEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billDetail"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_toRightOf="@id/eventNumber"
+        android:textStyle="bold"
+        android:text="Point per event" />
+
+    <TextView
+        android:id="@+id/totalEventPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/billDetail"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_toRightOf="@id/pointPerEvent"
+        android:textStyle="bold"
+        android:text="Final point" />
 
     <ListView
         android:id="@+id/listEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/billDetail"
-        android:layout_above="@id/totalPoint"/>
+        android:layout_above="@id/totalPoint"
+        android:layout_below="@id/eventName" />
 
 </RelativeLayout>

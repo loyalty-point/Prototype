@@ -2,6 +2,7 @@ package com.thesis.dont.loyaltypointadmin.controllers;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.squareup.picasso.Picasso;
 import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.Global;
@@ -137,13 +140,157 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
                 to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView = (ListView) getActivity().findViewById(R.id.listRegisters);
         listView.setAdapter(mAdapter);
+        final Dialog userInfoDialog = new Dialog(mParentActivity);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(mParentActivity, CustomerRegisterInfoActivity.class);
-                i.putExtra(Global.CARD_ID, cardId);
-                i.putExtra(Global.USER_OBJECT, listUser.get(position));
-                startActivity(i);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                userInfoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
+                userInfoDialog.setContentView(R.layout.activity_customer_register_info);
+
+                TextView userName = (TextView) userInfoDialog.findViewById(R.id.customer_name);
+                TextView userPhone = (TextView) userInfoDialog.findViewById(R.id.customer_phone);
+                TextView userAddress = (TextView) userInfoDialog.findViewById(R.id.customer_address);
+                TextView userEmail = (TextView) userInfoDialog.findViewById(R.id.customer_email);
+                TextView userIdentityNumber = (TextView) userInfoDialog.findViewById(R.id.customer_identity);
+
+                ImageView userImage = (ImageView) userInfoDialog.findViewById(R.id.user_image);
+
+                ButtonRectangle acceptBtn = (ButtonRectangle) userInfoDialog.findViewById(R.id.acceptBtn);
+////        addPointBtn = (ButtonRectangle) findViewById(R.id.addPointBtn);
+                ButtonRectangle cancelBtn = (ButtonRectangle) userInfoDialog.findViewById(R.id.cancelBtn);
+
+                acceptBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+                        builder.setMessage("Do you want to add this user?").
+                                setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mDialog.show();
+
+                                        ShopModel.acceptRegisterRequest(Global.userToken, cardId, listUser.get(position).getUsername(), new ShopModel.OnAcceptRegisterRequestResult() {
+                                            @Override
+                                            public void onSuccess() {
+                                                mParentActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mDialog.dismiss();
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+                                                        builder.setTitle("Congratulations!")
+                                                                .setMessage("You've added a member to your card")
+                                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        dialog.dismiss();
+                                                                        listUser.remove(position);
+                                                                        populateAdapter("");
+                                                                        userInfoDialog.dismiss();
+                                                                    }
+                                                                }).show();
+
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onError(final String error) {
+                                                mParentActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mDialog.dismiss();
+                                                        userInfoDialog.dismiss();
+                                                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                }).show();
+                    }
+                });
+
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+                        builder.setMessage("Do you want to reject this user?").
+                                setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mDialog.show();
+
+                                        ShopModel.cancelRegisterRequest(Global.userToken, cardId, listUser.get(position).getUsername(), new ShopModel.OnCancelRegisterRequestResult() {
+                                            @Override
+                                            public void onSuccess() {
+                                                mParentActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mDialog.dismiss();
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
+                                                        builder.setTitle("Cancel Request Successfully!")
+                                                                .setMessage("You've canceled this request")
+                                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        dialog.dismiss();
+                                                                        listUser.remove(position);
+                                                                        populateAdapter("");
+                                                                        userInfoDialog.dismiss();
+                                                                    }
+                                                                }).show();
+
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onError(final String error) {
+                                                mParentActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mDialog.dismiss();
+                                                        userInfoDialog.dismiss();
+                                                        Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                }).show();
+
+                    }
+                });
+
+                userName.setText(listUser.get(position).getFullname());
+                userPhone.setText(listUser.get(position).getPhone());
+                userAddress.setText(listUser.get(position).getAddress());
+                userEmail.setText(listUser.get(position).getEmail());
+                userIdentityNumber.setText(listUser.get(position).getIdentityNumber());
+                String avatar = listUser.get(position).getAvatar();
+                if (avatar != null && avatar.equals(""))
+                    avatar = null;
+                Picasso.with(mParentActivity).load(avatar).placeholder(R.drawable.ic_award).into(userImage);
+
+                userInfoDialog.show();
+//                Intent i = new Intent(mParentActivity, CustomerRegisterInfoActivity.class);
+//                i.putExtra(Global.CARD_ID, cardId);
+//                i.putExtra(Global.USER_OBJECT, listUser.get(position));
+//                startActivity(i);
             }
         });
         //getListRegisters();
@@ -152,9 +299,8 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public void onResume() {
-        super.onResume();
-
         getListRegisters();
+        super.onResume();
     }
 
     @Override

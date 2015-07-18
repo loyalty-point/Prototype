@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +20,6 @@ import com.thesis.dont.loyaltypointadmin.R;
 import com.thesis.dont.loyaltypointadmin.models.AchievedEvent;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.History;
-import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 import com.thesis.dont.loyaltypointadmin.models.UserModel;
 
 import java.util.ArrayList;
@@ -32,7 +28,7 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
     TextView dateTv, userFullnameTv, userPhoneTv, billCodeTv, totalPointTv;
     ImageView billImageIv;
     ListView detailLv;
-    ButtonRectangle printBtn, deleteBtn;
+    ButtonRectangle okBtn;
     History history;
 
     AchievedEventsAdapter mAdapter;
@@ -50,8 +46,13 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
         billCodeTv = (TextView) findViewById(R.id.billCode);
         billImageIv = (ImageView) findViewById(R.id.billImage);
         detailLv = (ListView) findViewById(R.id.listEvent);
-        printBtn = (ButtonRectangle) findViewById(R.id.printBtn);
-        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        okBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());

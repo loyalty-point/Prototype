@@ -256,6 +256,7 @@ public class GcmIntentService extends IntentService {
                         .setContentText(mCard.getName() + " just cancel your request");
 
                 Intent i = new Intent(this, CardsListActivity.class);
+                i.putExtra(Global.FRAGMENT_ID, 1);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);
                 mBuilder.setContentIntent(contentIntent);

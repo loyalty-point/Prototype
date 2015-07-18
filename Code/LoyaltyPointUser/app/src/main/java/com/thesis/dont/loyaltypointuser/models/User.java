@@ -152,6 +152,6 @@ public class User implements Parcelable{
     }
 
     public void setIdentityNumber(String identityNumber) {
-        identityNumber = identityNumber;
+        this.identity_number = identityNumber;
     }
 }

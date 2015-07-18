@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.thesis.dont.loyaltypointadmin.R;
+import com.thesis.dont.loyaltypointadmin.models.Card;
 import com.thesis.dont.loyaltypointadmin.models.Global;
 import com.thesis.dont.loyaltypointadmin.models.Shop;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class CardDetailActivity extends ActionBarActivity {
 
     int tabIndex = 0;
-    String cardId = null;
+    Card card = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +30,13 @@ public class CardDetailActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        cardId = i.getStringExtra(Global.CARD_ID);
+        card = i.getParcelableExtra(Global.CARD_OBJECT);
         if(tabIndex == 0)
             tabIndex = i.getIntExtra(Global.TAB_INDEX, 0);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        setTitle("KFC Fastfood");
-        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(), cardId));
+        setTitle(card.getName());
+        pager.setAdapter(new CardDetailTabPagerAdapter(getSupportFragmentManager(), card.getId()));
         //Toast.makeText(this,shopId,Toast.LENGTH_LONG).show();
 
         // Bind the tabs to the ViewPager

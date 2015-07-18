@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.thesis.dont.loyaltypointadmin.models.UserModel;
 public class BuyAwardDetailActivity extends ActionBarActivity {
     TextView dateTv, userFullnameTv, userPhoneTv, awardCodeTv, totalPointTv, awardNameTv, awardDetailTv, buyDetailTv;
     ImageView awardImageIv;
-    ButtonRectangle printBtn, deleteBtn;
+    ButtonRectangle okBtn;
 
     History history;
 
@@ -43,8 +44,13 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
         awardDetailTv = (TextView) findViewById(R.id.awardDetail);
         buyDetailTv = (TextView) findViewById(R.id.buyDetail);
         awardImageIv = (ImageView) findViewById(R.id.awardImage);
-        printBtn = (ButtonRectangle) findViewById(R.id.printBtn);
-        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        okBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());

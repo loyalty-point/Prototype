@@ -141,7 +141,7 @@ public class GcmIntentService extends IntentService {
                         .setContentText(msg);
 
                 Intent i = new Intent(this, CardDetailActivity.class);
-                i.putExtra(Global.CARD_ID, mCard.getId());
+                i.putExtra(Global.CARD_OBJECT, mCard);
                 i.putExtra(Global.TAB_INDEX, Global.CARD_DETAIL_REGISTER_TAB);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_ONE_SHOT);

@@ -16,26 +16,14 @@
         android:layout_alignParentBottom="true">
 
         <com.gc.materialdesign.views.ButtonRectangle
-            android:id="@+id/printBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/_20sdp"
-            android:layout_weight="0.5"
-            android:background="@color/MaterialGreen"
-            android:text="PRINT"
-            android:textSize="@dimen/font_size"
-            materialdesign:rippleSpeed="70" />
-
-
-        <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/deleteBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_weight="0.5"
-            android:background="@color/MaterialRed"
-            android:text="DELETE"
+            android:layout_weight="1"
+            android:background="@color/AccentColor"
+            android:text="OK"
             android:textSize="@dimen/font_size"
             materialdesign:rippleSpeed="70" />
 

@@ -14,6 +14,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 import com.thesis.dont.loyaltypointuser.R;
+import com.thesis.dont.loyaltypointuser.apis.GCMHelper;
 import com.thesis.dont.loyaltypointuser.models.Global;
 import com.thesis.dont.loyaltypointuser.models.User;
 import com.thesis.dont.loyaltypointuser.models.UserModel;
@@ -106,6 +107,8 @@ public class RegisterActivity extends ActionBarActivity {
                                 editor.putString(LoginActivity.TOKEN, token);
 
                                 editor.commit();
+
+                                GCMHelper.GCMregistration(RegisterActivity.this);
 
                                 // Vào trang shops list
                                 Intent i = new Intent(RegisterActivity.this, CardsListActivity.class);

@@ -31,6 +31,7 @@ import com.thesis.dont.loyaltypointadmin.models.Shop;
 import com.thesis.dont.loyaltypointadmin.models.ShopModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -200,6 +201,7 @@ public class SearchCard extends ActionBarActivity {
             @Override
             public void onSuccess(ArrayList<Card> listCards) {
                 listCard.clear();
+                Collections.reverse(listCards);
                 for (int i = 0; i < listCards.size(); i++) {
                     CardCheckList card = new CardCheckList(listCards.get(i), false);
                     listCard.add(card);
