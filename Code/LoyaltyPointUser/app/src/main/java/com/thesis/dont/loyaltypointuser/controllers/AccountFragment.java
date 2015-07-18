@@ -1,10 +1,12 @@
 package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class AccountFragment extends Fragment {
 
     ImageView barcodeImgView;
     Activity mParentActivity;
+
+    ProgressDialog mDialog;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,15 +81,31 @@ public class AccountFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_account, container, false);
     }
 
+    public void refresh() {
+        Log.e("AccountFragment", "refresh");
+        updateUserInfo();
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
 
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Loading data");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
         barcodeImgView = (ImageView) mParentActivity.findViewById(R.id.barcodeImgView);
 
+        updateUserInfo();
+    }
+
+    public void updateUserInfo() {
         // Get user info
+        mDialog.show();
         UserModel.getUserInfo(Global.userToken, new UserModel.OnGetUserInfoResult() {
             @Override
             public void onSuccess(User user) {
@@ -97,6 +117,7 @@ public class AccountFragment extends Fragment {
                     @Override
                     public void run() {
                         barcodeImgView.setImageBitmap(barcodeImg);
+                        mDialog.dismiss();
                     }
                 });
             }
@@ -106,6 +127,7 @@ public class AccountFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mDialog.dismiss();
                         Toast.makeText(mParentActivity, e, Toast.LENGTH_LONG).show();
                     }
                 });

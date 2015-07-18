@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<android.support.v4.widget.SwipeRefreshLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/swipe_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<RelativeLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--xmlns:materialdesign="http://schemas.android.com/apk/res-auto"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/Background">-->
+
+        <!--&lt;!&ndash; **** Place Your Content Here **** &ndash;&gt;-->
+        <!--<com.gc.materialdesign.views.ButtonRectangle-->
+            <!--android:id="@+id/addCardBtn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_margin="@dimen/padding"-->
+            <!--materialdesign:rippleSpeed="70"-->
+            <!--android:background="@color/AccentColor"-->
+            <!--android:text="ADD NEW CARD"-->
+            <!--android:textSize="@dimen/_15sdp"/>-->
+
+        <!--<com.bartoszlipinski.flippablestackview.FlippableStackView-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:id="@+id/listCardsPager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/_60sdp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_above="@+id/addCardBtn" />-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="5dp"-->
+            <!--android:background="@drawable/toolbar_dropshadow" />-->
+
+    <!--</RelativeLayout>-->
+
+<!--</android.support.v4.widget.SwipeRefreshLayout>-->
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

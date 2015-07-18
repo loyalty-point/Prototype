@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp">
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/TextIcons"
+        android:padding="@dimen/_5sdp">
 
         <Spinner
             android:id="@+id/typeFilterSpinner"
@@ -30,6 +32,7 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             fancy:iconResource="@drawable/ic_down_light"
             fancy:defaultColor="@color/AccentColor"/>
 
@@ -42,14 +45,25 @@
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/listHistories"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/filterLayout"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:divider="#00000000"></ListView>
+        android:layout_marginRight="@dimen/_10sdp">
+
+        <ListView
+            android:id="@+id/listHistories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#00000000"></ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 </RelativeLayout>

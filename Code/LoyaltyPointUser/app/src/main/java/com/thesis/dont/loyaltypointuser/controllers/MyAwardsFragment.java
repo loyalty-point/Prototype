@@ -2,6 +2,7 @@ package com.thesis.dont.loyaltypointuser.controllers;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,6 +56,8 @@ public class MyAwardsFragment extends Fragment {
 
     Activity mParentActivity;
 
+    ProgressDialog mDialog;
+
     public MyAwardsFragment() {
         // Required empty public constructor
     }
@@ -80,13 +83,24 @@ public class MyAwardsFragment extends Fragment {
 
         mParentActivity = getActivity();
 
+        // init dialog
+        mDialog = new ProgressDialog(mParentActivity);
+        mDialog.setTitle("Loading data");
+        mDialog.setMessage("Please wait...");
+        mDialog.setCancelable(false);
+
         // init list histories
         mAdapter = new CardGridArrayAdapter(mParentActivity, new ArrayList<Card>());
         mListView = (CardGridView) mParentActivity.findViewById(R.id.listAwards);
         mListView.setAdapter(mAdapter);
     }
 
+    public void refresh() {
+        getListAwards();
+    }
+
     public void getListAwards() {
+        mDialog.show();
         UserModel.getMyAwards(Global.userToken, new UserModel.OnGetMyAwardsResult() {
             @Override
             public void onSuccess(final ArrayList<AwardHistory> awards) {
@@ -108,6 +122,7 @@ public class MyAwardsFragment extends Fragment {
                             mAdapter.add(card);
                         }
                         mAdapter.notifyDataSetChanged();
+                        mDialog.dismiss();
                     }
                 });
             }
@@ -118,6 +133,7 @@ public class MyAwardsFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mDialog.dismiss();
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });

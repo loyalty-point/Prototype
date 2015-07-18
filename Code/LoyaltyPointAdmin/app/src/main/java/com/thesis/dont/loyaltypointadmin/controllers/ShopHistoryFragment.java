@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,9 @@ public class ShopHistoryFragment extends Fragment {
     ListView mListView;
     ListHistoriesAdapter mAdapter;
 
+    View rootView;
+    SwipeRefreshLayout mSwipeLayout;
+
     ArrayList<History> mOriginalList;
 
     Spinner mTimeFilterSpinner, mTypeFilterSpinner, mSortTypeSpinner;
@@ -49,8 +53,6 @@ public class ShopHistoryFragment extends Fragment {
 
     FancyButton mSortOrderBtn;
     int mSortOrderValue = 1; // Decrease
-
-    ProgressDialog mDialog;
 
     public ShopHistoryFragment() {
         // Required empty public constructor
@@ -69,7 +71,7 @@ public class ShopHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        rootView = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -87,12 +89,6 @@ public class ShopHistoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mParentActivity = getActivity();
-
-        // init dialog
-        mDialog = new ProgressDialog(mParentActivity);
-        mDialog.setTitle("Reloading list histories");
-        mDialog.setMessage("Please wait...");
-        mDialog.setCancelable(false);
 
         mOriginalList = new ArrayList<History>();
 
@@ -198,6 +194,29 @@ public class ShopHistoryFragment extends Fragment {
                 reverseAndReloadListHistories();
             }
         });
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListHistory();
+            }
+        });
     }
 
     private void reverseAndReloadListHistories() {
@@ -218,13 +237,6 @@ public class ShopHistoryFragment extends Fragment {
                 sortListHistories(mOriginalList);
 
                 reloadListHistories();
-                /*mAdapter.setListHistories(listHistories);
-                mParentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });*/
             }
 
             @Override
@@ -233,6 +245,7 @@ public class ShopHistoryFragment extends Fragment {
                     @Override
                     public void run() {
                         // Get listAwards không thành công
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -283,12 +296,6 @@ public class ShopHistoryFragment extends Fragment {
     }
 
     public void reloadListHistories() {
-//        mParentActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mDialog.show();
-//            }
-//        });
 
         ArrayList<History> listHistories = new ArrayList<History>();
 
@@ -303,7 +310,7 @@ public class ShopHistoryFragment extends Fragment {
             @Override
             public void run() {
                 mAdapter.notifyDataSetChanged();
-//                mDialog.hide();
+                mSwipeLayout.setRefreshing(false);
             }
         });
     }

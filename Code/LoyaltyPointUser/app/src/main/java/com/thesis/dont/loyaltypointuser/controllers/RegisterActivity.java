@@ -101,6 +101,8 @@ public class RegisterActivity extends ActionBarActivity {
                                 // Đăng nhập thành công
                                 Global.userToken = token;
 
+                                GCMHelper.GCMregistration(RegisterActivity.this);
+
                                 // Lưu token vào trong shared preferences
                                 SharedPreferences preferences = getSharedPreferences(LoginActivity.LOGIN_STATE, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();

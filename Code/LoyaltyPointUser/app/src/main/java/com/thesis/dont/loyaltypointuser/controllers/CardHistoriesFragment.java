@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,9 @@ public class CardHistoriesFragment extends Fragment {
     ListView mListView;
     ListHistoriesAdapter mAdapter;
 
+    View rootView;
+    SwipeRefreshLayout mSwipeLayout;
+
     ArrayList<History> mOriginalList;
 
     Spinner mTimeFilterSpinner, mTypeFilterSpinner, mSortTypeSpinner;
@@ -69,7 +73,7 @@ public class CardHistoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        rootView = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.inject(this, rootView);
         ViewCompat.setElevation(rootView, 50);
         return rootView;
@@ -186,13 +190,36 @@ public class CardHistoriesFragment extends Fragment {
                 mSortOrderValue = 1 - mSortOrderValue;
 
                 // change icon
-                if(mSortOrderValue == 1) // decrease
+                if (mSortOrderValue == 1) // decrease
                     mSortOrderBtn.setIconResource(R.drawable.ic_down_light);
                 else
                     mSortOrderBtn.setIconResource(R.drawable.ic_up_light);
 
                 // reverse and reload list
                 reverseAndReloadListHistories();
+            }
+        });
+
+        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+    }
+
+    public void doRefresh() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+                getListHistory();
             }
         });
     }
@@ -215,13 +242,6 @@ public class CardHistoriesFragment extends Fragment {
                 sortListHistories(mOriginalList);
 
                 reloadListHistories();
-                /*mAdapter.setListHistories(listHistories);
-                mParentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });*/
             }
 
             @Override
@@ -229,6 +249,7 @@ public class CardHistoriesFragment extends Fragment {
                 mParentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mSwipeLayout.setRefreshing(false);
                         Toast.makeText(mParentActivity, error, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -279,12 +300,6 @@ public class CardHistoriesFragment extends Fragment {
     }
 
     public void reloadListHistories() {
-//        mParentActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mDialog.show();
-//            }
-//        });
 
         ArrayList<History> listHistories = new ArrayList<History>();
 
@@ -299,7 +314,7 @@ public class CardHistoriesFragment extends Fragment {
             @Override
             public void run() {
                 mAdapter.notifyDataSetChanged();
-//                mDialog.hide();
+                mSwipeLayout.setRefreshing(false);
             }
         });
     }

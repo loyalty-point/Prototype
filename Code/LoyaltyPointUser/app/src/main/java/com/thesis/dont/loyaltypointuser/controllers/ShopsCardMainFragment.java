@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -118,7 +120,6 @@ public class ShopsCardMainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mParentActivity = getActivity();
 
         // init dialog
@@ -140,14 +141,11 @@ public class ShopsCardMainFragment extends Fragment {
         mListCards = new ArrayList<Card>();
 
         mPager = (FlippableStackView) mParentActivity.findViewById(R.id.listCardsPager);
-        //mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
-        /*mPagerAdapter = new ListCardsPagerAdapter(getChildFragmentManager(), mParentActivity, new ArrayList<Card>(), false);
-        mPager.initStack(2, StackPageTransformer.Orientation.VERTICAL);
-        mPager.setAdapter(mPagerAdapter);*/
+        setListData();
+    }
 
-        //mIndicator = (CircleIndicator) mParentActivity.findViewById(R.id.custom_indicator);
-
+    public void refresh() {
         setListData();
     }
 
@@ -212,5 +210,7 @@ public class ShopsCardMainFragment extends Fragment {
             }
         });
     }
+
+
 
 }
