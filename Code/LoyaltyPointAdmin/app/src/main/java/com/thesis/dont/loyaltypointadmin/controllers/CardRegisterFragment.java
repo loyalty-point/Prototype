@@ -275,16 +275,39 @@ public class CardRegisterFragment extends Fragment implements SearchView.OnQuery
 
                     }
                 });
+                if(listUser.get(position).getFullname().equals("")){
+                    userName.setVisibility(View.GONE);
+                }else{
+                    userName.setText("Name: " + listUser.get(position).getFullname());
+                }
 
-                userName.setText(listUser.get(position).getFullname());
-                userPhone.setText(listUser.get(position).getPhone());
-                userAddress.setText(listUser.get(position).getAddress());
-                userEmail.setText(listUser.get(position).getEmail());
-                userIdentityNumber.setText(listUser.get(position).getIdentityNumber());
+                if(listUser.get(position).getPhone().equals("")){
+                    userPhone.setVisibility(View.GONE);
+                }else{
+                    userPhone.setText("Phone: " + listUser.get(position).getPhone());
+                }
+
+                if(listUser.get(position).getAddress().equals("")){
+                    userAddress.setVisibility(View.GONE);
+                }else{
+                    userAddress.setText("Address: " + listUser.get(position).getAddress());
+                }
+
+                if(listUser.get(position).getEmail().equals("")){
+                    userEmail.setVisibility(View.GONE);
+                }else{
+                    userEmail.setText("Email: " + listUser.get(position).getEmail());
+                }
+
+                if(listUser.get(position).getIdentityNumber().equals("")){
+                    userIdentityNumber.setVisibility(View.GONE);
+                }else{
+                    userIdentityNumber.setText("Identity Number: " + listUser.get(position).getIdentityNumber());
+                }
                 String avatar = listUser.get(position).getAvatar();
                 if (avatar != null && avatar.equals(""))
                     avatar = null;
-                Picasso.with(mParentActivity).load(avatar).placeholder(R.drawable.ic_award).into(userImage);
+                Picasso.with(mParentActivity).load(avatar).placeholder(R.drawable.ic_user).into(userImage);
 
                 userInfoDialog.show();
 //                Intent i = new Intent(mParentActivity, CustomerRegisterInfoActivity.class);

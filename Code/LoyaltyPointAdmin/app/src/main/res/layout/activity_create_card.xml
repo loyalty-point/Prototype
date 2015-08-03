@@ -92,28 +92,11 @@
             app:siRadius="@dimen/_1sdp"
             app:siBorderWidth="@dimen/_3sdp"/>
 
-        <ImageView
-            android:id="@+id/noteImgView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/description_event"
-            android:layout_below="@id/cardBackground"
-            android:layout_marginTop="@dimen/_10sdp"/>
-
-        <TextView
-            android:id="@+id/additionalInfoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cardBackground"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_toRightOf="@id/noteImgView"
-           />
         <TextView
             android:id="@+id/userInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/additionalInfoTextView"
+            android:layout_below="@id/cardBackground"
             android:textStyle="bold"
             android:text="User Required Informations:"/>
 

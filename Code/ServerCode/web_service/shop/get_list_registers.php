@@ -51,6 +51,7 @@ if($card_rows == 0) {//have no shop in database
                 '","email":"'.$row1['email'].
                 '","address":"'.$row1['address'].
                 '","barcode":"'.$row1['barcode'].
+                '","identity_number":"'.$row1['identity_number'].
                 '","avatar":"'.$row1['avatar'].
                 '","token":"'.$row1['token'].'"},';
         }

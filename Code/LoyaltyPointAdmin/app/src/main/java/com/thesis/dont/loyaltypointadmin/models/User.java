@@ -122,6 +122,7 @@ public class User implements Parcelable {
         dest.writeString(phone);
         dest.writeString(email);
         dest.writeString(address);
+        dest.writeString(identity_number);
         dest.writeString(barcode);
         dest.writeString(avatar);
         dest.writeString(token);
@@ -145,6 +146,7 @@ public class User implements Parcelable {
         phone = in.readString();
         email = in.readString();
         address = in.readString();
+        identity_number = in.readString();
         barcode = in.readString();
         avatar = in.readString();
         token = in.readString();
