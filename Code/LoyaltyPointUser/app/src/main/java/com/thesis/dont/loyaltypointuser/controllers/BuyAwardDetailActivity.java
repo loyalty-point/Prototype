@@ -20,7 +20,7 @@ import com.thesis.dont.loyaltypointuser.models.UserModel;
 public class BuyAwardDetailActivity extends ActionBarActivity {
     TextView dateTv, shopNameTv, shopAddressTv, awardCodeTv, totalPointTv, awardNameTv, awardDetailTv, buyDetailTv;
     ImageView awardImageIv;
-    ButtonRectangle backBtn, deleteBtn;
+    ButtonRectangle deleteBtn;
 
     History history;
     String shopName, shopAddress;
@@ -42,15 +42,16 @@ public class BuyAwardDetailActivity extends ActionBarActivity {
         awardDetailTv = (TextView) findViewById(R.id.awardDetail);
         buyDetailTv = (TextView) findViewById(R.id.buyDetail);
         awardImageIv = (ImageView) findViewById(R.id.awardImage);
-        backBtn = (ButtonRectangle) findViewById(R.id.printBtn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        totalPointTv = (TextView) findViewById(R.id.totalPoint);
+
+        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BuyAwardDetailActivity.this.finish();
             }
         });
-        deleteBtn = (ButtonRectangle) findViewById(R.id.deleteBtn);
-        totalPointTv = (TextView) findViewById(R.id.totalPoint);
 
         dateTv.setText(history.getTime());
         shopNameTv.setText("Shop: " + shopName);

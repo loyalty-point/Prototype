@@ -185,7 +185,7 @@ public class UpdatePointDetailActivity extends ActionBarActivity {
             if(event.getEvent().getType() == 1){
                 point = event.getEvent().getPoint();
                 holder.quantity.setText(String.valueOf(point * event.getEvent().getRatio()));
-                holder.pointPerEvent.setText(String.valueOf(event.getEvent().getRatio()/1000));
+                holder.pointPerEvent.setText(String.valueOf(1/event.getEvent().getRatio()));
             }else{
                 point = event.getEvent().getPoint() * event.getQuantity();
                 holder.pointPerEvent.setText(String.valueOf(event.getEvent().getPoint()));

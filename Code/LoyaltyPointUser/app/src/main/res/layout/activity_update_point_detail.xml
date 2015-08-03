@@ -35,7 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btnLayout"
         android:layout_alignParentRight="true"
-        android:textSize="@dimen/font_size" />
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:textColor="@color/MaterialDarkRed"
+        android:textSize="@dimen/_15sdp" />
 
     <TextView
         android:id="@+id/date"
@@ -101,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/billDetail"
-        android:layout_marginLeft="@dimen/_75sdp"
+        android:layout_marginLeft="@dimen/_52sdp"
         android:layout_toRightOf="@id/eventName"
         android:textStyle="bold"
         android:text="Number" />
@@ -111,17 +113,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/billDetail"
-        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
         android:layout_toRightOf="@id/eventNumber"
         android:textStyle="bold"
-        android:text="Point per event" />
+        android:text="Point" />
 
     <TextView
         android:id="@+id/totalEventPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/billDetail"
-        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_23sdp"
         android:layout_toRightOf="@id/pointPerEvent"
         android:textStyle="bold"
         android:text="Final point" />
