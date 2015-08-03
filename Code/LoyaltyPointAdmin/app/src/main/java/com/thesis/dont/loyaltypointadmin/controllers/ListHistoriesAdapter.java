@@ -89,7 +89,7 @@ public class ListHistoriesAdapter extends BaseAdapter {
             history.setBillImage(null);
 
         holder.time.setText(history.getTime());
-        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.bill_ic).into(holder.billImage);
+        Picasso.with(mParentActivity).load(history.getBillImage()).placeholder(R.drawable.ic_bill_dark).into(holder.billImage);
         holder.fullname.setText(history.getFullname());
         if(history.getType().equals("0")){ //buy award history
             holder.totalPoint.setText("-" + String.valueOf(history.getTotalPoint()));
